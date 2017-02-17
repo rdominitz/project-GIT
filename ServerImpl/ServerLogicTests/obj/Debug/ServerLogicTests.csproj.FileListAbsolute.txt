@@ -1,0 +1,63 @@
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\bin\Debug\ServerLogicTests.dll.config
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\bin\Debug\ServerLogicTests.dll
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\bin\Debug\ServerLogicTests.pdb
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\bin\Debug\Constants.dll
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\bin\Debug\Entities.dll
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\bin\Debug\EntityFramework.dll
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\bin\Debug\Server.dll
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\bin\Debug\QALogic.dll
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\bin\Debug\Constants.pdb
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\bin\Debug\Entities.pdb
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\bin\Debug\Server.pdb
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\bin\Debug\EntityFramework.xml
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\bin\Debug\QALogic.pdb
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\obj\Debug\ServerLogicTests.csprojResolveAssemblyReference.cache
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\obj\Debug\ServerLogicTests.dll
+C:\Users\Gal\Desktop\ServerImpl\ServerLogicTests\obj\Debug\ServerLogicTests.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\bin\Debug\ServerLogicTests.dll.config
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\bin\Debug\ServerLogicTests.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\bin\Debug\ServerLogicTests.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\bin\Debug\Constants.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\bin\Debug\Entities.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\bin\Debug\EntityFramework.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\bin\Debug\Server.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\bin\Debug\QALogic.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\bin\Debug\Constants.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\bin\Debug\Entities.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\bin\Debug\Server.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\bin\Debug\EntityFramework.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\bin\Debug\QALogic.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\obj\Debug\ServerLogicTests.csprojResolveAssemblyReference.cache
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\obj\Debug\ServerLogicTests.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\ServerLogicTests\obj\Debug\ServerLogicTests.pdb
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\ServerLogicTests.dll.config
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\ServerLogicTests.dll
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\ServerLogicTests.pdb
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\Constants.dll
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\Entities.dll
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\EntityFramework.dll
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\mscorlib.dll
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\Server.dll
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\QALogic.dll
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\Constants.pdb
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\Entities.pdb
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\Server.pdb
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\EntityFramework.xml
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\QALogic.pdb
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\he\mscorlib.resources.dll
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\normidna.nlp
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\normnfc.nlp
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\normnfd.nlp
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\normnfkc.nlp
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\bin\Debug\normnfkd.nlp
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\obj\Debug\ServerLogicTests.csprojResolveAssemblyReference.cache
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\obj\Debug\ServerLogicTests.dll
+C:\Users\Aviv\Desktop\ServerImpl\ServerLogicTests\obj\Debug\ServerLogicTests.pdb

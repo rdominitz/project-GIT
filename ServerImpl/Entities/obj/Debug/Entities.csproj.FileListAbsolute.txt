@@ -1,0 +1,43 @@
+C:\Users\Gal\Desktop\ServerImpl\Entities\bin\Debug\Entities.dll.config
+C:\Users\Gal\Desktop\ServerImpl\Entities\bin\Debug\Entities.dll
+C:\Users\Gal\Desktop\ServerImpl\Entities\bin\Debug\Entities.pdb
+C:\Users\Gal\Desktop\ServerImpl\Entities\bin\Debug\Constants.dll
+C:\Users\Gal\Desktop\ServerImpl\Entities\bin\Debug\EntityFramework.dll
+C:\Users\Gal\Desktop\ServerImpl\Entities\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Gal\Desktop\ServerImpl\Entities\bin\Debug\Constants.pdb
+C:\Users\Gal\Desktop\ServerImpl\Entities\bin\Debug\EntityFramework.xml
+C:\Users\Gal\Desktop\ServerImpl\Entities\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Gal\Desktop\ServerImpl\Entities\obj\Debug\Entities.csprojResolveAssemblyReference.cache
+C:\Users\Gal\Desktop\ServerImpl\Entities\obj\Debug\Entities.dll
+C:\Users\Gal\Desktop\ServerImpl\Entities\obj\Debug\Entities.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\Entities\bin\Debug\Entities.dll.config
+C:\Users\roie dominitz\Desktop\project\ServerImpl\Entities\bin\Debug\Entities.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\Entities\bin\Debug\Entities.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\Entities\bin\Debug\Constants.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\Entities\bin\Debug\EntityFramework.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\Entities\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\Entities\bin\Debug\Constants.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\Entities\bin\Debug\EntityFramework.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\Entities\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\Entities\obj\Debug\Entities.csprojResolveAssemblyReference.cache
+C:\Users\roie dominitz\Desktop\project\ServerImpl\Entities\obj\Debug\Entities.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\Entities\obj\Debug\Entities.pdb
+C:\Users\Aviv\Desktop\ServerImpl\Entities\bin\Debug\Entities.dll.config
+C:\Users\Aviv\Desktop\ServerImpl\Entities\bin\Debug\Entities.dll
+C:\Users\Aviv\Desktop\ServerImpl\Entities\bin\Debug\Entities.pdb
+C:\Users\Aviv\Desktop\ServerImpl\Entities\bin\Debug\Constants.dll
+C:\Users\Aviv\Desktop\ServerImpl\Entities\bin\Debug\EntityFramework.dll
+C:\Users\Aviv\Desktop\ServerImpl\Entities\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Aviv\Desktop\ServerImpl\Entities\bin\Debug\mscorlib.dll
+C:\Users\Aviv\Desktop\ServerImpl\Entities\bin\Debug\Constants.pdb
+C:\Users\Aviv\Desktop\ServerImpl\Entities\bin\Debug\EntityFramework.xml
+C:\Users\Aviv\Desktop\ServerImpl\Entities\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Aviv\Desktop\ServerImpl\Entities\bin\Debug\he\mscorlib.resources.dll
+C:\Users\Aviv\Desktop\ServerImpl\Entities\bin\Debug\normidna.nlp
+C:\Users\Aviv\Desktop\ServerImpl\Entities\bin\Debug\normnfc.nlp
+C:\Users\Aviv\Desktop\ServerImpl\Entities\bin\Debug\normnfd.nlp
+C:\Users\Aviv\Desktop\ServerImpl\Entities\bin\Debug\normnfkc.nlp
+C:\Users\Aviv\Desktop\ServerImpl\Entities\bin\Debug\normnfkd.nlp
+C:\Users\Aviv\Desktop\ServerImpl\Entities\obj\Debug\Entities.dll
+C:\Users\Aviv\Desktop\ServerImpl\Entities\obj\Debug\Entities.pdb
+C:\Users\Aviv\Desktop\ServerImpl\Entities\obj\Debug\Entities.csprojResolveAssemblyReference.cache

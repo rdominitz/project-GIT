@@ -1,0 +1,36 @@
+C:\Users\Gal\Documents\Visual Studio 2013\Projects\ServerImpl\JamesWright.SimpleHttp\bin\Debug\JamesWright.SimpleHttp.dll
+C:\Users\Gal\Documents\Visual Studio 2013\Projects\ServerImpl\JamesWright.SimpleHttp\bin\Debug\JamesWright.SimpleHttp.pdb
+C:\Users\Gal\Documents\Visual Studio 2013\Projects\ServerImpl\JamesWright.SimpleHttp\obj\Debug\JamesWright.SimpleHttp.csprojResolveAssemblyReference.cache
+C:\Users\Gal\Documents\Visual Studio 2013\Projects\ServerImpl\JamesWright.SimpleHttp\obj\Debug\JamesWright.SimpleHttp.dll
+C:\Users\Gal\Documents\Visual Studio 2013\Projects\ServerImpl\JamesWright.SimpleHttp\obj\Debug\JamesWright.SimpleHttp.pdb
+C:\Users\roie dominitz\Desktop\ניסויים\ServerImpl\JamesWright.SimpleHttp\bin\Debug\JamesWright.SimpleHttp.dll
+C:\Users\roie dominitz\Desktop\ניסויים\ServerImpl\JamesWright.SimpleHttp\bin\Debug\JamesWright.SimpleHttp.pdb
+C:\Users\roie dominitz\Desktop\ניסויים\ServerImpl\JamesWright.SimpleHttp\obj\Debug\JamesWright.SimpleHttp.csprojResolveAssemblyReference.cache
+C:\Users\roie dominitz\Desktop\ניסויים\ServerImpl\JamesWright.SimpleHttp\obj\Debug\JamesWright.SimpleHttp.dll
+C:\Users\roie dominitz\Desktop\ניסויים\ServerImpl\JamesWright.SimpleHttp\obj\Debug\JamesWright.SimpleHttp.pdb
+C:\Users\roie dominitz\Desktop\ניסויים\gal\ServerImpl\JamesWright.SimpleHttp\bin\Debug\JamesWright.SimpleHttp.dll
+C:\Users\roie dominitz\Desktop\ניסויים\gal\ServerImpl\JamesWright.SimpleHttp\bin\Debug\JamesWright.SimpleHttp.pdb
+C:\Users\roie dominitz\Desktop\ניסויים\gal\ServerImpl\JamesWright.SimpleHttp\obj\Debug\JamesWright.SimpleHttp.csprojResolveAssemblyReference.cache
+C:\Users\roie dominitz\Desktop\ניסויים\gal\ServerImpl\JamesWright.SimpleHttp\obj\Debug\JamesWright.SimpleHttp.dll
+C:\Users\roie dominitz\Desktop\ניסויים\gal\ServerImpl\JamesWright.SimpleHttp\obj\Debug\JamesWright.SimpleHttp.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\JamesWright.SimpleHttp\bin\Debug\JamesWright.SimpleHttp.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\JamesWright.SimpleHttp\bin\Debug\JamesWright.SimpleHttp.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\JamesWright.SimpleHttp\obj\Debug\JamesWright.SimpleHttp.csprojResolveAssemblyReference.cache
+C:\Users\roie dominitz\Desktop\project\ServerImpl\JamesWright.SimpleHttp\obj\Debug\JamesWright.SimpleHttp.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\JamesWright.SimpleHttp\obj\Debug\JamesWright.SimpleHttp.pdb
+C:\Users\Gal\Desktop\ServerImpl\JamesWright.SimpleHttp\bin\Debug\JamesWright.SimpleHttp.dll
+C:\Users\Gal\Desktop\ServerImpl\JamesWright.SimpleHttp\bin\Debug\JamesWright.SimpleHttp.pdb
+C:\Users\Gal\Desktop\ServerImpl\JamesWright.SimpleHttp\obj\Debug\JamesWright.SimpleHttp.dll
+C:\Users\Gal\Desktop\ServerImpl\JamesWright.SimpleHttp\obj\Debug\JamesWright.SimpleHttp.pdb
+C:\Users\Aviv\Desktop\ServerImpl\JamesWright.SimpleHttp\bin\Debug\JamesWright.SimpleHttp.dll
+C:\Users\Aviv\Desktop\ServerImpl\JamesWright.SimpleHttp\bin\Debug\JamesWright.SimpleHttp.pdb
+C:\Users\Aviv\Desktop\ServerImpl\JamesWright.SimpleHttp\bin\Debug\mscorlib.dll
+C:\Users\Aviv\Desktop\ServerImpl\JamesWright.SimpleHttp\bin\Debug\he\mscorlib.resources.dll
+C:\Users\Aviv\Desktop\ServerImpl\JamesWright.SimpleHttp\bin\Debug\normidna.nlp
+C:\Users\Aviv\Desktop\ServerImpl\JamesWright.SimpleHttp\bin\Debug\normnfc.nlp
+C:\Users\Aviv\Desktop\ServerImpl\JamesWright.SimpleHttp\bin\Debug\normnfd.nlp
+C:\Users\Aviv\Desktop\ServerImpl\JamesWright.SimpleHttp\bin\Debug\normnfkc.nlp
+C:\Users\Aviv\Desktop\ServerImpl\JamesWright.SimpleHttp\bin\Debug\normnfkd.nlp
+C:\Users\Aviv\Desktop\ServerImpl\JamesWright.SimpleHttp\obj\Debug\JamesWright.SimpleHttp.csprojResolveAssemblyReference.cache
+C:\Users\Aviv\Desktop\ServerImpl\JamesWright.SimpleHttp\obj\Debug\JamesWright.SimpleHttp.dll
+C:\Users\Aviv\Desktop\ServerImpl\JamesWright.SimpleHttp\obj\Debug\JamesWright.SimpleHttp.pdb

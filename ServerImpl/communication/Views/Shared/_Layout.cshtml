@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    @using System.Web.Optimization;
+
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Experimental x-Ray Identification learning System</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap-tokenfield/bootstrap-tokenfield.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap-tokenfield/tokenfield-typeahead.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                </button>
+                @Html.ActionLink("Main page", "Index", "Main", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        <div class="container">
+            
+                @RenderBody()
+            
+        </div>
+        <hr />
+        <footer class="navbar-fixed-bottom">
+            <p>&copy; @DateTime.Now.Year Experimental x-Ray Identification learning System</p>
+        </footer>
+    </div>
+
+   
+</body>
+</html>

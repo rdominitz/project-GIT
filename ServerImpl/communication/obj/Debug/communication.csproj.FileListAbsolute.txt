@@ -1,0 +1,214 @@
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\obj\Debug\communication.csprojResolveAssemblyReference.cache
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\ApplicationInsights.config
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\roslyn\csc.exe
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\roslyn\vbc.exe
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\roslyn\VBCSCompiler.exe
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\communication.dll.config
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\communication.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\communication.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Microsoft.AI.Web.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Microsoft.ApplicationInsights.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Newtonsoft.Json.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Net.Http.Formatting.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Helpers.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Http.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Http.WebHost.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Mvc.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Razor.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Webpages.Deployment.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Webpages.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Webpages.Razor.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Microsoft.AI.Web.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Microsoft.ApplicationInsights.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Razor.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Webpages.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Webpages.Deployment.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Webpages.Razor.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Helpers.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Mvc.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Newtonsoft.Json.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Net.Http.Formatting.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Http.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Http.WebHost.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\obj\Debug\communication.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\obj\Debug\communication.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Server.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Entities.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\QALogic.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\EntityFramework.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Server.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Entities.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\QALogic.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\EntityFramework.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\EntityFramework.SqlServer.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\EntityFramework.SqlServer.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Constants.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Constants.pdb
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\ApplicationInsights.config
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\roslyn\csc.exe
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\roslyn\vbc.exe
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\roslyn\VBCSCompiler.exe
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\communication.dll.config
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\communication.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\communication.pdb
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Constants.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Entities.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\EntityFramework.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\EntityFramework.SqlServer.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Microsoft.AI.Web.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Microsoft.ApplicationInsights.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Newtonsoft.Json.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Server.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Net.Http.Formatting.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Web.Helpers.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Web.Http.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Web.Http.WebHost.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Web.Mvc.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Web.Razor.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Web.Webpages.Deployment.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Web.Webpages.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Web.Webpages.Razor.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\QALogic.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Constants.pdb
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Entities.pdb
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Server.pdb
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\EntityFramework.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\EntityFramework.SqlServer.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Microsoft.AI.Web.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Web.Razor.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Web.Webpages.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Web.Webpages.Deployment.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Web.Webpages.Razor.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Web.Helpers.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Web.Mvc.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\Newtonsoft.Json.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Net.Http.Formatting.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Web.Http.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\System.Web.Http.WebHost.xml
+C:\Users\Gal\Desktop\ServerImpl\communication\bin\QALogic.pdb
+C:\Users\Gal\Desktop\ServerImpl\communication\obj\Debug\communication.csprojResolveAssemblyReference.cache
+C:\Users\Gal\Desktop\ServerImpl\communication\obj\Debug\communication.dll
+C:\Users\Gal\Desktop\ServerImpl\communication\obj\Debug\communication.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Antlr3.Runtime.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Optimization.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\WebGrease.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Antlr3.Runtime.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\System.Web.Optimization.xml
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Bloodhound.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Speedy.dll
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Bloodhound.pdb
+C:\Users\roie dominitz\Desktop\project\ServerImpl\communication\bin\Speedy.pdb
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\ApplicationInsights.config
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\roslyn\csc.exe
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\roslyn\vbc.exe
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\roslyn\VBCSCompiler.exe
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\communication.dll.config
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\communication.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\communication.pdb
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Antlr3.Runtime.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Bloodhound.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Constants.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Entities.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\EntityFramework.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\EntityFramework.SqlServer.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Microsoft.AI.Web.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Microsoft.ApplicationInsights.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Newtonsoft.Json.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Server.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Speedy.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Net.Http.Formatting.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Helpers.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Http.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Http.WebHost.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Mvc.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Optimization.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Razor.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Webpages.Deployment.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Webpages.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Webpages.Razor.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\WebGrease.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\QALogic.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Constants.pdb
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Entities.pdb
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Server.pdb
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Antlr3.Runtime.pdb
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Bloodhound.pdb
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\EntityFramework.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\EntityFramework.SqlServer.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Microsoft.AI.Web.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Newtonsoft.Json.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\Speedy.pdb
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Optimization.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Razor.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Webpages.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Webpages.Deployment.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Webpages.Razor.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Helpers.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Mvc.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Net.Http.Formatting.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Http.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\System.Web.Http.WebHost.xml
+C:\Users\Aviv\Desktop\ServerImpl\communication\bin\QALogic.pdb
+C:\Users\Aviv\Desktop\ServerImpl\communication\obj\Debug\communication.csprojResolveAssemblyReference.cache
+C:\Users\Aviv\Desktop\ServerImpl\communication\obj\Debug\communication.dll
+C:\Users\Aviv\Desktop\ServerImpl\communication\obj\Debug\communication.pdb

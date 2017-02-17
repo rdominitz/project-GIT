@@ -1,0 +1,60 @@
+﻿
+@{
+    //AnswerQuestion
+}
+@using System.Web.Optimization;   
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script src="~/Scripts/jquery.tokenize.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/jquery.tokenize.css" />
+
+<link href="~/Content/slider.css" rel="stylesheet" type="text/css" />
+
+
+<h2>Answer questions </h2>
+
+<div>
+    <div id="links">
+        @foreach (var s in ViewData.Values)
+        {
+            <img src="@s" alt="Image not found" style="width:404px;height:328px;" />
+        }
+    </div>
+    <div class="btn-toolbar">
+        <div >
+            <br/>
+            <form>
+                <input type="radio" class="" name="norm" value="true" onchange="button1changed()" checked> Normal
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="norm" value="false" onchange="button2changed()"> Abnormal<br/>
+            </form>
+            <div>
+                <h4>How sure are you of the main diagnosis (normal or not?)</h4>
+                <input type="range" min="0" max="10" value="0" id="sure1" step="1" oninput="outputUpdateForSure1(value)" />
+                <output for="sure1" id="slider1">0</output>
+            </div>
+        </div>
+        <div id="diagnosis_div" style="display:none">
+            <h4>what is your diagnosis?</h4>
+            <select id="diagnosis" multiple="multiple" class="tokenize-sample" >
+               <option value="Cavitary Lesion">Cavitary Lesion</option>
+               <option value="Interstitial opacities">Interstitial opacities</option>
+               <option value="Left Pleural Effusion">Left Pleural Effusion</option>
+               <option value="Median Sternotomy">Median Sternotomy</option>
+               <option value="Right Middle Lobe Collapse">Right Middle Lobe Collapse</option>
+           </select>
+            <h4>What is your confidence in each diagnosis: </h4>
+            <script type="text/javascript">
+                $('#diagnosis').tokenize();
+            </script>
+            <div id="diagnosis_sure">
+
+            </div>
+        </div>
+     </div>
+</div>
+
