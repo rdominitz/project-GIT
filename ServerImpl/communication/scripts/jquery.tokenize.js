@@ -858,10 +858,11 @@
         onAddToken: function (value, text, e) {
             var tmpStr = document.getElementById('diagnosis_sure').innerHTML;
             tmpStr = tmpStr + "\n" + "<div id=" + replaceAll(value, ' ', '') + "><h4>" + value.toString() + "</h4>\n" +
-            '<input type="range" min="0" max="10" value="0" id="sure_' + replaceAll(value, ' ', '') + '"\n' +
+            '<input type="range" name="sure2"  min="0" max="10" value="0" id="sure_' + replaceAll(value, ' ', '') + '"\n' +
             'step="1" oninput="outputUpdate(id,value)"/>\n' +
-     '<output for="sure_' + replaceAll(value, ' ', '') + '" id="slider_sure_' + replaceAll(value, ' ', '') + '">0</output></div>';
+     '<output name="sure2" for="sure_' + replaceAll(value, ' ', '') + '" id="slider_sure_' + replaceAll(value, ' ', '') + '">0</output></div>';
             document.getElementById("diagnosis_sure").innerHTML = tmpStr;
+            outputUpdateAll();
         },
         onRemoveToken: function (value, e) {
             document.getElementById(replaceAll(value, ' ', '')).outerHTML = "";
@@ -910,6 +911,7 @@ function submit_ans() {
             arr.push(document.getElementById("sure_" + replaceAll(diagnosis[i], " ", "")).value);
         }
 
+       
 
         var data = JSON.stringify({
             "normalOrNot": selectedNorm.toString(),
@@ -922,7 +924,7 @@ function submit_ans() {
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "http://localhost:8005/ans",
+            "url": "http://localhost:9153/AnswerQuestion/Submit",
             "method": "POST",
             "xhrFields": {
                 "withCredentials": true
@@ -935,20 +937,8 @@ function submit_ans() {
             "data": data
         }
 
-        $.ajax(settings).done(function (response, status, jqXHR) {
+        $.ajax(settings).done(function (response) {
             console.log(response);
-            var myHeader = jqXHR.getResponseHeader("answer_status");
-            //window.alert(document.getElementById("diagnosis").value);
-            if (myHeader.valueOf() === new String('success').valueOf()) {
-                window.alert("success!!!!!");
-                window.location.href = "http://localhost:8005/main";
-            }
-            else {
-                var message = jqXHR.getResponseHeader("error_message");
-                window.alert(message);
-                //window.alert(sessionStorage.getItem("tempPass"));
-            }
-
         });
     }
 }
@@ -960,4 +950,12 @@ function outputUpdateForSure1(val) {
 function outputUpdate(slider, val) {
     var tmp = "#slider_" + slider.toString();
     document.querySelector(tmp).value = val;
+    document.querySelector("#" + slider).value = val;
+}
+
+function outputUpdateAll() {
+    var diagnosis = $('#diagnosis').tokenize().toArray();
+    for (var i = 0, len = diagnosis.length; i < len; i++) {
+        outputUpdate(document.getElementById('sure_' + replaceAll(diagnosis[i], ' ', '')).id, document.getElementById('slider_sure_' + replaceAll(diagnosis[i], ' ', '')).value);
+    }
 }

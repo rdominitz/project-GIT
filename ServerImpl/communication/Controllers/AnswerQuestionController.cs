@@ -23,11 +23,23 @@ namespace communication.Controllers
             {
                 return null;//todo redirect to 
             }
+
+            List<String> lst = new List<String>();
             for (int i = 0; i < q.Item2.images.Count; i++)
             {
-                ViewData["Image" + i] = q.Item2.images.ElementAt(i);
+                //ViewData["Image" + i] = q.Item2.images.ElementAt(i);
+                lst.Add(q.Item2.images.ElementAt(i));
             }
+            ViewData["Images"] = lst;
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Submit(string norm, int sure1,  string[] diagnosis, int[] sure2)
+        {
+         
+
+            return View("index");
         }
     }
 }

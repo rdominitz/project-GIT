@@ -73,3 +73,6 @@ C:\Users\Aviv\Desktop\ServerImpl\Server\bin\Debug\normnfkd.nlp
 C:\Users\Aviv\Desktop\ServerImpl\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
 C:\Users\Aviv\Desktop\ServerImpl\Server\obj\Debug\Server.dll
 C:\Users\Aviv\Desktop\ServerImpl\Server\obj\Debug\Server.pdb
+C:\Users\roie dominitz\Desktop\project-git\project-GIT\ServerImpl\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
+C:\Users\roie dominitz\Desktop\project-git\project-GIT\ServerImpl\Server\obj\Debug\Server.dll
+C:\Users\roie dominitz\Desktop\project-git\project-GIT\ServerImpl\Server\obj\Debug\Server.pdb

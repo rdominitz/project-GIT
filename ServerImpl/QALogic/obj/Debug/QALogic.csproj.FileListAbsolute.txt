@@ -47,3 +47,6 @@ C:\Users\Aviv\Desktop\ServerImpl\QALogic\bin\Debug\normnfkd.nlp
 C:\Users\Aviv\Desktop\ServerImpl\QALogic\obj\Debug\QALogic.csprojResolveAssemblyReference.cache
 C:\Users\Aviv\Desktop\ServerImpl\QALogic\obj\Debug\QALogic.dll
 C:\Users\Aviv\Desktop\ServerImpl\QALogic\obj\Debug\QALogic.pdb
+C:\Users\roie dominitz\Desktop\project-git\project-GIT\ServerImpl\QALogic\obj\Debug\QALogic.csprojResolveAssemblyReference.cache
+C:\Users\roie dominitz\Desktop\project-git\project-GIT\ServerImpl\QALogic\obj\Debug\QALogic.dll
+C:\Users\roie dominitz\Desktop\project-git\project-GIT\ServerImpl\QALogic\obj\Debug\QALogic.pdb
