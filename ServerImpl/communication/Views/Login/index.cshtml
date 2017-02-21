@@ -6,7 +6,7 @@
 <div class="cen col-md-offset-4">
     <h2>Login</h2>
 
-    <form id="registerForm" method="POST" action="/Login/submit">
+    <form id="loginForm" method="POST" action="/Login/submit">
         <div class="form-group">
             <label for="email" class="control-label">Email</label>
             <input type="email" class="form-control" name="email" id="email" value="@ViewBag.email" required title="Please enter your email" placeholder="Email">
@@ -25,5 +25,7 @@
             </label>
         </div>
         <button type="submit" class="btn btn-primary btn-block" style="width: 280px;">Login</button>
+        <button type="button" class="btn btn-primary btn-block" style="width: 280px;" onclick="location.href='@Url.Action("Index", "Register")'">Register</button>
+        <button type="button" class="btn btn-primary btn-block" style="width: 280px;" onclick="location.href='@Url.Action("Index", "Forgot")'">Forgot Password</button>
     </form>
 </div>

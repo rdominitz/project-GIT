@@ -1,20 +1,19 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace communication.Models.GetQuestion
+namespace communication.Models.GetTest
 {
-    public class GetQuestionData  
+    public class GetTestData
     {
         public string key;
         public List<string> vals;
-        
-        public GetQuestionData(string _key, List<string> _vals)
+
+        public GetTestData(string _key, List<string> _vals)
         {
             key = _key;
             vals = _vals;
         }
-
     }
 }

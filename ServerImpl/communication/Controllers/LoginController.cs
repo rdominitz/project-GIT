@@ -33,5 +33,21 @@ namespace communication.Controllers
             ViewBag.errorMessage = ans.Item1;
             return View("index");
         }
+
+        [HttpPost]
+        public ActionResult Register()
+        {
+
+            return View("register/index");
+        }
+
+        [HttpPost]
+        public ActionResult Forgot()
+        {
+
+            return View("forgot/index");
+        }
+
+
     }
 }

@@ -1,37 +1,43 @@
 ﻿@{
-    ViewBag.Title = "Get Question";
+    ViewBag.Title = "Get Test";
 }
 
-@model IEnumerable<communication.Models.GetQuestion.GetQuestionData>
+@model IEnumerable<communication.Models.GetTest.GetTestData>
 
 
 
 <div class="cen col-md-offset-4">
     <br />
-    <h2>Select subject and topic</h2>
-    <br/>
-    <form id="getQuestionForm" method="POST" action="/GetQuestion/submit">
+    <h2>Create your own test</h2>
+    <br />
+    <form id="getTestForm" method="POST" action="/GetTest/submit">
         <div class="form-group">
+            <label for="numberOfQuestions" class="control-label">Number of questions</label>
+            <input type="number" class="form-control" name="numberOfQuestions" id="numberOfQuestions" value="@ViewBag.numberOfQuestions" required title="Please enter number of questions" placeholder="Number of questions">
+            <br />
             <label for="subject" class="control-label">Subject</label>
             <select id="subject" name="subject" class="form-control" onchange="giveSelection(this.value)">
                 @foreach (var subject in Model)
                 {
                     <option value="@subject.key">@subject.key</option>
-                }  
+                } 
             </select>
             <br />
             <label for="topic" class="control-label">Topic</label>
             <select id="topic" name="topic" class="form-control" value="">
                 @foreach (var subject in Model)
                 {
-                        foreach (var topic in subject.vals)
-                        {
-                            <option data-option="@subject.key" value="@topic">@topic</option>
-                        }
+                    foreach (var topic in subject.vals)
+                    {
+                        <option data-option="@subject.key" value="@topic">@topic</option>
+                    }
                 }
-                  
-              <!--  <option value="Cavitary Lesion">Cavitary Lesion</option>
-                <option value="Interstitial opacities">Interstitial opacities</option> -->   
+            </select>
+            <br />
+            <label for="result" class="control-label">When present answers</label>
+            <select id="result" name="result" class="form-control" value="AfterEachQuestion">
+                <option value="AfterEachQuestion">After each question</option>
+                <option value="AfterAllQuestions">After all questions</option>
             </select>
             <script type="text/javascript">
                 var sel1 = document.querySelector('#subject');
@@ -50,7 +56,7 @@
                 giveSelection(sel1.value);
             </script>
         </div>
-        <br/>
-        <button type="submit" class="btn btn-primary btn-block" style="width: 280px;">Get Question</button>
+        <br />
+        <button type="submit" class="btn btn-primary btn-block" style="width: 280px;">Get Test</button>
     </form>
 </div>

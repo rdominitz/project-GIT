@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "forgot password";
+}
+<div class="cen col-md-offset-4">
+    <h2>Forgot Password</h2> 
+    <br />
+    <form id="forgotForm" method="POST" action="/forgot/submit">
+        <div class="form-group">
+            <label for="email" class="control-label">Email</label>
+            <input type="email" class="form-control" name="email" id="email" value="@ViewBag.email" required title="Please enter your email" placeholder="Email">
+            <span class="help-block"></span>
+        </div>
+        <div id="forgotErrorMsg" class="alert alert-error ">@ViewBag.errorMessage</div>
+        <button type="submit" class="btn btn-primary btn-block" style="width: 280px;">Send my password</button>
+    </form>
+</div>
