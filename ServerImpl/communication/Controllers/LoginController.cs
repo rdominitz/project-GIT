@@ -25,8 +25,8 @@ namespace communication.Controllers
             Tuple<string, int> ans = ServerWiring.getInstance().login(email, password);
             if (ans.Item1.Equals(Replies.SUCCESS))
             {
-                var json = JsonConvert.SerializeObject(ans.Item2);
-                HttpCookie userCookie = new HttpCookie("userId", json);
+                //var json = JsonConvert.SerializeObject(ans.Item2);
+                HttpCookie userCookie = new HttpCookie("userId", ans.Item2.ToString());
                 Response.SetCookie(userCookie);
                 return RedirectToAction("Index", "Main");
             }

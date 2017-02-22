@@ -15,8 +15,12 @@ namespace communication.Controllers
         // GET: AnswerQuestion
         public ActionResult Index()
         {
-            
-            Tuple<string, Question> q = ServerWiring.getInstance().getNextQuestion(Convert.ToInt32("100000"));
+
+            HttpCookie cookie = Request.Cookies["userId"];
+            Tuple<string, Question> q = ServerWiring.getInstance().getNextQuestion(Convert.ToInt32(cookie.Value));
+            HttpCookie questionCookie = new HttpCookie("questionId", q.Item2.QuestionId.ToString());
+            Response.SetCookie(questionCookie);
+            //Tuple<string, Question> q = ServerWiring.getInstance().getNextQuestion(Convert.ToInt32("100000"));
             List<string> topics = ServerWiring.getInstance().getSubjectTopics(q.Item2.subjectName);
             ViewBag.topics = topics;
             if(!q.Item1.Equals(Replies.SUCCESS))
@@ -34,12 +38,25 @@ namespace communication.Controllers
             return View();
         }
 
+
         [HttpPost]
         public ActionResult Submit(string norm, int sure1,  string[] diagnosis, int[] sure2)
         {
-         
 
-            return View("index");
+            HttpCookie questionCookie = Request.Cookies["questionId"];
+            HttpCookie userCookie = Request.Cookies["userId"];
+            List<string> diagnosisList = diagnosis.ToList();
+            List<int> sure2List = sure2.ToList();
+            string ans = ServerWiring.getInstance().AnswerAQuestion(Convert.ToInt32(userCookie.Value), Convert.ToInt32(questionCookie.Value),norm.Equals("true"), sure1, diagnosisList, sure2List);
+            if (ans.Equals("Show answer"))
+            {
+                bool hasMoreQuestions = ServerWiring.getInstance().
+                return RedirectToAction("Index", "AnswerQuestion");
+            }
+            else
+            {
+                return View("index");
+            }
         }
     }
 }

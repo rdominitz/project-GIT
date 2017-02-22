@@ -943,14 +943,21 @@ function submit_ans() {
     }
 }
 
-function outputUpdateForSure1(val) {
-    document.querySelector("#slider1").value = val;
-}
 
 function outputUpdate(slider, val) {
     var tmp = "#slider_" + slider.toString();
     document.querySelector(tmp).value = val;
     document.querySelector("#" + slider).value = val;
+}
+
+function outputUpdateForSure1(val) {
+    document.querySelector("#sure1").value = val;
+    document.querySelector("#slider1").value = val;
+}
+
+function UpdateForSure1(val) {
+    document.querySelector("#sure1").value = val;
+    document.querySelector("#slider1").value = val;
 }
 
 function outputUpdateAll() {
