@@ -100,7 +100,7 @@ namespace Entities
             {
                 return null;
             }
-            return _questions.Where(u => u.subjectName.Equals(subject) && u.diagnoses.Contains(matches[0].TopicId)).ToList();
+            return _questions.Where(u => u.subjectName.Equals(subject) && u.diagnoses.Contains(matches[0])).ToList();
         }
 
         public List<Question> getNormalQuestions(string subject)

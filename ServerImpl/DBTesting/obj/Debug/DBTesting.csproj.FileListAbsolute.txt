@@ -55,3 +55,35 @@ C:\Users\Aviv\Desktop\ServerImpl\DBTesting\bin\Debug\normnfkd.nlp
 C:\Users\Aviv\Desktop\ServerImpl\DBTesting\obj\Debug\DBTesting.csprojResolveAssemblyReference.cache
 C:\Users\Aviv\Desktop\ServerImpl\DBTesting\obj\Debug\DBTesting.dll
 C:\Users\Aviv\Desktop\ServerImpl\DBTesting\obj\Debug\DBTesting.pdb
+C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\DBTesting\bin\Debug\DBTesting.dll.config
+C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\DBTesting\bin\Debug\DBTesting.dll
+C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\DBTesting\bin\Debug\DBTesting.pdb
+C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\DBTesting\bin\Debug\Castle.Core.dll
+C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\DBTesting\bin\Debug\Entities.dll
+C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\DBTesting\bin\Debug\EntityFramework.dll
+C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\DBTesting\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\DBTesting\bin\Debug\Moq.dll
+C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\DBTesting\bin\Debug\Entities.pdb
+C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\DBTesting\bin\Debug\Castle.Core.xml
+C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\DBTesting\bin\Debug\EntityFramework.xml
+C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\DBTesting\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\DBTesting\bin\Debug\Moq.xml
+C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\DBTesting\obj\Debug\DBTesting.csprojResolveAssemblyReference.cache
+C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\DBTesting\obj\Debug\DBTesting.dll
+C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\DBTesting\obj\Debug\DBTesting.pdb
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\DBTesting\bin\Debug\DBTesting.dll.config
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\DBTesting\bin\Debug\DBTesting.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\DBTesting\bin\Debug\DBTesting.pdb
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\DBTesting\bin\Debug\Castle.Core.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\DBTesting\bin\Debug\Entities.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\DBTesting\bin\Debug\EntityFramework.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\DBTesting\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\DBTesting\bin\Debug\Moq.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\DBTesting\bin\Debug\Entities.pdb
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\DBTesting\bin\Debug\Castle.Core.xml
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\DBTesting\bin\Debug\EntityFramework.xml
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\DBTesting\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\DBTesting\bin\Debug\Moq.xml
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\DBTesting\obj\Debug\DBTesting.csprojResolveAssemblyReference.cache
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\DBTesting\obj\Debug\DBTesting.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\DBTesting\obj\Debug\DBTesting.pdb

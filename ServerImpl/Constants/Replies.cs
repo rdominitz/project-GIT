@@ -9,5 +9,7 @@ namespace Constants
     public class Replies
     {
         public const string SUCCESS = "success";
+        public const string NEXT = "next";
+        public const string SHOW_ANSWER = "show answer";
     }
 }

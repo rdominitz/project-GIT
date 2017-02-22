@@ -23,7 +23,7 @@ namespace ServerLogicTests
         {
             Tuple<string, int> t = _server.login("user@gmail.com", "password");
             Assert.IsTrue(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsTrue(t.Item2 == 100000);
+            Assert.IsTrue(t.Item2 != -1);
         }
 
         [TestMethod]
@@ -31,7 +31,7 @@ namespace ServerLogicTests
         {
             Tuple<string, int> t = _server.login("otheruser@gmail.com", "password");
             Assert.IsFalse(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsFalse(t.Item2 == 100000);
+            Assert.IsTrue(t.Item2 == -1);
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace ServerLogicTests
             }
             Tuple<string, int> t = _server.login("user@gmail.com", "password");
             Assert.IsTrue(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsTrue(t.Item2 == 100000);
+            Assert.IsTrue(t.Item2 != -1);
         }
 
         [TestMethod]
@@ -51,7 +51,7 @@ namespace ServerLogicTests
         {
             Tuple<string, int> t = _server.login("user@gm@ail.com", "password");
             Assert.IsFalse(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsFalse(t.Item2 == 100000);
+            Assert.IsTrue(t.Item2 == -1);
         }
 
         [TestMethod]
@@ -59,7 +59,7 @@ namespace ServerLogicTests
         {
             Tuple<string, int> t = _server.login("@gmail.com", "password");
             Assert.IsFalse(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsFalse(t.Item2 == 100000);
+            Assert.IsTrue(t.Item2 == -1);
         }
 
         [TestMethod]
@@ -67,7 +67,7 @@ namespace ServerLogicTests
         {
             Tuple<string, int> t = _server.login("usergmail.com@", "password");
             Assert.IsFalse(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsFalse(t.Item2 == 100000);
+            Assert.IsTrue(t.Item2 == -1);
         }
 
         [TestMethod]
@@ -75,7 +75,7 @@ namespace ServerLogicTests
         {
             Tuple<string, int> t = _server.login("user@gmail.com.", "password");
             Assert.IsFalse(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsFalse(t.Item2 == 100000);
+            Assert.IsTrue(t.Item2 == -1);
         }
 
         [TestMethod]
@@ -83,7 +83,7 @@ namespace ServerLogicTests
         {
             Tuple<string, int> t = _server.login("user@gmailcom", "password");
             Assert.IsFalse(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsFalse(t.Item2 == 100000);
+            Assert.IsTrue(t.Item2 == -1);
         }
 
         [TestMethod]
@@ -91,7 +91,7 @@ namespace ServerLogicTests
         {
             Tuple<string, int> t = _server.login("user@.gmail.com", "password");
             Assert.IsFalse(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsFalse(t.Item2 == 100000);
+            Assert.IsTrue(t.Item2 == -1);
         }
 
         [TestMethod]
@@ -99,7 +99,7 @@ namespace ServerLogicTests
         {
             Tuple<string, int> t = _server.login("user@gmail.com", "notpassword");
             Assert.IsFalse(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsFalse(t.Item2 == 100000);
+            Assert.IsTrue(t.Item2 == -1);
         }
 
         [TestMethod]
@@ -107,7 +107,7 @@ namespace ServerLogicTests
         {
             Tuple<string, int> t = _server.login(null, "password");
             Assert.IsFalse(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsFalse(t.Item2 == 100000);
+            Assert.IsTrue(t.Item2 == -1);
         }
 
         [TestMethod]
@@ -115,7 +115,7 @@ namespace ServerLogicTests
         {
             Tuple<string, int> t = _server.login("null", "password");
             Assert.IsFalse(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsFalse(t.Item2 == 100000);
+            Assert.IsTrue(t.Item2 == -1);
         }
 
         [TestMethod]
@@ -123,7 +123,7 @@ namespace ServerLogicTests
         {
             Tuple<string, int> t = _server.login("", "password");
             Assert.IsFalse(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsFalse(t.Item2 == 100000);
+            Assert.IsTrue(t.Item2 == -1);
         }
 
         [TestMethod]
@@ -131,7 +131,7 @@ namespace ServerLogicTests
         {
             Tuple<string, int> t = _server.login("user@gmail.com", null);
             Assert.IsFalse(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsFalse(t.Item2 == 100000);
+            Assert.IsTrue(t.Item2 == -1);
         }
 
         [TestMethod]
@@ -139,7 +139,7 @@ namespace ServerLogicTests
         {
             Tuple<string, int> t = _server.login("user@gmail.com", "null");
             Assert.IsFalse(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsFalse(t.Item2 == 100000);
+            Assert.IsTrue(t.Item2 == -1);
         }
 
         [TestMethod]
@@ -147,7 +147,7 @@ namespace ServerLogicTests
         {
             Tuple<string, int> t = _server.login("user@gmail.com", "");
             Assert.IsFalse(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsFalse(t.Item2 == 100000);
+            Assert.IsTrue(t.Item2 == -1);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Entities
         public DateTime timeAdded { get; set; }
         [Required]
         public int level { get; set; }
-        public virtual ICollection<string> diagnoses { get; set; }
+        public virtual ICollection<Topic> diagnoses { get; set; }
         [Required]
         public virtual ICollection<string> images { get; set; }
         [Required]

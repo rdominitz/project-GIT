@@ -110,6 +110,14 @@ namespace Server
 
         List<string> getSubjectTopics(string subject);
 
-        //string addQuestion(int userUniqueInt, string subject, List<string> diagnoses, HttpRequest.Form.Files files);
+        string addSubject(int userUniqueInt, string subject);
+
+        string addTopic(int userUniqueInt, string subject, string topic);
+
+        string addQuestion(int userUniqueInt, string subject, bool isNormal, string text, List<string> qDiagnoses);
+
+        string setUserAsAdmin(int userUniqueInt, string usernameToTurnToAdmin);
+
+        bool hasMoreQuestions(int userUniqueInt);
     }
 }

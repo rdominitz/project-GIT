@@ -26,8 +26,8 @@ namespace Entities
             : base("MedTrainDB")
         {
             //Database.SetInitializer<MedTrainDBContext>(new CreateDatabaseIfNotExists<MedTrainDBContext>());
-            //Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseIfModelChanges<MedTrainDBContext>());
-            Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseAlways<MedTrainDBContext>());
+            Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseIfModelChanges<MedTrainDBContext>());
+            //Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseAlways<MedTrainDBContext>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -115,7 +115,19 @@ namespace Entities
                         where q.subjectName.Equals(subject)
                         select q;
             var l = query.ToList();
-            return l.Where(o => o.diagnoses.Contains(topic)).ToList();
+            List<Question> res = new List<Question>();
+            foreach (Question q in l)
+            {
+                foreach (Topic top in q.diagnoses)
+                {
+                    if (top.TopicId.Equals(topic))
+                    {
+                        res.Add(q);
+                        break;
+                    }
+                }
+            }
+            return res;
         }
 
         public List<Question> getNormalQuestions(string subject)

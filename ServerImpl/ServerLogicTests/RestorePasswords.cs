@@ -41,12 +41,6 @@ namespace ServerLogicTests
         }
 
         [TestMethod]
-        public void restorePasswordUsernameWithMoreThanOneAt()
-        {
-            Assert.IsFalse(_server.restorePassword("user@gm@ail.com").Equals(Replies.SUCCESS));
-        }
-
-        [TestMethod]
         public void restorePasswordUsernameStartsWithAt()
         {
             Assert.IsFalse(_server.restorePassword("@gmail.com").Equals(Replies.SUCCESS));
@@ -74,6 +68,12 @@ namespace ServerLogicTests
         public void restorePasswordUsernameWithDotJustAfterAt()
         {
             Assert.IsFalse(_server.restorePassword("user@.gmail.com").Equals(Replies.SUCCESS));
+        }
+
+        [TestMethod]
+        public void restorePasswordUsernameWithMoreThanOneAt()
+        {
+            Assert.IsFalse(_server.restorePassword("user@gm@ail.com").Equals(Replies.SUCCESS));
         }
 
         [TestMethod]

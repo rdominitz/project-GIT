@@ -77,18 +77,17 @@ namespace QALogic
         {
             bool correctAnswer = isNormal == q.normal;
             List<Tuple<string, int>> userLevels = new List<Tuple<string, int>>();
-            foreach (string s in q.diagnoses)
+            foreach (Topic s in q.diagnoses)
             {
-                UserLevel userLevel = _db.getUserLevel(u.UserId, q.subjectName, s);
+                UserLevel userLevel = _db.getUserLevel(u.UserId, q.subjectName, s.TopicId);
                 bool alreadtExist = userLevel != null;
                 if (userLevel == null)
                 {
-                    Topic t = _db.getTopic(q.subjectName, s);
-                    userLevel = new UserLevel { userId = u.UserId, SubjectId = q.subjectName, TopicId = s, level = Levels.DEFAULT_LVL, timesAnswered = 0, timesAnsweredCorrectly = 0, user = u, Topic = t };
+                    userLevel = new UserLevel { userId = u.UserId, SubjectId = q.subjectName, TopicId = s.TopicId, level = Levels.DEFAULT_LVL, timesAnswered = 0, timesAnsweredCorrectly = 0, user = u, Topic = s };
                 }
-                userLevels.Add(new Tuple<string, int>(s, userLevel.level));
+                userLevels.Add(new Tuple<string, int>(s.TopicId, userLevel.level));
                 userLevel.timesAnswered++;
-                if (!isNormal && diagnoses.Contains(s))
+                if (!isNormal && diagnoses.Contains(s.TopicId))
                 {
                     userLevel.timesAnsweredCorrectly++;
                 }
