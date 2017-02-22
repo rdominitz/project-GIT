@@ -19,7 +19,7 @@ namespace communication.Core
             {
                 if (server == null)
                 {
-                    server = new ServerImpl(new FakeMedTrainDBContext());
+                    server = new ServerImpl(new MedTrainDBContext());
                 }
             }
             return server;

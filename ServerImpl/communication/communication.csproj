@@ -195,12 +195,14 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\ShowAnswersController.cs" />
     <Compile Include="Core\ServerWiring.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\GetQuestion\GetQuestionData.cs" />
     <Compile Include="Models\GetTest\GetTestData.cs" />
+    <Compile Include="Models\ShowAnswers\ShowAnswersData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -222,6 +224,7 @@
     <Content Include="Views\AnswerQuestion\index.cshtml" />
     <Content Include="Views\Forgot\index.cshtml" />
     <Content Include="Views\GetTest\index.cshtml" />
+    <Content Include="Views\ShowAnswers\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

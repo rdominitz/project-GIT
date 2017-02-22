@@ -50,8 +50,12 @@ namespace communication.Controllers
             string ans = ServerWiring.getInstance().AnswerAQuestion(Convert.ToInt32(userCookie.Value), Convert.ToInt32(questionCookie.Value),norm.Equals("true"), sure1, diagnosisList, sure2List);
             if (ans.Equals("Show answer"))
             {
-                bool hasMoreQuestions = ServerWiring.getInstance().
-                return RedirectToAction("Index", "AnswerQuestion");
+                bool hasMoreQuestions = ServerWiring.getInstance().hasMoreQuestions(Convert.ToInt32(userCookie.Value));
+                if (hasMoreQuestions)
+                {
+                    return RedirectToAction("Index", "ShowAnswers", new { hasMoreQuestions = false });
+                }
+                return RedirectToAction("Index", "ShowAnswers", new {hasMoreQuestions = true});
             }
             else
             {
