@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@model IEnumerable<communication.Models.ShowAnswers.ShowAnswersData>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+<link href="~/Content/slider.css" rel="stylesheet" type="text/css" />
+
+
+<h2>Answers</h2>
+
+<div>
+    <div id="links">
+        @foreach (var question in Model)
+        {
+            foreach (var pic in question.pics)
+            {
+                <img src="@pic" alt="Image not found" style="width:404px;height:328px;" />
+            }
+
+        }
+
+
+
+    </div>
+</div>
+
