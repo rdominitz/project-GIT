@@ -35,29 +35,45 @@ namespace QALogic
                 uLvl = new UserLevel { userId = u.UserId, user = u, level = Levels.DEFAULT_LVL, SubjectId = subject, TopicId = topic.TopicId, Topic  = topic, timesAnswered = 0, timesAnsweredCorrectly = 0};
             }
             List<Question> chooseFrom = new List<Question>();
-            Random rnd = new Random();
-            int subLevels = 0;
-            int addLevels = 0;
-            while (chooseFrom.Count < numOfQuestions)
+            List<Question> normal = new List<Question>();
+            List<Question> abnormal = new List<Question>();
+            int levelDiff = 0;
+            while (chooseFrom.Count < numOfQuestions * NORMAL_PROBABILITY && normalQuestions.Count != 0)
             {
-                List<Question> select = questions;
-                if (rnd.NextDouble() < NORMAL_PROBABILITY || questions.Count == 0)
+                foreach (Question q in normalQuestions)
                 {
-                    select = normalQuestions;
-                }
-                if (normalQuestions.Count == 0)
-                {
-                    select = questions;
-                }
-                foreach (Question q in select)
-                {
-                    if (q.level == uLvl.level - subLevels || q.level == uLvl.level + addLevels)
+                    if (q.level == uLvl.level - levelDiff || q.level == uLvl.level + levelDiff)
                     {
                         chooseFrom.Add(q);
                     }
                 }
-                subLevels++;
-                addLevels++;
+                foreach (Question q in chooseFrom)
+                {
+                    normalQuestions.Remove(q);
+                }
+                levelDiff++;
+            }
+            int temp = levelDiff;
+            levelDiff = 0;
+            while (chooseFrom.Count < numOfQuestions && questions.Count != 0)
+            {
+                foreach (Question q in questions)
+                {
+                    if (q.level == uLvl.level - levelDiff || q.level == uLvl.level + levelDiff)
+                    {
+                        chooseFrom.Add(q);
+                    }
+                }
+                foreach (Question q in chooseFrom)
+                {
+                    normalQuestions.Remove(q);
+                }
+                levelDiff++;
+            }
+            levelDiff = temp;
+            while (chooseFrom.Count < numOfQuestions)
+            {
+
             }
             List<Question> test = new List<Question>();
             for (int i = 0; i < numOfQuestions; i++)

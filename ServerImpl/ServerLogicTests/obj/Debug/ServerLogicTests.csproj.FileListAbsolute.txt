@@ -79,21 +79,3 @@ C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\ServerLogicTests\bin\Debu
 C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\ServerLogicTests\obj\Debug\ServerLogicTests.csprojResolveAssemblyReference.cache
 C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\ServerLogicTests\obj\Debug\ServerLogicTests.dll
 C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\ServerLogicTests\obj\Debug\ServerLogicTests.pdb
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\bin\Debug\ServerLogicTests.dll.config
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\bin\Debug\ServerLogicTests.dll
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\bin\Debug\ServerLogicTests.pdb
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\bin\Debug\Constants.dll
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\bin\Debug\Entities.dll
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\bin\Debug\EntityFramework.dll
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\bin\Debug\EntityFramework.SqlServer.dll
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\bin\Debug\Server.dll
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\bin\Debug\QALogic.dll
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\bin\Debug\Constants.pdb
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\bin\Debug\Entities.pdb
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\bin\Debug\Server.pdb
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\bin\Debug\EntityFramework.xml
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\bin\Debug\EntityFramework.SqlServer.xml
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\bin\Debug\QALogic.pdb
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\obj\Debug\ServerLogicTests.csprojResolveAssemblyReference.cache
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\obj\Debug\ServerLogicTests.dll
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\ServerLogicTests\obj\Debug\ServerLogicTests.pdb

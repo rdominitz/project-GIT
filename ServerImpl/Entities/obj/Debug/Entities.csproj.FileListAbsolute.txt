@@ -53,15 +53,3 @@ C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\Entities\bin\Debug\Entity
 C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\Entities\obj\Debug\Entities.csprojResolveAssemblyReference.cache
 C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\Entities\obj\Debug\Entities.dll
 C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\Entities\obj\Debug\Entities.pdb
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Entities\bin\Debug\Entities.dll.config
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Entities\bin\Debug\Entities.dll
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Entities\bin\Debug\Entities.pdb
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Entities\bin\Debug\Constants.dll
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Entities\bin\Debug\EntityFramework.dll
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Entities\bin\Debug\EntityFramework.SqlServer.dll
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Entities\bin\Debug\Constants.pdb
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Entities\bin\Debug\EntityFramework.xml
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Entities\bin\Debug\EntityFramework.SqlServer.xml
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Entities\obj\Debug\Entities.csprojResolveAssemblyReference.cache
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Entities\obj\Debug\Entities.dll
-C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Entities\obj\Debug\Entities.pdb
