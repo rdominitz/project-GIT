@@ -45,10 +45,16 @@ namespace communication.Controllers
 
             HttpCookie questionCookie = Request.Cookies["questionId"];
             HttpCookie userCookie = Request.Cookies["userId"];
-            List<string> diagnosisList = diagnosis.ToList();
-            List<int> sure2List = sure2.ToList();
+            List<string> diagnosisList = new List<string>();
+            List<int> sure2List = new List<int>();
+            if (norm.Equals("false"))
+            {
+                 diagnosisList = diagnosis.ToList();
+                 sure2List = sure2.ToList();
+            }
+
             string ans = ServerWiring.getInstance().AnswerAQuestion(Convert.ToInt32(userCookie.Value), Convert.ToInt32(questionCookie.Value),norm.Equals("true"), sure1, diagnosisList, sure2List);
-            if (ans.Equals("Show answer"))
+            if (ans.Equals("show answer"))
             {
                 bool hasMoreQuestions = ServerWiring.getInstance().hasMoreQuestions(Convert.ToInt32(userCookie.Value));
                 if (hasMoreQuestions)

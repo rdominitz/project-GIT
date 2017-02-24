@@ -23,7 +23,7 @@ namespace communication.Controllers
                 questions.Add(new ShowAnswersData(ques));
             }
 
-            List<List<String>> pics = new List<List<string>>();
+           /* List<List<String>> pics = new List<List<string>>();
             for (int i = 0; i < q.Item2.Count; i++)
             {
                 List<String> lst = new List<String>();
@@ -33,7 +33,7 @@ namespace communication.Controllers
                 }
                 pics.Add(lst);
             }
-            ViewBag["images"] = pics;
+            ViewBag["images"] = pics;*/
             string next;
             if (hasMoreQuestions)
             {
@@ -41,9 +41,9 @@ namespace communication.Controllers
             }
             else
             {
-                next = "GetQuestion";
+                next = "AnswerQuestion";
             }
-            ViewBag["next"] = next;
+            ViewData["next"] = next;
             return View(questions);
         }
     }

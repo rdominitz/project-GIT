@@ -22,10 +22,11 @@ namespace communication.Models.ShowAnswers
             {
                 dignosis.Add(t.TopicId);
             }
-            foreach(Image p in q.images)
+            foreach (Image i in q.images)
             {
-                pics.Add(p.ImageId);
+                pics.Add(i.ImageId);
             }
+           
         }
     }
 }

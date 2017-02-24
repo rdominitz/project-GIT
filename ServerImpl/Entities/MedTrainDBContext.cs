@@ -114,7 +114,29 @@ namespace Entities
 
         public Question getQuestion(int id)
         {
-            return Questions.Find(id);
+
+            if (Questions.Find(id) == null)
+            {
+                return null;
+            }
+            var query = from q in Questions
+                        where q.QuestionId == id
+                        select q;
+            foreach (Question q in query)
+            {
+                var images = from i in Images
+                             where i.QuestionId == q.QuestionId
+                             select i;
+                q.images = images.ToList();
+                var diagnoses = from d in Diagnoses
+                                where d.QuestionId == q.QuestionId
+                                select d;
+                foreach (Diagnosis d in diagnoses)
+                {
+                    q.diagnoses.Add(d.topic);
+                }
+            }
+            return query.ToList()[0];
         }
 
         public void updateQuestion(Question q)

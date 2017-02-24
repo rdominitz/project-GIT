@@ -17,7 +17,7 @@
 <h2>Answers</h2>
 
 <div>
-    <div id="links">
+    <div class="container" id="links">
         @foreach (var question in Model)
         {
             foreach (var pic in question.pics)
@@ -25,9 +25,31 @@
                 <img src="@pic" alt="Image not found" style="width:404px;height:328px;" />
             }
 
+            <br/><br/><br/>
+            if((question.dignosis.Count == 1) && (question.dignosis.ElementAt(0).Equals(Constants.Topics.NORMAL)))
+            {
+                <p>The diganosis for this case is Normal</p>
+            }
+            else
+            {
+                <p>The diganosis for this case is:</p><br/>
+                foreach(var d in question.dignosis)
+                {
+                     <p>@d</p><br />
+                }
+            }
+
         }
-
-
+    </div>
+    <div class="container">
+        @if (@ViewData["next"].Equals("Main"))
+        {
+            <button type="button" class="btn btn-primary btn-block" style="width: 200px;" onclick="location.href='@Url.Action("Index", "Main")'">Back to main window</button>
+        }
+        else
+        {
+            <button type="button" class="btn btn-primary btn-block" style="width: 200px;" onclick="location.href='@Url.Action("Index", "AnswerQuestion")'">Continue answering</button>
+        }
 
     </div>
 </div>

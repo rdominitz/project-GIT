@@ -436,6 +436,7 @@ namespace Server
             {
                 return "Wrong data accepted. Incorrect question ID was recieved.";
             }
+            //List<Topic> qDiagnoses = q.diagnoses.ToList();
             foreach (Topic s in q.diagnoses)
             {
                 UserLevel userLevel = _db.getUserLevel(user.UserId, q.subjectName, s.TopicId);
@@ -454,6 +455,7 @@ namespace Server
                 l.RemoveAt(0);
                 if (!_usersTestsAnswersAtEndAnsweredQuestions.ContainsKey(user))
                 {
+                    //q.diagnoses = qDiagnoses;
                     _usersTestsAnswersAtEndAnsweredQuestions[user] = new List<Question>() { q };
                 }
                 else
@@ -473,6 +475,8 @@ namespace Server
             else
             {
                 List<Question> l = _usersTestsAnswerEveryTime[user];
+                //q.diagnoses = qDiagnoses;
+                _usersTestsAnswersAtEndAnsweredQuestions[user] = new List<Question>() { q };
                 l.RemoveAt(0);
                 if (l.Count == 0)
                 {
