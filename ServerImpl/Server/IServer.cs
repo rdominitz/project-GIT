@@ -119,5 +119,7 @@ namespace Server
         string setUserAsAdmin(int userUniqueInt, string usernameToTurnToAdmin);
 
         bool hasMoreQuestions(int userUniqueInt);
+
+        void logout(int userUniqueInt);
     }
 }

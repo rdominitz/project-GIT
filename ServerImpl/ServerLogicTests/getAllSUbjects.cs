@@ -12,6 +12,7 @@ namespace ServerLogicTests
     [TestClass]
     public class getAllSUbjects
     {
+        /*
         private IServer _server;
 
         [TestInitialize]
@@ -53,5 +54,6 @@ namespace ServerLogicTests
                 }
             }
         }
+        */
     }
 }
