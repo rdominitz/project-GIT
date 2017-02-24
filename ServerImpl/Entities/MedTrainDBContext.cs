@@ -15,6 +15,8 @@ namespace Entities
         public IDbSet<Subject> Subjects { get; set; }
         public IDbSet<Topic> Topics { get; set; }
         public IDbSet<Question> Questions { get; set; }
+        public IDbSet<Image> Images { get; set; }
+        public IDbSet<Diagnosis> Diagnoses { get; set; }
         public IDbSet<Test> Tests { get; set; }
         public IDbSet<Group> Groups { get; set; }
         public IDbSet<Answer> Answers { get; set; }
@@ -90,18 +92,35 @@ namespace Entities
             {
                 return;
             }
+            foreach (Image image in q.images)
+            {
+                Images.Add(image);
+            }
+            foreach (Topic t in q.diagnoses)
+            {
+                Diagnosis d = new Diagnosis
+                {
+                    TopicId = t.TopicId,
+                    SubjectId = t.SubjectId,
+                    topic = t,
+                    QuestionId = q.QuestionId,
+                    question = q
+                };
+                Diagnoses.Add(d);
+            }
             Questions.Add(q);
             SaveChanges();
         }
 
         public Question getQuestion(int id)
         {
-            return Questions.Find(new object[1] { id });
+            return Questions.Find(id);
         }
 
         public void updateQuestion(Question q)
         {
             Entry(q).State = System.Data.Entity.EntityState.Modified;
+            SaveChanges();
         }
 
         public List<Question> getQuestions(string subject, string topic)
@@ -122,6 +141,17 @@ namespace Entities
                 {
                     if (top.TopicId.Equals(topic))
                     {
+                        var images = from i in Images
+                                     where i.QuestionId == q.QuestionId
+                                     select i;
+                        q.images = images.ToList();
+                        var diagnoses = from d in Diagnoses
+                                        where d.QuestionId == q.QuestionId
+                                        select d;
+                        foreach (Diagnosis d in diagnoses)
+                        {
+                            q.diagnoses.Add(d.topic);
+                        }
                         res.Add(q);
                         break;
                     }
@@ -135,6 +165,20 @@ namespace Entities
             var query = from q in Questions
                         where q.subjectName.Equals(subject) && q.normal
                         select q;
+            foreach (Question q in query)
+            {
+                var images = from i in Images
+                             where i.QuestionId == q.QuestionId
+                             select i;
+                q.images = images.ToList();
+                var diagnoses = from d in Diagnoses
+                                where d.QuestionId == q.QuestionId
+                                select d;
+                foreach (Diagnosis d in diagnoses)
+                {
+                    q.diagnoses.Add(d.topic);
+                }
+            }
             return query.ToList();
         }
         #endregion
@@ -146,15 +190,17 @@ namespace Entities
                 return;
             }
             UsersLevels.Add(userLevel);
+            SaveChanges();
         }
         public UserLevel getUserLevel(string eMail, string subject, string topic)
         {
-            return UsersLevels.Find(eMail, subject, topic);
+            return UsersLevels.Find(eMail, topic, subject);
         }
 
         public void updateUserLevel(UserLevel ul)
         {
             Entry(ul).State = System.Data.Entity.EntityState.Modified;
+            SaveChanges();
         }
         #endregion
         public void addAnswer(Answer a)

@@ -29,7 +29,7 @@ namespace communication.Controllers
                 List<String> lst = new List<String>();
                 for (int j = 0; j < q.Item2.ElementAt(i).images.Count; j++)
                 { 
-                    lst.Add(q.Item2.ElementAt(i).images.ElementAt(j));
+                    lst.Add(q.Item2.ElementAt(i).images.ElementAt(j).ImageId);
                 }
                 pics.Add(lst);
             }

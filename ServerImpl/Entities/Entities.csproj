@@ -50,9 +50,11 @@
   <ItemGroup>
     <Compile Include="Admin.cs" />
     <Compile Include="Answer.cs" />
+    <Compile Include="Diagnosis.cs" />
     <Compile Include="FakeMedTrainDBContext.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="GroupTestAnswer.cs" />
+    <Compile Include="Image.cs" />
     <Compile Include="IMedTrainDBContext.cs" />
     <Compile Include="MedTrainDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

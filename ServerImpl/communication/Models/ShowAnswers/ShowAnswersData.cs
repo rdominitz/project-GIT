@@ -22,9 +22,9 @@ namespace communication.Models.ShowAnswers
             {
                 dignosis.Add(t.TopicId);
             }
-            foreach(string p in q.images)
+            foreach(Image p in q.images)
             {
-                pics.Add(p);
+                pics.Add(p.ImageId);
             }
         }
     }

@@ -25,7 +25,7 @@ namespace Entities
         public int level { get; set; }
         public virtual ICollection<Topic> diagnoses { get; set; }
         [Required]
-        public virtual ICollection<string> images { get; set; }
+        public virtual ICollection<Image> images { get; set; }
         [Required]
         public int timesAnswered { get; set; }
         [Required]

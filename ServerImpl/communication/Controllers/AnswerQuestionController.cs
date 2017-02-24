@@ -32,7 +32,7 @@ namespace communication.Controllers
             for (int i = 0; i < q.Item2.images.Count; i++)
             {
                 //ViewData["Image" + i] = q.Item2.images.ElementAt(i);
-                lst.Add(q.Item2.images.ElementAt(i));
+                lst.Add(q.Item2.images.ElementAt(i).ImageId);
             }
             ViewData["Images"] = lst;
             return View();
