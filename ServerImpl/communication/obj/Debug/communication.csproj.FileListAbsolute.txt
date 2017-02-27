@@ -287,3 +287,5 @@ C:\Users\roie dominitz\Desktop\project-git\project-GIT\ServerImpl\communication\
 C:\Users\roie dominitz\Desktop\project-git\project-GIT\ServerImpl\communication\obj\Debug\communication.csprojResolveAssemblyReference.cache
 C:\Users\roie dominitz\Desktop\project-git\project-GIT\ServerImpl\communication\obj\Debug\communication.dll
 C:\Users\roie dominitz\Desktop\project-git\project-GIT\ServerImpl\communication\obj\Debug\communication.pdb
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\communication\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\communication\bin\System.Web.Http.dll

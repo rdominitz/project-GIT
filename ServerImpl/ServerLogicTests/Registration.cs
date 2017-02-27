@@ -45,7 +45,7 @@ namespace ServerLogicTests
             }
             Tuple<string, int> t = _server.register("user@gmail.com", "password2", Users.medicalTrainingLevels[1], "other first name", "other last name");
             Assert.IsFalse(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsFalse(t.Item2 == 100000);
+            Assert.IsTrue(t.Item2 == -1);
         }
 
         [TestMethod]
