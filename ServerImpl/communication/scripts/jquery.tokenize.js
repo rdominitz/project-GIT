@@ -858,9 +858,9 @@
         onAddToken: function (value, text, e) {
             var tmpStr = document.getElementById('diagnosis_sure').innerHTML;
             tmpStr = tmpStr + "\n" + "<div id=" + replaceAll(value, ' ', '') + "><h4>" + value.toString() + "</h4>\n" +
-            '<input type="range" name="sure2"  min="0" max="10" value="0" id="sure_' + replaceAll(value, ' ', '') + '"\n' +
+            '<input type="range" name="sure2"  min="1" max="10" value="1" id="sure_' + replaceAll(value, ' ', '') + '"\n' +
             'step="1" oninput="outputUpdate(id,value)"/>\n' +
-     '<output name="sure2" for="sure_' + replaceAll(value, ' ', '') + '" id="slider_sure_' + replaceAll(value, ' ', '') + '">0</output></div>';
+     '<output name="sure2" for="sure_' + replaceAll(value, ' ', '') + '" id="slider_sure_' + replaceAll(value, ' ', '') + '">1</output></div>';
             document.getElementById("diagnosis_sure").innerHTML = tmpStr;
             outputUpdateAll();
         },

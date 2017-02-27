@@ -65,7 +65,7 @@ namespace communication.Controllers
             }
             else
             {
-                return View("index");
+                return RedirectToAction("index");
             }
         }
     }
