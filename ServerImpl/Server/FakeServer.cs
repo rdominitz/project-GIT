@@ -92,6 +92,7 @@ namespace Server
         {
             if (userUniqueInt == Users.USER_UNIQUE_INT)
             {
+                Topic t = new Topic { TopicId = "topic", SubjectId = "subject", timeAdded = DateTime.Now };
                 Question q = new Question
                 {
                     QuestionId = 1,
@@ -99,7 +100,7 @@ namespace Server
                     normal = true,
                     text = "",
                     level = Levels.DEFAULT_LVL,
-                    diagnoses = new List<Topic>() {  },
+                    diagnoses = new List<Topic>() { t },
                     timesAnswered = 0,
                     timesAnsweredCorrectly = 0,
                     timeAdded = DateTime.Now,
