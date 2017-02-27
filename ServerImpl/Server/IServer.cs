@@ -121,5 +121,7 @@ namespace Server
         bool hasMoreQuestions(int userUniqueInt);
 
         void logout(int userUniqueInt);
+
+        bool isLoggedIn(int userUniqueInt);
     }
 }

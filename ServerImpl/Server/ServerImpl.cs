@@ -783,6 +783,17 @@ namespace Server
             return _usersTestsAnswerEveryTime.Keys.Contains(user) || _usersTestsAnswersAtEndRemainingQuestions.Keys.Contains(user);
         }
 
+        public bool isLoggedIn(int userUniqueInt)
+        {
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return false;
+            }
+            updateUserLastActionTime(user);
+            return _loggedUsers.Keys.Contains(user);
+        }
+
         private User getUserByInt(int userUniqueInt)
         {
             List<User> matches = _usersCache.Where(u => u.uniqueInt.Equals(userUniqueInt)).ToList();
