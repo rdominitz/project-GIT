@@ -2,6 +2,7 @@
 <html>
 <head>
     @using System.Web.Optimization;
+    @using communication.Core;
 
 
     <meta charset="utf-8" />
@@ -18,9 +19,18 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                </button>
-                @Html.ActionLink("Main page", "Index", "Main", new { area = "" }, new { @class = "navbar-brand" })
+
+               
+                @if (Request.Cookies["userId"] != null && ServerWiring.getInstance().isLoggedIn(Convert.ToInt32(Request.Cookies["userId"].Value)))
+                {
+                    @Html.ActionLink("Main page", "Index", "Main", new { area = "" }, new { @class = "navbar-brand" })
+                }
+                else
+                {
+                    @Html.ActionLink("Main page", "Index", "Login", new { area = "" }, new { @class = "navbar-brand" })                }
+
+
+               
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -28,21 +38,11 @@
             </div>
         </div>
     </div>
-
     <div class="container body-content">
         <div class="container">
-            
                 @RenderBody()
-            
         </div>
-        <hr />
-        
-        
-    </div>
-    <div>
-        <footer class="navbar-fixed-bottom">
-            <p>&copy; @DateTime.Now.Year Experimental x-Ray Identification learning System</p>
-        </footer>
+        <hr />   
     </div>
    
 </body>
