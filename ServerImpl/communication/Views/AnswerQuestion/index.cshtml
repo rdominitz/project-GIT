@@ -41,11 +41,16 @@
                 <div id="diagnosis_div" style="display:none">
                     <h4>what is your diagnosis?</h4>
                     <select id="diagnosis" name="diagnosis" multiple="multiple" class="tokenize-sample">
-                        <option value="Cavitary Lesion">Cavitary Lesion</option>
+                      <!--  <option value="Cavitary Lesion">Cavitary Lesion</option>
                         <option value="Interstitial opacities">Interstitial opacities</option>
                         <option value="Left Pleural Effusion">Left Pleural Effusion</option>
                         <option value="Median Sternotomy">Median Sternotomy</option>
-                        <option value="Right Middle Lobe Collapse">Right Middle Lobe Collapse</option>
+                        <option value="Right Middle Lobe Collapse">Right Middle Lobe Collapse</option>-->
+                        @foreach (var s in (List<String>)ViewData["subjects"])
+                        {
+                            <option value="@s">@s</option>
+
+                        }
                     </select>
                     <h4>What is your confidence in each diagnosis: </h4>
                    <script type="text/javascript">

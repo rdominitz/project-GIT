@@ -31,10 +31,13 @@ namespace communication.Controllers
             List<String> lst = new List<String>();
             for (int i = 0; i < q.Item2.images.Count; i++)
             {
-                //ViewData["Image" + i] = q.Item2.images.ElementAt(i);
                 lst.Add(q.Item2.images.ElementAt(i).ImageId);
             }
             ViewData["Images"] = lst;
+
+            List<string> subject_list = ServerWiring.getInstance().getSubjectTopics(q.Item2.subject.SubjectId);
+            subject_list.Remove(Constants.Topics.NORMAL);
+            ViewData["subjects"] =  subject_list;
             return View();
         }
 

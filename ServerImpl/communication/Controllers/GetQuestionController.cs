@@ -20,7 +20,8 @@ namespace communication.Controllers
             foreach (string subject in subjects)
             {
                 List<string> list = ServerWiring.getInstance().getSubjectTopics(subject);
-                 data.Add(new GetQuestionData(subject,list));
+                list.Remove(Constants.Topics.NORMAL);
+                data.Add(new GetQuestionData(subject,list));
             }
            // ViewBag.data = data;
             //ViewBag.subjects = subjects;
