@@ -10,6 +10,12 @@
     <br />
     <h2>Create your own test</h2>
     <br />
+    @if (@ViewBag.message != null)
+    {
+        <script>
+            alert("@ViewBag.message");
+        </script>
+    }
     <form id="getTestForm" method="POST" action="/GetTest/submit">
         <div class="form-group">
             <label for="numberOfQuestions" class="control-label">Number of questions</label>

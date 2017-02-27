@@ -13,16 +13,29 @@ namespace communication.Controllers
     {
         [HttpGet]
         // GET: GetTest
-        public ActionResult Index()
+     /*   public ActionResult Index()
+        {
+            
+            return View(getData());
+        }*/
+
+        public ActionResult Index(string message)
+        {
+            ViewBag.message = message;
+            return View(getData());
+        }
+
+        List<GetTestData> getData()
         {
             List<GetTestData> data = new List<GetTestData>();
             List<string> subjects = ServerWiring.getInstance().getAllSubjects();
             foreach (string subject in subjects)
             {
                 List<string> list = ServerWiring.getInstance().getSubjectTopics(subject);
+                list.Remove(Constants.Topics.NORMAL);
                 data.Add(new GetTestData(subject, list));
             }
-            return View(data);
+            return data;
         }
 
         [HttpGet]
@@ -50,8 +63,9 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "AnswerQuestion");
             }
-            ViewBag.errorMessage = ans;
-            return View("index");
+            
+
+            return RedirectToAction("Index","GetTest", new { message = ans });
         }
     }
 }
