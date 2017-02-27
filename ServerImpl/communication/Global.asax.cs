@@ -10,6 +10,7 @@ using System.Web.Http;
 using communication.Core;
 using Server;
 using System.Web.Optimization;
+using Entities;
 
 namespace communication
 {
@@ -18,6 +19,7 @@ namespace communication
         void Application_Start(object sender, EventArgs e)
         {
             // Code that runs on application startup
+            ServerWiring.initServer(new MedTrainDBContext());
             IServer a = ServerWiring.getInstance();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
