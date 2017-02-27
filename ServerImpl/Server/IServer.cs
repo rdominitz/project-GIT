@@ -123,5 +123,7 @@ namespace Server
         void logout(int userUniqueInt);
 
         bool isLoggedIn(int userUniqueInt);
+
+        string getUserName(int userUniqueInt);
     }
 }
