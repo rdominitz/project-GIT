@@ -65,7 +65,7 @@ namespace Server
             setSubjectsTopicsThread.Start();
             Thread removeUsersThread = new Thread(new ThreadStart(removeNonActiveUsers));
             removeUsersThread.Start();
-            Thread.Sleep(1 * 60 * 1000);
+            //Thread.Sleep(1 * 60 * 1000);
             User a = new User
             {
                 uniqueInt = _userUniqueInt,
@@ -631,7 +631,7 @@ namespace Server
             #endregion
             _subjectsTopics["Chest x-Rays"] = new List<string>() 
             { 
-                "Cavitary Lesion", "Interstitial opacities", "Left Pleural Effusion"/*,
+                "Cavitary Lesion", "Interstitial opacities"/*, "Left Pleural Effusion",
                 "Median Sternotomy", "Right Middle Lobe Collapse"*/
             }; 
         }
