@@ -5,7 +5,12 @@
 
 <div class="cen col-md-offset-4">
     <h2>Login</h2>
-
+    @if (@ViewBag.message != null)
+    {
+        <script>
+            alert("@ViewBag.message");
+        </script>
+    }
     <form id="loginForm" method="POST" action="/Login/submit">
         <div class="form-group">
             <label for="email" class="control-label">Email</label>
