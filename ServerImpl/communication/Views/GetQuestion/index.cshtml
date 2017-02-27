@@ -10,6 +10,12 @@
     <br />
     <h2>Select subject and topic</h2>
     <br/>
+    @if (@ViewBag.message != null)
+    {
+        <script>
+            alert("@ViewBag.message");
+        </script>
+    }
     <form id="getQuestionForm" method="POST" action="/GetQuestion/submit">
         <div class="form-group">
             <label for="subject" class="control-label">Subject</label>

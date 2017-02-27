@@ -27,9 +27,9 @@ namespace Entities
         public MedTrainDBContext()
             : base("MedTrainDB")
         {
-            Database.SetInitializer<MedTrainDBContext>(new CreateDatabaseIfNotExists<MedTrainDBContext>());
+            //Database.SetInitializer<MedTrainDBContext>(new CreateDatabaseIfNotExists<MedTrainDBContext>());
             //Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseIfModelChanges<MedTrainDBContext>());
-            //Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseAlways<MedTrainDBContext>());
+            Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseAlways<MedTrainDBContext>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -114,14 +114,13 @@ namespace Entities
 
         public Question getQuestion(int id)
         {
-
-            if (Questions.Find(id) == null)
-            {
-                return null;
-            }
             var query = from q in Questions
                         where q.QuestionId == id
                         select q;
+            if (query.ToList().Count == 0)
+            {
+                return null;
+            }
             foreach (Question q in query)
             {
                 var images = from i in Images

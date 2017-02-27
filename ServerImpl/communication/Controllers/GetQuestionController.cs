@@ -13,8 +13,9 @@ namespace communication.Controllers
     public class GetQuestionController : Controller
     {
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
+            ViewBag.message = message;
             List<GetQuestionData> data = new List<GetQuestionData>();
             List<string> subjects = ServerWiring.getInstance().getAllSubjects();
             foreach (string subject in subjects)
@@ -45,8 +46,8 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "AnswerQuestion");
             }
-            ViewBag.errorMessage = ans;
-            return View("index");
+            //ViewBag.errorMessage = ans;
+            return RedirectToAction("Index", "GetQuestion", new { message = ans });
         }
 
         [HttpGet]
