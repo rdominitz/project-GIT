@@ -666,7 +666,14 @@ namespace Server
                 q.images.Add(i);
             }
             _questionID++;
-            _db.addQuestion(q);
+            try
+            {
+                _db.addQuestion(q);
+            }
+            catch (Exception e)
+            {
+                int i = 0;
+            }
         }
 
         private void setSubjectsAndTopics()

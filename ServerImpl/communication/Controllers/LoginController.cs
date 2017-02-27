@@ -12,8 +12,14 @@ namespace communication.Controllers
     public class LoginController : Controller
     {
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
+            if (message != null)
+            {
+               ViewData["message"] = message;
+            }
+            
+         
             return View();
         }
 
