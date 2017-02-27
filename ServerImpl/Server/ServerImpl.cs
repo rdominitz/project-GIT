@@ -195,7 +195,6 @@ namespace Server
             {
                 QuestionId = _questionID,
                 subjectName = s.SubjectId,
-                subject = s,
                 normal = true,
                 text = "",
                 level = Levels.DEFAULT_LVL,
@@ -215,7 +214,14 @@ namespace Server
                 q.images.Add(i);
             }
             _questionID++;
-            _db.addQuestion(q);
+            try
+            {
+                _db.addQuestion(q);
+            }
+            catch (Exception e)
+            {
+                int i = 0;
+            }
         }
 
         private void addQuestionOneImage(Topic t, string imgPath)
