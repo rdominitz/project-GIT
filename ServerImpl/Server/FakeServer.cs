@@ -106,9 +106,15 @@ namespace Server
                     timeAdded = DateTime.Now,
                     images = new List<Image>()
                 };
-                return null; // new question
+                Image i = new Image
+                {
+                    ImageId = "../Images/q1_2_lat.jpg",
+                    QuestionId = 1,
+                };
+                q.images.Add(i);
+                return new Tuple<string,Question>(Replies.SUCCESS, q);
             }
-            return null;
+            return new Tuple<string,Question>("Error", null);
         }
 
         public Tuple<string, List<Question>> getAnsweres(int userUniqueInt)
