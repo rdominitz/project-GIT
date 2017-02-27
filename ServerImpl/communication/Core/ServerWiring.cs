@@ -14,13 +14,24 @@ namespace communication.Core
         private static IServer server = null;
         private static object syncObject = new object();
 
+        public static void initServer(IMedTrainDBContext db)
+        {
+            lock (syncObject)
+            {
+                if (server == null)
+                {
+                    server = new ServerImpl(db);
+                }
+            }
+        }
+
         public static IServer getInstance()
         {
             lock (syncObject)
             {
                 if (server == null)
                 {
-                    server = new ServerImpl(new FakeMedTrainDBContext());
+                    server = new ServerImpl(new MedTrainDBContext());
                 }
             }
             return server;
