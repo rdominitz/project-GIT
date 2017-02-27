@@ -3,7 +3,8 @@
     ViewBag.Title = "Main";
 }
 <div class="cen col-md-offset-4">
-    <h2>Welcome</h2>
+    <h2>Welcome @ViewBag.name</h2>
+    <br/>
     <div class="container">
         <button type="button" class="btn btn-primary btn-block" style="width: 200px;" onclick="location.href='@Url.Action("Index", "GetQuestion")'">Get auto generated question</button>
         <button type="button" class="btn btn-primary btn-block" style="width: 200px;" onclick="location.href='@Url.Action("Index", "GetTest")'">Get auto generated test</button>
