@@ -86,7 +86,82 @@ namespace Server
 
         public void setDB()
         {
-            // set user
+            Subject chestXRays = new Subject { SubjectId = "Chest x-Rays", timeAdded = DateTime.Now, topics = new List<Topic>() };
+            _db.addSubject(chestXRays);
+            #region normal
+            Topic cxrNormal = new Topic { TopicId = "Normal", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
+            _db.addTopic(cxrNormal);
+            addQuestions(chestXRays, cxrNormal, new List<List<string>>() 
+            {
+                new List<string>() { "../Images/q1_2_lat.jpg", "../Images/q1_2_pa.png" },
+                new List<string>() { "../Images/q2_17_Lat.png", "../Images/q2_17_PA.png" },
+                new List<string>() { "../Images/q3_19_Lat.png", "../Images/q3_19_PA.png" },
+                new List<string>() { "../Images/q4_20_Lat.png", "../Images/q4_20_PA.png" },
+                new List<string>() { "../Images/q5_21_Lat.png", "../Images/q5_21_PA.png" },
+                new List<string>() { "../Images/q6_24_Lat.png", "../Images/q6_24_PA.png" },
+                new List<string>() { "../Images/q7_30_Lat.png", "../Images/q7_30_PA.png" },
+                new List<string>() { "../Images/q8_35_Lat.png", "../Images/q8_35_PA.png" },
+                new List<string>() { "../Images/q9_37_Lat.png", "../Images/q9_37_PA.png" },
+                new List<string>() { "../Images/q10_38_Lat.png", "../Images/q10_38_PA.png" }
+            });
+            #endregion
+            #region cavitary lesion
+            Topic cxrCavitaryLesion = new Topic { TopicId = "Cavitary Lesion", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
+            _db.addTopic(cxrCavitaryLesion);
+            addQuestions(chestXRays, cxrCavitaryLesion, new List<List<string>>() 
+            {
+                new List<string>() { "../Images/q11_9_PA.png" },
+                new List<string>() { "../Images/q12_10_PA.png" },
+                new List<string>() { "../Images/q13_26_PA.png" },
+                new List<string>() { "../Images/q10_39_PA.png" }
+            });
+            #endregion
+            #region interstitial opacities
+            Topic cxrInterstitialOpacities = new Topic { TopicId = "Interstitial opacities", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
+            _db.addTopic(cxrInterstitialOpacities);
+            addQuestions(chestXRays, cxrInterstitialOpacities, new List<List<string>>() 
+            {
+                new List<string>() { "../Images/q15_34_Lat.png", "../Images/q15_34_PA.png" },
+                new List<string>() { "../Images/q16_42_PA.png" },
+                new List<string>() { "../Images/q17_43_PA.png" },
+                new List<string>() { "../Images/q18_49_PA.png" }
+            });
+            #endregion
+            #region left pleural effusion
+            Topic cxrLeftPleuralEffusion = new Topic { TopicId = "Left Pleural Effusion", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
+            _db.addTopic(cxrLeftPleuralEffusion);
+            addQuestions(chestXRays, cxrLeftPleuralEffusion, new List<List<string>>() 
+            {
+                new List<string>() { "../Images/q19_1_PA.png", "../Images/q19_1_lat.png" },
+                new List<string>() { "../Images/q20_3_PA.png" },
+                new List<string>() { "../Images/q21_6_PA.png" },
+                new List<string>() { "../Images/q22_50_PA.png" }
+            });
+            #endregion
+            #region median sternotomy
+            Topic cxrMedianSternotomy = new Topic { TopicId = "Median Sternotomy", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
+            _db.addTopic(cxrMedianSternotomy);
+            addQuestions(chestXRays, cxrLeftPleuralEffusion, new List<List<string>>() 
+            {
+                new List<string>() { "../Images/q23_22_PA.png", "../Images/q23_22_Lat.png" },
+                new List<string>() { "../Images/q24_33_PA.png", "../Images/q24_33_Lat.png" },
+                new List<string>() { "../Images/q25_41_PA.png" },
+                new List<string>() { "../Images/q26_50_PA.png" }
+            });
+            #endregion
+            #region right middle lobe collapse
+            Topic cxrRightMiddleLobeCollapse = new Topic { TopicId = "Right Middle Lobe Collapse", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
+            _db.addTopic(cxrRightMiddleLobeCollapse);
+            addQuestions(chestXRays, cxrLeftPleuralEffusion, new List<List<string>>() 
+            {
+                new List<string>() { "../Images/q27_4_PA.png" },
+                new List<string>() { "../Images/q28_13_PA.png", "../Images/q28_13_Lat.png" },
+                new List<string>() { "../Images/q29_44_PA.png" },
+                new List<string>() { "../Images/q30_51_PA.png", "../Images/q30_51_Lat.png" }
+            });
+            #endregion
+            // add more questions
+            #region add user
             User u = new User
             {
                 UserId = "user@gmail.com",
@@ -98,71 +173,105 @@ namespace Server
             };
             _userUniqueInt++;
             _db.addUser(u);
-            // set subject
-            Subject s = new Subject { SubjectId = "Chest x-Rays", timeAdded = DateTime.Now, topics = new List<Topic>() };
-            _db.addSubject(s);
-            // set topic
-            Topic t1 = new Topic { TopicId = "Normal", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
-            _db.addTopic(t1);
-            Topic t2 = new Topic { TopicId = "Cavitary Lesion", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
-            _db.addTopic(t2);
-            Topic t3 = new Topic { TopicId = "Interstitial opacities", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
-            _db.addTopic(t3);
-            _subjectsTopics["Chest x-Rays"] = new List<string>() { "Cavitary Lesion", "Interstitial opacities" };
-            Question q1 = new Question
+            #endregion
+            _subjectsTopics["Chest x-Rays"] = new List<string>() 
+            { 
+                "Cavitary Lesion", "Interstitial opacities", "Left Pleural Effusion",
+                "Median Sternotomy", "Right Middle Lobe Collapse"
+            }; 
+        }
+
+        private void addQuestions(Subject s, Topic t, List<List<string>> images)
+        {
+            foreach (List<string> l in images)
+            {
+                addQuestion(s, t, l);
+            }
+        }
+
+        private void addQuestion(Subject s, Topic t, List<string> images)
+        {
+            Question q = new Question
+            {
+                QuestionId = _questionID,
+                subjectName = s.SubjectId,
+                subject = s,
+                normal = true,
+                text = "",
+                level = Levels.DEFAULT_LVL,
+                diagnoses = new List<Topic>() { t },
+                timesAnswered = 0,
+                timesAnsweredCorrectly = 0,
+                timeAdded = DateTime.Now,
+                images = new List<Image>()
+            };
+            foreach (string path in images)
+            {
+                Image i = new Image
+                {
+                    ImageId = path,
+                    QuestionId = _questionID,
+                };
+                q.images.Add(i);
+            }
+            _questionID++;
+            _db.addQuestion(q);
+        }
+
+        private void addQuestionOneImage(Topic t, string imgPath)
+        {
+            Question q = new Question
             {
                 QuestionId = _questionID,
                 subjectName = "Chest x-Rays",
                 normal = true,
                 text = "",
                 level = Levels.DEFAULT_LVL,
-                diagnoses = new List<Topic>() { t1 },
+                diagnoses = new List<Topic>() { t },
                 timesAnswered = 0,
                 timesAnsweredCorrectly = 0,
                 timeAdded = DateTime.Now,
                 images = new List<Image>()
             };
-            Image i11 = new Image
+            Image i = new Image
             {
-                ImageId = "../Images/q1_2_lat.jpg",
-                QuestionId = _questionID,
-            };
-            Image i12 = new Image
-            {
-                ImageId = "../Images/q1_2_pa.png",
+                ImageId = imgPath,
                 QuestionId = _questionID,
             };
             _questionID++;
-            q1.images.Add(i11);
-            q1.images.Add(i12);
-            _db.addQuestion(q1);
-            Question q2 = new Question
+            q.images.Add(i);
+            _db.addQuestion(q);
+        }
+
+        private void addQuestionTwoImages(Topic t, string imgOnePath, string imgTwoPath)
+        {
+            Question q = new Question
             {
                 QuestionId = _questionID,
                 subjectName = "Chest x-Rays",
                 normal = true,
                 text = "",
                 level = Levels.DEFAULT_LVL,
-                diagnoses = new List<Topic>() { t1 },
+                diagnoses = new List<Topic>() { t },
                 timesAnswered = 0,
                 timesAnsweredCorrectly = 0,
                 timeAdded = DateTime.Now,
                 images = new List<Image>()
             };
-            Image i21 = new Image
+            Image i15_1 = new Image
             {
-                ImageId = "../Images/q2_17_Lat.png",
+                ImageId = imgOnePath,
                 QuestionId = _questionID,
             };
-            Image i22 = new Image
+            Image i15_2 = new Image
             {
-                ImageId = "../Images/q2_17_PA.png",
+                ImageId = imgTwoPath,
                 QuestionId = _questionID,
             };
             _questionID++;
-            q2.images.Add(i21);
-            q2.images.Add(i22);
-            _db.addQuestion(q2);
+            q.images.Add(i15_1);
+            q.images.Add(i15_2);
+            _db.addQuestion(q);
         }
 
         public void autoGeneratedQuestionScenario()
@@ -792,6 +901,17 @@ namespace Server
             }
             updateUserLastActionTime(user);
             return _loggedUsers.Keys.Contains(user);
+        }
+
+        public string getUserName(int userUniqueInt)
+        {
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return "";
+            }
+            updateUserLastActionTime(user);
+            return user.userFirstName + " " + user.userLastName;
         }
 
         private User getUserByInt(int userUniqueInt)
