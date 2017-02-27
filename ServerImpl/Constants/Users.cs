@@ -9,8 +9,10 @@ namespace Constants
 {
     public class Users
     {
+        public static int USER_UNIQUE_INT = 100000;
         public static readonly IList<string> medicalTrainingLevels = new ReadOnlyCollection<string>
-            (new List<string> { 
+            (new List<string> 
+            { 
                 "Pre-Medical student",
                 "Medical student - 1st year",
                 "Medical student - 2nd year",
@@ -24,6 +26,7 @@ namespace Constants
                 "Resident PGY 6",
                 "Resident PGY 7",
                 "Fellow", 
-                "Attending" });
+                "Attending" 
+            });
     }
 }
