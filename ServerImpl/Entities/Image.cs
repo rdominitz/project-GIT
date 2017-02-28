@@ -16,7 +16,5 @@ namespace Entities
         [Key]
         [Column(Order = 2)]
         public int QuestionId { get; set; }
-        [ForeignKey("QuestionId")]
-        public virtual Question question { get; set; }
     }
 }

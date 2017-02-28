@@ -9,12 +9,21 @@ namespace Entities
     public interface IMedTrainDBContext
     {
         int SaveChanges();
+        
         void addUser(User u);
-        User getUser(string eMail);
+        User getUser(string UserId);
         User getUser(int uniqueInt);
 
-        void addAdmin(string eMail);
-        Admin getAdmin(string eMail);
+        void addAdmin(Admin a);
+        Admin getAdmin(string UserId);
+
+        void addSubject(Subject s);
+        Subject getSubject(string subject);
+        List<Subject> getSubjects();
+
+        void addTopic(Topic t);
+        Topic getTopic(string subject, string topic);
+        List<Topic> getTopics(string subject);
 
         void addQuestion(Question q);
         Question getQuestion(int id);
@@ -22,21 +31,20 @@ namespace Entities
         List<Question> getQuestions(string subject, string topic);
         List<Question> getNormalQuestions(string subject);
 
-        void addUserLevel(UserLevel userLevel);
-        UserLevel getUserLevel(string eMail, string subject, string topic);
-        void updateUserLevel(UserLevel ul);
+        void addImage(Image i);
+        List<Image> getQuestionImages(int qId);
+
+        void addDiagnosis(Diagnosis d);
+        List<Diagnosis> getQuestionDiagnoses(int qId);
 
         void addAnswer(Answer a);
 
-        void addTopic(string subject, string topic);
-        void addTopic(Topic t);
-        Topic getTopic(string subject, string topic);
-        List<Topic> getTopics(string subject);
+        void addDiagnosisCertainty(DiagnosisCertainty dc);
 
-        void addSubject(string subject);
-        void addSubject(Subject s);
-        Subject getSubject(string subject);
-        List<Subject> getSubjects();
-        
+        void addUserLevelAnwer(UserLevelAnswer ula);
+
+        void addUserLevel(UserLevel ul);
+        UserLevel getUserLevel(string UserId, string subject, string topic);
+        void updateUserLevel(UserLevel ul);
     }
 }

@@ -12,8 +12,9 @@ namespace communication.Controllers
     {
         // GET: Forgot
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
+            ViewBag.message = message;
             return View();
         }
 
@@ -25,8 +26,8 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            ViewBag.errorMessage = ans;
-            return View("index");
+            //ViewBag.errorMessage = ans;
+            return RedirectToAction("Index", "Forgot", new { message = ans });
         }
 
     }

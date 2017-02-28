@@ -106,6 +106,10 @@ namespace Server
 
         Tuple<string, List<Question>> getAnsweres(int userUniqueInt);
 
+        List<string> getQuestionImages(int questionId);
+
+        List<string> getQuestionDiagnoses(int questionId);
+
         List<string> getAllSubjects();
 
         List<string> getSubjectTopics(string subject);

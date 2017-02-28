@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using communication.Core;
+using Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,18 +16,20 @@ namespace communication.Models.ShowAnswers
 
         public ShowAnswersData(Question q)
         {
-            dignosis = new List<string>();
-            pics = new List<string>();
+            dignosis = ServerWiring.getInstance().getQuestionDiagnoses(q.QuestionId);
+            pics = ServerWiring.getInstance().getQuestionImages(q.QuestionId); 
+            
+          
             //question = q;
-            foreach(Topic t in q.diagnoses)
+            /*foreach(Topic t in q.diagnoses)
             {
                 dignosis.Add(t.TopicId);
             }
             foreach (Image i in q.images)
             {
                 pics.Add(i.ImageId);
-            }
-           
+            }*/
+
         }
     }
 }

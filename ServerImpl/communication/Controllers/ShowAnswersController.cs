@@ -15,6 +15,10 @@ namespace communication.Controllers
         public ActionResult Index(bool hasMoreQuestions)
         {
             HttpCookie cookie = Request.Cookies["userId"];
+            if (cookie == null)
+            {
+                return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
+            }
             Tuple<string, List<Question>> q = ServerWiring.getInstance().getAnsweres(Convert.ToInt32(cookie.Value));
 
             List<ShowAnswersData> questions = new List<ShowAnswersData>();
@@ -23,17 +27,8 @@ namespace communication.Controllers
                 questions.Add(new ShowAnswersData(ques));
             }
 
-           /* List<List<String>> pics = new List<List<string>>();
-            for (int i = 0; i < q.Item2.Count; i++)
-            {
-                List<String> lst = new List<String>();
-                for (int j = 0; j < q.Item2.ElementAt(i).images.Count; j++)
-                { 
-                    lst.Add(q.Item2.ElementAt(i).images.ElementAt(j).ImageId);
-                }
-                pics.Add(lst);
-            }
-            ViewBag["images"] = pics;*/
+            
+             //ViewBag["images"] = pics;
             string next;
             if (hasMoreQuestions)
             {

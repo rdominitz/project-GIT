@@ -12,15 +12,11 @@ namespace Entities
     {
         [Key]
         [Column(Order = 1)]
-        public string userId { get; set; }
-        [ForeignKey("userId")]
-        public virtual User user { get; set; }
+        public string UserId { get; set; }
         [Key, Column(Order = 2)]
         public string TopicId { get; set; }
         [Key, Column(Order = 3)]
         public string SubjectId { get; set; }
-        [ForeignKey("TopicId ,SubjectId")]
-        public virtual Topic Topic { get; set; }
         [Required]
         public int level { get; set; }
         [Required]

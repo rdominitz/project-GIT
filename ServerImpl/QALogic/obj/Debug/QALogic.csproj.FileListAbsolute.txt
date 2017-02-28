@@ -61,3 +61,19 @@ C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\QALogic\bin\Debug\EntityF
 C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\QALogic\obj\Debug\QALogic.csprojResolveAssemblyReference.cache
 C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\QALogic\obj\Debug\QALogic.dll
 C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\QALogic\obj\Debug\QALogic.pdb
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\QALogic\bin\Debug\QALogic.dll.config
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\QALogic\bin\Debug\QALogic.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\QALogic\bin\Debug\QALogic.pdb
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\QALogic\bin\Debug\Constants.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\QALogic\bin\Debug\Entities.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\QALogic\bin\Debug\EntityFramework.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\QALogic\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\QALogic\bin\Debug\WebDriver.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\QALogic\bin\Debug\Constants.pdb
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\QALogic\bin\Debug\Entities.pdb
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\QALogic\bin\Debug\EntityFramework.xml
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\QALogic\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\QALogic\bin\Debug\WebDriver.xml
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\QALogic\obj\Debug\QALogic.csprojResolveAssemblyReference.cache
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\QALogic\obj\Debug\QALogic.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\QALogic\obj\Debug\QALogic.pdb

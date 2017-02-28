@@ -13,13 +13,8 @@ namespace Entities
         [Key]
         public int GroupId { get; set; }
         [Required]
-        public string adminId { get; set; }
-        [ForeignKey("adminId")]
-        public virtual Admin admin { get; set; }
+        public string AdminId { get; set; }
         [Required]
         public string name { get; set; }
-        public virtual ICollection<User> members { get; set; }
-        public virtual ICollection<User> invitedUsers { get; set; }
-        public virtual ICollection<Test> tests { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Constants;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -12,40 +13,53 @@ namespace Entities
     {
         private List<User> _users;
         private List<Admin> _admins;
-        private List<Question> _questions;
         private List<Subject> _subjects;
-        private List<Topic> _topics;
-        private List<UserLevel> _userLevels;
+        private List<Topic> _topics; 
+        private List<Question> _questions;
+        private List<Image> _images;
+        private List<Diagnosis> _diagnoses;
         private List<Answer> _answers;
+        private List<DiagnosisCertainty> _diagnosesCertainties;
+        private List<UserLevelAnswer> _usersLevelsWhenAnswering;
+        private List<UserLevel> _usersLevels;
 
         public FakeMedTrainDBContext()
         {
             _users = new List<User>();
             _admins = new List<Admin>();
-            _questions = new List<Question>();
             _subjects = new List<Subject>();
-            _topics = new List<Topic>();
-            _userLevels = new List<UserLevel>();
+            _topics = new List<Topic>(); 
+            _questions = new List<Question>();
+            _images = new List<Image>();
+            _diagnoses = new List<Diagnosis>();
             _answers = new List<Answer>();
+            _diagnosesCertainties = new List<DiagnosisCertainty>();
+            _usersLevelsWhenAnswering = new List<UserLevelAnswer>();
+            _usersLevels = new List<UserLevel>();
         }
 
+        //public IDbSet<Test> Tests { get; set; }
+        //public IDbSet<Group> Groups { get; set; }
+        //public IDbSet<UserGroupTest> UsersGroupsTests { get; set; }
+        //public IDbSet<GroupTestAnswer> GroupsTestsQuestionsAnswers { get; set; }
+        
         public override int SaveChanges()
         {
             return 0;
         }
+
         #region user
-        public void addUser(User user)
+        public void addUser(User u)
         {
-            List<User> matches = _users.Where(u => u.UserId.Equals(user.UserId)).ToList();
-            if (matches.Count == 0)
+            if (_users.Where(user => user.UserId.Equals(u.UserId)).Count() == 0)
             {
-                _users.Add(user);
+                _users.Add(u);
             }
         }
 
-        public User getUser(string eMail)
+        public User getUser(string UserId)
         {
-            List<User> matches = _users.Where(u => u.UserId == eMail).ToList();
+            List<User> matches = _users.Where(u => u.UserId.Equals(UserId)).ToList();
             return matches.Count == 1 ? matches[0] : null;
         }
 
@@ -56,138 +70,24 @@ namespace Entities
         }
         #endregion
         #region admin
-        public void addAdmin(string eMail)
+        public void addAdmin(Admin a)
         {
-            if (getUser(eMail) == null)
+            if (getUser(a.AdminId) != null && _admins.Where(admin => admin.AdminId.Equals(a.AdminId)).Count() == 0)
             {
-                return;
-            }
-            List<Admin> matches = _admins.Where(u => u.AdminId == eMail).ToList();
-            if (matches.Count == 0)
-            {
-                _admins.Add(new Admin { AdminId = eMail });
+                _admins.Add(a);
             }
         }
 
-        public Admin getAdmin(string eMail)
+        public Admin getAdmin(string UserId)
         {
-            List<Admin> matches = _admins.Where(u => u.AdminId == eMail).ToList();
+            List<Admin> matches = _admins.Where(a => a.AdminId.Equals(UserId)).ToList();
             return matches.Count == 1 ? matches[0] : null;
-        }
-        #endregion
-        #region question
-        public void addQuestion(Question q)
-        {
-            List<Question> matches = _questions.Where(u => u.QuestionId.Equals(q.QuestionId)).ToList();
-            if (matches.Count == 0)
-            {
-                _questions.Add(q);
-            }
-        }
-
-        public Question getQuestion(int id)
-        {
-            List<Question> matches = _questions.Where(u => u.QuestionId == id).ToList();
-            return matches.Count == 1 ? matches[0] : null;
-        }
-
-        public void updateQuestion(Question q) { }
-
-        public List<Question> getQuestions(string subject, string topic)
-        {
-            List<Topic> matches = _topics.Where(t => t.TopicId.Equals(topic) && t.SubjectId.Equals(subject)).ToList();
-            if (matches.Count != 1)
-            {
-                return null;
-            }
-            return _questions.Where(u => u.subjectName.Equals(subject) && u.diagnoses.Contains(matches[0])).ToList();
-        }
-
-        public List<Question> getNormalQuestions(string subject)
-        {
-            return _questions.Where(u => u.subjectName.Equals(subject) && u.normal).ToList();
-        }
-        #endregion
-        #region user level
-        public void addUserLevel(UserLevel userLevel)
-        {
-            List<UserLevel> matches = _userLevels.Where(u => u.userId.Equals(userLevel.userId) && u.SubjectId.Equals(userLevel.SubjectId) && u.TopicId.Equals(userLevel.TopicId)).ToList();
-            if (matches.Count == 0)
-            {
-                _userLevels.Add(userLevel);
-            }
-        }
-        public UserLevel getUserLevel(string eMail, string subject, string topic)
-        {
-            List<UserLevel> matches = _userLevels.Where(u => u.userId.Equals(eMail) && u.SubjectId.Equals(subject) && u.TopicId.Equals(topic)).ToList();
-            return matches.Count == 1 ? matches[0] : null;
-        }
-
-        public void updateUserLevel(UserLevel ul) { }
-        #endregion
-        public void addAnswer(Answer a)
-        {
-            if (getQuestion(a.questionId) == null || getUser(a.userId) == null)
-            {
-                return;
-            }
-            List<Answer> matches = _answers.Where(u => u.userId.Equals(a.userId) && u.questionId.Equals(a.questionId) && u.timeAdded.Equals(a.timeAdded)).ToList();
-            if (matches.Count == 0)
-            {
-                _answers.Add(a);
-            }
-        }
-        #region topic
-        public void addTopic(string subject, string topic)
-        {
-            List<Subject> subjects = _subjects.Where(u => u.SubjectId.Equals(subject)).ToList();
-            if (subjects.Count != 1)
-            {
-                return;
-            }
-            List<Topic> matches = _topics.Where(u => u.SubjectId.Equals(subject) && u.TopicId.Equals(topic)).ToList();
-            if (matches.Count == 0)
-            {
-                Topic t = new Topic { SubjectId = subject, TopicId = topic };
-                _topics.Add(t);
-                subjects[0].topics.Add(t);
-            }
-        }
-
-        public void addTopic(Topic t)
-        {
-            List<Topic> matches = _topics.Where(u => u.SubjectId.Equals(t.subject) && u.TopicId.Equals(t.TopicId)).ToList();
-            if (matches.Count == 0)
-            {
-                _topics.Add(t);
-            }
-        }
-
-        public Topic getTopic(string subject, string topic)
-        {
-            List<Topic> matches = _topics.Where(t => t.TopicId.Equals(topic) && t.SubjectId.Equals(subject)).ToList();
-            return matches.Count == 1 ? matches[0] : null;
-        }
-
-        public List<Topic> getTopics(string subject)
-        {
-            return _topics.Where(t => t.SubjectId.Equals(subject)).ToList(); ;
         }
         #endregion
         #region subject
-        public void addSubject(string subject)
-        {
-            List<Subject> matches = _subjects.Where(t => t.SubjectId.Equals(subject)).ToList();
-            if (matches.Count == 0)
-            {
-                _subjects.Add(new Subject { SubjectId = subject });
-            }
-        }
-
         public void addSubject(Subject s)
         {
-            List<Subject> matches = _subjects.Where(u => u.SubjectId.Equals(s.SubjectId)).ToList();
-            if (matches.Count == 0)
+            if (_subjects.Where(subject => subject.SubjectId.Equals(s.SubjectId)).Count() == 0)
             {
                 _subjects.Add(s);
             }
@@ -195,13 +95,147 @@ namespace Entities
 
         public Subject getSubject(string subject)
         {
-            List<Subject> matches = _subjects.Where(t => t.SubjectId.Equals(subject)).ToList();
+            List<Subject> matches = _subjects.Where(s => s.SubjectId.Equals(subject)).ToList();
             return matches.Count == 1 ? matches[0] : null;
         }
 
         public List<Subject> getSubjects()
         {
             return _subjects;
+        }
+        #endregion
+        #region topic
+        public void addTopic(Topic t)
+        {
+            if (getSubject(t.SubjectId) != null && _topics.Where(topic => topic.TopicId.Equals(t.TopicId) && topic.SubjectId.Equals(t.SubjectId)).Count() == 0)
+            {
+                _topics.Add(t);
+            }
+        }
+
+        public Topic getTopic(string subject, string topic)
+        {
+            List<Topic> matches = _topics.Where(t => t.SubjectId.Equals(subject) && t.TopicId.Equals(topic)).ToList();
+            return matches.Count == 1 ? matches[0] : null;
+        }
+
+        public List<Topic> getTopics(string subject)
+        {
+            return _topics.Where(t => t.SubjectId.Equals(subject)).ToList();
+        }
+        #endregion
+        #region question
+        public void addQuestion(Question q)
+        {
+            if (_questions.Where(question => question.QuestionId == q.QuestionId).Count() == 0)
+            {
+                _questions.Add(q);
+            }
+        }
+
+        public Question getQuestion(int id)
+        {
+            List<Question> matches = _questions.Where(q => q.QuestionId == id).ToList();
+            return matches.Count == 1 ? matches[0] : null;
+        }
+
+        public void updateQuestion(Question q)
+        {
+            // nothing for now, probabely would find the relevant question and copy the fields
+        }
+
+        public List<Question> getQuestions(string subject, string topic)
+        {
+            List<Question> matches = _questions.Where(q => q.SubjectId.Equals(subject)).ToList();
+            List<Question> ans = new List<Question>();
+            foreach (Question q in matches)
+            {
+                if (getQuestionDiagnoses(q.QuestionId).Where(d => d.TopicId.Equals(topic)).Count() == 1)
+                {
+                    ans.Add(q);
+                }
+            }
+            return ans;
+        }
+
+        public List<Question> getNormalQuestions(string subject)
+        {
+            return getQuestions(subject, Topics.NORMAL);
+        }
+        #endregion
+        #region image
+        public void addImage(Image i)
+        {
+            if (_images.Where(image => image.ImageId.Equals(i.ImageId) && image.QuestionId == i.QuestionId).Count() == 0)
+            {
+                _images.Add(i);
+            }
+        }
+
+        public List<Image> getQuestionImages(int qId)
+        {
+            return _images.Where(i => i.QuestionId == qId).ToList();
+        }
+        #endregion
+        #region diagnosis
+        public void addDiagnosis(Diagnosis d)
+        {
+            if (_diagnoses.Where(diagnosis => diagnosis.TopicId.Equals(d.TopicId) && diagnosis.QuestionId == d.QuestionId && diagnosis.SubjectId.Equals(d.SubjectId)).Count() == 0)
+            {
+                _diagnoses.Add(d);
+            }
+        }
+
+        public List<Diagnosis> getQuestionDiagnoses(int qId)
+        {
+            return _diagnoses.Where(d => d.QuestionId == qId).ToList();
+        }
+        #endregion
+        #region answer
+        public void addAnswer(Answer a)
+        {
+            if (_answers.Where(answer => answer.AnswerId == a.AnswerId).Count() == 0)
+            {
+                _answers.Add(a);
+            }
+        }
+        #endregion
+        #region diagnosis certainty
+        public void addDiagnosisCertainty(DiagnosisCertainty dc)
+        {
+            if (_diagnosesCertainties.Where(diagnosisCertainty => diagnosisCertainty.AnswerId == dc.AnswerId && diagnosisCertainty.SubjectId.Equals(dc.SubjectId) && diagnosisCertainty.TopicId.Equals(dc.TopicId)).Count() == 0)
+            {
+                _diagnosesCertainties.Add(dc);
+            }
+        }
+        #endregion
+        #region user level answer
+        public void addUserLevelAnwer(UserLevelAnswer ula)
+        {
+            if (_usersLevelsWhenAnswering.Where(userLevelAnswer => userLevelAnswer.AnswerId == ula.AnswerId && userLevelAnswer.SubjectId.Equals(ula.SubjectId) && userLevelAnswer.TopicId.Equals(ula.TopicId)).Count() == 0)
+            {
+                _usersLevelsWhenAnswering.Add(ula);
+            }
+        }
+        #endregion
+        #region user level
+        public void addUserLevel(UserLevel ul)
+        {
+            if (_usersLevels.Where(userLevel => userLevel.UserId.Equals(ul.UserId) && userLevel.SubjectId.Equals(ul.SubjectId) && userLevel.TopicId.Equals(ul.TopicId)).Count() == 0)
+            {
+                _usersLevels.Add(ul);
+            }
+        }
+
+        public UserLevel getUserLevel(string UserId, string subject, string topic)
+        {
+            List<UserLevel> matches = _usersLevels.Where(ul => ul.UserId.Equals(UserId) && ul.SubjectId.Equals(subject) && ul.TopicId.Equals(topic)).ToList();
+            return matches.Count == 1 ? matches[0] : null;
+        }
+
+        public void updateUserLevel(UserLevel ul)
+        {
+            // nothing for now, probabely the same as update question
         }
         #endregion
     }

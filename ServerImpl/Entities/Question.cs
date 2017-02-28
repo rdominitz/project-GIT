@@ -13,9 +13,7 @@ namespace Entities
         [Key]
         public int QuestionId { get; set; }
         [Required]
-        public string subjectName { get; set; }
-        [ForeignKey("subjectName")]
-        public virtual Subject subject { get; set; }
+        public string SubjectId { get; set; }
         [Required]
         public bool normal { get; set; }
         public string text { get; set; }
@@ -23,9 +21,6 @@ namespace Entities
         public DateTime timeAdded { get; set; }
         [Required]
         public int level { get; set; }
-        public virtual ICollection<Topic> diagnoses { get; set; }
-        [Required]
-        public virtual ICollection<Image> images { get; set; }
         [Required]
         public int timesAnswered { get; set; }
         [Required]

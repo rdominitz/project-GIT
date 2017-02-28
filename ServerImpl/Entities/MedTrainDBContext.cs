@@ -18,8 +18,13 @@ namespace Entities
         public IDbSet<Image> Images { get; set; }
         public IDbSet<Diagnosis> Diagnoses { get; set; }
         public IDbSet<Test> Tests { get; set; }
+        public IDbSet<TestQuestion> TestsQuestions { get; set; }
         public IDbSet<Group> Groups { get; set; }
+        public IDbSet<GroupMember> GroupsMembers { get; set; }
+        public IDbSet<GroupTest> GroupsTests { get; set; }
         public IDbSet<Answer> Answers { get; set; }
+        public IDbSet<DiagnosisCertainty> DiagnosesCertainties {get; set;}
+        public IDbSet<UserLevelAnswer> UsersLevelsWhenAnswring { get; set; }
         public IDbSet<UserLevel> UsersLevels { get; set; }
         public IDbSet<UserGroupTest> UsersGroupsTests { get; set; }
         public IDbSet<GroupTestAnswer> GroupsTestsQuestionsAnswers { get; set; }
@@ -36,6 +41,7 @@ namespace Entities
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
         }
+
         #region user
         public void addUser(User u)
         {
@@ -47,9 +53,9 @@ namespace Entities
             SaveChanges();
         }
 
-        public User getUser(string eMail)
+        public User getUser(string UserId)
         {
-            return Users.Find(eMail);
+            return Users.Find(UserId);
         }
 
         public User getUser(int uniqueInt)
@@ -65,196 +71,51 @@ namespace Entities
         }
         #endregion
         #region admin
-        public void addAdmin(string eMail)
+        public void addAdmin(Admin a)
         {
-            User u = Users.Find(eMail);
+            User u = Users.Find(a.AdminId);
             if (u == null)
             {
                 return;
             }
-            if (Admins.Find(eMail) != null)
+            if (Admins.Find(a.AdminId) != null)
             {
                 return;
             }
-            Admins.Add(new Admin { AdminId = eMail, user = u });
+            Admins.Add(new Admin { AdminId = a.AdminId });
             SaveChanges();
         }
 
-        public Admin getAdmin(string eMail)
+        public Admin getAdmin(string UserId)
         {
-            return Admins.Find(new object[1] { eMail });
+            return Admins.Find(UserId);
         }
         #endregion
-        #region question
-        public void addQuestion(Question q)
+        #region subject
+        public void addSubject(Subject s)
         {
-            if (Questions.Find(q.QuestionId) != null)
+            if (Subjects.Find(s.SubjectId) != null)
             {
                 return;
             }
-            foreach (Image image in q.images)
-            {
-                Images.Add(image);
-            }
-            foreach (Topic t in q.diagnoses)
-            {
-                Diagnosis d = new Diagnosis
-                {
-                    TopicId = t.TopicId,
-                    SubjectId = t.SubjectId,
-                    topic = t,
-                    QuestionId = q.QuestionId,
-                    question = q
-                };
-                Diagnoses.Add(d);
-            }
-            Questions.Add(q);
+            Subjects.Add(new Subject { SubjectId = s.SubjectId, timeAdded = DateTime.Now });
             SaveChanges();
         }
 
-        public Question getQuestion(int id)
+        public Subject getSubject(string subject)
         {
-            var query = from q in Questions
-                        where q.QuestionId == id
-                        select q;
-            if (query.ToList().Count == 0)
-            {
-                return null;
-            }
-            foreach (Question q in query)
-            {
-                var images = from i in Images
-                             where i.QuestionId == q.QuestionId
-                             select i;
-                q.images = images.ToList();
-                var diagnoses = from d in Diagnoses
-                                where d.QuestionId == q.QuestionId
-                                select d;
-                foreach (Diagnosis d in diagnoses)
-                {
-                    q.diagnoses.Add(d.topic);
-                }
-            }
-            return query.ToList()[0];
+            return Subjects.Find(subject);
         }
 
-        public void updateQuestion(Question q)
+        public List<Subject> getSubjects()
         {
-            Entry(q).State = System.Data.Entity.EntityState.Modified;
-            SaveChanges();
-        }
-
-        public List<Question> getQuestions(string subject, string topic)
-        {
-            Topic t = getTopic(subject, topic);
-            if (t == null)
-            {
-                return new List<Question>();
-            }
-            var query = from q in Questions
-                        where q.subjectName.Equals(subject)
-                        select q;
-            var l = query.ToList();
-            List<Question> res = new List<Question>();
-            foreach (Question q in l)
-            {
-                foreach (Topic top in q.diagnoses)
-                {
-                    if (top.TopicId.Equals(topic))
-                    {
-                        var images = from i in Images
-                                     where i.QuestionId == q.QuestionId
-                                     select i;
-                        q.images = images.ToList();
-                        var diagnoses = from d in Diagnoses
-                                        where d.QuestionId == q.QuestionId
-                                        select d;
-                        foreach (Diagnosis d in diagnoses)
-                        {
-                            q.diagnoses.Add(d.topic);
-                        }
-                        res.Add(q);
-                        break;
-                    }
-                }
-            }
-            return res;
-        }
-
-        public List<Question> getNormalQuestions(string subject)
-        {
-            var query = from q in Questions
-                        where q.subjectName.Equals(subject) && q.normal
-                        select q;
-            foreach (Question q in query)
-            {
-                var images = from i in Images
-                             where i.QuestionId == q.QuestionId
-                             select i;
-                q.images = images.ToList();
-                var diagnoses = from d in Diagnoses
-                                where d.QuestionId == q.QuestionId
-                                select d;
-                foreach (Diagnosis d in diagnoses)
-                {
-                    q.diagnoses.Add(d.topic);
-                }
-            }
-            return query.ToList();
+            return Subjects.ToList();
         }
         #endregion
-        #region user level
-        public void addUserLevel(UserLevel userLevel)
-        {
-            if (UsersLevels.Find(userLevel.userId, userLevel.SubjectId, userLevel.TopicId) != null)
-            {
-                return;
-            }
-            UsersLevels.Add(userLevel);
-            SaveChanges();
-        }
-        public UserLevel getUserLevel(string eMail, string subject, string topic)
-        {
-            return UsersLevels.Find(eMail, topic, subject);
-        }
-
-        public void updateUserLevel(UserLevel ul)
-        {
-            Entry(ul).State = System.Data.Entity.EntityState.Modified;
-            SaveChanges();
-        }
-        #endregion
-        public void addAnswer(Answer a)
-        {
-            if (Answers.Find(a.questionId, a.userId, a.timeAdded) != null)
-            {
-                return;
-            }
-            Answers.Add(a);
-            SaveChanges();
-        }
         #region topic
-        public void addTopic(string subject, string topic)
-        {
-            if (Topics.Find(topic, subject) != null)
-            {
-                return;
-            }
-            Subject s = Subjects.Find(subject);
-            if (s == null)
-            {
-                return;
-            }
-            Topic t = new Topic { SubjectId = subject, TopicId = topic, timeAdded = DateTime.Now, subject = s };
-            Topics.Add(t);
-            s.topics.Add(t);
-            Entry(s).State = System.Data.Entity.EntityState.Modified;
-            SaveChanges();
-        }
-
         public void addTopic(Topic t)
         {
-            if (Topics.Find(t.TopicId, t.SubjectId) != null)
+            if (Subjects.Find(t.SubjectId) == null || Topics.Find(t.TopicId, t.SubjectId) != null)
             {
                 return;
             }
@@ -275,37 +136,164 @@ namespace Entities
             return query.ToList();
         }
         #endregion
-        #region subject
-        public void addSubject(string subject)
+        #region question
+        public void addQuestion(Question q)
         {
-            if (Subjects.Find(subject) != null)
+            if (Questions.Find(q.QuestionId) != null)
             {
                 return;
             }
-            Subjects.Add(new Subject { SubjectId = subject, timeAdded = DateTime.Now, topics = new List<Topic>() });
+            Questions.Add(q);
             SaveChanges();
         }
 
-        public void addSubject(Subject s)
+        public Question getQuestion(int id)
         {
-            if (Subjects.Find(s.SubjectId) != null)
+            return Questions.Find(id);
+        }
+
+        public void updateQuestion(Question q)
+        {
+            Entry(q).State = System.Data.Entity.EntityState.Modified;
+            SaveChanges();
+        }
+
+        public List<Question> getQuestions(string subject, string topic)
+        {
+            Topic t = getTopic(subject, topic);
+            if (t == null)
+            {
+                return new List<Question>();
+            }
+            var query = from q in Questions
+                        where q.SubjectId.Equals(subject)
+                        select q;
+            List<Question> ans = new List<Question>();
+            foreach (Question q in query)
+            {
+                var diagnoses = from d in Diagnoses
+                                where d.QuestionId == q.QuestionId
+                                select d;
+                foreach (Diagnosis d in diagnoses)
+                {
+                    if (d.TopicId.Equals(topic))
+                    {
+                        ans.Add(q);
+                        break;
+                    }
+                }
+            }
+            return ans;
+        }
+
+        public List<Question> getNormalQuestions(string subject)
+        {
+            return getQuestions(subject, Constants.Topics.NORMAL);
+        }
+        #endregion
+        #region image
+        public void addImage(Image i)
+        {
+            if (Questions.Find(i.QuestionId) == null || Images.Find(i.ImageId, i.QuestionId) != null)
             {
                 return;
             }
-            Subjects.Add(s);
+            Images.Add(i);
             SaveChanges();
         }
 
-        public Subject getSubject(string subject)
+        public List<Image> getQuestionImages(int qId)
         {
-            return Subjects.Find(subject);
-        }
-
-        public List<Subject> getSubjects()
-        {
-            var query = from s in Subjects
-                        select s;
+            var query = from i in Images
+                        where i.QuestionId == qId
+                        select i;
             return query.ToList();
+        }
+        #endregion
+        #region diagnosis
+        public void addDiagnosis(Diagnosis d)
+        {
+            if (Subjects.Find(d.SubjectId) == null || Topics.Find(d.TopicId, d.SubjectId) == null ||
+                Questions.Find(d.QuestionId) == null || Diagnoses.Find(d.TopicId, d.SubjectId, d.QuestionId) != null)
+            {
+                return;
+            }
+            Diagnoses.Add(d);
+            SaveChanges();
+        }
+
+        public List<Diagnosis> getQuestionDiagnoses(int qId)
+        {
+            var query = from d in Diagnoses
+                        where d.QuestionId == qId
+                        select d;
+            return query.ToList();
+        }
+        #endregion
+        #region answer
+        public void addAnswer(Answer a)
+        {
+            if (Questions.Find(a.QuestionId) == null || Users.Find(a.UserId) == null || Answers.Find(a.AnswerId) != null)
+            {
+                return;
+            }
+            var query = from ans in Answers
+                        where ans.QuestionId == a.QuestionId && ans.UserId.Equals(a.UserId) && ans.timeAdded.Equals(a.timeAdded)
+                        select ans;
+            if (query.ToList().Count != 0)
+            {
+                return;
+            }
+            Answers.Add(a);
+            SaveChanges();
+        }
+        #endregion
+        #region diagnosis certainty
+        public void addDiagnosisCertainty(DiagnosisCertainty dc)
+        {
+            if (Answers.Find(dc.AnswerId) == null || Subjects.Find(dc.SubjectId) == null ||
+                Topics.Find(dc.TopicId, dc.SubjectId) == null ||
+                DiagnosesCertainties.Find(dc.AnswerId, dc.TopicId, dc.SubjectId) != null)
+            {
+                return;
+            }
+            DiagnosesCertainties.Add(dc);
+            SaveChanges();
+        }
+        #endregion
+        #region user level answer
+        public void addUserLevelAnwer(UserLevelAnswer ula)
+        {
+            if (Answers.Find(ula.AnswerId) == null || Subjects.Find(ula.SubjectId) == null ||
+                Topics.Find(ula.TopicId, ula.SubjectId) == null ||
+                UsersLevelsWhenAnswring.Find(ula.AnswerId, ula.TopicId, ula.SubjectId) != null)
+            {
+                return;
+            }
+            UsersLevelsWhenAnswring.Add(ula);
+            SaveChanges();
+        }
+        #endregion
+        #region user level
+        public void addUserLevel(UserLevel ul)
+        {
+            if (UsersLevels.Find(ul.UserId, ul.TopicId, ul.SubjectId) != null)
+            {
+                return;
+            }
+            UsersLevels.Add(ul);
+            SaveChanges();
+        }
+        
+        public UserLevel getUserLevel(string eMail, string subject, string topic)
+        {
+            return UsersLevels.Find(eMail, topic, subject);
+        }
+
+        public void updateUserLevel(UserLevel ul)
+        {
+            Entry(ul).State = System.Data.Entity.EntityState.Modified;
+            SaveChanges();
         }
         #endregion
     }

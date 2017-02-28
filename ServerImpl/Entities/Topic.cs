@@ -14,8 +14,6 @@ namespace Entities
         public string TopicId { get; set; }
         [Key, Column(Order = 2)]
         public string SubjectId { get; set; }
-        [ForeignKey("SubjectId")]
-        public virtual Subject subject { get; set; }
         public DateTime timeAdded { get; set; }
     }
 }

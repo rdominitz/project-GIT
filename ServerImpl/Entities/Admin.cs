@@ -12,7 +12,5 @@ namespace Entities
     {
         [Key]
         public string AdminId { get; set; }
-        [ForeignKey("AdminId")]
-        public virtual User user { get; set; }
     }
 }

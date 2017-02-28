@@ -11,28 +11,20 @@ namespace Entities
     public class Answer
     {
         [Key]
-        [Column(Order = 1)]
-        public int questionId { get; set; }
-        [ForeignKey("questionId")]
-        public virtual Question question { get; set; }
-        [Key]
-        [Column(Order = 2)]
-        public string userId { get; set; }
-        [ForeignKey("userId")]
-        public virtual User user { get; set; }
-        [Key]
-        [Column(Order = 3)]
+        public int AnswerId { get; set; }
+        [Required]
+        public int QuestionId { get; set; }
+        [Required]
+        public string UserId { get; set; }
+        [Required]
         public DateTime timeAdded { get; set; }
         [Required]
         public int questionLevel { get; set; }
-        [Required]
-        public virtual ICollection<Tuple<string, int>> userLevelPerTopic { get; set; }
         [Required]
         public bool isCorrectAnswer { get; set; }
         [Required]
         public bool normal { get; set; }
         [Required]
         public int normalityCertainty { get; set; }
-        public virtual ICollection<Tuple<string, int>> diagnosesAndCertaintyLevels { get; set; }
     }
 }

@@ -16,3 +16,10 @@ C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\Constants\bin\Debug\Const
 C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\Constants\bin\Debug\Constants.pdb
 C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\Constants\obj\Debug\Constants.dll
 C:\Users\galm\Desktop\פרוייקט גמר\ServerImpl\Constants\obj\Debug\Constants.pdb
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Constants\bin\Debug\Constants.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Constants\bin\Debug\Constants.pdb
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Constants\bin\Debug\WebDriver.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Constants\bin\Debug\WebDriver.xml
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Constants\obj\Debug\Constants.csprojResolveAssemblyReference.cache
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Constants\obj\Debug\Constants.dll
+C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Constants\obj\Debug\Constants.pdb

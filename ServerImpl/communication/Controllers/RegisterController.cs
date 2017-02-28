@@ -27,12 +27,12 @@ namespace communication.Controllers
             Tuple<string, int> ans = ServerWiring.getInstance().register(email, password, convert(level), fname, lname);
             if(ans.Item1.Equals(Replies.SUCCESS))
             {
-                //TODO redirect to main
+               
                
                 return RedirectToAction("Index", "Main");
             }
             ViewBag.errorMessage = ans.Item1;
-            return View("index");
+            return RedirectToAction("Index", "Register", new { message = ans.Item1 });
         }
 
         private string convert(string level)

@@ -21,6 +21,11 @@ namespace communication.Controllers
 
         public ActionResult Index(string message)
         {
+            HttpCookie cookie = Request.Cookies["userId"];
+            if (cookie == null)
+            {
+                return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
+            }
             ViewBag.message = message;
             return View(getData());
         }
@@ -50,6 +55,10 @@ namespace communication.Controllers
         {
 
             HttpCookie cookie = Request.Cookies["userId"];
+            if (cookie == null)
+            {
+                return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
+            }
             ViewBag.subject = subject;
             ViewBag.topic = topic;
             ViewBag.numberOfQuestions = numberOfQuestions;

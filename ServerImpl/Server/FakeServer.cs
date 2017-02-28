@@ -96,22 +96,19 @@ namespace Server
                 Question q = new Question
                 {
                     QuestionId = 1,
-                    subjectName = "subject",
+                    SubjectId = "subject",
                     normal = true,
                     text = "",
                     level = Levels.DEFAULT_LVL,
-                    diagnoses = new List<Topic>() { t },
                     timesAnswered = 0,
                     timesAnsweredCorrectly = 0,
                     timeAdded = DateTime.Now,
-                    images = new List<Image>()
                 };
                 Image i = new Image
                 {
                     ImageId = "../Images/q1_2_lat.jpg",
                     QuestionId = 1,
                 };
-                q.images.Add(i);
                 return new Tuple<string,Question>(Replies.SUCCESS, q);
             }
             return new Tuple<string,Question>("Error", null);
@@ -168,6 +165,16 @@ namespace Server
         }
 
         public string getUserName(int userUniqueInt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> getQuestionImages(int questionId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> getQuestionDiagnoses(int questionId)
         {
             throw new NotImplementedException();
         }

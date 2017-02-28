@@ -10,21 +10,12 @@ namespace Entities
 {
     public class UserGroupTest
     {
-        [Key]
-        [Column(Order = 1)]
-        public string userId { get; set; }
-        [ForeignKey("userId")]
-        public virtual User user { get; set; }
-        [Key]
-        [Column(Order = 2)]
-        public int groupId { get; set; }
-        [ForeignKey("groupId")]
-        public virtual Group group { get; set; }
-        [Key]
-        [Column(Order = 3)]
+        [Key, Column(Order = 1)]
+        public string UserId { get; set; }
+        [Key, Column(Order = 2)]
+        public int GroupId { get; set; }
+        [Key, Column(Order = 3)]
         public int testId { get; set; }
-        [ForeignKey("testId")]
-        public virtual Test test { get; set; }
         [Required]
         public bool completed { get; set; }
     }

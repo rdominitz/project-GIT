@@ -5,6 +5,12 @@
 <div class="cen col-md-offset-4">
     <h2>Forgot Password</h2> 
     <br />
+    @if (@ViewBag.message != null)
+    {
+        <script>
+            alert("@ViewBag.message");
+        </script>
+    }
     <form id="forgotForm" method="POST" action="/forgot/submit">
         <div class="form-group">
             <label for="email" class="control-label">Email</label>

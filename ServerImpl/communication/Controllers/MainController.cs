@@ -14,6 +14,10 @@ namespace communication.Controllers
         public ActionResult Index()
         {
             HttpCookie cookie = Request.Cookies["userId"];
+            if (cookie == null)
+            {
+                return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
+            }
             string name = ServerWiring.getInstance().getUserName(Convert.ToInt32(cookie.Value));
             ViewBag.name = name;
             return View();

@@ -14,11 +14,7 @@ namespace Entities
         public string TopicId { get; set; }
         [Key, Column(Order = 2)]
         public string SubjectId { get; set; }
-        [ForeignKey("TopicId ,SubjectId")]
-        public virtual Topic topic { get; set; }
         [Key, Column(Order = 3)]
         public int QuestionId { get; set; }
-        [ForeignKey("QuestionId")]
-        public virtual Question question { get; set; }
     }
 }

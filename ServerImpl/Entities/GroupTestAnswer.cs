@@ -13,16 +13,12 @@ namespace Entities
         public virtual User user { get; set; }
         [Key]
         [Column(Order = 1)]
-        public int groupId { get; set; }
-        [ForeignKey("groupId")]
-        public virtual Group group { get; set; }
+        public int GroupId { get; set; }
         [Key]
         [Column(Order = 2)]
-        public int testId { get; set; }
-        [ForeignKey("testId")]
-        public virtual Test test { get; set; }
+        public int TestId { get; set; }
         [Key]
         [Column(Order = 3)]
-        public virtual Answer answer { get; set; }
+        public int AnswerId { get; set; }
     }
 }

@@ -13,6 +13,5 @@ namespace Entities
         public string SubjectId { get; set; }
         [Required]
         public DateTime timeAdded { get; set; }
-        public virtual ICollection<Topic> topics { get; set; }
     }
 }
