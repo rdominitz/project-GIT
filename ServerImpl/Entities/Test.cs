@@ -11,6 +11,6 @@ namespace Entities
     {
         [Key]
         public int TestId { get; set; }
-        public virtual ICollection<Question> questions { get; set; }
+        //public virtual ICollection<Question> questions { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Constants", "Constants\Constants.csproj", "{540320AF-CF89-42BB-BA82-51C80B4EC10B}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerLogicTests", "ServerLogicTests\ServerLogicTests.csproj", "{F1C9118B-D0E7-4B79-8410-28174C316E78}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "communication", "communication\communication.csproj", "{F7C94A15-074B-4F56-B2FC-5234D65E9279}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomationTestsForGUI", "AutomationTestsForGUI\AutomationTestsForGUI.csproj", "{89D38743-A60F-421A-A652-DC52E3490268}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{F7C94A15-074B-4F56-B2FC-5234D65E9279}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7C94A15-074B-4F56-B2FC-5234D65E9279}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7C94A15-074B-4F56-B2FC-5234D65E9279}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89D38743-A60F-421A-A652-DC52E3490268}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89D38743-A60F-421A-A652-DC52E3490268}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89D38743-A60F-421A-A652-DC52E3490268}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89D38743-A60F-421A-A652-DC52E3490268}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

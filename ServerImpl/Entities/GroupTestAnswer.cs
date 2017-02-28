@@ -10,7 +10,7 @@ namespace Entities
 {
     public class GroupTestAnswer
     {
-        public virtual User user { get; set; }
+        public string UserId { get; set; }
         [Key]
         [Column(Order = 1)]
         public int GroupId { get; set; }
