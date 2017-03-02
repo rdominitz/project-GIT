@@ -46,6 +46,8 @@ namespace AutomationTestsForGUI
             Assert.IsTrue(driver.FindElementById("meta").GetAttribute("name").Equals("Answer Question"));
             Thread.Sleep(2 * 1000);
 
+
+
             driver.Close();
 
         }
