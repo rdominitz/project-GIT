@@ -32,7 +32,7 @@ namespace communication.Controllers
                 return RedirectToAction("Index", "Main");
             }
             ViewBag.errorMessage = ans.Item1;
-            return RedirectToAction("Index", "Register", new { message = ans.Item1 });
+            return View("index");
         }
 
         private string convert(string level)

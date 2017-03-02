@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Login";
 }
-
+<meta id="meta" name="@ViewBag.Title" />
 <div class="cen col-md-offset-4">
     <h2>Login</h2>
     @if (@ViewBag.message != null)
@@ -30,7 +30,7 @@
             </label>
         </div>
         <button type="submit" class="btn btn-primary btn-block" id="submit" style="width: 280px;">Login</button>
-        <button type="button" class="btn btn-primary btn-block" style="width: 280px;" onclick="location.href='@Url.Action("Index", "Register")'">Register</button>
-        <button type="button" class="btn btn-primary btn-block" style="width: 280px;" onclick="location.href='@Url.Action("Index", "Forgot")'">Forgot Password</button>
+        <button type="button" class="btn btn-primary btn-block" id="register" style="width: 280px;" onclick="location.href='@Url.Action("Index", "Register")'">Register</button>
+        <button type="button" class="btn btn-primary btn-block" id="forgot" style="width: 280px;" onclick="location.href='@Url.Action("Index", "Forgot")'">Forgot Password</button>
     </form>
 </div>

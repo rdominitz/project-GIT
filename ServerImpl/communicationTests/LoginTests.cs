@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AutomationTestsForGUI
+namespace communicationTests
 {
     [TestClass]
-    public class UnitTest1
+    public class LoginTests
     {
         [TestMethod]
         public void TestMethod1()

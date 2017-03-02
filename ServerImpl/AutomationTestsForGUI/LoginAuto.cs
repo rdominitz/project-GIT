@@ -24,9 +24,7 @@ namespace AutomationTestsForGUI
         private Process _iisProcess;
         private string baseURL = "http://localhost:9153/";
         private RemoteWebDriver driver;
-        private string browser;
         public TestContext TestContext { get; set; }
-        private IServer _server;
         private void StartIIS()
         {
             var applicationPath = GetApplicationPath("communication");
@@ -34,7 +32,7 @@ namespace AutomationTestsForGUI
 
             _iisProcess = new Process();
             _iisProcess.StartInfo.FileName = programFiles + @"\IIS Express\iisexpress.exe";
-            _iisProcess.StartInfo.Arguments = string.Format("/path:{0}/port:{1}",  applicationPath, "2020");
+            _iisProcess.StartInfo.Arguments = string.Format("/path:{0}/{1}",  applicationPath, "2020");
             _iisProcess.Start();
         }
 
@@ -59,8 +57,8 @@ namespace AutomationTestsForGUI
         public void TestInitialize()
         {
             // Start IISExpress
-         //   StartIIS();
-          //  Thread.Sleep(70 * 1000);
+            //StartIIS();
+            //Thread.Sleep(70 * 1000);
 
             
         }
@@ -103,8 +101,31 @@ namespace AutomationTestsForGUI
             driver.FindElementById("email").SendKeys("user@gmail.com");
             driver.FindElementById("password").Clear();
             driver.FindElementById("password").SendKeys("password");
+            Thread.Sleep(3 * 1000);
             driver.FindElementById("submit").Click();
             Assert.IsTrue(driver.FindElementById("meta").GetAttribute("name").Equals("Main"));
+            Thread.Sleep(3 * 1000);
+            driver.Close();
+
+        }
+
+        [TestMethod]
+        [TestCategory("Selenium")]
+        public void LoginFail_Test()
+        {
+            driver = new ChromeDriver();
+            driver.Manage().Window.Maximize();
+            driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(30));
+            driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(30));
+            driver.Navigate().GoToUrl(this.baseURL);
+            driver.FindElementById("email").Clear();
+            driver.FindElementById("email").SendKeys("user@gmail.com");
+            driver.FindElementById("password").Clear();
+            driver.FindElementById("password").SendKeys("something");
+            Thread.Sleep(3 * 1000);
+            driver.FindElementById("submit").Click();
+            Assert.IsFalse(driver.FindElementById("meta").GetAttribute("name").Equals("Main"));
+            Thread.Sleep(2 * 1000);
             driver.Close();
 
         }
