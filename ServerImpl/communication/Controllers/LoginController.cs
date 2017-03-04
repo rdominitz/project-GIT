@@ -34,6 +34,7 @@ namespace communication.Controllers
                 //var json = JsonConvert.SerializeObject(ans.Item2);
                 HttpCookie userCookie = new HttpCookie("userId", ans.Item2.ToString());
                 Response.SetCookie(userCookie);
+                //return View("main/index");
                 return RedirectToAction("Index", "Main");
             }
             ViewBag.errorMessage = ans.Item1;
