@@ -21,7 +21,7 @@ namespace ServerLogicTests
         [TestMethod]
         public void registrationSuccessful()
         {
-            Tuple<string, int> t = _server.register("user@gmail.com", "password", Users.medicalTrainingLevels[0], "first name", "last name");
+            Tuple<string, int> t = _server.register("newuser@gmail.com", "password", Users.medicalTrainingLevels[0], "first name", "last name");
             Assert.IsTrue(t.Item1.Equals(Replies.SUCCESS));
             Assert.IsTrue(t.Item2 != -1);
         }

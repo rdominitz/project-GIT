@@ -66,7 +66,7 @@ namespace Server
             //setSubjectsAndTopics();
             Thread removeUsersThread = new Thread(new ThreadStart(removeNonActiveUsers));
             removeUsersThread.Start();
-            Thread.Sleep(1 * 60 * 1000);
+            //Thread.Sleep(1 * 60 * 1000);
             User u = new User
             {
                 uniqueInt = _userUniqueInt,
