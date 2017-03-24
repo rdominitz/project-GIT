@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "delete group";
+}
+
+
+@model IEnumerable<communication.Models.Group.GroupData>
+<meta id="meta" name="@ViewBag.Title" />
+
+<div class="cen col-md-offset-4">
+    <form id="createGroupForm" method="POST" action="/DeleteGroup/submit">
+        <div class="form-group">
+            <br />
+            <h2>Select group to delete</h2>
+            <br />
+            @if (@ViewBag.message != null)
+            {
+                <script>
+                    alert("@ViewBag.message");
+                </script>
+            }
+            <label for="groupName" class="control-label">Group Name</label>
+            <select id="groupName" name="groupName" class="form-control" value="">
+                @foreach (var group in Model)
+                {
+                    <option value="@group.key">@group.key</option>
+                }
+            </select>
+
+            <br />
+
+
+
+            <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Delete</button>
+        </div>
+    </form>
+</div>

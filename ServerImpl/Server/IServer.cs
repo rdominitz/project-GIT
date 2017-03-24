@@ -129,5 +129,13 @@ namespace Server
         bool isLoggedIn(int userUniqueInt);
 
         string getUserName(int userUniqueInt);
+
+        string createGroup(string groupName, string inviteEmails, string emailContent);
+
+        string addToGroup(string groupName, string inviteEmails, string emailContent);
+
+        List<string> getAllAdminsGroups(int adminId);
+
+        string deleteGroup(string groupName);
     }
 }

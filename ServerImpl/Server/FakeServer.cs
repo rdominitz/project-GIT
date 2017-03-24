@@ -178,5 +178,25 @@ namespace Server
         {
             throw new NotImplementedException();
         }
+
+        public string createGroup(string groupName, string inviteEmails, string emailContent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string addToGroup(string groupName, string inviteEmails, string emailContent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> getAllAdminsGroups(int adminId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string deleteGroup(string groupName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

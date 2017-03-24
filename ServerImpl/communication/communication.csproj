@@ -233,7 +233,10 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AddToExistGroupController.cs" />
     <Compile Include="Controllers\AnswerQuestionController.cs" />
+    <Compile Include="Controllers\CreateGroupController.cs" />
+    <Compile Include="Controllers\DeleteGroupController.cs" />
     <Compile Include="Controllers\ForgotController.cs" />
     <Compile Include="Controllers\GetQuestionController.cs" />
     <Compile Include="Controllers\GetTestController.cs" />
@@ -246,6 +249,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Group\GroupData.cs" />
     <Compile Include="Models\GetQuestion\GetQuestionData.cs" />
     <Compile Include="Models\GetTest\GetTestData.cs" />
     <Compile Include="Models\ShowAnswers\ShowAnswersData.cs" />
@@ -271,6 +275,9 @@
     <Content Include="Views\Forgot\index.cshtml" />
     <Content Include="Views\GetTest\index.cshtml" />
     <Content Include="Views\ShowAnswers\Index.cshtml" />
+    <Content Include="Views\CreateGroup\index.cshtml" />
+    <Content Include="Views\AddToExistGroup\index.cshtml" />
+    <Content Include="Views\deleteGroup\index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

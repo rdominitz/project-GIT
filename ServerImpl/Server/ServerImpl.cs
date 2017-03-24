@@ -829,6 +829,28 @@ namespace Server
             updateUserLastActionTime(user);
             return user.userFirstName + " " + user.userLastName;
         }
+        public string createGroup(string groupName, string inviteEmails, string emailContent)
+        {
+            return "temp";
+        }
+
+        public string addToGroup(string groupName, string inviteEmails, string emailContent)
+        {
+            return "temp";
+        }
+
+        public List<string> getAllAdminsGroups(int adminId) 
+        {
+            List<string> adminsGroups= new List<string>();
+            adminsGroups.Add("test1");
+            adminsGroups.Add("test2");
+            return adminsGroups;
+        }
+
+        public string deleteGroup(string groupName) 
+        {
+            return "";
+        }
 
         private User getUserByInt(int userUniqueInt)
         {
@@ -853,5 +875,7 @@ namespace Server
                 _usersCache.RemoveAt(0);
             }
         }
+
+
     }
 }
