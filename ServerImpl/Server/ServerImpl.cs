@@ -852,6 +852,12 @@ namespace Server
             return "";
         }
 
+        public string createTest(string testName, string subject, string topics, int numberOfQuestions, int numberOfNormalQuestions)
+        {
+            return "";
+        }
+
+
         private User getUserByInt(int userUniqueInt)
         {
             List<User> matches = _usersCache.Where(u => u.uniqueInt.Equals(userUniqueInt)).ToList();

@@ -12,7 +12,11 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap-tokenfield/bootstrap-tokenfield.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap-tokenfield/tokenfield-typeahead.css" rel="stylesheet" type="text/css" />
-
+    <link rel="stylesheet" href="Content/bootstrap.min.css" type="text/css" />
+    <script type="text/javascript" src="scripts/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="scripts/bootstrap-3.3.2.min.js"></script>
+    <link rel="stylesheet" href="Content/bootstrap-multiselect.css" type="text/css" />
+    <script type="text/javascript" src="scripts/bootstrap-multiselect.js"></script> 
 </head>
 
 <body>
@@ -28,9 +32,6 @@
                 else
                 {
                     @Html.ActionLink("Main page", "Index", "Login", new { area = "" }, new { @class = "navbar-brand" })                }
-
-
-               
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -41,9 +42,7 @@
     <div class="container body-content">
         <div class="container">
                 @RenderBody()
-        </div>
-        <hr />   
+        </div> 
     </div>
-   
 </body>
 </html>

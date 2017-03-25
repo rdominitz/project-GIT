@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "Create Test";
+}
+
+@model IEnumerable<communication.Models.GetTest.GetTestData>
+<meta id="meta" name="@ViewBag.Title" />
+
+<div class="cen col-md-offset-4">
+    <form id="createGroupForm" method="POST" action="/CreateTest/submit">
+        <div class="form-group">
+            <br />
+            <h2>Create a test</h2>
+            <br />
+            @if (@ViewBag.message != null)
+            {
+                <script>
+                    alert("@ViewBag.message");
+                </script>
+            }
+            <label for="testName" class="control-label">Test Name</label>
+            <input type="text" class="form-control" name="testName" id="testName" value="@ViewBag.testName" required title="Please enter test name" placeholder="Test name">
+
+            <br/>
+            <label for="subject" class="control-label">Subject</label>
+            <select id="subject" name="subject" class="form-control" onchange="giveSelection(this.value)">
+                @foreach (var subject in Model)
+                {
+                    <option value="@subject.key">@subject.key</option>
+                }
+            </select>
+            <br />
+            <label for="topic" class="control-label">Topics</label>
+            <br/>
+            <select id="topic" name="topic" class="form-control" multiple="multiple" value="">
+                @foreach (var subject in Model)
+                {
+                    foreach (var topic in subject.vals)
+                    {
+                        <option data-option="@subject.key" value="@topic">@topic</option>
+                    }
+                }
+            </select>
+            
+           <!-- <script type="text/javascript">
+                $(function () {
+                    $('#topic').multiselect({
+                        includeSelectAllOption: true
+                    });
+                });
+            </script>-->
+
+            <br />
+
+            <label for="numberOfQuestions" class="control-label">Number of questions</label>
+            <input type="number" class="form-control" name="numberOfQuestions" id="numberOfQuestions" value="@ViewBag.numberOfQuestions" required title="Please enter number of questions" placeholder="Number of questions">
+            <br />
+            <label for="numberOfNormalQuestions" class="control-label">Number of normal diagnosis questions</label>
+            <input type="number" class="form-control" name="numberOfNormalQuestions" id="numberOfNormalQuestions" value="@ViewBag.numberOfNormalQuestions" required title="Please enter number of normal diagnosis questions" placeholder="Number of normal diagnosis questions">
+            <br />
+
+            <script type="text/javascript">
+                var sel1 = document.querySelector('#subject');
+                var sel2 = document.querySelector('#topic');
+                var options2 = sel2.querySelectorAll('option');
+
+                function giveSelection(selValue) {
+                    sel2.innerHTML = '';
+                    for (var i = 0; i < options2.length; i++) {
+                        if (options2[i].dataset.option === selValue) {
+                            sel2.appendChild(options2[i]);
+                        }
+                    }
+                }
+
+                giveSelection(sel1.value);
+            </script>
+
+            <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Next step</button>
+        </div>
+    </form>
+</div>

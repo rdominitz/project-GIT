@@ -198,5 +198,9 @@ namespace Server
         {
             throw new NotImplementedException();
         }
+        public string createTest(string testName, string subject, string topics, int numberOfQuestions, int numberOfNormalQuestions)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

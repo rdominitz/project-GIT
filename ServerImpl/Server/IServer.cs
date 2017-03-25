@@ -137,5 +137,7 @@ namespace Server
         List<string> getAllAdminsGroups(int adminId);
 
         string deleteGroup(string groupName);
+
+        string createTest(string testName, string subject, string topics, int numberOfQuestions, int numberOfNormalQuestions);
     }
 }

@@ -167,6 +167,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-multiselect.css" />
     <Content Include="Content\bootstrap-tokenfield\bootstrap-tokenfield.css" />
     <Content Include="Content\bootstrap-tokenfield\tokenfield-typeahead.css" />
     <Content Include="Content\bootstrap.css" />
@@ -227,6 +228,9 @@
     <Content Include="Images\q8_35_PA.png" />
     <Content Include="Images\q9_37_Lat.png" />
     <Content Include="Images\q9_37_PA.png" />
+    <Content Include="scripts\bootstrap-3.3.2.min.js" />
+    <Content Include="scripts\bootstrap-multiselect.js" />
+    <Content Include="scripts\jquery-2.1.3.min.js" />
     <Content Include="scripts\jquery.tokenize.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -236,6 +240,7 @@
     <Compile Include="Controllers\AddToExistGroupController.cs" />
     <Compile Include="Controllers\AnswerQuestionController.cs" />
     <Compile Include="Controllers\CreateGroupController.cs" />
+    <Compile Include="Controllers\CreateTestController.cs" />
     <Compile Include="Controllers\DeleteGroupController.cs" />
     <Compile Include="Controllers\ForgotController.cs" />
     <Compile Include="Controllers\GetQuestionController.cs" />
@@ -278,6 +283,7 @@
     <Content Include="Views\CreateGroup\index.cshtml" />
     <Content Include="Views\AddToExistGroup\index.cshtml" />
     <Content Include="Views\deleteGroup\index.cshtml" />
+    <Content Include="Views\CreateTest\index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
