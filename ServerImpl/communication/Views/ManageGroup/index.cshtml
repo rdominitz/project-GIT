@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "delete group";
+    ViewBag.Title = "Manage group";
 }
 
 
@@ -7,10 +7,10 @@
 <meta id="meta" name="@ViewBag.Title" />
 
 <div class="cen col-md-offset-4">
-    <form id="createGroupForm" method="POST" action="/DeleteGroup/submit">
+    <form id="createGroupForm" method="POST" action="/ManageGroup/submit">
         <div class="form-group">
             <br />
-            <h2>Select group to delete</h2>
+            <h2>Select a group</h2>
             <br />
             @if (@ViewBag.message != null)
             {
@@ -24,13 +24,16 @@
                 {
                     <option value="@group.key">@group.key</option>
                 }
+                @ViewBag.group=this.value
             </select>
-
+            
             <br />
 
 
 
             <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Delete</button>
+            <button type="submit" name="addToExistGroup" class="btn btn-primary btn-block" style="width: 280px;"  id="test" onclick="location.href='@Url.Action("Index", "AddToExistGroup", @ViewBag.group)'">Invite to group</button>
+
         </div>
     </form>
 </div>

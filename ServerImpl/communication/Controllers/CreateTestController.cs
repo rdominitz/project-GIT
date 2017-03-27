@@ -57,11 +57,9 @@ namespace communication.Controllers
             ViewBag.testName = testName;
             ViewBag.subject = subject;
             ViewBag.topics = topics;
-            //ViewBag.numberOfQuestions = numberOfQuestions;
-            //ViewBag.numberOfNormalQuestions = numberOfNormalQuestions;
 
 
-            string ans = ServerWiring.getInstance().createTest(0, testName, subject, topics);                
+            string ans = ServerWiring.getInstance().createTest(Convert.ToInt32(cookie.Value), testName, subject, topics);                
             if (ans == Replies.SUCCESS)
             {
                 // redirect to chose questions 

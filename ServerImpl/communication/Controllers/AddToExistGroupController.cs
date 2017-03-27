@@ -13,16 +13,16 @@ namespace communication.Controllers
     {
         // GET: AddToExistGroup
         [HttpGet]
-        public ActionResult Index(string message)
+        public ActionResult Index(string group)
         {
             HttpCookie cookie = Request.Cookies["userId"];
             if (cookie == null)
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-            ViewBag.message = message;
+            ViewBag.group = group;
             
-            return View(getData(Convert.ToInt32(cookie.Value)));
+            return View();
         }
 
         [HttpPost]
@@ -38,7 +38,7 @@ namespace communication.Controllers
             ViewBag.inviteEmails = inviteEmails;
             ViewBag.emailContent = emailContent;
 
-            string ans = ServerWiring.getInstance().addToGroup(0, groupName, inviteEmails, emailContent);
+            string ans = ServerWiring.getInstance().addToGroup(Convert.ToInt32(cookie.Value), groupName, inviteEmails, emailContent);
             if (ans.Equals(Replies.SUCCESS))
             {
                 return RedirectToAction("Index", "Main");

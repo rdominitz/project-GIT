@@ -9,9 +9,9 @@ using System.Web.Mvc;
 
 namespace communication.Controllers
 {
-    public class DeleteGroupController : Controller
+    public class ManageGroupController : Controller
     {
-        // GET: deleteGroup
+        // GET: manageGroup
         [HttpGet]
         public ActionResult Index(string message)
         {
@@ -37,12 +37,12 @@ namespace communication.Controllers
             ViewBag.groupName = groupName;
 
 
-            string ans = ServerWiring.getInstance().deleteGroup(0, groupName);
+            string ans = ServerWiring.getInstance().deleteGroup(Convert.ToInt32(cookie.Value), groupName);
             if (ans.Equals(Replies.SUCCESS))
             {
                 return RedirectToAction("Index", "Main");
             }
-            return RedirectToAction("Index", "DeleteGroup", new { message = ans });
+            return RedirectToAction("Index", "ManageGroup", ViewBag.groupName);
         }
 
         List<GroupData> getData(int adminId)
