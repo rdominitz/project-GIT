@@ -179,12 +179,12 @@ namespace Server
             throw new NotImplementedException();
         }
 
-        public string createGroup(string groupName, string inviteEmails, string emailContent)
+        public string createGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent)
         {
             throw new NotImplementedException();
         }
 
-        public string addToGroup(string groupName, string inviteEmails, string emailContent)
+        public string addToGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent)
         {
             throw new NotImplementedException();
         }
@@ -194,11 +194,11 @@ namespace Server
             throw new NotImplementedException();
         }
 
-        public string deleteGroup(string groupName)
+        public string deleteGroup(int userUniqueInt, string groupName)
         {
             throw new NotImplementedException();
         }
-        public string createTest(string testName, string subject, string topics, int numberOfQuestions, int numberOfNormalQuestions)
+        public string createTest(int userUniqueInt, string testName, string subject, string topics)
         {
             throw new NotImplementedException();
         }

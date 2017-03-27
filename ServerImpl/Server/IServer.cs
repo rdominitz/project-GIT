@@ -130,14 +130,14 @@ namespace Server
 
         string getUserName(int userUniqueInt);
 
-        string createGroup(string groupName, string inviteEmails, string emailContent);
+        string createGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent);
 
-        string addToGroup(string groupName, string inviteEmails, string emailContent);
+        string addToGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent);
 
         List<string> getAllAdminsGroups(int adminId);
 
-        string deleteGroup(string groupName);
+        string deleteGroup(int userUniqueInt, string groupName);
 
-        string createTest(string testName, string subject, string topics, int numberOfQuestions, int numberOfNormalQuestions);
+        string createTest(int userUniqueInt, string testName, string subject, string topics);
     }
 }

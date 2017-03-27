@@ -32,7 +32,7 @@ namespace communication.Controllers
             ViewBag.inviteEmails=inviteEmails;
             ViewBag.emailContent=emailContent;
 
-            string ans = ServerWiring.getInstance().createGroup(groupName, inviteEmails, emailContent);
+            string ans = ServerWiring.getInstance().createGroup(0, groupName, inviteEmails, emailContent);
             if (ans.Equals(Replies.SUCCESS))
             {
                 //show messege  "Group created successfully"

@@ -37,7 +37,7 @@ namespace communication.Controllers
             ViewBag.groupName = groupName;
 
 
-            string ans = ServerWiring.getInstance().deleteGroup(groupName);
+            string ans = ServerWiring.getInstance().deleteGroup(0, groupName);
             if (ans.Equals(Replies.SUCCESS))
             {
                 return RedirectToAction("Index", "Main");

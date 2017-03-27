@@ -62,11 +62,11 @@ namespace Server
             syncLockQuestionId = new object();
             _groupID = 1;
             _testID = 1;
+            Thread.Sleep(1 * 60 * 1000);
             _subjectsTopics = new Dictionary<string, List<string>>();
-            //setSubjectsAndTopics();
+            setSubjectsAndTopics();
             Thread removeUsersThread = new Thread(new ThreadStart(removeNonActiveUsers));
             removeUsersThread.Start();
-            //Thread.Sleep(1 * 60 * 1000);
             User u = new User
             {
                 uniqueInt = _userUniqueInt,
@@ -829,12 +829,12 @@ namespace Server
             updateUserLastActionTime(user);
             return user.userFirstName + " " + user.userLastName;
         }
-        public string createGroup(string groupName, string inviteEmails, string emailContent)
+        public string createGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent)
         {
             return "temp";
         }
 
-        public string addToGroup(string groupName, string inviteEmails, string emailContent)
+        public string addToGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent)
         {
             return "temp";
         }
@@ -847,12 +847,12 @@ namespace Server
             return adminsGroups;
         }
 
-        public string deleteGroup(string groupName) 
+        public string deleteGroup(int userUniqueInt, string groupName) 
         {
             return "";
         }
 
-        public string createTest(string testName, string subject, string topics, int numberOfQuestions, int numberOfNormalQuestions)
+        public string createTest(int userUniqueInt, string testName, string subject, string topics)
         {
             return "";
         }

@@ -57,14 +57,14 @@ namespace communication.Controllers
             ViewBag.testName = testName;
             ViewBag.subject = subject;
             ViewBag.topics = topics;
-            ViewBag.numberOfQuestions = numberOfQuestions;
-            ViewBag.numberOfNormalQuestions = numberOfNormalQuestions;
+            //ViewBag.numberOfQuestions = numberOfQuestions;
+            //ViewBag.numberOfNormalQuestions = numberOfNormalQuestions;
 
 
-            string ans = ServerWiring.getInstance().createTest(testName, subject, topics, numberOfQuestions, numberOfNormalQuestions);                
+            string ans = ServerWiring.getInstance().createTest(0, testName, subject, topics);                
             if (ans == Replies.SUCCESS)
             {
-               //redirect to chose questions 
+                // redirect to chose questions 
                 return RedirectToAction("Index", "Main");
             }
 

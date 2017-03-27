@@ -38,7 +38,7 @@ namespace communication.Controllers
             ViewBag.inviteEmails = inviteEmails;
             ViewBag.emailContent = emailContent;
 
-            string ans = ServerWiring.getInstance().addToGroup(groupName, inviteEmails, emailContent);
+            string ans = ServerWiring.getInstance().addToGroup(0, groupName, inviteEmails, emailContent);
             if (ans.Equals(Replies.SUCCESS))
             {
                 return RedirectToAction("Index", "Main");
