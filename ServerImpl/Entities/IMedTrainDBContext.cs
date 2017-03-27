@@ -48,5 +48,12 @@ namespace Entities
         void addUserLevel(UserLevel ul);
         UserLevel getUserLevel(string UserId, string subject, string topic);
         void updateUserLevel(UserLevel ul);
+
+        void addGroup(Group g);
+        Group getGroup(string adminId, string groupName);
+        void removeGroup(Group g);
+        List<Group> getAdminsGroups(string adminId);
+
+        void addGroupMember(GroupMember gm);
     }
 }

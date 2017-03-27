@@ -10,11 +10,9 @@ namespace Entities
 {
     public class Group
     {
-        [Key]
-        public int GroupId { get; set; }
-        [Required]
+        [Key, Column(Order = 1)]
         public string AdminId { get; set; }
-        [Required]
+        [Key, Column(Order = 2)]
         public string name { get; set; }
     }
 }

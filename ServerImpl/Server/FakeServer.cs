@@ -184,17 +184,17 @@ namespace Server
             throw new NotImplementedException();
         }
 
-        public string addToGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent)
+        public string inviteToGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent)
         {
             throw new NotImplementedException();
         }
 
-        public List<string> getAllAdminsGroups(int adminId)
+        public Tuple<string, List<string>> getAllAdminsGroups(int userUniqueInt)
         {
             throw new NotImplementedException();
         }
 
-        public string deleteGroup(int userUniqueInt, string groupName)
+        public string removeGroup(int userUniqueInt, string groupName)
         {
             throw new NotImplementedException();
         }

@@ -22,6 +22,8 @@ namespace Entities
         private List<DiagnosisCertainty> _diagnosesCertainties;
         private List<UserLevelAnswer> _usersLevelsWhenAnswering;
         private List<UserLevel> _usersLevels;
+        private List<Group> _groups;
+        private List<GroupMember> _groupsMembers;
 
         public FakeMedTrainDBContext()
         {
@@ -36,6 +38,8 @@ namespace Entities
             _diagnosesCertainties = new List<DiagnosisCertainty>();
             _usersLevelsWhenAnswering = new List<UserLevelAnswer>();
             _usersLevels = new List<UserLevel>();
+            _groups = new List<Group>();
+            _groupsMembers = new List<GroupMember>();
         }
 
         //public IDbSet<Test> Tests { get; set; }
@@ -171,10 +175,12 @@ namespace Entities
         #region image
         public void addImage(Image i)
         {
-            if (_images.Where(image => image.ImageId.Equals(i.ImageId) && image.QuestionId == i.QuestionId).Count() == 0)
+            if (_questions.Where(q => q.QuestionId == i.QuestionId).Count() == 0 || 
+                _images.Where(image => image.ImageId.Equals(i.ImageId) && image.QuestionId == i.QuestionId).Count() != 0)
             {
-                _images.Add(i);
+                return;
             }
+            _images.Add(i);
         }
 
         public List<Image> getQuestionImages(int qId)
@@ -241,6 +247,43 @@ namespace Entities
         public void updateUserLevel(UserLevel ul)
         {
             // nothing for now, probabely the same as update question
+        }
+        #endregion
+        #region group
+        public void addGroup(Group g)
+        {
+            if (_groups.Where(group => group.AdminId.Equals(g.AdminId) && group.name.Equals(g.name)).Count() == 0)
+            {
+                _groups.Add(g);
+            }
+        }
+
+        public Group getGroup(string adminId, string groupName)
+        {
+            List<Group> matches = _groups.Where(g => g.AdminId.Equals(adminId) && g.name.Equals(groupName)).ToList();
+            return matches.Count == 1 ? matches[0] : null;
+        }
+
+        public void removeGroup(Group g)
+        {
+            _groups.Remove(g);
+        }
+
+        public List<Group> getAdminsGroups(string adminId)
+        {
+            return _groups.Where(g => g.AdminId.Equals(adminId)).ToList();
+        }
+        #endregion
+        #region group member
+        public void addGroupMember(GroupMember gm)
+        {
+            if (_groups.Where(g => g.AdminId.Equals(gm.AdminId) && g.name.Equals(gm.GroupName)).Count() == 0 || 
+                _groupsMembers.Where(groupMember => groupMember.AdminId.Equals(gm.AdminId) && groupMember.GroupName.Equals(gm.GroupName) && groupMember.UserId.Equals(gm.UserId)).Count() != 0)
+            {
+                return;
+            }
+            _groupsMembers.Add(gm);
+            SaveChanges();
         }
         #endregion
     }

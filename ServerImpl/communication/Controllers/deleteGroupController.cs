@@ -37,7 +37,7 @@ namespace communication.Controllers
             ViewBag.groupName = groupName;
 
 
-            string ans = ServerWiring.getInstance().deleteGroup(0, groupName);
+            string ans = ServerWiring.getInstance().removeGroup(0, groupName);
             if (ans.Equals(Replies.SUCCESS))
             {
                 return RedirectToAction("Index", "Main");
@@ -48,8 +48,9 @@ namespace communication.Controllers
         List<GroupData> getData(int adminId)
         {
             List<GroupData> data = new List<GroupData>();
-            List<string> groups = ServerWiring.getInstance().getAllAdminsGroups(adminId);
-            foreach (string group in groups)
+            Tuple<string, List<string>> groups = ServerWiring.getInstance().getAllAdminsGroups(adminId);
+            // verify success
+            foreach (string group in groups.Item2)
             {
                 data.Add(new GroupData(group));
             }

@@ -12,6 +12,7 @@ namespace Server
 {
     public class ServerImpl : IServer
     {
+        private const string WEBSITE = "our website address";
         private const string GENERAL_INPUT_ERROR = "There is a null, the string \"null\" or an empty string as an input.";
         private const string INVALID_EMAIL = "Invalid eMail address.";
         private const string ILLEGAL_PASSWORD = "Illegal password. Password must be 5 to 15 characters long and consist of only letters and numbers.";
@@ -20,7 +21,8 @@ namespace Server
         private const string EMAIL_IN_USE = "This eMail address is already in use.";
         private const string USER_NOT_REGISTERED = "User is not registered.";
         private const string NOT_AN_ADMIN = "Error. only an admin has the required permissions to perform this action.";
-        private const string CERTAINTY_LEVEL_ERROR = "Error. Certainty levels must be between 1 to 10";
+        private const string CERTAINTY_LEVEL_ERROR = "Error. Certainty levels must be between 1 to 10.";
+        private const string NON_EXISTING_GROUP = "Error. You have not created a group with that name.";
         private const int USERS_CACHE_LIMIT = 1000;
         private const int HOURS_TO_LOGOUT = 1;
         private const int MILLISECONDS_TO_SLEEP = HOURS_TO_LOGOUT * 60 * 60 * 1000;
@@ -38,7 +40,7 @@ namespace Server
         private int _questionID;
         private readonly object syncLockQuestionId;
 
-        private int _groupID;
+        private readonly object syncLockGroup;
 
         private int _testID;
 
@@ -60,7 +62,7 @@ namespace Server
             syncLockUserUniqueInt = new object();
             _questionID = 1;
             syncLockQuestionId = new object();
-            _groupID = 1;
+            syncLockGroup = new object();
             _testID = 1;
             Thread.Sleep(_db.getMillisecondsToSleep());
             _subjectsTopics = new Dictionary<string, List<string>>();
@@ -126,11 +128,10 @@ namespace Server
                 new List<string>() { "../Images/q18_49_PA.png" }
             });
             #endregion
-            /*
             #region left pleural effusion
             Topic cxrLeftPleuralEffusion = new Topic { TopicId = "Left Pleural Effusion", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
             _db.addTopic(cxrLeftPleuralEffusion);
-            addQuestions(chestXRays, cxrLeftPleuralEffusion, new List<List<string>>() 
+            addQuestions(chestXRays, new List<Topic>() { cxrLeftPleuralEffusion }, new List<List<string>>() 
             {
                 new List<string>() { "../Images/q19_1_PA.png", "../Images/q19_1_lat.png" },
                 new List<string>() { "../Images/q20_3_PA.png" },
@@ -141,7 +142,7 @@ namespace Server
             #region median sternotomy
             Topic cxrMedianSternotomy = new Topic { TopicId = "Median Sternotomy", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
             _db.addTopic(cxrMedianSternotomy);
-            addQuestions(chestXRays, cxrLeftPleuralEffusion, new List<List<string>>() 
+            addQuestions(chestXRays, new List<Topic>() { cxrLeftPleuralEffusion }, new List<List<string>>() 
             {
                 new List<string>() { "../Images/q23_22_PA.png", "../Images/q23_22_Lat.png" },
                 new List<string>() { "../Images/q24_33_PA.png", "../Images/q24_33_Lat.png" },
@@ -152,7 +153,7 @@ namespace Server
             #region right middle lobe collapse
             Topic cxrRightMiddleLobeCollapse = new Topic { TopicId = "Right Middle Lobe Collapse", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
             _db.addTopic(cxrRightMiddleLobeCollapse);
-            addQuestions(chestXRays, cxrLeftPleuralEffusion, new List<List<string>>() 
+            addQuestions(chestXRays, new List<Topic>() { cxrLeftPleuralEffusion }, new List<List<string>>() 
             {
                 new List<string>() { "../Images/q27_4_PA.png" },
                 new List<string>() { "../Images/q28_13_PA.png", "../Images/q28_13_Lat.png" },
@@ -160,7 +161,6 @@ namespace Server
                 new List<string>() { "../Images/q30_51_PA.png", "../Images/q30_51_Lat.png" }
             });
             #endregion
-            */
             // add more questions
             #region add user
             User u = new User
@@ -177,9 +177,17 @@ namespace Server
             #endregion
             _subjectsTopics["Chest x-Rays"] = new List<string>() 
             { 
-                "Cavitary Lesion", "Interstitial opacities"/*, "Left Pleural Effusion",
-                "Median Sternotomy", "Right Middle Lobe Collapse"*/
+                "Cavitary Lesion", "Interstitial opacities", "Left Pleural Effusion",
+                "Median Sternotomy", "Right Middle Lobe Collapse"
             };
+            #region add group
+            Group g = new Group
+            {
+                AdminId = "defaultadmin@gmail.com",
+                name = "Test Group 1"
+            };
+            _db.addGroup(g);
+            #endregion
         }
 
         private void addQuestions(Subject s, List<Topic> diagnoses, List<List<string>> images)
@@ -829,27 +837,206 @@ namespace Server
             updateUserLastActionTime(user);
             return user.userFirstName + " " + user.userLastName;
         }
+
         public string createGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent)
         {
-            return "temp";
+            // check for illegal input values
+            List<string> input = new List<string>() { groupName };
+            if (!InputTester.isValidInput(input))
+            {
+                return GENERAL_INPUT_ERROR;
+            }
+            StringBuilder wrongEmails = new StringBuilder();
+            wrongEmails.Append("These email addresses are invalid:" + Environment.NewLine);
+            List<string> emails = getEmailsfromString(inviteEmails);
+            bool wrongEmail = false;
+            foreach (string email in emails)
+            {
+                if (!InputTester.isLegalEmail(email))
+                {
+                    wrongEmail = true;
+                    wrongEmails.Append(email + Environment.NewLine);
+                }
+            }
+            if (wrongEmail)
+            {
+                return wrongEmails.ToString();
+            }
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return NOT_LOGGED_IN;
+            }
+            updateUserLastActionTime(user);
+            // verify user is an admin
+            Admin admin = _db.getAdmin(user.UserId);
+            if (admin == null)
+            {
+                return NOT_AN_ADMIN;
+            }
+            lock (syncLockGroup)
+            {
+                Group group = _db.getGroup(admin.AdminId, groupName);
+                if (group != null)
+                {
+                    return "Error. You have already created a group with that name.";
+                }
+                Group g = new Group { AdminId = admin.AdminId, name = groupName };
+                _db.addGroup(g);
+            }
+            return inviteToGroup(userUniqueInt, groupName, inviteEmails, emailContent);
         }
 
-        public string addToGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent)
+        public string inviteToGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent)
         {
-            return "temp";
+            // check for illegal input values
+            List<string> input = new List<string>() { groupName };
+            if (!InputTester.isValidInput(input))
+            {
+                return GENERAL_INPUT_ERROR;
+            }
+            StringBuilder wrongEmails = new StringBuilder();
+            wrongEmails.Append("These email addresses are invalid:" + Environment.NewLine);
+            List<string> emails = getEmailsfromString(inviteEmails);
+            bool wrongEmail = false;
+            foreach (string email in emails)
+            {
+                if (!InputTester.isLegalEmail(email))
+                {
+                    wrongEmail = true;
+                    wrongEmails.Append(email + Environment.NewLine);
+                }
+            }
+            if (wrongEmail)
+            {
+                return wrongEmails.ToString();
+            }
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return NOT_LOGGED_IN;
+            }
+            updateUserLastActionTime(user);
+            // verify user is an admin
+            Admin admin = _db.getAdmin(user.UserId);
+            if (admin == null)
+            {
+                return NOT_AN_ADMIN;
+            }
+            lock (syncLockGroup)
+            {
+                if (_db.getGroup(admin.AdminId, groupName) == null)
+                {
+                    return NON_EXISTING_GROUP;
+                }
+                if (!InputTester.isValidInput(new List<string>() { emailContent }))
+                {
+                    StringBuilder content = new StringBuilder();
+                    content.Append("Hello," + Environment.NewLine + Environment.NewLine);
+                    content.Append("You have been invited by " + user.userFirstName + " " + user.userLastName + " to take part in his group: " + groupName + "." + Environment.NewLine);
+                    content.Append("In order to accept or decline the request, please visit " + WEBSITE + Environment.NewLine);
+                    content.Append("If you are not registered, please use this email address in order to register and view your invitation.");
+                    emailContent = content.ToString();
+                }
+                foreach (string email in emails)
+                {
+                    EmailSender.sendMail(email, "MedTrain Group Invitation", emailContent);
+                    GroupMember gm = new GroupMember { GroupName = groupName, AdminId = admin.AdminId, UserId = email, invitationAccepted = false };
+                    _db.addGroupMember(gm);
+                }
+            }
+            return Replies.SUCCESS;
         }
 
-        public List<string> getAllAdminsGroups(int adminId) 
+        private List<string> getEmailsfromString(string emails)
         {
-            List<string> adminsGroups= new List<string>();
-            adminsGroups.Add("test1");
-            adminsGroups.Add("test2");
-            return adminsGroups;
+            string[] eMails = emails.Split(',');
+            for (int i = 0; i < eMails.Length; i++)
+            {
+                string s = removeSpacesFromStart(eMails[i]);
+                s = removeSpacesFromEnd(s);
+                s = s.Substring(0, s.Length - 1);
+                s = removeSpacesFromEnd(s);
+                eMails[i] = s;
+            }
+            return eMails.ToList();
         }
 
-        public string deleteGroup(int userUniqueInt, string groupName) 
+        private string removeSpacesFromStart(string email)
         {
-            return "";
+            while (email.StartsWith(" "))
+            {
+                email = email.Substring(1);
+            }
+            return email;
+        }
+
+        private string removeSpacesFromEnd(string email)
+        {
+            while (email.EndsWith(" "))
+            {
+                email = email.Substring(1);
+            }
+            return email;
+        }
+
+        public Tuple<string, List<string>> getAllAdminsGroups(int userUniqueInt) 
+        {
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return new Tuple<string, List<string>>(NOT_LOGGED_IN, null);
+            }
+            updateUserLastActionTime(user);
+            // verify user is an admin
+            Admin admin = _db.getAdmin(user.UserId);
+            if (admin == null)
+            {
+                return new Tuple<string, List<string>>(NOT_AN_ADMIN, null);
+            }
+            List<Group> groups = _db.getAdminsGroups(admin.AdminId);
+            List<string> adminsGroups = new List<string>();
+            foreach (Group g in groups)
+            {
+                adminsGroups.Add(g.name);
+            }
+            return new Tuple<string, List<string>>(Replies.SUCCESS, adminsGroups);
+        }
+
+        public string removeGroup(int userUniqueInt, string groupName) 
+        {
+            // check for illegal input values
+            List<string> input = new List<string>() { groupName };
+            if (!InputTester.isValidInput(input))
+            {
+                return GENERAL_INPUT_ERROR;
+            }
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return NOT_LOGGED_IN;
+            }
+            updateUserLastActionTime(user);
+            // verify user is an admin
+            Admin admin = _db.getAdmin(user.UserId);
+            if (admin == null)
+            {
+                return NOT_AN_ADMIN;
+            }
+            lock (syncLockGroup)
+            {
+                Group g = _db.getGroup(admin.AdminId, groupName);
+                if (g == null)
+                {
+                    return NON_EXISTING_GROUP;
+                }
+                _db.removeGroup(g);
+            }
+            return Replies.SUCCESS;
         }
 
         public string createTest(int userUniqueInt, string testName, string subject, string topics)

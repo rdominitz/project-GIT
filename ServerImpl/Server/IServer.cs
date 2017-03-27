@@ -132,11 +132,11 @@ namespace Server
 
         string createGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent);
 
-        string addToGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent);
+        string inviteToGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent);
 
-        List<string> getAllAdminsGroups(int adminId);
+        Tuple<string, List<string>> getAllAdminsGroups(int userUniqueInt);
 
-        string deleteGroup(int userUniqueInt, string groupName);
+        string removeGroup(int userUniqueInt, string groupName);
 
         string createTest(int userUniqueInt, string testName, string subject, string topics);
     }

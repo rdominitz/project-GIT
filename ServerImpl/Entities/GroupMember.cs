@@ -11,8 +11,10 @@ namespace Entities
     public class GroupMember
     {
         [Key, Column(Order = 1)]
-        public int GroupId { get; set; }
+        public string GroupName { get; set; }
         [Key, Column(Order = 2)]
+        public string AdminId { get; set; }
+        [Key, Column(Order = 3)]
         public string UserId { get; set; }
         [Required]
         public bool invitationAccepted { get; set; }

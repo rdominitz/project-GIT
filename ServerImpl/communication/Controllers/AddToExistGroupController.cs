@@ -38,7 +38,7 @@ namespace communication.Controllers
             ViewBag.inviteEmails = inviteEmails;
             ViewBag.emailContent = emailContent;
 
-            string ans = ServerWiring.getInstance().addToGroup(0, groupName, inviteEmails, emailContent);
+            string ans = ServerWiring.getInstance().inviteToGroup(0, groupName, inviteEmails, emailContent);
             if (ans.Equals(Replies.SUCCESS))
             {
                 return RedirectToAction("Index", "Main");
@@ -49,8 +49,9 @@ namespace communication.Controllers
         List<GroupData> getData(int adminId)
         {
             List<GroupData> data = new List<GroupData>();
-            List<string> groups = ServerWiring.getInstance().getAllAdminsGroups(adminId);
-            foreach (string group in groups)
+            Tuple<string, List<string>> groups = ServerWiring.getInstance().getAllAdminsGroups(adminId);
+            // verify success
+            foreach (string group in groups.Item2)
             {
                 data.Add(new GroupData(group));
             }

@@ -78,8 +78,9 @@ namespace QALogic
                 }
                 levelDiff++;
             }
+            int temp2 = levelDiff;
             levelDiff = temp;
-            while (normal.Count + abnormal.Count < numOfQuestions)
+            while (normal.Count + abnormal.Count < numOfQuestions && normalQuestions.Count != 0)
             {
                 foreach (Question q in normalQuestions)
                 {
@@ -92,6 +93,23 @@ namespace QALogic
                 foreach (Question q in normal)
                 {
                     normalQuestions.Remove(q);
+                }
+                levelDiff++;
+            }
+            levelDiff = temp2;
+            while (normal.Count + abnormal.Count < numOfQuestions && questions.Count != 0)
+            {
+                foreach (Question q in questions)
+                {
+                    if (q.level == uLvl.level - levelDiff || q.level == uLvl.level + levelDiff)
+                    {
+                        abnormal.Add(q);
+                        chooseFrom.Add(q);
+                    }
+                }
+                foreach (Question q in abnormal)
+                {
+                    questions.Remove(q);
                 }
                 levelDiff++;
             }

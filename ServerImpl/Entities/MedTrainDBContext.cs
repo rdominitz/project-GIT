@@ -40,6 +40,7 @@ namespace Entities
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
         }
 
         public int getMillisecondsToSleep()
@@ -298,6 +299,47 @@ namespace Entities
         public void updateUserLevel(UserLevel ul)
         {
             Entry(ul).State = System.Data.Entity.EntityState.Modified;
+            SaveChanges();
+        }
+        #endregion
+        #region group
+        public void addGroup(Group g)
+        {
+            if (Admins.Find(g.AdminId) == null || Groups.Find(g.AdminId, g.name) != null)
+            {
+                return;
+            }
+            Groups.Add(g);
+            SaveChanges();
+        }
+
+        public Group getGroup(string adminId, string groupName)
+        {
+            return Groups.Find(adminId, groupName);
+        }
+
+        public void removeGroup(Group g)
+        {
+            Groups.Remove(g);
+            SaveChanges();
+        }
+
+        public List<Group> getAdminsGroups(string adminId)
+        {
+            var query = from g in Groups
+                        where g.AdminId.Equals(adminId)
+                        select g;
+            return query.ToList();
+        }
+        #endregion
+        #region group member
+        public void addGroupMember(GroupMember gm)
+        {
+            if (Groups.Find(gm.AdminId, gm.GroupName) == null || GroupsMembers.Find(gm.AdminId, gm.GroupName, gm.UserId) != null)
+            {
+                return;
+            }
+            GroupsMembers.Add(gm);
             SaveChanges();
         }
         #endregion
