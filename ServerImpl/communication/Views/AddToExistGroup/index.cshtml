@@ -1,8 +1,6 @@
 ﻿@{
     ViewBag.Title = "Add To Exist Group";
 }
-@model IEnumerable<communication.Models.Group.GroupData>
-<meta id="meta" name="@ViewBag.Title" />
 
 <div class="cen col-md-offset-4">
     <form id="createGroupForm" method="POST" action="/AddToExistGroup/submit">
@@ -16,16 +14,7 @@
                     alert("@ViewBag.message");
                 </script>
             }
-            <label for="groupName" class="control-label">Group Name</label>        
-            <select id="groupName" name="groupName" class="form-control" value="">
-                @foreach (var group in Model)
-                {
-                    <option value="@group.key">@group.key</option>
-                }
-            </select>
             
-            <br />
-
             <label for="inviteEmails" class="control-label">Emails of invitees</label>
             <textarea rows="5" type="text" size="60" class="form-control" name="inviteEmails" id="inviteEmails" value="@ViewBag.inviteEmails" required title="Please enter invitees Emails" placeholder="Please separate email accounts with commas"></textarea>
             <br />
