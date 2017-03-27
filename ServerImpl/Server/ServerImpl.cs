@@ -62,7 +62,7 @@ namespace Server
             syncLockQuestionId = new object();
             _groupID = 1;
             _testID = 1;
-            Thread.Sleep(1 * 60 * 1000);
+            Thread.Sleep(_db.getMillisecondsToSleep());
             _subjectsTopics = new Dictionary<string, List<string>>();
             setSubjectsAndTopics();
             Thread removeUsersThread = new Thread(new ThreadStart(removeNonActiveUsers));

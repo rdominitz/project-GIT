@@ -8,6 +8,8 @@ namespace Entities
 {
     public interface IMedTrainDBContext
     {
+        int getMillisecondsToSleep();
+
         int SaveChanges();
         
         void addUser(User u);

@@ -43,6 +43,11 @@ namespace Entities
         //public IDbSet<UserGroupTest> UsersGroupsTests { get; set; }
         //public IDbSet<GroupTestAnswer> GroupsTestsQuestionsAnswers { get; set; }
         
+        public int getMillisecondsToSleep()
+        {
+            return 0;
+        }
+
         public override int SaveChanges()
         {
             return 0;

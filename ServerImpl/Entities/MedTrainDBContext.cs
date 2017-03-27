@@ -42,6 +42,11 @@ namespace Entities
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
         }
 
+        public int getMillisecondsToSleep()
+        {
+            return 1 * 60 * 1000;
+        }
+
         #region user
         public void addUser(User u)
         {
