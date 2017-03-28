@@ -22,8 +22,6 @@ namespace Entities
         [Required]
         public int level { get; set; }
         [Required]
-        public int timesAnswered { get; set; }
-        [Required]
-        public int timesAnsweredCorrectly { get; set; }
+        public double points { get; set; }
     }
 }

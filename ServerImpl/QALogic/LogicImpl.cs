@@ -131,8 +131,16 @@ namespace QALogic
         {
             bool correctAnswer = isNormal == q.normal;
             Dictionary<string, int> userLevels = new Dictionary<string, int>();
+            // get all correct diagnoses
+            List<Diagnosis> qDiagnoses = _db.getQuestionDiagnoses(q.QuestionId);
+            List<string> qDiagnosesNames = new List<string>();
+            foreach (Diagnosis d in qDiagnoses)
+            {
+                qDiagnosesNames.Add(d.TopicId);
+            }
             foreach (string s in diagnoses)
             {
+                #region get or create user level for each diagnosis and update fields according to the answer
                 UserLevel userLevel = _db.getUserLevel(u.UserId, q.SubjectId, s);
                 bool alreadtExist = userLevel != null;
                 if (userLevel == null)
@@ -151,12 +159,49 @@ namespace QALogic
                 }
                 if (alreadtExist)
                 {
+                    if (userLevel.timesAnswered >= UsersLevels.MIN_ANSWERS_BEFORE_LEVEL_CHANGE)
+                    {
+                        if (userLevel.level < Levels.MAX_LVL && userLevel.timesAnsweredCorrectly / userLevel.timesAnswered >= UsersLevels.LEVEL_UP_SUCCESS_RATE)
+                        {
+                            userLevel.level++;
+                            userLevel.timesAnsweredCorrectly = 0;
+                            userLevel.timesAnswered = 0;
+                        }
+                        if (userLevel.level > Levels.MIN_LVL && userLevel.timesAnsweredCorrectly / userLevel.timesAnswered <= UsersLevels.LEVEL_DOWN_SUCCESS_RATE)
+                        {
+                            userLevel.level--;
+                            userLevel.timesAnsweredCorrectly = 0;
+                            userLevel.timesAnswered = 0;
+                        }
+                    }
                     _db.updateUserLevel(userLevel);
                 }
                 else
                 {
                     _db.addUserLevel(userLevel);
                 }
+                #endregion
+                // update question's fields according to each diagnosis
+                double lvl = userLevel.level;
+                if (qDiagnosesNames.Contains(s))
+                {
+                    q.points -= (Levels.MAX_LVL + 1 - lvl) / qDiagnoses.Count;
+                }
+                else
+                {
+                    q.points += lvl / qDiagnoses.Count;
+                }
+            }
+            // update question's level if needed
+            if (q.points <= 0 && q.level > Levels.MIN_LVL)
+            {
+                q.level--;
+                q.points = Questions.QUESTION_INITAL_POINTS;
+            }
+            if (q.points >= Questions.QUESTION_INITAL_POINTS * 2 && q.level < Levels.MAX_LVL)
+            {
+                q.level++;
+                q.points = Questions.QUESTION_INITAL_POINTS;
             }
             // create a new answer instance and save to DB
             Answer a = new Answer { };
@@ -185,17 +230,9 @@ namespace QALogic
                 }
             }
             _db.addAnswer(a);
-            // update question's fields
-            q.timesAnswered++;
-            if (correctAnswer)
-            {
-                q.timesAnsweredCorrectly++;
-            }
-            // update users level's fields
             _db.updateQuestion(q);
             _db.SaveChanges();
             return Replies.SUCCESS;
-            // update user and question level if needed
         }
 
         private T selectRandomObject<T>(List<T> l)

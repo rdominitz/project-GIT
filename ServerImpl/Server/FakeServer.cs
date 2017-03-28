@@ -100,8 +100,7 @@ namespace Server
                     normal = true,
                     text = "",
                     level = Levels.DEFAULT_LVL,
-                    timesAnswered = 0,
-                    timesAnsweredCorrectly = 0,
+                    points = Questions.QUESTION_INITAL_POINTS,
                     timeAdded = DateTime.Now,
                 };
                 Image i = new Image

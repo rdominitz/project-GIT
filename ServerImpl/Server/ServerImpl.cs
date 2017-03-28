@@ -207,8 +207,7 @@ namespace Server
                 normal = true,
                 text = "",
                 level = Levels.DEFAULT_LVL,
-                timesAnswered = 0,
-                timesAnsweredCorrectly = 0,
+                points = Questions.QUESTION_INITAL_POINTS,
                 timeAdded = DateTime.Now,
             };
             _db.addQuestion(q);
@@ -782,8 +781,7 @@ namespace Server
                 q.normal = isNormal;
                 q.text = "";
                 q.level = Levels.DEFAULT_LVL;
-                q.timesAnswered = 0;
-                q.timesAnsweredCorrectly = 0;
+                q.points = Questions.QUESTION_INITAL_POINTS;
                 q.timeAdded = DateTime.Now;
                 _questionID++;
             }
