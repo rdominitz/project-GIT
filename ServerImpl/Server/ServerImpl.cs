@@ -1036,9 +1036,19 @@ namespace Server
             return Replies.SUCCESS;
         }
 
-        public string createTest(int userUniqueInt, string testName, string subject, string topics)
+        public Tuple<string, List<Question>> createTest(int userUniqueInt, string testName, string subject, string topics)
         {
-            return "";
+            return null;
+        }
+
+        public bool isAdmin(int userUniqueInt)
+        {
+            User u = getUserByInt(userUniqueInt);
+            if (u == null)
+            {
+                return false;
+            }
+            return _db.getAdmin(u.UserId) != null;
         }
 
         private User getUserByInt(int userUniqueInt)

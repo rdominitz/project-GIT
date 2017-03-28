@@ -1,6 +1,7 @@
 ﻿using communication.Core;
 using communication.Models.GetTest;
 using Constants;
+using Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,9 +60,10 @@ namespace communication.Controllers
             ViewBag.topics = topics;
 
 
-            string ans = ServerWiring.getInstance().createTest(Convert.ToInt32(cookie.Value), testName, subject, topics);                
-            if (ans == Replies.SUCCESS)
+            Tuple<string, List<Question>> ans = ServerWiring.getInstance().createTest(Convert.ToInt32(cookie.Value), testName, subject, topics);                
+            if (ans.Item1 == Replies.SUCCESS)
             {
+                // Aviv - do something with the list of questions (or tell me to save it for you and you'll take it later)
                 // redirect to chose questions 
                 return RedirectToAction("Index", "Main");
             }

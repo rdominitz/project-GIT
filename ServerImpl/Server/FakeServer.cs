@@ -92,7 +92,6 @@ namespace Server
         {
             if (userUniqueInt == Users.USER_UNIQUE_INT)
             {
-                Topic t = new Topic { TopicId = "topic", SubjectId = "subject", timeAdded = DateTime.Now };
                 Question q = new Question
                 {
                     QuestionId = 1,
@@ -103,11 +102,6 @@ namespace Server
                     points = Questions.QUESTION_INITAL_POINTS,
                     timeAdded = DateTime.Now,
                 };
-                Image i = new Image
-                {
-                    ImageId = "../Images/q1_2_lat.jpg",
-                    QuestionId = 1,
-                };
                 return new Tuple<string,Question>(Replies.SUCCESS, q);
             }
             return new Tuple<string,Question>("Error", null);
@@ -115,27 +109,77 @@ namespace Server
 
         public Tuple<string, List<Question>> getAnsweres(int userUniqueInt)
         {
-            throw new NotImplementedException();
+            if (userUniqueInt == Users.USER_UNIQUE_INT)
+            {
+                Question q = new Question
+                {
+                    QuestionId = 1,
+                    SubjectId = "subject",
+                    normal = true,
+                    text = "",
+                    level = Levels.DEFAULT_LVL,
+                    points = Questions.QUESTION_INITAL_POINTS,
+                    timeAdded = DateTime.Now,
+                };
+                return new Tuple<string, List<Question>>(Replies.SUCCESS, new List<Question>() { q });
+            }
+            return new Tuple<string, List<Question>>("Error", null);
         }
 
         public List<string> getAllSubjects()
         {
-            throw new NotImplementedException();
+            return new List<string>() { "subject" };
         }
 
         public List<string> getSubjectTopics(string subject)
         {
-            throw new NotImplementedException();
+            List<string> l = null;
+            try
+            {
+                if (subject.Equals("subject"))
+                {
+                    l = new List<string>() { "topic" };
+                }
+            }
+            catch
+            {
+                l = new List<string>();
+            }
+            return l;
         }
 
         public string addSubject(int userUniqueInt, string subject)
         {
-            throw new NotImplementedException();
+            string s = "";
+            try
+            {
+                if (userUniqueInt == Users.USER_UNIQUE_INT && subject.Equals("fake subject"))
+                {
+                    s = Replies.SUCCESS;
+                }
+            }
+            catch
+            {
+                s = "Error";
+            }
+            return s;
         }
 
         public string addTopic(int userUniqueInt, string subject, string topic)
         {
-            throw new NotImplementedException();
+            string s = "";
+            try
+            {
+                if (userUniqueInt == Users.USER_UNIQUE_INT && subject.Equals("subject") && topic.Equals("fake topic"))
+                {
+                    s = Replies.SUCCESS;
+                }
+            }
+            catch
+            {
+                s = "Error";
+            }
+            return s;
         }
 
         public string addQuestion(int userUniqueInt, string subject, bool isNormal, string text, List<string> qDiagnoses)
@@ -145,37 +189,46 @@ namespace Server
 
         public string setUserAsAdmin(int userUniqueInt, string usernameToTurnToAdmin)
         {
-            throw new NotImplementedException();
+            string s = "";
+            try
+            {
+                if (userUniqueInt == Users.USER_UNIQUE_INT && usernameToTurnToAdmin.Equals("user@gmail.com"))
+                {
+                    s = Replies.SUCCESS;
+                }
+            }
+            catch
+            {
+                s = "Error";
+            }
+            return s;
         }
 
         public bool hasMoreQuestions(int userUniqueInt)
         {
-            throw new NotImplementedException();
+            return userUniqueInt == Users.USER_UNIQUE_INT;
         }
 
-        public void logout(int userUniqueInt)
-        {
-            throw new NotImplementedException();
-        }
+        public void logout(int userUniqueInt) { }
 
         public bool isLoggedIn(int userUniqueInt)
         {
-            throw new NotImplementedException();
+            return userUniqueInt == Users.USER_UNIQUE_INT;
         }
 
         public string getUserName(int userUniqueInt)
         {
-            throw new NotImplementedException();
+            return userUniqueInt == Users.USER_UNIQUE_INT ? "fake user" : null;
         }
 
         public List<string> getQuestionImages(int questionId)
         {
-            throw new NotImplementedException();
+            return questionId == 1 ? new List<string>() { "../Images/q1_2_lat.jpg" } : null;
         }
 
         public List<string> getQuestionDiagnoses(int questionId)
         {
-            throw new NotImplementedException();
+            return questionId == 1 ? new List<string>() { "topic" } : null;
         }
 
         public string createGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent)
@@ -197,9 +250,15 @@ namespace Server
         {
             throw new NotImplementedException();
         }
-        public string createTest(int userUniqueInt, string testName, string subject, string topics)
+
+        public Tuple<string, List<Question>> createTest(int userUniqueInt, string testName, string subject, string topics)
         {
             throw new NotImplementedException();
+        }
+
+        public bool isAdmin(int userUniqueInt)
+        {
+            return userUniqueInt == Users.USER_UNIQUE_INT;
         }
     }
 }
