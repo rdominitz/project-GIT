@@ -342,6 +342,17 @@ namespace Entities
             GroupsMembers.Add(gm);
             SaveChanges();
         }
+
+        public void removeGroupMembers(Group g)
+        {
+            var query = from gm in GroupsMembers
+                        where gm.GroupName.Equals(g.name) && gm.AdminId.Equals(g.AdminId)
+                        select gm;
+            foreach (GroupMember gm in query)
+            {
+                GroupsMembers.Remove(gm);
+            }
+        }
         #endregion
     }
 }

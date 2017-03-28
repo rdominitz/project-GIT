@@ -14,7 +14,7 @@ namespace Entities
         private List<User> _users;
         private List<Admin> _admins;
         private List<Subject> _subjects;
-        private List<Topic> _topics; 
+        private List<Topic> _topics;
         private List<Question> _questions;
         private List<Image> _images;
         private List<Diagnosis> _diagnoses;
@@ -30,7 +30,7 @@ namespace Entities
             _users = new List<User>();
             _admins = new List<Admin>();
             _subjects = new List<Subject>();
-            _topics = new List<Topic>(); 
+            _topics = new List<Topic>();
             _questions = new List<Question>();
             _images = new List<Image>();
             _diagnoses = new List<Diagnosis>();
@@ -46,7 +46,7 @@ namespace Entities
         //public IDbSet<Group> Groups { get; set; }
         //public IDbSet<UserGroupTest> UsersGroupsTests { get; set; }
         //public IDbSet<GroupTestAnswer> GroupsTestsQuestionsAnswers { get; set; }
-        
+
         public int getMillisecondsToSleep()
         {
             return 0;
@@ -175,7 +175,7 @@ namespace Entities
         #region image
         public void addImage(Image i)
         {
-            if (_questions.Where(q => q.QuestionId == i.QuestionId).Count() == 0 || 
+            if (_questions.Where(q => q.QuestionId == i.QuestionId).Count() == 0 ||
                 _images.Where(image => image.ImageId.Equals(i.ImageId) && image.QuestionId == i.QuestionId).Count() != 0)
             {
                 return;
@@ -277,13 +277,18 @@ namespace Entities
         #region group member
         public void addGroupMember(GroupMember gm)
         {
-            if (_groups.Where(g => g.AdminId.Equals(gm.AdminId) && g.name.Equals(gm.GroupName)).Count() == 0 || 
+            if (_groups.Where(g => g.AdminId.Equals(gm.AdminId) && g.name.Equals(gm.GroupName)).Count() == 0 ||
                 _groupsMembers.Where(groupMember => groupMember.AdminId.Equals(gm.AdminId) && groupMember.GroupName.Equals(gm.GroupName) && groupMember.UserId.Equals(gm.UserId)).Count() != 0)
             {
                 return;
             }
             _groupsMembers.Add(gm);
             SaveChanges();
+        }
+
+        public void removeGroupMembers(Group g)
+        {
+            _groupsMembers.RemoveAll(gm => gm.GroupName.Equals(g.name) && gm.AdminId.Equals(g.AdminId));
         }
         #endregion
     }

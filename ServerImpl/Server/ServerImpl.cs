@@ -957,8 +957,6 @@ namespace Server
             {
                 string s = removeSpacesFromStart(eMails[i]);
                 s = removeSpacesFromEnd(s);
-                s = s.Substring(0, s.Length - 1);
-                s = removeSpacesFromEnd(s);
                 eMails[i] = s;
             }
             return eMails.ToList();
@@ -977,7 +975,7 @@ namespace Server
         {
             while (email.EndsWith(" "))
             {
-                email = email.Substring(1);
+                email = email.Substring(0, email.Length - 1);
             }
             return email;
         }
@@ -1034,6 +1032,7 @@ namespace Server
                 {
                     return NON_EXISTING_GROUP;
                 }
+                _db.removeGroupMembers(g);
                 _db.removeGroup(g);
             }
             return Replies.SUCCESS;
@@ -1043,7 +1042,6 @@ namespace Server
         {
             return "";
         }
-
 
         private User getUserByInt(int userUniqueInt)
         {
@@ -1068,7 +1066,5 @@ namespace Server
                 _usersCache.RemoveAt(0);
             }
         }
-
-
     }
 }

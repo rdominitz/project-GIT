@@ -55,5 +55,6 @@ namespace Entities
         List<Group> getAdminsGroups(string adminId);
 
         void addGroupMember(GroupMember gm);
+        void removeGroupMembers(Group g);
     }
 }
