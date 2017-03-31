@@ -7,14 +7,11 @@
         <div class="form-group">
             <br />
             <h2>Add to an existing group</h2>
+            <br/>
+            <h1>@ViewBag.group</h1>
             <br />
-            @if (@ViewBag.message != null)
-            {
-                <script>
-                    alert("@ViewBag.message");
-                </script>
-            }
-            
+  
+
             <label for="inviteEmails" class="control-label">Emails of invitees</label>
             <textarea rows="5" type="text" size="60" class="form-control" name="inviteEmails" id="inviteEmails" value="@ViewBag.inviteEmails" required title="Please enter invitees Emails" placeholder="Please separate email accounts with commas"></textarea>
             <br />
