@@ -16,7 +16,7 @@
             alert("@ViewBag.message");
         </script>
     }
-    <form id="getTestForm" method="POST" action="/GetTest/submit">
+    <form id="getTestForm" method="POST" action="~/GetTest/submit">
         <div class="form-group">
             <label for="numberOfQuestions" class="control-label">Number of questions</label>
             <input type="number" class="form-control" name="numberOfQuestions" id="numberOfQuestions" value="@ViewBag.numberOfQuestions" required title="Please enter number of questions" placeholder="Number of questions">
@@ -26,7 +26,7 @@
                 @foreach (var subject in Model)
                 {
                     <option value="@subject.key">@subject.key</option>
-                } 
+                }
             </select>
             <br />
             <label for="topic" class="control-label">Topic</label>
@@ -41,7 +41,7 @@
             </select>
             <br />
             <label for="result" class="control-label">When present answers</label>
-            <select id="result"  class="form-control" name="whenToShowAnswer" value="AfterEachQuestion">
+            <select id="result" class="form-control" name="whenToShowAnswer" value="AfterEachQuestion">
                 <option value="AfterEachQuestion">After each question</option>
                 <option value="AfterAllQuestions">After all questions</option>
             </select>

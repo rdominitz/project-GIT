@@ -47,7 +47,7 @@ namespace communication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Submit(string testName, string subject, string topics, int numberOfQuestions, int numberOfNormalQuestions)
+        public ActionResult Submit(string testName, string subject, string[] topics)
         {
 
             HttpCookie cookie = Request.Cookies["userId"];
@@ -55,12 +55,16 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
+            List<string> topicsList = new List<string>();
+            topicsList = topics.ToList();
+
+
             ViewBag.testName = testName;
             ViewBag.subject = subject;
-            ViewBag.topics = topics;
+            ViewData["topics"] = topics;
 
 
-            Tuple<string, List<Question>> ans = ServerWiring.getInstance().createTest(Convert.ToInt32(cookie.Value), testName, subject, topics);                
+            Tuple<string, List<Question>> ans = ServerWiring.getInstance().createTest(Convert.ToInt32(cookie.Value), testName, subject, topicsList);                
             if (ans.Item1 == Replies.SUCCESS)
             {
                 // Aviv - do something with the list of questions (or tell me to save it for you and you'll take it later)
@@ -69,7 +73,7 @@ namespace communication.Controllers
             }
 
 
-            return RedirectToAction("Index", "CreateTest", new { message = ans });
+            return RedirectToAction("Index", "CreateTest", new { message = ans.Item1 });
         }
 
 

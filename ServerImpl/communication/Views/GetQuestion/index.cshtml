@@ -17,28 +17,28 @@
             alert("@ViewBag.message");
         </script>
     }
-    <form id="getQuestionForm" method="POST" action="/GetQuestion/submit">
+    <form id="getQuestionForm" method="POST" action="~/GetQuestion/submit">
         <div class="form-group">
             <label for="subject" class="control-label">Subject</label>
             <select id="subject" name="subject" class="form-control" onchange="giveSelection(this.value)">
                 @foreach (var subject in Model)
                 {
                     <option value="@subject.key">@subject.key</option>
-                }  
+                }
             </select>
             <br />
             <label for="topic" class="control-label">Topic</label>
             <select id="topic" name="topic" class="form-control" value="">
                 @foreach (var subject in Model)
                 {
-                        foreach (var topic in subject.vals)
-                        {
-                            <option data-option="@subject.key" value="@topic">@topic</option>
-                        }
+                    foreach (var topic in subject.vals)
+                    {
+                        <option data-option="@subject.key" value="@topic">@topic</option>
+                    }
                 }
-                  
-              <!--  <option value="Cavitary Lesion">Cavitary Lesion</option>
-                <option value="Interstitial opacities">Interstitial opacities</option> -->   
+
+                <!--  <option value="Cavitary Lesion">Cavitary Lesion</option>
+                  <option value="Interstitial opacities">Interstitial opacities</option> -->
             </select>
             <script type="text/javascript">
                 var sel1 = document.querySelector('#subject');
@@ -57,7 +57,8 @@
                 giveSelection(sel1.value);
             </script>
         </div>
-        <br/>
+        <br />
         <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Get Question</button>
     </form>
+
 </div>

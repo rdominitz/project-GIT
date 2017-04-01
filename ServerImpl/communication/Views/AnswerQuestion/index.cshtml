@@ -27,7 +27,7 @@
     <div class="btn-toolbar">
         <div>
             <br />
-            <form id="answerQuestionForm" method="POST" action="/AnswerQuestion/Submit">
+            <form id="answerQuestionForm" method="POST" action="~/AnswerQuestion/Submit">
                 <input type="radio" class="" name="norm" value="true" onchange="button1changed()" checked> Normal
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="radio" name="norm" value="false" onchange="button2changed()"> Abnormal<br />
@@ -41,11 +41,6 @@
                 <div id="diagnosis_div" style="display:none">
                     <h4>what is your diagnosis?</h4>
                     <select id="diagnosis" name="diagnosis" multiple="multiple" class="tokenize-sample">
-                        <!--  <option value="Cavitary Lesion">Cavitary Lesion</option>
-                          <option value="Interstitial opacities">Interstitial opacities</option>
-                          <option value="Left Pleural Effusion">Left Pleural Effusion</option>
-                          <option value="Median Sternotomy">Median Sternotomy</option>
-                          <option value="Right Middle Lobe Collapse">Right Middle Lobe Collapse</option>-->
                         @foreach (var s in (List<String>)ViewData["subjects"])
                         {
                             <option value="@s">@s</option>
@@ -56,20 +51,16 @@
                     <script type="text/javascript">
                         $('#diagnosis').tokenize();
                     </script>
-
-
                 </div>
-
-
-
                 <div id="diagnosis_sure">
 
                 </div>
                 <script type="text/javascript">
-                        $('#sure2').tokenize();
+                    $('#sure2').tokenize();
                 </script>
                 <button type="submit" class="btn btn-primary btn-block" style="width: 280px;">Submit Answer</button>
             </form>
+
         </div>
     </div>
 </div>

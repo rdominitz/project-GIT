@@ -3,7 +3,7 @@
 }
 
 <div class="cen col-md-offset-4">
-    <form id="createGroupForm" method="POST" action="/AddToExistGroup/submit">
+    <form id="createGroupForm" method="POST" action="~/AddToExistGroup/submit">
         <div class="form-group">
             <br />
             <h2>Add to an existing group</h2>
@@ -17,7 +17,7 @@
             <br />
 
             <label for="emailContent" class="control-label">Email Content</label>
-            <textarea rows="3" type="text" class="form-control" name="emailContent" id="emailContent" value="@ViewBag.emailContent" required title="Please enter email content " placeholder="Email content"></textarea>
+            <textarea rows="3" type="text" class="form-control" name="emailContent" id="emailContent" value="@ViewBag.emailContent" title="Please enter email content " placeholder="Email content"></textarea>
             <br />
 
             <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Send</button>

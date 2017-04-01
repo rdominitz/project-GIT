@@ -7,7 +7,7 @@
 <meta id="meta" name="@ViewBag.Title" />
 
 <div class="cen col-md-offset-4">
-    <form id="createGroupForm" method="POST" action="/CreateTest/submit">
+    <form id="createTestForm" method="POST" action="~/CreateTest/submit">
         <div class="form-group">
             <br />
             <h2>Create a test</h2>
@@ -30,16 +30,17 @@
                 }
             </select>
             <br />
-            <label for="topic" class="control-label">Topics</label>
+            <label for="topics" class="control-label">Topics</label>
             <br/>
-            <select id="topic" name="topic" class="form-control" multiple="multiple" value="">
+            <select id="topics" name="topics" class="form-control" multiple="multiple" onchange="onSubmitTopic()" value="">
                 @foreach (var subject in Model)
                 {
-                    foreach (var topic in subject.vals)
+                    foreach (var topics in subject.vals)
                     {
-                        <option data-option="@subject.key" value="@topic">@topic</option>
+                        <option data-option="@subject.key" value="@topics">@topics</option>
                     }
                 }
+                <!--ViewData["topic"] = onSubmitTopic()-->
             </select>
             
            <!-- <script type="text/javascript">
@@ -48,13 +49,13 @@
                         includeSelectAllOption: true
                     });
                 });
-            </script>
+            </script>-->
 
-            <br />-->
+            <br />
 
             <script type="text/javascript">
                 var sel1 = document.querySelector('#subject');
-                var sel2 = document.querySelector('#topic');
+                var sel2 = document.querySelector('#topics');
                 var options2 = sel2.querySelectorAll('option');
 
                 function giveSelection(selValue) {
@@ -65,11 +66,27 @@
                         }
                     }
                 }
-
                 giveSelection(sel1.value);
             </script>
+           
+             <script type="text/javascript">
+                var select = document.querySelector('#topics');
+                var optionsTopic = select.querySelectorAll('option');
+                
+                function onSubmitTopic() {
+                    for (var i = optionsTopic.length; i--;) {
+                        if (optionsTopic[i].selected) viweData["topics"].push(optionsTopic[i].value)
+                    }
+                }
+            </script>
 
-            <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Next step</button>
-        </div>
-    </form>
+            <script type="text/javascript">
+                $('#topics').tokenize();
+            </script>
+
+
+
+    <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Next step</button>
+</div>
+</form>
 </div>

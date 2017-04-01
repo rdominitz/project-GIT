@@ -11,7 +11,7 @@
             alert("@ViewBag.message");
         </script>
     }
-    <form id="forgotForm" method="POST" action="/forgot/submit">
+    <form id="forgotForm" method="POST" action="~/forgot/submit">
         <div class="form-group">
             <label for="email" class="control-label">Email</label>
             <input type="email" class="form-control" name="email" id="email" value="@ViewBag.email" required title="Please enter your email" placeholder="Email">

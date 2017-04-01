@@ -5,7 +5,7 @@
 <div class="cen col-md-offset-4">
     <h2>Registration</h2>
     
-    <form id="registerForm" method="POST" action="/register/submit">
+    <form id="registerForm" method="POST" action="~/register/submit">
         <div class="form-group">
             <label for="email" class="control-label">Email</label>
             <input type="email" class="form-control" name="email" id="email" value="@ViewBag.email" required title="Please enter your email" placeholder="Email">
@@ -51,6 +51,6 @@
                 <input type="checkbox" name="remember" id="remember"> Remember Me
             </label>
         </div>
-        <button type="submit" class="btn btn-primary btn-block" style="width: 280px;" >Register</button>
+        <button type="submit" class="btn btn-primary btn-block" style="width: 280px;">Register</button>
     </form>
 </div>

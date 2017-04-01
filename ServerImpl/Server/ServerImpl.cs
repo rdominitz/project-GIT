@@ -1036,9 +1036,9 @@ namespace Server
             return Replies.SUCCESS;
         }
 
-        public Tuple<string, List<Question>> createTest(int userUniqueInt, string testName, string subject, string topics)
+        public Tuple<string, List<Question>> createTest(int userUniqueInt, string testName, string subject, List<string> topics)
         {
-            return null;
+            return new Tuple<string,List<Question>>("temp",new List<Question>());
         }
 
         public bool isAdmin(int userUniqueInt)
