@@ -28,11 +28,11 @@
             <br/><br/><br/>
             if((question.dignosis.Count == 1) && (question.dignosis.ElementAt(0).Equals(Constants.Topics.NORMAL)))
             {
-                <p>The diganosis for this case is Normal</p>
+                <p>The correct diagnosis for this case is : Normal</p>
             }
             else
             {
-                <p>The diganosis for this case is:</p><br/>
+                <p>The correct diagnosis for this case is :</p><br/>
                 foreach(var d in question.dignosis)
                 {
                      <p>@d</p><br />

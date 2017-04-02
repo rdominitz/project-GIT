@@ -141,5 +141,11 @@ namespace Server
         Tuple<string, List<Question>> createTest(int userUniqueInt, string testName, string subject, List<string> topics);
 
         bool isAdmin(int userUniqueInt);
+
+        List<String> getUsersGroups(int userUniqueInt);
+
+        List<String> getUsersGroupsInvitations(int userUniqueInt);
+
+        void acceptUsersGroupsInvitations(int userUniqueInt, List<String> groups);
     }
 }
