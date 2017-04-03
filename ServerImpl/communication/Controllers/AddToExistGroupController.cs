@@ -35,8 +35,12 @@ namespace communication.Controllers
 
             ViewBag.inviteEmails = inviteEmails;
             ViewBag.emailContent = emailContent;
-
-            string ans = ServerWiring.getInstance().inviteToGroup(Convert.ToInt32(cookie.Value), "", inviteEmails, emailContent);
+            Tuple<string, string> groupName = ServerWiring.getInstance().getSavedGroup(Convert.ToInt32(cookie.Value));
+            if (!groupName.Item1.Equals(Replies.SUCCESS))
+            {
+                return RedirectToAction("Index", "ManageGroup", new { message = "There was a problem, please reconnect" });
+            }
+            string ans = ServerWiring.getInstance().inviteToGroup(Convert.ToInt32(cookie.Value), groupName.Item2, inviteEmails, emailContent);
             if (ans.Equals(Replies.SUCCESS))
             {
                 return RedirectToAction("Index", "ManageGroup", new { message = "Invitation sent successfully" });

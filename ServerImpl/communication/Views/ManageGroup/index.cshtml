@@ -6,7 +6,7 @@
 <meta id="meta" name="@ViewBag.Title" />
 
 <div class="cen col-md-offset-4">
-    <form id="createGroupForm" method="POST" action="~/ManageGroup/submit">
+    <form id="manageGroupForm" method="POST" action="~/ManageGroup/submit">
         <div class="form-group">
             <br />
             <h2>Select a group</h2>
@@ -28,8 +28,9 @@
 
             <br />
 
-
             <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Delete group</button>
+           
+            
             <button type="button" name="addToExistGroup" class="btn btn-primary btn-block" style="width: 280px;" id="test" onclick="location.href='@Url.Action("Index", "AddToExistGroup")'">Invite to group</button>
             <button type="button" name="addTestToGroup" class="btn btn-primary btn-block" style="width: 280px;" id="test" onclick="location.href='@Url.Action("Index", "AddTestToGroup")'">Add test to group</button>
 

@@ -39,7 +39,7 @@ namespace communication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Submit(string groupName, int testId)
+        public ActionResult Submit(int testId)
         {
             HttpCookie cookie = Request.Cookies["userId"];
             if (cookie == null)
@@ -47,10 +47,13 @@ namespace communication.Controllers
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
 
-            ViewBag.groupName = groupName;
             ViewBag.testId = testId;
-
-            string ans = ServerWiring.getInstance().addTestToGroup(Convert.ToInt32(cookie.Value), groupName, testId);
+            Tuple <string,string> groupName = ServerWiring.getInstance().getSavedGroup(Convert.ToInt32(cookie.Value));
+            if (!groupName.Item1.Equals(Replies.SUCCESS))
+            {
+                return RedirectToAction("Index", "ManageGroup", new { message = "There was a problem, please reconnect" });
+            }
+            string ans = ServerWiring.getInstance().addTestToGroup(Convert.ToInt32(cookie.Value), groupName.Item2, testId);
             if (ans.Equals(Replies.SUCCESS))
             {
                 return RedirectToAction("Index", "ManageGroup", new { message = "The test was successfully added to the group" });
