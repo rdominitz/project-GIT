@@ -10,16 +10,13 @@
     <div class="container">
         <button type="button" class="btn btn-primary btn-block" id="question" style="width: 200px;" onclick="location.href='@Url.Action("Index", "GetQuestion")'">Get auto generated question</button>
         <button type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "GetTest")'">Get auto generated test</button>
-        <button name="manageMyGroups" type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "ManageGroups")'">Manage my groups</button>
         @if (ViewBag.isAdmin)
         {
+        <button name="manageMyGroups" type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "ManageGroup")'">Manage my groups</button>
         <button name="createGroup"  type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "CreateGroup")'">Create a group</button>
         <button name="createTest" type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "CreateTest")'">Create a test</button>
         }
-        <!--
-        <button name="addToExistGroup" type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "AddToExistGroup")'">Add to an existing group</button>
-        <button name="deleteGroup" type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "DeleteGroup")'">Delete a group</button>
-        -->
+
         
 
     </div>
