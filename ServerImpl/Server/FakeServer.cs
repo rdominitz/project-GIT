@@ -251,7 +251,7 @@ namespace Server
             throw new NotImplementedException();
         }
 
-        public Tuple<string, List<Question>> createTest(int userUniqueInt, string testName, string subject, List<string> topics)
+        public Tuple<string, List<Question>> createTest(int userUniqueInt, string subject, List<string> topics)
         {
             throw new NotImplementedException();
         }

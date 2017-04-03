@@ -58,5 +58,7 @@ namespace Entities
         void removeGroupMembers(Group g);
 
         List<Test> getAllTests();
+
+        void addGroupTest(GroupTest gt);
     }
 }

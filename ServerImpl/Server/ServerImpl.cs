@@ -1038,10 +1038,10 @@ namespace Server
             return Replies.SUCCESS;
         }
 
-        public Tuple<string, List<Question>> createTest(int userUniqueInt, string testName, string subject, List<string> topics)
+        public Tuple<string, List<Question>> createTest(int userUniqueInt, string subject, List<string> topics)
         {
             // check for illegal input values
-            List<string> input = new List<string>() { testName, subject };
+            List<string> input = new List<string>() { subject };
             foreach (string s in topics)
             {
                 input.Add(s);
@@ -1150,7 +1150,33 @@ namespace Server
 
         public string addTestToGroup(int userUniqueInt, string groupName, int testId)
         {
-            return "temp";
+            // check for illegal input values
+            List<string> input = new List<string>() { groupName };
+            if (!InputTester.isValidInput(input))
+            {
+                return GENERAL_INPUT_ERROR;
+            }
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return NOT_LOGGED_IN;
+            }
+            updateUserLastActionTime(user);
+            // verify user is an admin
+            Admin admin = _db.getAdmin(user.UserId);
+            if (admin == null)
+            {
+                return NOT_AN_ADMIN;
+            }
+            // verify group exist
+            if (_db.getGroup(admin.AdminId, groupName) == null)
+            {
+                return "Error. The administrator " + admin.AdminId + " does not have a group named " + groupName;
+            }
+            GroupTest gt = new GroupTest { adminId = admin.AdminId, GroupName = groupName, TestId = testId };
+            _db.addGroupTest(gt);
+            return Replies.SUCCESS;
         }
 
         public List<string> getUsersGroups(int userUniqueInt)
