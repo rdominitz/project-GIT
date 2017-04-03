@@ -255,6 +255,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AddTestToGroupController.cs" />
     <Compile Include="Controllers\AddToExistGroupController.cs" />
     <Compile Include="Controllers\AnswerQuestionController.cs" />
     <Compile Include="Controllers\CreateGroupController.cs" />
@@ -276,6 +277,7 @@
     <Compile Include="Models\GetQuestion\GetQuestionData.cs" />
     <Compile Include="Models\GetTest\GetTestData.cs" />
     <Compile Include="Models\ShowAnswers\ShowAnswersData.cs" />
+    <Compile Include="Models\Test\TestData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -302,6 +304,7 @@
     <Content Include="Views\AddToExistGroup\index.cshtml" />
     <Content Include="Views\ManageGroup\index.cshtml" />
     <Content Include="Views\CreateTest\index.cshtml" />
+    <Content Include="Views\AddTestToGroup\index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

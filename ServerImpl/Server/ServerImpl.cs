@@ -1051,6 +1051,19 @@ namespace Server
             return _db.getAdmin(u.UserId) != null;
         }
 
+        public Tuple<string, List<Test>> getAllTests(int userUniqueInt)
+        {
+            List<Test> tests = new List<Test>();
+
+            return new Tuple<string, List<Test>>("temp", tests);
+        }
+
+        public string addTestToGroup(int userUniqueInt, string groupName, int testId)
+        {
+            return "temp";
+        }
+
+
         private User getUserByInt(int userUniqueInt)
         {
             List<User> matches = _usersCache.Where(u => u.uniqueInt.Equals(userUniqueInt)).ToList();

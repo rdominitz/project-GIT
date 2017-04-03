@@ -24,15 +24,15 @@
                 {
                     <option value="@group.key">@group.key</option>
                 }
-                @ViewBag.group=this.value
+                @ViewBag.groupName=this.value
             </select>
 
             <br />
 
 
-
-            <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Delete</button>
-            <button type="button" name="addToExistGroup" class="btn btn-primary btn-block" style="width: 280px;" id="test" onclick="location.href='@Url.Action("Index", "AddToExistGroup", @ViewBag.group)'">Invite to group</button>
+            <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Delete group</button>
+            <button type="button" name="addToExistGroup" class="btn btn-primary btn-block" style="width: 280px;" id="test" onclick="location.href='@Url.Action("Index", "AddToExistGroup")'">Invite to group</button>
+            <button type="button" name="addTestToGroup" class="btn btn-primary btn-block" style="width: 280px;" id="test" onclick="location.href='@Url.Action("Index", "AddTestToGroup")'">Add test to group</button>
 
         </div>
     </form>

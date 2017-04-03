@@ -13,20 +13,19 @@ namespace communication.Controllers
     {
         // GET: AddToExistGroup
         [HttpGet]
-        public ActionResult Index(string group)
+        public ActionResult Index()
         {
             HttpCookie cookie = Request.Cookies["userId"];
             if (cookie == null)
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-            ViewBag.group = group;
             
             return View(getData(Convert.ToInt32(cookie.Value)));
         }
 
         [HttpPost]
-        public ActionResult Submit(string groupName, string inviteEmails, string emailContent)
+        public ActionResult Submit(string inviteEmails, string emailContent)
         {
             HttpCookie cookie = Request.Cookies["userId"];
             if (cookie == null)
@@ -34,16 +33,15 @@ namespace communication.Controllers
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
 
-            ViewBag.groupName = groupName;
             ViewBag.inviteEmails = inviteEmails;
             ViewBag.emailContent = emailContent;
 
-            string ans = ServerWiring.getInstance().inviteToGroup(0, groupName, inviteEmails, emailContent);
+            string ans = ServerWiring.getInstance().inviteToGroup(Convert.ToInt32(cookie.Value), "", inviteEmails, emailContent);
             if (ans.Equals(Replies.SUCCESS))
             {
-                return RedirectToAction("Index", "Main");
+                return RedirectToAction("Index", "ManageGroup", new { message = "Invitation sent successfully" });
             }
-            return RedirectToAction("Index", "AddToExistGroup", new { message = ans });
+            return RedirectToAction("Index", "AddToExistGroup");
         }
 
         List<GroupData> getData(int adminId)

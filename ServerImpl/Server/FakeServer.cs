@@ -260,5 +260,13 @@ namespace Server
         {
             return userUniqueInt == Users.USER_UNIQUE_INT;
         }
+        public Tuple<string, List<Test>> getAllTests(int userUniqueInt)
+        {
+            throw new NotImplementedException();
+        }
+        public string addTestToGroup(int userUniqueInt, string groupName, int testId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

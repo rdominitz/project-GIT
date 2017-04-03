@@ -141,5 +141,9 @@ namespace Server
         Tuple<string, List<Question>> createTest(int userUniqueInt, string testName, string subject, List<string> topics);
 
         bool isAdmin(int userUniqueInt);
+
+        Tuple<string, List<Test>> getAllTests(int userUniqueInt);
+
+        string addTestToGroup(string groupName, string testName);
     }
 }
