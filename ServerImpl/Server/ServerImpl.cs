@@ -1087,5 +1087,21 @@ namespace Server
                 _usersCache.RemoveAt(0);
             }
         }
+
+
+        public List<string> getUsersGroups(int userUniqueInt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> getUsersGroupsInvitations(int userUniqueInt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void acceptUsersGroupsInvitations(int userUniqueInt, List<string> groups)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

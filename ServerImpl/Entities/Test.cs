@@ -15,5 +15,10 @@ namespace Entities
         public string testName { get; set; }
         [Required]
         public string AdminId { get; set; }
+
+        public override string ToString()
+        {
+            return "ID: " + TestId + ", Creator email: " + AdminId + ", Name: " + testName;
+        }
     }
 }

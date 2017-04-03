@@ -32,9 +32,9 @@ namespace Entities
         public MedTrainDBContext()
             : base("MedTrainDB")
         {
-            //Database.SetInitializer<MedTrainDBContext>(new CreateDatabaseIfNotExists<MedTrainDBContext>());
+            Database.SetInitializer<MedTrainDBContext>(new CreateDatabaseIfNotExists<MedTrainDBContext>());
             //Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseIfModelChanges<MedTrainDBContext>());
-            Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseAlways<MedTrainDBContext>());
+            //Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseAlways<MedTrainDBContext>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -51,145 +51,191 @@ namespace Entities
         #region user
         public void addUser(User u)
         {
-            if (Users.Find(u.UserId) != null)
+            using (var db = new MedTrainDBContext())
             {
-                return;
+                if (db.Users.Find(u.UserId) != null)
+                {
+                    return;
+                }
+                db.Users.Add(u);
+                db.SaveChanges();
             }
-            Users.Add(u);
-            SaveChanges();
         }
 
         public User getUser(string UserId)
         {
-            return Users.Find(UserId);
+            using (var db = new MedTrainDBContext())
+            {
+                return db.Users.Find(UserId);
+            }
         }
 
         public User getUser(int uniqueInt)
         {
-            var query = from u in Users
-                        where (u.uniqueInt == uniqueInt)
-                        select u;
-            if (query.Count() == 0)
+            using (var db = new MedTrainDBContext())
             {
-                return null;
+                var query = from u in db.Users
+                            where (u.uniqueInt == uniqueInt)
+                            select u;
+                if (query.Count() == 0)
+                {
+                    return null;
+                }
+                return query.ToList().ElementAt(0);
             }
-            return query.ToList().ElementAt(0);
         }
         #endregion
         #region admin
         public void addAdmin(Admin a)
         {
-            User u = Users.Find(a.AdminId);
-            if (u == null)
+            using (var db = new MedTrainDBContext())
             {
-                return;
+                if (db.Users.Find(a.AdminId) == null || db.Admins.Find(a.AdminId) != null)
+                {
+                    return;
+                }
+                db.Admins.Add(new Admin { AdminId = a.AdminId });
+                db.SaveChanges();
             }
-            if (Admins.Find(a.AdminId) != null)
-            {
-                return;
-            }
-            Admins.Add(new Admin { AdminId = a.AdminId });
-            SaveChanges();
         }
 
         public Admin getAdmin(string UserId)
         {
-            return Admins.Find(UserId);
+            using (var db = new MedTrainDBContext())
+            {
+                return db.Admins.Find(UserId);
+            }
         }
         #endregion
         #region subject
         public void addSubject(Subject s)
         {
-            if (Subjects.Find(s.SubjectId) != null)
+            using (var db = new MedTrainDBContext())
             {
-                return;
+                if (db.Subjects.Find(s.SubjectId) != null)
+                {
+                    return;
+                }
+                db.Subjects.Add(new Subject { SubjectId = s.SubjectId, timeAdded = DateTime.Now });
+                db.SaveChanges();
             }
-            Subjects.Add(new Subject { SubjectId = s.SubjectId, timeAdded = DateTime.Now });
-            SaveChanges();
         }
 
         public Subject getSubject(string subject)
         {
-            return Subjects.Find(subject);
+            using (var db = new MedTrainDBContext())
+            {
+                return db.Subjects.Find(subject);
+            }
         }
 
         public List<Subject> getSubjects()
         {
-            return Subjects.ToList();
+            using (var db = new MedTrainDBContext())
+            {
+                return db.Subjects.ToList();
+            }
         }
         #endregion
         #region topic
         public void addTopic(Topic t)
         {
-            if (Subjects.Find(t.SubjectId) == null || Topics.Find(t.TopicId, t.SubjectId) != null)
+            using (var db = new MedTrainDBContext())
             {
-                return;
+                if (db.Subjects.Find(t.SubjectId) == null || db.Topics.Find(t.TopicId, t.SubjectId) != null)
+                {
+                    return;
+                }
+                db.Topics.Add(t);
+                db.SaveChanges();
             }
-            Topics.Add(t);
-            SaveChanges();
         }
 
         public Topic getTopic(string subject, string topic)
         {
-            return Topics.Find(topic, subject);
+            using (var db = new MedTrainDBContext())
+            {
+                return db.Topics.Find(topic, subject);
+            }
         }
 
         public List<Topic> getTopics(string subject)
         {
-            var query = from t in Topics
-                        where t.SubjectId.Equals(subject)
-                        select t;
-            return query.ToList();
+            using (var db = new MedTrainDBContext())
+            {
+                var query = from t in db.Topics
+                            where t.SubjectId.Equals(subject)
+                            select t;
+                return query.ToList();
+            }
         }
         #endregion
         #region question
         public void addQuestion(Question q)
         {
-            if (Questions.Find(q.QuestionId) != null)
+            using (var db = new MedTrainDBContext())
             {
-                return;
+                if (db.Questions.Find(q.QuestionId) != null)
+                {
+                    return;
+                }
+                db.Questions.Add(q);
+                db.SaveChanges();
             }
-            Questions.Add(q);
-            SaveChanges();
         }
 
         public Question getQuestion(int id)
         {
-            return Questions.Find(id);
+            using (var db = new MedTrainDBContext())
+            {
+                return db.Questions.Find(id);
+            }
         }
 
         public void updateQuestion(Question q)
         {
-            Entry(q).State = System.Data.Entity.EntityState.Modified;
-            SaveChanges();
+            using (var db = new MedTrainDBContext())
+            {
+                db.Entry(q).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
         }
 
         public List<Question> getQuestions(string subject, string topic)
         {
-            Topic t = getTopic(subject, topic);
-            if (t == null)
+            try
             {
-                return new List<Question>();
-            }
-            var query = from q in Questions
-                        where q.SubjectId.Equals(subject)
-                        select q;
-            List<Question> ans = new List<Question>();
-            foreach (Question q in query)
-            {
-                var diagnoses = from d in Diagnoses
-                                where d.QuestionId == q.QuestionId
-                                select d;
-                foreach (Diagnosis d in diagnoses)
+                using (var db = new MedTrainDBContext())
                 {
-                    if (d.TopicId.Equals(topic))
+                    if (getTopic(subject, topic) == null)
                     {
-                        ans.Add(q);
-                        break;
+                        return new List<Question>();
                     }
+                    var query = from q in db.Questions
+                                where q.SubjectId.Equals(subject)
+                                select q;
+                    List<Question> ans = new List<Question>();
+                    foreach (Question q in query)
+                    {
+                        var diagnoses = from d in db.Diagnoses
+                                        where d.QuestionId == q.QuestionId
+                                        select d;
+                        foreach (Diagnosis d in diagnoses)
+                        {
+                            if (d.TopicId.Equals(topic))
+                            {
+                                ans.Add(q);
+                                break;
+                            }
+                        }
+                    }
+                    return ans;
                 }
             }
-            return ans;
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         public List<Question> getNormalQuestions(string subject)
@@ -200,157 +246,205 @@ namespace Entities
         #region image
         public void addImage(Image i)
         {
-            if (Questions.Find(i.QuestionId) == null || Images.Find(i.ImageId, i.QuestionId) != null)
+            using (var db = new MedTrainDBContext())
             {
-                return;
+                if (db.Questions.Find(i.QuestionId) == null || db.Images.Find(i.ImageId, i.QuestionId) != null)
+                {
+                    return;
+                }
+                db.Images.Add(i);
+                db.SaveChanges();
             }
-            Images.Add(i);
-            SaveChanges();
         }
 
         public List<Image> getQuestionImages(int qId)
         {
-            var query = from i in Images
-                        where i.QuestionId == qId
-                        select i;
-            return query.ToList();
+            using (var db = new MedTrainDBContext())
+            {
+                var query = from i in db.Images
+                            where i.QuestionId == qId
+                            select i;
+                return query.ToList();
+            }
         }
         #endregion
         #region diagnosis
         public void addDiagnosis(Diagnosis d)
         {
-            if (Subjects.Find(d.SubjectId) == null || Topics.Find(d.TopicId, d.SubjectId) == null ||
-                Questions.Find(d.QuestionId) == null || Diagnoses.Find(d.TopicId, d.SubjectId, d.QuestionId) != null)
+            using (var db = new MedTrainDBContext())
             {
-                return;
+                if (db.Subjects.Find(d.SubjectId) == null || db.Topics.Find(d.TopicId, d.SubjectId) == null ||
+                    db.Questions.Find(d.QuestionId) == null || db.Diagnoses.Find(d.TopicId, d.SubjectId, d.QuestionId) != null)
+                {
+                    return;
+                }
+                db.Diagnoses.Add(d);
+                db.SaveChanges();
             }
-            Diagnoses.Add(d);
-            SaveChanges();
         }
 
         public List<Diagnosis> getQuestionDiagnoses(int qId)
         {
-            var query = from d in Diagnoses
-                        where d.QuestionId == qId
-                        select d;
-            return query.ToList();
+            using (var db = new MedTrainDBContext())
+            {
+                var query = from d in db.Diagnoses
+                            where d.QuestionId == qId
+                            select d;
+                return query.ToList();
+            }
         }
         #endregion
         #region answer
         public void addAnswer(Answer a)
         {
-            if (Questions.Find(a.QuestionId) == null || Users.Find(a.UserId) == null || Answers.Find(a.AnswerId) != null)
+            using (var db = new MedTrainDBContext())
             {
-                return;
+                if (db.Questions.Find(a.QuestionId) == null || db.Users.Find(a.UserId) == null || db.Answers.Find(a.AnswerId) != null)
+                {
+                    return;
+                }
+                var query = from ans in db.Answers
+                            where ans.QuestionId == a.QuestionId && ans.UserId.Equals(a.UserId) && ans.timeAdded.Equals(a.timeAdded)
+                            select ans;
+                if (query.ToList().Count != 0)
+                {
+                    return;
+                }
+                db.Answers.Add(a);
+                db.SaveChanges();
             }
-            var query = from ans in Answers
-                        where ans.QuestionId == a.QuestionId && ans.UserId.Equals(a.UserId) && ans.timeAdded.Equals(a.timeAdded)
-                        select ans;
-            if (query.ToList().Count != 0)
-            {
-                return;
-            }
-            Answers.Add(a);
-            SaveChanges();
         }
         #endregion
         #region diagnosis certainty
         public void addDiagnosisCertainty(DiagnosisCertainty dc)
         {
-            if (Answers.Find(dc.AnswerId) == null || Subjects.Find(dc.SubjectId) == null ||
-                Topics.Find(dc.TopicId, dc.SubjectId) == null ||
-                DiagnosesCertainties.Find(dc.AnswerId, dc.TopicId, dc.SubjectId) != null)
+            using (var db = new MedTrainDBContext())
             {
-                return;
+                if (db.Answers.Find(dc.AnswerId) == null || db.Subjects.Find(dc.SubjectId) == null ||
+                    db.Topics.Find(dc.TopicId, dc.SubjectId) == null ||
+                    db.DiagnosesCertainties.Find(dc.AnswerId, dc.TopicId, dc.SubjectId) != null)
+                {
+                    return;
+                }
+                db.DiagnosesCertainties.Add(dc);
+                db.SaveChanges();
             }
-            DiagnosesCertainties.Add(dc);
-            SaveChanges();
         }
         #endregion
         #region user level answer
         public void addUserLevelAnwer(UserLevelAnswer ula)
         {
-            if (Answers.Find(ula.AnswerId) == null || Subjects.Find(ula.SubjectId) == null ||
-                Topics.Find(ula.TopicId, ula.SubjectId) == null ||
-                UsersLevelsWhenAnswring.Find(ula.AnswerId, ula.TopicId, ula.SubjectId) != null)
+            using (var db = new MedTrainDBContext())
             {
-                return;
+                if (db.Answers.Find(ula.AnswerId) == null || db.Subjects.Find(ula.SubjectId) == null ||
+                    db.Topics.Find(ula.TopicId, ula.SubjectId) == null ||
+                    db.UsersLevelsWhenAnswring.Find(ula.AnswerId, ula.TopicId, ula.SubjectId) != null)
+                {
+                    return;
+                }
+                db.UsersLevelsWhenAnswring.Add(ula);
+                db.SaveChanges();
             }
-            UsersLevelsWhenAnswring.Add(ula);
-            SaveChanges();
         }
         #endregion
         #region user level
         public void addUserLevel(UserLevel ul)
         {
-            if (UsersLevels.Find(ul.UserId, ul.TopicId, ul.SubjectId) != null)
+            using (var db = new MedTrainDBContext())
             {
-                return;
+                if (db.UsersLevels.Find(ul.UserId, ul.TopicId, ul.SubjectId) != null)
+                {
+                    return;
+                }
+                db.UsersLevels.Add(ul);
+                db.SaveChanges();
             }
-            UsersLevels.Add(ul);
-            SaveChanges();
         }
         
         public UserLevel getUserLevel(string eMail, string subject, string topic)
         {
-            return UsersLevels.Find(eMail, topic, subject);
+            using (var db = new MedTrainDBContext())
+            {
+                return db.UsersLevels.Find(eMail, topic, subject);
+            }
         }
 
         public void updateUserLevel(UserLevel ul)
         {
-            Entry(ul).State = System.Data.Entity.EntityState.Modified;
-            SaveChanges();
+            using (var db = new MedTrainDBContext())
+            {
+                db.Entry(ul).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
         }
         #endregion
         #region group
         public void addGroup(Group g)
         {
-            if (Admins.Find(g.AdminId) == null || Groups.Find(g.AdminId, g.name) != null)
+            using (var db = new MedTrainDBContext())
             {
-                return;
+                if (db.Admins.Find(g.AdminId) == null || db.Groups.Find(g.AdminId, g.name) != null)
+                {
+                    return;
+                }
+                db.Groups.Add(g);
+                db.SaveChanges();
             }
-            Groups.Add(g);
-            SaveChanges();
         }
 
         public Group getGroup(string adminId, string groupName)
         {
-            return Groups.Find(adminId, groupName);
+            using (var db = new MedTrainDBContext())
+            {
+                return db.Groups.Find(adminId, groupName);
+            }
         }
 
         public void removeGroup(Group g)
         {
-            Groups.Remove(g);
-            SaveChanges();
+            using (var db = new MedTrainDBContext())
+            {
+                db.Groups.Remove(g);
+                db.SaveChanges();
+            }
         }
 
         public List<Group> getAdminsGroups(string adminId)
         {
-            var query = from g in Groups
-                        where g.AdminId.Equals(adminId)
-                        select g;
-            return query.ToList();
+            using (var db = new MedTrainDBContext())
+            {
+                var query = from g in db.Groups
+                            where g.AdminId.Equals(adminId)
+                            select g;
+                return query.ToList();
+            }
         }
         #endregion
         #region group member
         public void addGroupMember(GroupMember gm)
         {
-            if (Groups.Find(gm.AdminId, gm.GroupName) == null || GroupsMembers.Find(gm.AdminId, gm.GroupName, gm.UserId) != null)
+            using (var db = new MedTrainDBContext())
             {
-                return;
+                if (db.Groups.Find(gm.AdminId, gm.GroupName) == null || db.GroupsMembers.Find(gm.AdminId, gm.GroupName, gm.UserId) != null)
+                {
+                    return;
+                }
+                db.GroupsMembers.Add(gm);
+                db.SaveChanges();
             }
-            GroupsMembers.Add(gm);
-            SaveChanges();
         }
 
         public void removeGroupMembers(Group g)
         {
-            var query = from gm in GroupsMembers
-                        where gm.GroupName.Equals(g.name) && gm.AdminId.Equals(g.AdminId)
-                        select gm;
-            foreach (GroupMember gm in query)
+            using (var db = new MedTrainDBContext())
             {
-                GroupsMembers.Remove(gm);
+                var query = from gm in db.GroupsMembers
+                            where gm.GroupName.Equals(g.name) && gm.AdminId.Equals(g.AdminId)
+                            select gm;
+                foreach (GroupMember gm in query)
+                {
+                    db.GroupsMembers.Remove(gm);
+                }
             }
         }
         #endregion

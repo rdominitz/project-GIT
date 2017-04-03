@@ -841,7 +841,7 @@
         placeholder: false,
         searchParam: 'search',
         searchMaxLength: 0,
-        searchMinLength: 0,
+        searchMinLength: 2,
         debounce: 0,
         delimiter: '~',
         newElements: true,
@@ -863,9 +863,11 @@
      '<output name="sure2" for="sure_' + replaceAll(value, ' ', '') + '" id="slider_sure_' + replaceAll(value, ' ', '') + '">1</output></div>';
             document.getElementById("diagnosis_sure").innerHTML = tmpStr;
             outputUpdateAll();
+            
         },
         onRemoveToken: function (value, e) {
             document.getElementById(replaceAll(value, ' ', '')).outerHTML = "";
+            
         },
         onClear: function (e) {},
         onReorder: function(e){},

@@ -260,13 +260,13 @@
     <Compile Include="Controllers\AnswerQuestionController.cs" />
     <Compile Include="Controllers\CreateGroupController.cs" />
     <Compile Include="Controllers\CreateTestController.cs" />
-    <Compile Include="Controllers\ManageGroupController.cs" />
     <Compile Include="Controllers\ForgotController.cs" />
     <Compile Include="Controllers\GetQuestionController.cs" />
     <Compile Include="Controllers\GetTestController.cs" />
     <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\MyGroupsController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ShowAnswersController.cs" />
     <Compile Include="Core\ServerWiring.cs" />
@@ -305,6 +305,7 @@
     <Content Include="Views\ManageGroup\index.cshtml" />
     <Content Include="Views\CreateTest\index.cshtml" />
     <Content Include="Views\AddTestToGroup\index.cshtml" />
+    <Content Include="Views\MyGroups\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -318,6 +319,7 @@
     <Folder Include="Models\Register\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Images\" />
+    <Folder Include="Views\ManageGroups\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Constants\Constants.csproj">

@@ -28,29 +28,33 @@
         <div>
             <br />
             <form id="answerQuestionForm" method="POST" action="~/AnswerQuestion/Submit">
+                <h4>What is your diagnosis?</h4>
                 <input type="radio" class="" name="norm" value="true" onchange="button1changed()" checked> Normal
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="radio" name="norm" value="false" onchange="button2changed()"> Abnormal<br />
 
                 <div>
-                    <h4>How sure are you of the main diagnosis (normal or not?)</h4>
+                    <h4>How sure are you of this diagnosis? (1 - completely unsure; 10 - completely certain)</h4>
                     <input type="range" min="1" max="10" name="sure1" value="0" id="sure1" step="1" oninput="UpdateForSure1(value)" />
                     <output for="sure1" id="slider1" name="sure1">1</output>
                 </div>
 
                 <div id="diagnosis_div" style="display:none">
-                    <h4>what is your diagnosis?</h4>
-                    <select id="diagnosis" name="diagnosis" multiple="multiple" class="tokenize-sample">
+                    <h4>Why is this case abnormal?</h4>
+                    <select id="diagnosis" name="diagnosis" multiple="multiple" class="tokenize-sample" onemptied="emptied()" oninput="input()">
                         @foreach (var s in (List<String>)ViewData["subjects"])
                         {
                             <option value="@s">@s</option>
 
                         }
                     </select>
-                    <h4>What is your confidence in each diagnosis: </h4>
+                    <div id="how_sure_of_each">
+                        <h4>How sure are you of each diagnosis? (1 - completely unsure; 10 - completely certain): </h4>
+                    </div>
                     <script type="text/javascript">
                         $('#diagnosis').tokenize();
                     </script>
+                    
                 </div>
                 <div id="diagnosis_sure">
 
@@ -60,7 +64,17 @@
                 </script>
                 <button type="submit" class="btn btn-primary btn-block" style="width: 280px;">Submit Answer</button>
             </form>
+            <script type="text/javascript">
 
+                        function emptied() {
+                            document.getElementById('how_sure_of_each').style.visibility = "hidden";
+                            alert("empty");
+                        }
+                        function input() {
+                            document.getElementById('how_sure_of_each').style.visibility = "visible";
+                            alert("not emty");
+                        }
+            </script>
         </div>
     </div>
 </div>

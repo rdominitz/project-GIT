@@ -145,5 +145,11 @@ namespace Server
         Tuple<string, List<Test>> getAllTests(int userUniqueInt);
 
         string addTestToGroup(string groupName, string testName);
+        
+		List<String> getUsersGroups(int userUniqueInt);
+
+        List<String> getUsersGroupsInvitations(int userUniqueInt);
+
+        void acceptUsersGroupsInvitations(int userUniqueInt, List<String> groups);
     }
 }
