@@ -47,7 +47,7 @@ namespace communication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Submit(string testName, string subject, string[] topics)
+        public ActionResult Submit(string subject, string[] topics)
         {
 
             HttpCookie cookie = Request.Cookies["userId"];
@@ -58,13 +58,11 @@ namespace communication.Controllers
             List<string> topicsList = new List<string>();
             topicsList = topics.ToList();
 
-
-            ViewBag.testName = testName;
             ViewBag.subject = subject;
             ViewData["topics"] = topics;
 
 
-            Tuple<string, List<Question>> ans = ServerWiring.getInstance().createTest(Convert.ToInt32(cookie.Value), testName, subject, topicsList);                
+            Tuple<string, List<Question>> ans = ServerWiring.getInstance().createTest(Convert.ToInt32(cookie.Value), subject, topicsList);                
             if (ans.Item1 == Replies.SUCCESS)
             {
                 // Aviv - do something with the list of questions (or tell me to save it for you and you'll take it later)

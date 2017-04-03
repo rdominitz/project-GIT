@@ -25,6 +25,7 @@ namespace Entities
         private List<Group> _groups;
         private List<GroupMember> _groupsMembers;
         private List<Test> _tests;
+        private List<GroupTest> _groupsTests;
 
         public FakeMedTrainDBContext()
         {
@@ -42,6 +43,7 @@ namespace Entities
             _groups = new List<Group>();
             _groupsMembers = new List<GroupMember>();
             _tests = new List<Test>();
+            _groupsTests = new List<GroupTest>();
         }
 
         //public IDbSet<Test> Tests { get; set; }
@@ -297,6 +299,19 @@ namespace Entities
         public List<Test> getAllTests()
         {
             return new List<Test>(_tests);
+        }
+        #endregion
+        #region group test
+        public void addGroupTest(GroupTest gt)
+        {
+            if (_admins.Where(a => a.AdminId.Equals(gt.adminId)).Count() == 0 || 
+                _groups.Where(g => g.AdminId.Equals(gt.adminId) && g.name.Equals(gt.GroupName)).Count() == 0 ||
+                _tests.Where(t => t.TestId == gt.TestId).Count() == 0 ||
+                _groupsTests.Where(gtest => gtest.adminId.Equals(gt.adminId) && gtest.GroupName.Equals(gt.GroupName) && gtest.TestId == gt.TestId).Count() != 0)
+            {
+                return;
+            }
+            _groupsTests.Add(gt);
         }
         #endregion
     }

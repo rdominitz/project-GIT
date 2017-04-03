@@ -32,8 +32,8 @@ namespace Entities
         public MedTrainDBContext()
             : base("MedTrainDB")
         {
-            Database.SetInitializer<MedTrainDBContext>(new CreateDatabaseIfNotExists<MedTrainDBContext>());
-            //Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseIfModelChanges<MedTrainDBContext>());
+            //Database.SetInitializer<MedTrainDBContext>(new CreateDatabaseIfNotExists<MedTrainDBContext>());
+            Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseIfModelChanges<MedTrainDBContext>());
             //Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseAlways<MedTrainDBContext>());
         }
 
@@ -445,6 +445,21 @@ namespace Entities
         public List<Test> getAllTests()
         {
             return Tests.ToList();
+        }
+        #endregion
+        #region group test
+        public void addGroupTest(GroupTest gt)
+        {
+            using (var db = new MedTrainDBContext())
+            {
+                if (db.Admins.Find(gt.adminId) == null || db.Groups.Find(gt.adminId, gt.GroupName) == null ||
+                    db.Tests.Find(gt.TestId) == null || db.GroupsTests.Find(gt.adminId, gt.GroupName, gt.TestId) != null)
+                {
+                    return;
+                }
+                db.GroupsTests.Add(gt);
+                db.SaveChanges();
+            }
         }
         #endregion
     }

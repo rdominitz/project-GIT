@@ -11,8 +11,10 @@ namespace Entities
     public class GroupTest
     {
         [Key, Column(Order = 1)]
-        public int GroupId { get; set; }
+        public string adminId { get; set; }
         [Key, Column(Order = 2)]
+        public string GroupName { get; set; }
+        [Key, Column(Order = 3)]
         public int TestId { get; set; }
     }
 }
