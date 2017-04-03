@@ -36,14 +36,15 @@ namespace Server
         private Dictionary<string, string> _selectedGroups;
 
         private int _userUniqueInt;
-        private readonly object syncLockUserUniqueInt;
+        private readonly object _syncLockUserUniqueInt;
 
         private int _questionID;
-        private readonly object syncLockQuestionId;
+        private readonly object _syncLockQuestionId;
 
-        private readonly object syncLockGroup;
+        private readonly object _syncLockGroup;
 
         private int _testID;
+        private readonly object _syncLockTestId;
 
         private Dictionary<string, List<string>> _subjectsTopics;
 
@@ -61,11 +62,12 @@ namespace Server
             _db = db;
             _logic = new LogicImpl(db);
             _userUniqueInt = 100000;
-            syncLockUserUniqueInt = new object();
+            _syncLockUserUniqueInt = new object();
             _questionID = 1;
-            syncLockQuestionId = new object();
-            syncLockGroup = new object();
+            _syncLockQuestionId = new object();
+            _syncLockGroup = new object();
             _testID = 1;
+            _syncLockTestId = new object();
             Thread.Sleep(_db.getMillisecondsToSleep());
             _subjectsTopics = new Dictionary<string, List<string>>();
             setSubjectsAndTopics();
@@ -322,7 +324,7 @@ namespace Server
             // if DB contains user with that eMail return error message
             int userUniqueInt = 0;
             User user = null;
-            lock (syncLockUserUniqueInt)
+            lock (_syncLockUserUniqueInt)
             {
                 userUniqueInt = _userUniqueInt;
                 user = new User { UserId = eMail, userPassword = password, userMedicalTraining = medicalTraining, userFirstName = firstName, userLastName = lastName, uniqueInt = _userUniqueInt };
@@ -773,7 +775,7 @@ namespace Server
                 qDiagnoses.Add(Topics.NORMAL);
             }
             Question q = new Question { };
-            lock (syncLockQuestionId)
+            lock (_syncLockQuestionId)
             {
                 foreach (string diagnosis in qDiagnoses)
                 {
@@ -876,7 +878,7 @@ namespace Server
             {
                 return NOT_AN_ADMIN;
             }
-            lock (syncLockGroup)
+            lock (_syncLockGroup)
             {
                 Group group = _db.getGroup(admin.AdminId, groupName);
                 if (group != null)
@@ -926,7 +928,7 @@ namespace Server
             {
                 return NOT_AN_ADMIN;
             }
-            lock (syncLockGroup)
+            lock (_syncLockGroup)
             {
                 if (_db.getGroup(admin.AdminId, groupName) == null)
                 {
@@ -1026,7 +1028,7 @@ namespace Server
             {
                 return NOT_AN_ADMIN;
             }
-            lock (syncLockGroup)
+            lock (_syncLockGroup)
             {
                 Group g = _db.getGroup(admin.AdminId, groupName);
                 if (g == null)
@@ -1039,10 +1041,10 @@ namespace Server
             return Replies.SUCCESS;
         }
 
-        public Tuple<string, List<Question>> createTest(int userUniqueInt, string testName, string subject, List<string> topics)
+        public Tuple<string, List<Question>> createTest(int userUniqueInt, string subject, List<string> topics)
         {
             // check for illegal input values
-            List<string> input = new List<string>() { testName, subject };
+            List<string> input = new List<string>() { subject };
             foreach (string s in topics)
             {
                 input.Add(s);
@@ -1121,6 +1123,47 @@ namespace Server
             return new Tuple<string,List<Question>>(Replies.SUCCESS, selecetedQuestions);
         }
 
+        public string createTest(int userUniqueInt, List<int> questionsIds, string name)
+        {
+            // check for illegal input values
+            List<string> input = new List<string>() { name };
+            if (!InputTester.isValidInput(input))
+            {
+                return GENERAL_INPUT_ERROR;
+            }
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return NOT_LOGGED_IN;
+            }
+            updateUserLastActionTime(user);
+            // verify user is an admin
+            Admin admin = _db.getAdmin(user.UserId);
+            if (admin == null)
+            {
+                return NOT_AN_ADMIN;
+            }
+            // verify all question ids are valid
+            foreach (int i in questionsIds)
+            {
+                if (_db.getQuestion(i) == null)
+                {
+                    return "Error. An invalid question has been selected.";
+                }
+            }
+            lock (_syncLockTestId)
+            {
+                _db.addTest(new Test { TestId = _testID, testName = name, AdminId = admin.AdminId });
+                foreach (int i in questionsIds)
+                {
+                    _db.addTestQuestion(new TestQuestion { TestId = _testID, QuestionId = i });
+                }
+                _testID++;
+            }
+            return Replies.SUCCESS;
+        }
+
         public bool isAdmin(int userUniqueInt)
         {
             User u = getUserByInt(userUniqueInt);
@@ -1151,7 +1194,33 @@ namespace Server
 
         public string addTestToGroup(int userUniqueInt, string groupName, int testId)
         {
-            return "temp";
+            // check for illegal input values
+            List<string> input = new List<string>() { groupName };
+            if (!InputTester.isValidInput(input))
+            {
+                return GENERAL_INPUT_ERROR;
+            }
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return NOT_LOGGED_IN;
+            }
+            updateUserLastActionTime(user);
+            // verify user is an admin
+            Admin admin = _db.getAdmin(user.UserId);
+            if (admin == null)
+            {
+                return NOT_AN_ADMIN;
+            }
+            // verify group exist
+            if (_db.getGroup(admin.AdminId, groupName) == null)
+            {
+                return "Error. The administrator " + admin.AdminId + " does not have a group named " + groupName;
+            }
+            GroupTest gt = new GroupTest { adminId = admin.AdminId, GroupName = groupName, TestId = testId };
+            _db.addGroupTest(gt);
+            return Replies.SUCCESS;
         }
 
         public List<string> getUsersGroups(int userUniqueInt)

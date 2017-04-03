@@ -138,7 +138,9 @@ namespace Server
 
         string removeGroup(int userUniqueInt, string groupName);
 
-        Tuple<string, List<Question>> createTest(int userUniqueInt, string testName, string subject, List<string> topics);
+        Tuple<string, List<Question>> createTest(int userUniqueInt, string subject, List<string> topics);
+
+        string createTest(int userUniqueInt, List<int> questionsIds, string name);
 
         bool isAdmin(int userUniqueInt);
 

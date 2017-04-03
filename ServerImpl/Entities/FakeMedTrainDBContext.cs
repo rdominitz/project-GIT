@@ -25,6 +25,8 @@ namespace Entities
         private List<Group> _groups;
         private List<GroupMember> _groupsMembers;
         private List<Test> _tests;
+        private List<GroupTest> _groupsTests;
+        private List<TestQuestion> _testsQuestions;
 
         public FakeMedTrainDBContext()
         {
@@ -42,6 +44,8 @@ namespace Entities
             _groups = new List<Group>();
             _groupsMembers = new List<GroupMember>();
             _tests = new List<Test>();
+            _groupsTests = new List<GroupTest>();
+            _testsQuestions = new List<TestQuestion>();
         }
 
         //public IDbSet<Test> Tests { get; set; }
@@ -294,9 +298,44 @@ namespace Entities
         }
         #endregion
         #region test
+        public void addTest(Test t)
+        {
+            if (_admins.Where(a => a.AdminId.Equals(t.AdminId)).Count() == 0 ||
+                _tests.Where(test => test.TestId == t.TestId).Count() != 0)
+            {
+                return;
+            }
+            _tests.Add(t);
+        }
+
         public List<Test> getAllTests()
         {
             return new List<Test>(_tests);
+        }
+        #endregion
+        #region group test
+        public void addGroupTest(GroupTest gt)
+        {
+            if (_admins.Where(a => a.AdminId.Equals(gt.adminId)).Count() == 0 || 
+                _groups.Where(g => g.AdminId.Equals(gt.adminId) && g.name.Equals(gt.GroupName)).Count() == 0 ||
+                _tests.Where(t => t.TestId == gt.TestId).Count() == 0 ||
+                _groupsTests.Where(gtest => gtest.adminId.Equals(gt.adminId) && gtest.GroupName.Equals(gt.GroupName) && gtest.TestId == gt.TestId).Count() != 0)
+            {
+                return;
+            }
+            _groupsTests.Add(gt);
+        }
+        #endregion
+        #region test question
+        public void addTestQuestion(TestQuestion tq)
+        {
+            if (_tests.Where(t => t.TestId == tq.TestId).Count() == 0 || 
+                _questions.Where(q => q.QuestionId == tq.QuestionId).Count() == 0 ||
+                _testsQuestions.Where(tquestion => tquestion.TestId == tq.TestId && tquestion.QuestionId == tq.QuestionId).Count() != 0)
+            {
+                return;
+            }
+            _testsQuestions.Add(tq);
         }
         #endregion
     }
