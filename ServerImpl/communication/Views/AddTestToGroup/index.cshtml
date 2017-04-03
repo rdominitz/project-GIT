@@ -1,7 +1,35 @@
 ﻿
 @{
-    ViewBag.Title = "index";
+    ViewBag.Title = "Add test to group";
 }
 
-<h2>index</h2>
+@model IEnumerable<communication.Models.Test.TestData>
+<meta id="meta" name="@ViewBag.Title" />
 
+<div class="cen col-md-offset-4">
+    <form id="createGroupForm" method="POST" action="~/AddTestToGroup/submit">
+        <div class="form-group">
+            <br />
+            <h2>Select a test</h2>
+            <br />
+            @if (@ViewBag.message != null)
+            {
+                <script>
+                    alert("@ViewBag.message");
+                </script>
+            }
+            <label for="testName" class="control-label">Test Name</label>
+            <select id="testName" name="testName" class="form-control" value="">
+                @foreach (var test in Model)
+                {
+                    <option value="@test.key">@test.key</option>
+                }
+                @ViewBag.testName=this.value
+            </select>
+
+            <br />
+            <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Add test</button>
+
+        </div>
+    </form>
+</div>

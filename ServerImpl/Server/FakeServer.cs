@@ -266,7 +266,9 @@ namespace Server
             throw new NotImplementedException();
         }
         public string addTestToGroup(int userUniqueInt, string groupName, int testId)
-
+        {
+            throw new NotImplementedException();
+        }
         public List<string> getUsersGroups(int userUniqueInt)
         {
             throw new NotImplementedException();

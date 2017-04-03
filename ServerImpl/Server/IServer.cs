@@ -144,7 +144,7 @@ namespace Server
 
         Tuple<string, List<Test>> getAllTests(int userUniqueInt);
 
-        string addTestToGroup(string groupName, string testName);
+        string addTestToGroup(int userUniqueInt, string groupName, int testId);
         
 		List<String> getUsersGroups(int userUniqueInt);
 
