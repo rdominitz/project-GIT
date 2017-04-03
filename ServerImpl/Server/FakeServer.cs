@@ -283,5 +283,42 @@ namespace Server
         {
             throw new NotImplementedException();
         }
+
+        public string saveSelectedGroup(int userUniqueInt, string groupName)
+        {
+            string s = "";
+            try
+            {
+                if (userUniqueInt == Users.USER_UNIQUE_INT && groupName.Equals("fake group"))
+                {
+                    s = Replies.SUCCESS;
+                }
+            }
+            catch
+            {
+                s = "Error";
+            }
+            return s;
+        }
+
+        public Tuple<string, string> getSavedGroup(int userUniqueInt)
+        {
+            string s = "";
+            string s2 = "";
+            try
+            {
+                if (userUniqueInt == Users.USER_UNIQUE_INT)
+                {
+                    s = Replies.SUCCESS;
+                    s2 = "fake group";
+                }
+            }
+            catch
+            {
+                s = "Error";
+                s2 = null;
+            }
+            return new Tuple<string, string>(s, s2);
+        }
     }
 }

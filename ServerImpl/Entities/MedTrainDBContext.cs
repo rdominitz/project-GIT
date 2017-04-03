@@ -23,7 +23,7 @@ namespace Entities
         public IDbSet<GroupMember> GroupsMembers { get; set; }
         public IDbSet<GroupTest> GroupsTests { get; set; }
         public IDbSet<Answer> Answers { get; set; }
-        public IDbSet<DiagnosisCertainty> DiagnosesCertainties {get; set;}
+        public IDbSet<DiagnosisCertainty> DiagnosesCertainties { get; set; }
         public IDbSet<UserLevelAnswer> UsersLevelsWhenAnswring { get; set; }
         public IDbSet<UserLevel> UsersLevels { get; set; }
         public IDbSet<UserGroupTest> UsersGroupsTests { get; set; }
@@ -203,38 +203,31 @@ namespace Entities
 
         public List<Question> getQuestions(string subject, string topic)
         {
-            try
+            using (var db = new MedTrainDBContext())
             {
-                using (var db = new MedTrainDBContext())
+                if (getTopic(subject, topic) == null)
                 {
-                    if (getTopic(subject, topic) == null)
+                    return new List<Question>();
+                }
+                var query = from q in db.Questions
+                            where q.SubjectId.Equals(subject)
+                            select q;
+                List<Question> ans = new List<Question>();
+                foreach (Question q in query)
+                {
+                    var diagnoses = from d in db.Diagnoses
+                                    where d.QuestionId == q.QuestionId
+                                    select d;
+                    foreach (Diagnosis d in diagnoses)
                     {
-                        return new List<Question>();
-                    }
-                    var query = from q in db.Questions
-                                where q.SubjectId.Equals(subject)
-                                select q;
-                    List<Question> ans = new List<Question>();
-                    foreach (Question q in query)
-                    {
-                        var diagnoses = from d in db.Diagnoses
-                                        where d.QuestionId == q.QuestionId
-                                        select d;
-                        foreach (Diagnosis d in diagnoses)
+                        if (d.TopicId.Equals(topic))
                         {
-                            if (d.TopicId.Equals(topic))
-                            {
-                                ans.Add(q);
-                                break;
-                            }
+                            ans.Add(q);
+                            break;
                         }
                     }
-                    return ans;
                 }
-            }
-            catch (Exception e)
-            {
-                return null;
+                return ans;
             }
         }
 
@@ -360,7 +353,7 @@ namespace Entities
                 db.SaveChanges();
             }
         }
-        
+
         public UserLevel getUserLevel(string eMail, string subject, string topic)
         {
             using (var db = new MedTrainDBContext())
@@ -446,6 +439,12 @@ namespace Entities
                     db.GroupsMembers.Remove(gm);
                 }
             }
+        }
+        #endregion
+        #region test
+        public List<Test> getAllTests()
+        {
+            return Tests.ToList();
         }
         #endregion
     }

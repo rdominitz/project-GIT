@@ -24,6 +24,7 @@ namespace Entities
         private List<UserLevel> _usersLevels;
         private List<Group> _groups;
         private List<GroupMember> _groupsMembers;
+        private List<Test> _tests;
 
         public FakeMedTrainDBContext()
         {
@@ -40,6 +41,7 @@ namespace Entities
             _usersLevels = new List<UserLevel>();
             _groups = new List<Group>();
             _groupsMembers = new List<GroupMember>();
+            _tests = new List<Test>();
         }
 
         //public IDbSet<Test> Tests { get; set; }
@@ -289,6 +291,12 @@ namespace Entities
         public void removeGroupMembers(Group g)
         {
             _groupsMembers.RemoveAll(gm => gm.GroupName.Equals(g.name) && gm.AdminId.Equals(g.AdminId));
+        }
+        #endregion
+        #region test
+        public List<Test> getAllTests()
+        {
+            return new List<Test>(_tests);
         }
         #endregion
     }

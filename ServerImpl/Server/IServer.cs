@@ -151,5 +151,9 @@ namespace Server
         List<String> getUsersGroupsInvitations(int userUniqueInt);
 
         void acceptUsersGroupsInvitations(int userUniqueInt, List<String> groups);
+
+        string saveSelectedGroup(int userUniqueInt, string groupName);
+
+        Tuple<string, string> getSavedGroup(int userUniqueInt);
     }
 }

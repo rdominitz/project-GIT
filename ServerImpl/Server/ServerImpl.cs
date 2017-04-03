@@ -33,6 +33,7 @@ namespace Server
         private Dictionary<User, List<Question>> _usersTestsAnswerEveryTime;
         private Dictionary<User, List<Question>> _usersTestsAnswersAtEndRemainingQuestions;
         private Dictionary<User, List<Question>> _usersTestsAnswersAtEndAnsweredQuestions;
+        private Dictionary<Admin, string> _selectedGroups;
 
         private int _userUniqueInt;
         private readonly object syncLockUserUniqueInt;
@@ -56,6 +57,7 @@ namespace Server
             _usersTestsAnswerEveryTime = new Dictionary<User, List<Question>>();
             _usersTestsAnswersAtEndRemainingQuestions = new Dictionary<User, List<Question>>();
             _usersTestsAnswersAtEndAnsweredQuestions = new Dictionary<User, List<Question>>();
+            _selectedGroups = new Dictionary<Admin, string>();
             _db = db;
             _logic = new LogicImpl(db);
             _userUniqueInt = 100000;
@@ -1038,7 +1040,84 @@ namespace Server
 
         public Tuple<string, List<Question>> createTest(int userUniqueInt, string testName, string subject, List<string> topics)
         {
-            return new Tuple<string,List<Question>>("temp",new List<Question>());
+            // check for illegal input values
+            List<string> input = new List<string>() { testName, subject };
+            foreach (string s in topics)
+            {
+                input.Add(s);
+            }
+            if (!InputTester.isValidInput(input))
+            {
+                return new Tuple<string, List<Question>>(GENERAL_INPUT_ERROR, null);
+            }
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return new Tuple<string, List<Question>>(NOT_LOGGED_IN, null);
+            }
+            updateUserLastActionTime(user);
+            // verify user is an admin
+            Admin admin = _db.getAdmin(user.UserId);
+            if (admin == null)
+            {
+                return new Tuple<string, List<Question>>(NOT_AN_ADMIN, null);
+            }
+            // verify subject is valid
+            if (_db.getSubject(subject) == null)
+            {
+                return new Tuple<string, List<Question>>("The subject " + subject + " does not exist in the system.", null);
+            }
+            // verify topics are valid
+            StringBuilder error = new StringBuilder();
+            error.Append("The following topics does not exist in the system under the subject " + subject + ":");
+            bool faultyTopics = false;
+            List<Topic> subjectTopics = _db.getTopics(subject);
+            List<string> subjectTopicsNames = new List<string>();
+            foreach (Topic t in subjectTopics)
+            {
+                subjectTopicsNames.Add(t.TopicId);
+            }
+            foreach (string s in topics)
+            {
+                if (!subjectTopicsNames.Contains(s))
+                {
+                    faultyTopics = true;
+                    error.Append(Environment.NewLine + s);
+                }
+            }
+            if (faultyTopics)
+            {
+                return new Tuple<string, List<Question>>(error.ToString(), null);
+            }
+            // get all relevant questions for each topic
+            List<Question> questions = new List<Question>();
+            foreach (string s in topics)
+            {
+                List<Question> qs = _db.getQuestions(subject, s);
+                foreach (Question q in qs)
+                {
+                    if (!questions.Contains(q))
+                    {
+                        questions.Add(q);
+                    }
+                }
+            }
+            // select only questions that has no irrelevant topics
+            List<Question> selecetedQuestions = new List<Question>();
+            foreach (Question q in questions)
+            {
+                List<Diagnosis> qDiagnoses = _db.getQuestionDiagnoses(q.QuestionId);
+                foreach (Diagnosis d in qDiagnoses)
+                {
+                    if (!topics.Contains(d.TopicId))
+                    {
+                        break;
+                    }
+                    selecetedQuestions.Add(q);
+                }
+            }
+            return new Tuple<string,List<Question>>(Replies.SUCCESS, selecetedQuestions);
         }
 
         public bool isAdmin(int userUniqueInt)
@@ -1053,9 +1132,20 @@ namespace Server
 
         public Tuple<string, List<Test>> getAllTests(int userUniqueInt)
         {
-            List<Test> tests = new List<Test>();
-
-            return new Tuple<string, List<Test>>("temp", tests);
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return new Tuple<string, List<Test>>(NOT_LOGGED_IN, null);
+            }
+            updateUserLastActionTime(user);
+            // verify user is an admin
+            Admin admin = _db.getAdmin(user.UserId);
+            if (admin == null)
+            {
+                return new Tuple<string, List<Test>>(NOT_AN_ADMIN, null);
+            }
+            return new Tuple<string, List<Test>>(Replies.SUCCESS, _db.getAllTests());
         }
 
         public string addTestToGroup(int userUniqueInt, string groupName, int testId)
@@ -1063,6 +1153,66 @@ namespace Server
             return "temp";
         }
 
+        public List<string> getUsersGroups(int userUniqueInt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> getUsersGroupsInvitations(int userUniqueInt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void acceptUsersGroupsInvitations(int userUniqueInt, List<string> groups)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string saveSelectedGroup(int userUniqueInt, string groupName)
+        {
+            List<string> input = new List<string>() { groupName };
+            if (!InputTester.isValidInput(input))
+            {
+                return GENERAL_INPUT_ERROR;
+            }
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return NOT_LOGGED_IN;
+            }
+            updateUserLastActionTime(user);
+            // verify user is an admin
+            Admin admin = _db.getAdmin(user.UserId);
+            if (admin == null)
+            {
+                return NOT_AN_ADMIN;
+            }
+            _selectedGroups[admin] = groupName;
+            return Replies.SUCCESS;
+        }
+
+        public Tuple<string, string> getSavedGroup(int userUniqueInt)
+        {
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return new Tuple<string, string>(NOT_LOGGED_IN, null);
+            }
+            updateUserLastActionTime(user);
+            // verify user is an admin
+            Admin admin = _db.getAdmin(user.UserId);
+            if (admin == null)
+            {
+                return new Tuple<string, string>(NOT_AN_ADMIN, null);
+            }
+            if (!_selectedGroups.Keys.Contains(admin))
+            {
+                return new Tuple<string, string>("Error. You have not selected a group.", null);
+            }
+            return new Tuple<string, string>(Replies.SUCCESS, _selectedGroups[admin]);
+        }
 
         private User getUserByInt(int userUniqueInt)
         {
@@ -1086,22 +1236,6 @@ namespace Server
             {
                 _usersCache.RemoveAt(0);
             }
-        }
-
-
-        public List<string> getUsersGroups(int userUniqueInt)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<string> getUsersGroupsInvitations(int userUniqueInt)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void acceptUsersGroupsInvitations(int userUniqueInt, List<string> groups)
-        {
-            throw new NotImplementedException();
         }
     }
 }
