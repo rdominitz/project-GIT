@@ -256,6 +256,11 @@ namespace Server
             throw new NotImplementedException();
         }
 
+        public string createTest(int userUniqueInt, List<int> questionsIds, string name)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool isAdmin(int userUniqueInt)
         {
             return userUniqueInt == Users.USER_UNIQUE_INT;

@@ -442,9 +442,25 @@ namespace Entities
         }
         #endregion
         #region test
+        public void addTest(Test t)
+        {
+            using (var db = new MedTrainDBContext())
+            {
+                if (db.Admins.Find(t.AdminId) == null || db.Tests.Find(t.TestId) != null)
+                {
+                    return;
+                }
+                db.Tests.Add(t);
+                db.SaveChanges();
+            }
+        }
+
         public List<Test> getAllTests()
         {
-            return Tests.ToList();
+            using (var db = new MedTrainDBContext())
+            {
+                return db.Tests.ToList();
+            }
         }
         #endregion
         #region group test
@@ -458,6 +474,21 @@ namespace Entities
                     return;
                 }
                 db.GroupsTests.Add(gt);
+                db.SaveChanges();
+            }
+        }
+        #endregion
+        #region test question
+        public void addTestQuestion(TestQuestion tq)
+        {
+            using (var db = new MedTrainDBContext())
+            {
+                if (db.Tests.Find(tq.TestId) == null || db.Questions.Find(tq.QuestionId) == null ||
+                    db.TestsQuestions.Find(tq.TestId, tq.QuestionId) != null)
+                {
+                    return;
+                }
+                db.TestsQuestions.Add(tq);
                 db.SaveChanges();
             }
         }

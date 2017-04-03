@@ -140,6 +140,8 @@ namespace Server
 
         Tuple<string, List<Question>> createTest(int userUniqueInt, string subject, List<string> topics);
 
+        string createTest(int userUniqueInt, List<int> questionsIds, string name);
+
         bool isAdmin(int userUniqueInt);
 
         Tuple<string, List<Test>> getAllTests(int userUniqueInt);
