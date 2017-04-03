@@ -33,7 +33,7 @@ namespace Server
         private Dictionary<User, List<Question>> _usersTestsAnswerEveryTime;
         private Dictionary<User, List<Question>> _usersTestsAnswersAtEndRemainingQuestions;
         private Dictionary<User, List<Question>> _usersTestsAnswersAtEndAnsweredQuestions;
-        private Dictionary<Admin, string> _selectedGroups;
+        private Dictionary<string, string> _selectedGroups;
 
         private int _userUniqueInt;
         private readonly object syncLockUserUniqueInt;
@@ -57,7 +57,7 @@ namespace Server
             _usersTestsAnswerEveryTime = new Dictionary<User, List<Question>>();
             _usersTestsAnswersAtEndRemainingQuestions = new Dictionary<User, List<Question>>();
             _usersTestsAnswersAtEndAnsweredQuestions = new Dictionary<User, List<Question>>();
-            _selectedGroups = new Dictionary<Admin, string>();
+            _selectedGroups = new Dictionary<string, string>();
             _db = db;
             _logic = new LogicImpl(db);
             _userUniqueInt = 100000;
@@ -211,6 +211,7 @@ namespace Server
                 level = Levels.DEFAULT_LVL,
                 points = Questions.QUESTION_INITAL_POINTS,
                 timeAdded = DateTime.Now,
+                isDeleted = false
             };
             _db.addQuestion(q);
             foreach (Topic t in diagnoses)
@@ -1188,7 +1189,7 @@ namespace Server
             {
                 return NOT_AN_ADMIN;
             }
-            _selectedGroups[admin] = groupName;
+            _selectedGroups[admin.AdminId] = groupName;
             return Replies.SUCCESS;
         }
 
@@ -1207,11 +1208,13 @@ namespace Server
             {
                 return new Tuple<string, string>(NOT_AN_ADMIN, null);
             }
-            if (!_selectedGroups.Keys.Contains(admin))
+            if (!_selectedGroups.Keys.Contains(admin.AdminId))
             {
                 return new Tuple<string, string>("Error. You have not selected a group.", null);
             }
-            return new Tuple<string, string>(Replies.SUCCESS, _selectedGroups[admin]);
+            string groupName = _selectedGroups[admin.AdminId];
+            _selectedGroups.Remove(admin.AdminId);
+            return new Tuple<string, string>(Replies.SUCCESS, groupName);
         }
 
         private User getUserByInt(int userUniqueInt)

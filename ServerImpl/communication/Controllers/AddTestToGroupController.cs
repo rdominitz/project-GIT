@@ -14,14 +14,14 @@ namespace communication.Controllers
     {
         // GET: AddTestToGroup
         [HttpGet]
-        public ActionResult Index(string group)
+        public ActionResult Index()
         {
             HttpCookie cookie = Request.Cookies["userId"];
             if (cookie == null)
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-            ViewBag.group = group;
+           
 
             return View(getData(Convert.ToInt32(cookie.Value)));
         }

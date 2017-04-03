@@ -20,8 +20,8 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-            
-            return View(getData(Convert.ToInt32(cookie.Value)));
+           
+            return View();
         }
 
         [HttpPost]
@@ -32,7 +32,6 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-
             ViewBag.inviteEmails = inviteEmails;
             ViewBag.emailContent = emailContent;
             Tuple<string, string> groupName = ServerWiring.getInstance().getSavedGroup(Convert.ToInt32(cookie.Value));

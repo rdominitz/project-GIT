@@ -23,5 +23,6 @@ namespace Entities
         public int level { get; set; }
         [Required]
         public double points { get; set; }
+        public bool isDeleted { get; set; }
     }
 }

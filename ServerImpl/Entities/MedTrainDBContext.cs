@@ -210,7 +210,7 @@ namespace Entities
                     return new List<Question>();
                 }
                 var query = from q in db.Questions
-                            where q.SubjectId.Equals(subject)
+                            where q.SubjectId.Equals(subject) && q.isDeleted == false
                             select q;
                 List<Question> ans = new List<Question>();
                 foreach (Question q in query)
@@ -397,7 +397,8 @@ namespace Entities
         {
             using (var db = new MedTrainDBContext())
             {
-                db.Groups.Remove(g);
+                Group group = db.Groups.Find(g.AdminId, g.name);
+                db.Groups.Remove(group);
                 db.SaveChanges();
             }
         }

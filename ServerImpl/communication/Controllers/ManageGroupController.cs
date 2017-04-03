@@ -33,9 +33,6 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-
-            ViewBag.groupName = groupName;
-
             string ans = ServerWiring.getInstance().removeGroup(Convert.ToInt32(cookie.Value), groupName);
             if (ans.Equals(Replies.SUCCESS))
             {
@@ -44,6 +41,38 @@ namespace communication.Controllers
             return RedirectToAction("Index", "ManageGroup", new { message = ans });
         }
 
+       [HttpPost]
+        public ActionResult saveChangeAndRedirectAddToExistGroup(string groupName)
+        {
+            HttpCookie cookie = Request.Cookies["userId"];
+            if (cookie == null)
+            {
+                return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
+            }
+            string ans = ServerWiring.getInstance().saveSelectedGroup(Convert.ToInt32(cookie.Value), groupName);
+            if (ans.Equals(Replies.SUCCESS))
+            {
+                return RedirectToAction("Index", "AddToExistGroup");
+            }
+            return RedirectToAction("Index", "ManageGroup", new { message = ans });
+        }
+
+       [HttpPost]
+       public ActionResult saveChangeAndRedirectAddTestToGroup(string groupName)
+       {
+           HttpCookie cookie = Request.Cookies["userId"];
+           if (cookie == null)
+           {
+               return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
+           }
+           string ans = ServerWiring.getInstance().saveSelectedGroup(Convert.ToInt32(cookie.Value), groupName);
+           if (ans.Equals(Replies.SUCCESS))
+           {
+               return RedirectToAction("Index", "AddTestToGroup");
+           }
+           return RedirectToAction("Index", "ManageGroup", new { message = ans });
+       }
+        
         List<GroupData> getData(int adminId)
         {
             List<GroupData> data = new List<GroupData>();
