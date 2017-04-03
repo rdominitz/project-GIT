@@ -266,6 +266,7 @@
     <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\ManageGroupController.cs" />
     <Compile Include="Controllers\MyGroupsController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ShowAnswersController.cs" />
@@ -319,7 +320,6 @@
     <Folder Include="Models\Register\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Images\" />
-    <Folder Include="Views\ManageGroups\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Constants\Constants.csproj">
