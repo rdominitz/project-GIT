@@ -116,10 +116,6 @@ namespace QALogic
             List<Question> test = new List<Question>();
             for (int i = 0; i < numOfQuestions; i++)
             {
-                // should see if there are questions of the relevant level
-                // if so, prefer those the user did not answer
-                // if answered all of them, select from those answered over a week ago
-                // if none apply, increase level range from [a,b] to [a-1,b+1]
                 Question q = selectRandomObject<Question>(chooseFrom);
                 chooseFrom.Remove(q);
                 test.Add(q);

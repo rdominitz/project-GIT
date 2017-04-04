@@ -86,7 +86,10 @@ namespace Server
             _db.addUser(u);
             Admin a = new Admin { AdminId = "defaultadmin@gmail.com" };
             _db.addAdmin(a);
-            setDB();
+            if (_db.getMillisecondsToSleep() != 0)
+            {
+                setDB();
+            }
         }
 
         public void setDB()
@@ -96,7 +99,7 @@ namespace Server
             #region normal
             Topic cxrNormal = new Topic { TopicId = "Normal", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
             _db.addTopic(cxrNormal);
-            addQuestions(chestXRays, new List<Topic>() { cxrNormal }, new List<List<string>>() 
+            addQuestions(chestXRays, new List<Topic>() { cxrNormal }, new List<List<string>>()
             {
                 new List<string>() { "../Images/q1_2_pa.png", "../Images/q1_2_lat.jpg" },
                 new List<string>() { "../Images/q2_17_PA.png", "../Images/q2_17_Lat.png" },
@@ -113,7 +116,7 @@ namespace Server
             #region cavitary lesion
             Topic cxrCavitaryLesion = new Topic { TopicId = "Cavitary Lesion", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
             _db.addTopic(cxrCavitaryLesion);
-            addQuestions(chestXRays, new List<Topic>() { cxrCavitaryLesion }, new List<List<string>>() 
+            addQuestions(chestXRays, new List<Topic>() { cxrCavitaryLesion }, new List<List<string>>()
             {
                 new List<string>() { "../Images/q11_9_PA.png" },
                 new List<string>() { "../Images/q12_10_PA.png" },
@@ -124,7 +127,7 @@ namespace Server
             #region interstitial opacities
             Topic cxrInterstitialOpacities = new Topic { TopicId = "Interstitial opacities", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
             _db.addTopic(cxrInterstitialOpacities);
-            addQuestions(chestXRays, new List<Topic>() { cxrInterstitialOpacities }, new List<List<string>>() 
+            addQuestions(chestXRays, new List<Topic>() { cxrInterstitialOpacities }, new List<List<string>>()
             {
                 new List<string>() { "../Images/q15_34_Lat.png", "../Images/q15_34_PA.png" },
                 new List<string>() { "../Images/q16_42_PA.png" },
@@ -135,7 +138,7 @@ namespace Server
             #region left pleural effusion
             Topic cxrLeftPleuralEffusion = new Topic { TopicId = "Left Pleural Effusion", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
             _db.addTopic(cxrLeftPleuralEffusion);
-            addQuestions(chestXRays, new List<Topic>() { cxrLeftPleuralEffusion }, new List<List<string>>() 
+            addQuestions(chestXRays, new List<Topic>() { cxrLeftPleuralEffusion }, new List<List<string>>()
             {
                 new List<string>() { "../Images/q19_1_PA.png", "../Images/q19_1_lat.png" },
                 new List<string>() { "../Images/q20_3_PA.png" },
@@ -146,7 +149,7 @@ namespace Server
             #region median sternotomy
             Topic cxrMedianSternotomy = new Topic { TopicId = "Median Sternotomy", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
             _db.addTopic(cxrMedianSternotomy);
-            addQuestions(chestXRays, new List<Topic>() { cxrLeftPleuralEffusion }, new List<List<string>>() 
+            addQuestions(chestXRays, new List<Topic>() { cxrLeftPleuralEffusion }, new List<List<string>>()
             {
                 new List<string>() { "../Images/q23_22_PA.png", "../Images/q23_22_Lat.png" },
                 new List<string>() { "../Images/q24_33_PA.png", "../Images/q24_33_Lat.png" },
@@ -157,7 +160,7 @@ namespace Server
             #region right middle lobe collapse
             Topic cxrRightMiddleLobeCollapse = new Topic { TopicId = "Right Middle Lobe Collapse", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
             _db.addTopic(cxrRightMiddleLobeCollapse);
-            addQuestions(chestXRays, new List<Topic>() { cxrLeftPleuralEffusion }, new List<List<string>>() 
+            addQuestions(chestXRays, new List<Topic>() { cxrLeftPleuralEffusion }, new List<List<string>>()
             {
                 new List<string>() { "../Images/q27_4_PA.png" },
                 new List<string>() { "../Images/q28_13_PA.png", "../Images/q28_13_Lat.png" },
@@ -179,8 +182,8 @@ namespace Server
             _userUniqueInt++;
             _db.addUser(u);
             #endregion
-            _subjectsTopics["Chest x-Rays"] = new List<string>() 
-            { 
+            _subjectsTopics["Chest x-Rays"] = new List<string>()
+            {
                 "Cavitary Lesion", "Interstitial opacities", "Left Pleural Effusion",
                 "Median Sternotomy", "Right Middle Lobe Collapse"
             };
@@ -462,14 +465,14 @@ namespace Server
             {
                 return USER_NOT_REGISTERED;
             }
-            if (!_usersTestsAnswerEveryTime.Keys.Contains(user) && !_usersTestsAnswersAtEndRemainingQuestions.Keys.Contains(user))
-            {
-                return "Error. Cannot answer a question prior to requesting one.";
-            }
             // verify user is logged in
             if (!_loggedUsers.ContainsKey(user))
             {
                 return NOT_LOGGED_IN;
+            }
+            if (!_usersTestsAnswerEveryTime.Keys.Contains(user) && !_usersTestsAnswersAtEndRemainingQuestions.Keys.Contains(user))
+            {
+                return "Error. Cannot answer a question prior to requesting one.";
             }
             updateUserLastActionTime(user);
             // get data from DB
@@ -537,9 +540,9 @@ namespace Server
         public Tuple<string, List<Question>> getAnsweres(int userUniqueInt)
         {
             User user = getUserByInt(userUniqueInt);
-            if (user == null)
+            if (user == null || !_loggedUsers.ContainsKey(user))
             {
-                return new Tuple<string, List<Question>>(USER_NOT_REGISTERED, null);
+                return new Tuple<string, List<Question>>(NOT_LOGGED_IN, null);
             }
             updateUserLastActionTime(user);
             List<Question> l = _usersTestsAnswersAtEndAnsweredQuestions[user];
@@ -644,6 +647,7 @@ namespace Server
 
         public List<string> getAllSubjects()
         {
+            setSubjectsAndTopics();
             List<string> l = new List<string>();
             foreach (string s in _subjectsTopics.Keys)
             {
@@ -654,7 +658,14 @@ namespace Server
 
         public List<string> getSubjectTopics(string subject)
         {
-            return _subjectsTopics[subject];
+            if (!InputTester.isValidInput(new List<string>() { subject }))
+            {
+                return null;
+            }
+            setSubjectsAndTopics();
+            List<string> l = _subjectsTopics[subject];
+            l.Remove(Topics.NORMAL);
+            return l;
         }
 
         public string addSubject(int userUniqueInt, string subject)
@@ -983,7 +994,7 @@ namespace Server
             return email;
         }
 
-        public Tuple<string, List<string>> getAllAdminsGroups(int userUniqueInt) 
+        public Tuple<string, List<string>> getAllAdminsGroups(int userUniqueInt)
         {
             // verify user is logged in
             User user = getUserByInt(userUniqueInt);
@@ -1007,7 +1018,7 @@ namespace Server
             return new Tuple<string, List<string>>(Replies.SUCCESS, adminsGroups);
         }
 
-        public string removeGroup(int userUniqueInt, string groupName) 
+        public string removeGroup(int userUniqueInt, string groupName)
         {
             // check for illegal input values
             List<string> input = new List<string>() { groupName };
@@ -1120,7 +1131,7 @@ namespace Server
                     selecetedQuestions.Add(q);
                 }
             }
-            return new Tuple<string,List<Question>>(Replies.SUCCESS, selecetedQuestions);
+            return new Tuple<string, List<Question>>(Replies.SUCCESS, selecetedQuestions);
         }
 
         public string createTest(int userUniqueInt, List<int> questionsIds, string name)
