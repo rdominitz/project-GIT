@@ -75,6 +75,9 @@
     <Compile Include="GetNextQuestion.cs" />
     <Compile Include="GetQuestionDiagnoses.cs" />
     <Compile Include="GetSubjectTopics.cs" />
+    <Compile Include="GetUserName.cs" />
+    <Compile Include="HasMoreQuestions.cs" />
+    <Compile Include="IsLoggedIn.cs" />
     <Compile Include="Login.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registration.cs" />

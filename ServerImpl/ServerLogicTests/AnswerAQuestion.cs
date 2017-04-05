@@ -34,7 +34,7 @@ namespace ServerLogicTests
         {
             setup();
             _server.logout(Users.USER_UNIQUE_INT);
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, true, 5, new List<string>(), new List<int>());
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, true, 5, new List<string>(), new List<int>());
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -43,7 +43,7 @@ namespace ServerLogicTests
         public void answerAQuestionWrongUserId()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT - 1, _q.QuestionId, true, 5, new List<string>(), new List<int>());
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT - 1, _q.QuestionId, true, 5, new List<string>(), new List<int>());
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -52,7 +52,7 @@ namespace ServerLogicTests
         public void answerAQuestionWrongQuestionId()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, 0, true, 5, new List<string>(), new List<int>());
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, 0, true, 5, new List<string>(), new List<int>());
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -61,7 +61,7 @@ namespace ServerLogicTests
         public void answerAQuestionNormalityCertaintyIsZero()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, true, 0, new List<string>(), new List<int>());
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, true, 0, new List<string>(), new List<int>());
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -70,7 +70,7 @@ namespace ServerLogicTests
         public void answerAQuestionNormalityCertaintyIsNegative()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, true, -1, new List<string>(), new List<int>());
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, true, -1, new List<string>(), new List<int>());
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -79,7 +79,7 @@ namespace ServerLogicTests
         public void answerAQuestionNormalityCertaintyIsOverTen()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, true, 11, new List<string>(), new List<int>());
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, true, 11, new List<string>(), new List<int>());
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -88,7 +88,7 @@ namespace ServerLogicTests
         public void answerAQuestionDiagnosesIsNull()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, true, 5, null, new List<int>());
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, true, 5, null, new List<int>());
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -97,7 +97,7 @@ namespace ServerLogicTests
         public void answerAQuestionDiagnosesContainsNull()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, true, 5, new List<string>() { null }, new List<int>() { 5 });
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, true, 5, new List<string>() { null }, new List<int>() { 5 });
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -106,7 +106,7 @@ namespace ServerLogicTests
         public void answerAQuestionDiagnosesContainsNullString()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "null" }, new List<int>() { 5 });
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "null" }, new List<int>() { 5 });
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -115,7 +115,7 @@ namespace ServerLogicTests
         public void answerAQuestionDiagnosesContainsEmptyString()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "" }, new List<int>() { 5 });
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "" }, new List<int>() { 5 });
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -124,7 +124,7 @@ namespace ServerLogicTests
         public void answerAQuestionDiagnosesContainsNonExistingTopic()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "no_topic" }, new List<int>() { 5 });
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "no_topic" }, new List<int>() { 5 });
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -133,7 +133,7 @@ namespace ServerLogicTests
         public void answerAQuestionCertaintiesIsNull()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, true, 5, new List<string>(), null);
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, true, 5, new List<string>(), null);
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -142,7 +142,7 @@ namespace ServerLogicTests
         public void answerAQuestioCertaintiesContainsZero()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "topic" }, new List<int>() { 0 });
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "topic" }, new List<int>() { 0 });
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -151,7 +151,7 @@ namespace ServerLogicTests
         public void answerAQuestioCertaintiesContainsNegativeNumber()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "topic" }, new List<int>() { -1 });
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "topic" }, new List<int>() { -1 });
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -160,7 +160,7 @@ namespace ServerLogicTests
         public void answerAQuestioCertaintiesContainsNumberOverTen()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "topic" }, new List<int>() { 11 });
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "topic" }, new List<int>() { 11 });
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -169,7 +169,7 @@ namespace ServerLogicTests
         public void answerAQuestioMoreDiagnosesThanCertainties()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "topic" }, new List<int>());
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "topic" }, new List<int>());
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -178,7 +178,7 @@ namespace ServerLogicTests
         public void answerAQuestioMoreCertaintiesThanDiagnoses()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>(), new List<int>() { 5 });
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>(), new List<int>() { 5 });
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -186,7 +186,7 @@ namespace ServerLogicTests
         [TestMethod]
         public void answerAQuestioNoQuestionRequested()
         {
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, 1, false, 5, new List<string>() { "topic" }, new List<int>() { 5 });
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, 1, false, 5, new List<string>() { "topic" }, new List<int>() { 5 });
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -195,7 +195,7 @@ namespace ServerLogicTests
         public void answerAQuestioNormalWithDiagnoses()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, true, 5, new List<string>() { "topic" }, new List<int>() { 5 });
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, true, 5, new List<string>() { "topic" }, new List<int>() { 5 });
             Assert.IsFalse(s.Equals(Replies.NEXT));
             Assert.IsFalse(s.Equals(Replies.SHOW_ANSWER));
         }
@@ -204,7 +204,7 @@ namespace ServerLogicTests
         public void answerAQuestioSingleQuestion()
         {
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "topic" }, new List<int>() { 5 });
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "topic" }, new List<int>() { 5 });
             Assert.IsTrue(s.Equals(Replies.SHOW_ANSWER));
         }
 
@@ -214,7 +214,7 @@ namespace ServerLogicTests
             _server.addQuestion(Users.USER_UNIQUE_INT, "subject", false, "", new List<string>() { "topic" });
             _server.getAutoGeneratedTest(Users.USER_UNIQUE_INT, "subject", "topic", 2, true);
             _q = _server.getNextQuestion(Users.USER_UNIQUE_INT).Item2;
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "topic" }, new List<int>() { 5 });
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "topic" }, new List<int>() { 5 });
             Assert.IsTrue(s.Equals(Replies.SHOW_ANSWER));
         }
         
@@ -224,7 +224,7 @@ namespace ServerLogicTests
             _server.addQuestion(Users.USER_UNIQUE_INT, "subject", false, "", new List<string>() { "topic" });
             _server.getAutoGeneratedTest(Users.USER_UNIQUE_INT, "subject", "topic", 2, false);
             _q = _server.getNextQuestion(Users.USER_UNIQUE_INT).Item2;
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "topic" }, new List<int>() { 5 });
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "topic" }, new List<int>() { 5 });
             Assert.IsTrue(s.Equals(Replies.NEXT));
         }
 
@@ -233,7 +233,7 @@ namespace ServerLogicTests
         {
             _server.addTopic(Users.USER_UNIQUE_INT, "subject", "new topic");
             setup();
-            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "new topic" }, new List<int>() { 5 });
+            string s = _server.answerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "new topic" }, new List<int>() { 5 });
             Assert.IsTrue(s.Equals(Replies.SHOW_ANSWER));
         }
     }

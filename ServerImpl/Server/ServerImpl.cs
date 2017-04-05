@@ -421,7 +421,7 @@ namespace Server
             return Replies.SUCCESS;
         }
 
-        public string AnswerAQuestion(int userUniqueInt, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties)
+        public string answerAQuestion(int userUniqueInt, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties)
         {
             if (diagnoses == null || diagnosisCertainties == null)
             {
