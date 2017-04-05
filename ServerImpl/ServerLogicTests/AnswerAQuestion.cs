@@ -227,5 +227,14 @@ namespace ServerLogicTests
             string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "topic" }, new List<int>() { 5 });
             Assert.IsTrue(s.Equals(Replies.NEXT));
         }
+
+        [TestMethod]
+        public void answerAQuestioWrongAnswer()
+        {
+            _server.addTopic(Users.USER_UNIQUE_INT, "subject", "new topic");
+            setup();
+            string s = _server.AnswerAQuestion(Users.USER_UNIQUE_INT, _q.QuestionId, false, 5, new List<string>() { "new topic" }, new List<int>() { 5 });
+            Assert.IsTrue(s.Equals(Replies.SHOW_ANSWER));
+        }
     }
 }

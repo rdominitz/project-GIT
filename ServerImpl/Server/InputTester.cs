@@ -25,17 +25,7 @@ namespace Server
             return eMail != null && Regex.IsMatch(eMail,
                 @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
                 @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$",
-                RegexOptions.IgnoreCase);/*
-            if (!isValidInput(new List<string>() { eMail }) || eMail.Count(c => c == '@') != 1 || eMail.StartsWith("@") || eMail.EndsWith("@") || eMail.EndsWith("."))
-            {
-                return false;
-            }
-            string eMailSuffix = eMail.Substring(eMail.IndexOf('@') + 1);
-            if (!eMailSuffix.Contains('.') || eMailSuffix.StartsWith("."))
-            {
-                return false;
-            }
-            return true;*/
+                RegexOptions.IgnoreCase);
         }
     }
 }

@@ -145,7 +145,7 @@ namespace QALogic
                 }
                 userLevels[s] = userLevel.level;
                 userLevel.timesAnswered++;
-                if (!isNormal && diagnoses.Contains(s))
+                if (!isNormal && qDiagnosesNames.Contains(s))
                 {
                     userLevel.timesAnsweredCorrectly++;
                 }

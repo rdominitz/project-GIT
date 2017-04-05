@@ -18,17 +18,6 @@ namespace ServerLogicTests
             _server.login("defaultadmin@gmail.com", "password");
         }
 
-        // string addSubject(int userUniqueInt, string subject)
-
-        // success
-        // not logged in
-        // not an admin
-        // wrong user id
-        // subject is null
-        // subject is "null"
-        // subject is ""
-        // subject exists
-
         [TestMethod]
         public void addSubjectSuccessfully()
         {

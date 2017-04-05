@@ -50,18 +50,22 @@ namespace Server
         // has tests
         string addSubject(int userUniqueInt, string subject);
 
+        // has tests
         string addTopic(int userUniqueInt, string subject, string topic);
 
         string addQuestion(int userUniqueInt, string subject, bool isNormal, string text, List<string> qDiagnoses);
 
+        // has tests
         string setUserAsAdmin(int userUniqueInt, string usernameToTurnToAdmin);
 
+        // must be logged in
         bool hasMoreQuestions(int userUniqueInt);
 
         void logout(int userUniqueInt);
 
         bool isLoggedIn(int userUniqueInt);
 
+        // must be logged in
         string getUserName(int userUniqueInt);
 
         string createGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent);

@@ -707,7 +707,7 @@ namespace Server
         public string addTopic(int userUniqueInt, string subject, string topic)
         {
             // check for illegal input values
-            List<string> input = new List<string>() { subject };
+            List<string> input = new List<string>() { subject, topic };
             if (!InputTester.isValidInput(input))
             {
                 return GENERAL_INPUT_ERROR;
@@ -812,7 +812,29 @@ namespace Server
 
         public string setUserAsAdmin(int userUniqueInt, string usernameToTurnToAdmin)
         {
+            if (!InputTester.isLegalEmail(usernameToTurnToAdmin))
+            {
+                return INVALID_EMAIL;
+            }
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return NOT_LOGGED_IN;
+            }
+            updateUserLastActionTime(user);
+            // verify user is an admin
+            Admin admin = _db.getAdmin(user.UserId);
+            if (admin == null)
+            {
+                return NOT_AN_ADMIN;
+            }
             User u = _db.getUser(usernameToTurnToAdmin);
+            // verify user exist
+            if (u == null)
+            {
+                return "Error. Cannot make " + usernameToTurnToAdmin + " an admin since " + usernameToTurnToAdmin + " is not registered to the system.";
+            }
             _db.addAdmin(new Admin { AdminId = u.UserId });
             _db.SaveChanges();
             return Replies.SUCCESS;
