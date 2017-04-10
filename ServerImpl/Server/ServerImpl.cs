@@ -34,6 +34,7 @@ namespace Server
         private Dictionary<User, List<Question>> _usersTestsAnswersAtEndRemainingQuestions;
         private Dictionary<User, List<Question>> _usersTestsAnswersAtEndAnsweredQuestions;
         private Dictionary<string, string> _selectedGroups;
+        private Dictionary<string, List<Question>> _testQuestions;
 
         private int _userUniqueInt;
         private readonly object _syncLockUserUniqueInt;
@@ -59,6 +60,7 @@ namespace Server
             _usersTestsAnswersAtEndRemainingQuestions = new Dictionary<User, List<Question>>();
             _usersTestsAnswersAtEndAnsweredQuestions = new Dictionary<User, List<Question>>();
             _selectedGroups = new Dictionary<string, string>();
+            _testQuestions = new Dictionary<string, List<Question>>();
             _db = db;
             _logic = new LogicImpl(db);
             _userUniqueInt = 100000;
@@ -1074,7 +1076,7 @@ namespace Server
             return Replies.SUCCESS;
         }
 
-        public Tuple<string, List<Question>> createTest(int userUniqueInt, string subject, List<string> topics)
+        public string createTest(int userUniqueInt, string subject, List<string> topics)
         {
             // check for illegal input values
             List<string> input = new List<string>() { subject };
@@ -1084,25 +1086,25 @@ namespace Server
             }
             if (!InputTester.isValidInput(input))
             {
-                return new Tuple<string, List<Question>>(GENERAL_INPUT_ERROR, null);
+                return GENERAL_INPUT_ERROR;
             }
             // verify user is logged in
             User user = getUserByInt(userUniqueInt);
             if (user == null || !_loggedUsers.ContainsKey(user))
             {
-                return new Tuple<string, List<Question>>(NOT_LOGGED_IN, null);
+                return NOT_LOGGED_IN;
             }
             updateUserLastActionTime(user);
             // verify user is an admin
             Admin admin = _db.getAdmin(user.UserId);
             if (admin == null)
             {
-                return new Tuple<string, List<Question>>(NOT_AN_ADMIN, null);
+                return NOT_AN_ADMIN;
             }
             // verify subject is valid
             if (_db.getSubject(subject) == null)
             {
-                return new Tuple<string, List<Question>>("The subject " + subject + " does not exist in the system.", null);
+                return "The subject " + subject + " does not exist in the system.";
             }
             // verify topics are valid
             StringBuilder error = new StringBuilder();
@@ -1124,7 +1126,7 @@ namespace Server
             }
             if (faultyTopics)
             {
-                return new Tuple<string, List<Question>>(error.ToString(), null);
+                return error.ToString();
             }
             // get all relevant questions for each topic
             List<Question> questions = new List<Question>();
@@ -1153,7 +1155,32 @@ namespace Server
                     selecetedQuestions.Add(q);
                 }
             }
-            return new Tuple<string, List<Question>>(Replies.SUCCESS, selecetedQuestions);
+            _testQuestions[admin.AdminId] = selecetedQuestions;
+            return Replies.SUCCESS;
+        }
+
+        public List<Question> getTestQuestions(int userUniqueInt)
+        {
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return null;
+            }
+            updateUserLastActionTime(user);
+            // verify user is an admin
+            Admin admin = _db.getAdmin(user.UserId);
+            if (admin == null)
+            {
+                return null;
+            }
+            if (!_testQuestions.Keys.Contains(admin.AdminId))
+            {
+                return null;
+            }
+            List<Question> ans = _testQuestions[admin.AdminId];
+            _testQuestions.Remove(admin.AdminId);
+            return ans;
         }
 
         public string createTest(int userUniqueInt, List<int> questionsIds, string name)

@@ -78,7 +78,9 @@ namespace Server
 
         string removeGroup(int userUniqueInt, string groupName);
 
-        Tuple<string, List<Question>> createTest(int userUniqueInt, string subject, List<string> topics);
+        string createTest(int userUniqueInt, string subject, List<string> topics);
+
+        List<Question> getTestQuestions(int userUniqueInt);
 
         string createTest(int userUniqueInt, List<int> questionsIds, string name);
 
