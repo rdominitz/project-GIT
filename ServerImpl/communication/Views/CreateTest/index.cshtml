@@ -29,7 +29,7 @@
             <br />
             <label for="topics" class="control-label">Topics</label>
             <br/>
-            <select id="topics" name="topics" class="form-control" multiple="multiple" onchange="onSubmitTopic()" value="">
+            <select id="topics" name="topics" class="form-control" multiple="multiple" value="">
                 @foreach (var subject in Model)
                 {
                     foreach (var topics in subject.vals)
@@ -37,7 +37,7 @@
                         <option data-option="@subject.key" value="@topics">@topics</option>
                     }
                 }
-                <!--ViewData["topic"] = onSubmitTopic()-->
+                
             </select>
             
            <!-- <script type="text/javascript">
@@ -66,16 +66,6 @@
                 giveSelection(sel1.value);
             </script>
            
-             <script type="text/javascript">
-                var select = document.querySelector('#topics');
-                var optionsTopic = select.querySelectorAll('option');
-                
-                function onSubmitTopic() {
-                    for (var i = optionsTopic.length; i--;) {
-                        if (optionsTopic[i].selected) viweData["topics"].push(optionsTopic[i].value)
-                    }
-                }
-            </script>
 
             <script type="text/javascript">
                 $('#topics').tokenize();

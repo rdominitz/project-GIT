@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "select questions";
+}
+@model IEnumerable<communication.Models.Questions.QuestionData>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+<link href="~/Content/slider.css" rel="stylesheet" type="text/css" />
+
+
+<h2>Select Questions</h2>
+
+<div>
+    <div class="container" id="links">
+        @foreach (var question in Model)
+        {
+            <input type="checkbox" name="QuestionData" value="@question">@question
+
+            foreach (var pic in question.pics)
+            {
+                <<img src="@pic" alt="Image not found" style="width:101px;height:82px;" />
+            }
+
+            <br /><br /><br />
+            if ((question.dignosis.Count == 1) && (question.dignosis.ElementAt(0).Equals(Constants.Topics.NORMAL)))
+            {
+                <p>The diagnosis for this case is : Normal</p>
+            }
+            else
+            {
+                <p>The diagnosis for this case is :</p><br />
+                foreach (var d in question.dignosis)
+                {
+                    <p>@d</p><br />
+                }
+            }
+
+        }
+    </div>
+</div>
