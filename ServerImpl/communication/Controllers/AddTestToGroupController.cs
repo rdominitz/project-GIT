@@ -33,13 +33,13 @@ namespace communication.Controllers
             // verify success
             foreach (Test test in tests.Item2)
             {
-                data.Add(new TestData(test.ToString()));
+                data.Add(new TestData(test.TestId ,test.ToString()));
             }
             return data;
         }
 
         [HttpPost]
-        public ActionResult Submit(int testId)
+        public ActionResult Submit(string testDetails)
         {
             HttpCookie cookie = Request.Cookies["userId"];
             if (cookie == null)
@@ -47,7 +47,12 @@ namespace communication.Controllers
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
 
-            ViewBag.testId = testId;
+            ViewBag.testDetails = testDetails;
+            String[] details = testDetails.Split(',');
+            String[] testIdArr = details[0].Split(':');
+            String[] testIdArr1 = testIdArr[1].Split(' ');
+            int testId = int.Parse(testIdArr1[1]);
+
             Tuple <string,string> groupName = ServerWiring.getInstance().getSavedGroup(Convert.ToInt32(cookie.Value));
             if (!groupName.Item1.Equals(Replies.SUCCESS))
             {

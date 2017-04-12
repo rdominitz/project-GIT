@@ -62,22 +62,14 @@ namespace communication.Controllers
             ViewData["topics"] = topics;
 
 
-            Tuple<string, List<Question>> ans = ServerWiring.getInstance().createTest(Convert.ToInt32(cookie.Value), subject, topicsList);                
-            if (ans.Item1 == Replies.SUCCESS)
+            string ans = ServerWiring.getInstance().createTest(Convert.ToInt32(cookie.Value), subject, topicsList);                
+            if (ans == Replies.SUCCESS)
             {
-                // Aviv - do something with the list of questions (or tell me to save it for you and you'll take it later)
-                // redirect to select questions 
-                 List<Question>  questions = new List<Question>();
-                 foreach (Question q in ans.Item2)
-                 {
-                     questions.Add(q);
-                 }
-
-                 return RedirectToAction("Index", "SelectQuestions", questions);
+                 return RedirectToAction("Index", "SelectQuestions");
             }
 
 
-            return RedirectToAction("Index", "CreateTest", new { message = ans.Item1 });
+            return RedirectToAction("Index", "CreateTest", new { message = ans });
         }
 
 

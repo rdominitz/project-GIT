@@ -7,11 +7,14 @@ namespace communication.Models.Test
 {
     public class TestData
     {
-        public string key;
+        public string testString;
+        public int testId;
 
-        public TestData(string _key)
+
+        public TestData(int _testId, string _testString)
         {
-            key = _key;
+            testId = _testId;
+            testString = _testString;
         }
     }
 }

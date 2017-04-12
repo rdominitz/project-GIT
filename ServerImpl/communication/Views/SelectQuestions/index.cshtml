@@ -4,42 +4,46 @@
 }
 @model IEnumerable<communication.Models.Questions.QuestionData>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-
-
-<link href="~/Content/slider.css" rel="stylesheet" type="text/css" />
-
-
-<h2>Select Questions</h2>
 
 <div>
-    <div class="container" id="links">
-        @foreach (var question in Model)
+    <form id=" selectQuestionsForTestform" method="POST" action="~/SelectQuestions/submit">
+
+        <h2>Select Questions</h2>
+        <br />
+        @if (@ViewBag.message != null)
         {
-            <input type="checkbox" name="QuestionData" value="@question">@question
+            <script>
+                alert("@ViewBag.message");
+            </script>
+        }
+        <label for="testName" class="control-label">Test name</label>
+        <input type="text" class="form-control" name="testName" id="testName" value="@ViewBag.testName" required title="Please enter test name" placeholder="Test name">
+        <br />
+        <div class="container" id="links">
+            @foreach (var question in Model)
+            {
+                <input type="checkbox" id="QuestionData" name="QuestionData" class="form-control" value="@question.qID"> @question.qID
 
-            foreach (var pic in question.pics)
-            {
-                <<img src="@pic" alt="Image not found" style="width:101px;height:82px;" />
-            }
-
-            <br /><br /><br />
-            if ((question.dignosis.Count == 1) && (question.dignosis.ElementAt(0).Equals(Constants.Topics.NORMAL)))
-            {
-                <p>The diagnosis for this case is : Normal</p>
-            }
-            else
-            {
-                <p>The diagnosis for this case is :</p><br />
+                foreach (var pic in question.pics)
+                {
+                <img src="@pic" alt="Image not found" style="width:202px;height:164px;" />
+                }
+                <p>The diagnosis for this case is :</p>
                 foreach (var d in question.dignosis)
                 {
                     <p>@d</p><br />
                 }
-            }
 
-        }
-    </div>
+            }
+        </div>
+
+        <script type="text/javascript">
+            $('#QuestionData').tokenize();
+        </script>
+
+
+
+        <button type="submit" class="btn btn-primary btn-block" style="width: 280px;">Create test</button>
+    </form>
 </div>

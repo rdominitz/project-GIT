@@ -18,15 +18,16 @@
                     alert("@ViewBag.message");
                 </script>
             }
-            <label for="testName" class="control-label">Test Name</label>
-            <select id="testName" name="testName" class="form-control" value="">
+            <label for="testDetails" class="control-label">test Details</label>
+            <select id="testDetails" name="testDetails" class="form-control" value="">
                 @foreach (var test in Model)
                 {
-                    <option value="@test.key">@test.key</option>
+                    <option value="@test.testString">@test.testString</option>
                 }
-                @ViewBag.testName=this.value
+                @ViewBag.testDetails=this.value
+                @ViewBag.testId=test.testId
             </select>
-
+            
             <br />
             <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Add test</button>
 

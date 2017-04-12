@@ -269,6 +269,7 @@
     <Compile Include="Controllers\ManageGroupController.cs" />
     <Compile Include="Controllers\MyGroupsController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\SelectQuestionsController.cs" />
     <Compile Include="Controllers\ShowAnswersController.cs" />
     <Compile Include="Core\ServerWiring.cs" />
     <Compile Include="Global.asax.cs">
@@ -277,6 +278,7 @@
     <Compile Include="Models\Group\GroupData.cs" />
     <Compile Include="Models\GetQuestion\GetQuestionData.cs" />
     <Compile Include="Models\GetTest\GetTestData.cs" />
+    <Compile Include="Models\Questions\QuestionData.cs" />
     <Compile Include="Models\ShowAnswers\ShowAnswersData.cs" />
     <Compile Include="Models\Test\TestData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -307,6 +309,7 @@
     <Content Include="Views\CreateTest\index.cshtml" />
     <Content Include="Views\AddTestToGroup\index.cshtml" />
     <Content Include="Views\MyGroups\Index.cshtml" />
+    <Content Include="Views\SelectQuestions\index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
