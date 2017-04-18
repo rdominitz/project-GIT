@@ -10,6 +10,7 @@
     <div class="container">
         <button type="button" class="btn btn-primary btn-block" id="question" style="width: 200px;" onclick="location.href='@Url.Action("Index", "GetQuestion")'">Get auto generated question</button>
         <button type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "GetTest")'">Get auto generated test</button>
+        <button type="button" class="btn btn-primary btn-block" id="myGroups" style="width: 200px;" onclick="location.href='@Url.Action("Index", "MyGroups")'">View my groups</button>
         @if (ViewBag.isAdmin)
         {
         <button name="manageMyGroups" type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "ManageGroup")'">Manage my groups</button>

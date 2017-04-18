@@ -23,11 +23,23 @@ namespace communication.Controllers
             List<String> groupsInvitations = ServerWiring.getInstance().getUsersGroupsInvitations(Convert.ToInt32(cookie.Value));
             ViewBag.name = name;
             ViewBag.isAdmin = isAdmin;
-            //ViewBag.groups = groups;
-            //ViewBag.groupsInvitations = groupsInvitations;
             ViewData["groups"] = groups;
             ViewData["groupsInvitations"] = groupsInvitations;
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Submit(string [] Groups)
+        {
+            HttpCookie userCookie = Request.Cookies["userId"];
+            if (userCookie == null)
+            {
+                return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
+            }
+            List<string> list = new List<string>(Groups);
+           ServerWiring.getInstance().acceptUsersGroupsInvitations(Convert.ToInt32(userCookie.Value), list); 
+           return RedirectToAction("index");
+          
         }
     }
 }

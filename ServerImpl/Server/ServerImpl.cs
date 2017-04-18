@@ -1285,12 +1285,12 @@ namespace Server
 
         public List<string> getUsersGroups(int userUniqueInt)
         {
-            throw new NotImplementedException();
+            return new List<string>() { "group1", "group2", "group3" };
         }
 
         public List<string> getUsersGroupsInvitations(int userUniqueInt)
         {
-            throw new NotImplementedException();
+            return new List<string>() { "inv1", "inv2", "inv3" };
         }
 
         public void acceptUsersGroupsInvitations(int userUniqueInt, List<string> groups)

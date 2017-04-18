@@ -3,43 +3,40 @@
     ViewBag.Title = "My Groups";
 }
 
-<div class="cen col-md-offset-4">
+<div class="cen">
     @if (@ViewBag.message != null)
             {
         <script>
-                    alert("@ViewBag.message");
+            alert("@ViewBag.message");
         </script>
     }
-    <form id="createGroupForm" method="POST" action="~/MyGroup/submit">
+    <form id="myGroupsForm" method="POST" action="~/MyGroups/submit">
         <div class="form-group">
             <br />
-            <h2>My Groups</h2>
+            <h2 class="cen col-md-offset-4">My Groups</h2>
             <br />
-           @if ((List<String>) @ViewData["groups"] != null)
-           {
-               <div class="row">
-                   @foreach (var g in (List<String>)ViewData["groups"])
-                   {
-                    <button name="@g"+"_button" type="button" class="btn btn-primary btn-block" id="@g" style="width: 200px;"  onclick="location.href='@Url.Action("Index", "Group",new { groupName = g })'">Create a group</button>
-               }
-               </div>
-           }
-            <label for="groupName" class="control-label">Group Name</label>
-            <select id="groupName" name="groupName" class="form-control" value="">
-                @foreach (var gi in (List<String>)ViewData["groupsInvitations"])
-                {
-                    <option value="@gi">@gi</option>
-                }
-                @ViewBag.group=this.value
-            </select>
-
+            @if ((List<String>)@ViewData["groups"] != null)
+            {
+                <div class="btn-toolbar col-md-offset-4" role="toolbar">
+                    @foreach (var g in (List<String>)ViewData["groups"])
+                    {
+                        <div class="btn-group">
+                            <button name="@g" +"_button" type="button" class="btn btn-primary " id="@g" onclick="location.href='@Url.Action("Index", "Group",new { groupName = g })'">@g</button>
+                        </div>
+                    }
+                </div>
+            }
             <br />
-
-
-
-            <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Accept invitations</button>
-            <button type="button" name="addToExistGroup" class="btn btn-primary btn-block" style="width: 280px;" id="test" onclick="location.href='@Url.Action("Index", "AddToExistGroup", @ViewBag.group)'">Invite to group</button>
-
+            <div class="col-md-offset-4">
+                <select id="groupName" name="groupName" class="form-control" multiple="multiple" style="margin-bottom:2px" value="">
+                    @foreach (var gi in (List<String>)ViewData["groupsInvitations"])
+            {
+                        <option value="@gi">@gi</option>
+                    }
+                    @ViewBag.group=this.value
+                </select>
+                <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Accept invitations</button>
+            </div>
         </div>
     </form>
 </div>
