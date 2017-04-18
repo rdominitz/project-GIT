@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "CreateQuestion";
+}
+
+@model IEnumerable<communication.Models.GetQuestion.GetQuestionData>
+
+    <div class="cen col-md-offset-4">
+
+        <h2>Create a question</h2>
+        <br />
+        @if (@ViewBag.message != null)
+        {
+            <script>
+                alert("@ViewBag.message");
+            </script>
+        }
+        <form id="createQuestionForm" method="POST" action="~/CreateQuestion/submit" new { enctype="multipart/form-data" }>
+            <div class="form-group">
+                <label for="subject" class="control-label">Subject</label>
+                <select id="subject" name="subject" class="form-control" onchange="giveSelection(this.value)">
+                    @foreach (var subject in Model)
+                    {
+                        <option value="@subject.key">@subject.key</option>
+                    }
+                </select>
+                <br />
+                <label for="topics" class="control-label">Topics</label>
+                <select id="topics" name="topics" class="form-control" required multiple="multiple">
+                    @foreach (var subject in Model)
+                    {
+                        foreach (var topics in subject.vals)
+                        {
+                            <option data-option="@subject.key" value="@topics">@topics</option>
+                        }
+                    }
+                </select>
+                <script type="text/javascript">
+                    var sel1 = document.querySelector('#subject');
+                    var sel2 = document.querySelector('#topics');
+                    var options2 = sel2.querySelectorAll('option');
+
+                    function giveSelection(selValue) {
+                        sel2.innerHTML = '';
+                        for (var i = 0; i < options2.length; i++) {
+                            if (options2[i].dataset.option === selValue) {
+                                sel2.appendChild(options2[i]);
+                            }
+                        }
+                    }
+
+                    giveSelection(sel1.value);
+                </script>
+            </div>
+            <script type="text/javascript">
+                $('#topics').tokenize();
+            </script>
+
+
+            <label for="imgs" class="control-label">Select images</label>
+            <input type="file" name="imgs" id="imgs" multiple>
+            <br />
+
+
+
+            <label for="freeText" class="control-label">Free text</label>
+            <input type="text" class="form-control" name="freeText" id="freeText" placeholder="Free text" value="@ViewBag.freeText">
+            <br />
+
+            <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Create question</button>
+        </form>
+
+    </div>

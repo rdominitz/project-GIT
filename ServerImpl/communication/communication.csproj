@@ -259,6 +259,7 @@
     <Compile Include="Controllers\AddToExistGroupController.cs" />
     <Compile Include="Controllers\AnswerQuestionController.cs" />
     <Compile Include="Controllers\CreateGroupController.cs" />
+    <Compile Include="Controllers\CreateQuestionController.cs" />
     <Compile Include="Controllers\CreateTestController.cs" />
     <Compile Include="Controllers\ForgotController.cs" />
     <Compile Include="Controllers\GetQuestionController.cs" />
@@ -310,6 +311,7 @@
     <Content Include="Views\AddTestToGroup\index.cshtml" />
     <Content Include="Views\MyGroups\Index.cshtml" />
     <Content Include="Views\SelectQuestions\index.cshtml" />
+    <Content Include="Views\CreateQuestion\index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

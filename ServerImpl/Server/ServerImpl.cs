@@ -88,10 +88,10 @@ namespace Server
             _db.addUser(u);
             Admin a = new Admin { AdminId = "defaultadmin@gmail.com" };
             _db.addAdmin(a);
-            if (_db.getMillisecondsToSleep() != 0)
-            {
+           // if (_db.getMillisecondsToSleep() != 0)
+          //  {
                 setDB();
-            }
+           // }
         }
 
         public void setDB()
@@ -1368,6 +1368,12 @@ namespace Server
             {
                 _usersCache.RemoveAt(0);
             }
+        }
+
+
+        public string createQuestion(int userUniqueInt, string subject, string[] topics, List<byte[]> allImgs, string freeText)
+        {
+            return Replies.SUCCESS;
         }
     }
 }

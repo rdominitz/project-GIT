@@ -99,5 +99,7 @@ namespace Server
         string saveSelectedGroup(int userUniqueInt, string groupName);
 
         Tuple<string, string> getSavedGroup(int userUniqueInt);
+
+        string createQuestion(int userUniqueInt, string subject, string[] topics, List<byte[]> allImgs, string freeText);
     }
 }

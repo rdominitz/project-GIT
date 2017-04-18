@@ -330,5 +330,11 @@ namespace Server
             }
             return new Tuple<string, string>(s, s2);
         }
+
+
+        public string createQuestion(int userUniqueInt, string subject, string[] topics, List<byte[]> allImgs, string freeText)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
