@@ -15,7 +15,10 @@ namespace communication.Controllers
         [HttpGet]
         public ActionResult Index(string message)
         {
-            ViewBag.message = message;
+            if (message != null)
+            {
+                ViewBag.message = message;
+            }
             HttpCookie cookie = Request.Cookies["userId"];
             if (cookie == null)
             {
@@ -58,7 +61,7 @@ namespace communication.Controllers
             string ans = ServerWiring.getInstance().createQuestion(Convert.ToInt32(cookie.Value), subject, topics, allImgs, freeText);
             if (ans == Replies.SUCCESS)
             {
-                return RedirectToAction("Index", "Main");
+                return RedirectToAction("Index", "Main", new { message = "Question added successfully" });
             }
 
             return RedirectToAction("Index", "CreateQuestion", new { message = ans });

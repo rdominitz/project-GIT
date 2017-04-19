@@ -26,7 +26,7 @@ namespace communication.Controllers
         }
 
 
-        List<GetTestData> getData()
+        private List<GetTestData> getData()
         {
             List<GetTestData> data = new List<GetTestData>();
             List<string> subjects = ServerWiring.getInstance().getAllSubjects();

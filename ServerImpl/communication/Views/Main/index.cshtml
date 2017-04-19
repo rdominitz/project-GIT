@@ -6,6 +6,12 @@
 <div class="cen col-md-offset-4">
     <h2>Welcome @ViewBag.name</h2>
     <br/>
+    @if (@ViewBag.message != null)
+    {
+        <script>
+                    alert("@ViewBag.message");
+        </script>
+    }
 
     <div class="container">
         <button type="button" class="btn btn-primary btn-block" id="question" style="width: 200px;" onclick="location.href='@Url.Action("Index", "GetQuestion")'">Get auto generated question</button>
@@ -17,10 +23,10 @@
         <button name="createGroup"  type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "CreateGroup")'">Create a group</button>
         <button name="createTest" type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "CreateTest")'">Create a test</button>
         <button name="createQuestion" type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "CreateQuestion")'">Add a question</button>
+        <button name="addSubject" type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "AddSubject")'">Add a subject</button>
+        <button name="addTopic" type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "AddTopic")'">Add a topic</button>
 
         }
-
-        
 
     </div>
 </div>

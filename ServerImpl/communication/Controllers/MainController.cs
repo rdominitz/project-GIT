@@ -11,8 +11,13 @@ namespace communication.Controllers
     public class MainController : Controller
     {
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
+            if (message != null)
+            {
+                ViewBag.message = message;
+            }
+
             HttpCookie cookie = Request.Cookies["userId"];
             if (cookie == null)
             {

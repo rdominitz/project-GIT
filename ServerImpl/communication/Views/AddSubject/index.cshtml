@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "add subject";
+}
+
+<div class="cen col-md-offset-4">
+    <form id="addSubjectForm" method="POST" action="~/AddSubject/submit">
+        <div class="form-group">
+            <br />
+            <h2>Subject to add:</h2>
+            <br />
+
+            @if (@ViewBag.message != null)
+            {
+                <script>
+                    alert("@ViewBag.message");
+                </script>
+            }
+            
+            <input type="text" class="form-control" name="subjectName" id="subjectName" value="@ViewBag.subjectName" required>
+
+            <br />
+            <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Add subject</button>
+
+        </div>
+    </form>
+</div>
+

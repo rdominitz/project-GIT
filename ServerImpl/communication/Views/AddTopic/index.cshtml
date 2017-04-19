@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "add topic";
+}
+
+@model IEnumerable<communication.Models.Subjects.SubjectData>
+
+    <div class="cen col-md-offset-4">
+        <form id="addTopicForm" method="POST" action="~/AddTopic/submit">
+            <div class="form-group">
+                <br />
+                <h2>Add a topic to exist subject</h2>
+                <br />
+
+                @if (@ViewBag.message != null)
+                {
+                    <script>
+                        alert("@ViewBag.message");
+                    </script>
+                }
+                <label for="subject" class="control-label">Subject</label>
+                <select id="subject" name="subject" class="form-control">
+                    @foreach (var subject in Model)
+                    {
+                        <option value="@subject.subject">@subject.subject</option>
+                    }
+                    @ViewBag.subject=this.value
+                </select>
+                <br />
+                <label for="topicName" class="control-label">Topic</label>
+                <input type="text" class="form-control" name="topicName" id="topicName" value="@ViewBag.topicName" required>
+
+                <br />
+                <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Add topic</button>
+
+            </div>
+        </form>
+    </div>
