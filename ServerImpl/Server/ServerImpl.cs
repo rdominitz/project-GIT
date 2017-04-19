@@ -1375,5 +1375,11 @@ namespace Server
         {
             return Replies.SUCCESS;
         }
+
+
+        public string removeQuestions(int userUniqueInt, List<int> questionsIdsList)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

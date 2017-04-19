@@ -336,5 +336,11 @@ namespace Server
         {
             throw new NotImplementedException();
         }
+
+
+        public string removeQuestions(int userUniqueInt, List<int> questionsIdsList)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

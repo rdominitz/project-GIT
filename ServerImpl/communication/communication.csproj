@@ -272,6 +272,7 @@
     <Compile Include="Controllers\ManageGroupController.cs" />
     <Compile Include="Controllers\MyGroupsController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\RomoveQuestionController.cs" />
     <Compile Include="Controllers\SelectQuestionsController.cs" />
     <Compile Include="Controllers\ShowAnswersController.cs" />
     <Compile Include="Core\ServerWiring.cs" />
@@ -317,6 +318,7 @@
     <Content Include="Views\CreateQuestion\index.cshtml" />
     <Content Include="Views\AddSubject\index.cshtml" />
     <Content Include="Views\AddTopic\index.cshtml" />
+    <Content Include="Views\RomoveQuestion\index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

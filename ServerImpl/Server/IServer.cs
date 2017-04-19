@@ -101,5 +101,7 @@ namespace Server
         Tuple<string, string> getSavedGroup(int userUniqueInt);
 
         string createQuestion(int userUniqueInt, string subject, string[] topics, List<byte[]> allImgs, string freeText);
+
+        string removeQuestions(int userUniqueInt, List<int> questionsIdsList);
     }
 }

@@ -29,12 +29,12 @@
             <br />
             <label for="topics" class="control-label">Topics</label>
             <br/>
-            <select id="topics" name="topics" class="form-control" multiple="multiple" value="">
+            <select id="topics" name="topics" class="form-control" multiple="multiple">
                 @foreach (var subject in Model)
                 {
                     foreach (var topics in subject.vals)
                     {
-                        <option data-option="@subject.key" value="@topics">@topics</option>
+                        <option selected data-option="@subject.key" value="@topics">@topics</option>
                     }
                 }
                 
