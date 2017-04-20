@@ -88,10 +88,10 @@ namespace Server
             _db.addUser(u);
             Admin a = new Admin { AdminId = "defaultadmin@gmail.com" };
             _db.addAdmin(a);
-           // if (_db.getMillisecondsToSleep() != 0)
-          //  {
+            if (_db.getMillisecondsToSleep() != 0)
+            {
                 setDB();
-           // }
+            }
         }
 
         public void setDB()
@@ -1079,6 +1079,10 @@ namespace Server
         public string createTest(int userUniqueInt, string subject, List<string> topics)
         {
             // check for illegal input values
+            if (topics == null)
+            {
+                return GENERAL_INPUT_ERROR;
+            }
             List<string> input = new List<string>() { subject };
             foreach (string s in topics)
             {
@@ -1187,7 +1191,7 @@ namespace Server
         {
             // check for illegal input values
             List<string> input = new List<string>() { name };
-            if (!InputTester.isValidInput(input))
+            if (!InputTester.isValidInput(input) || questionsIds == null)
             {
                 return GENERAL_INPUT_ERROR;
             }
@@ -1309,6 +1313,10 @@ namespace Server
 
         public string acceptUsersGroupsInvitations(int userUniqueInt, List<string> groups)
         {
+            if (groups == null)
+            {
+                return GENERAL_INPUT_ERROR;
+            }
             // verify user is logged in
             User user = getUserByInt(userUniqueInt);
             if (user == null || !_loggedUsers.ContainsKey(user))
@@ -1388,6 +1396,66 @@ namespace Server
             return new Tuple<string, string>(Replies.SUCCESS, groupName);
         }
 
+        public string createQuestion(int userUniqueInt, string subject, List<string> qDiagnoses, List<byte[]> allImgs, string freeText)
+        {
+            // check for illegal input values
+            if (qDiagnoses == null || allImgs == null || allImgs.Count == 0)
+            {
+                return GENERAL_INPUT_ERROR;
+            }
+            List<string> input = new List<string>(qDiagnoses);
+            input.Add(subject);
+            if (!InputTester.isValidInput(input) || freeText == null || freeText == "null")
+            {
+                return GENERAL_INPUT_ERROR;
+            }
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return NOT_LOGGED_IN;
+            }
+            updateUserLastActionTime(user);
+            // verify user is an admin
+            Admin admin = _db.getAdmin(user.UserId);
+            if (admin == null)
+            {
+                return NOT_AN_ADMIN;
+            }
+            // verify subject exist
+            Subject sub = _db.getSubject(subject);
+            if (sub == null)
+            {
+                return "Error. Subject does not exist in the system.";
+            }
+            // verify all diagnoses are topics of the specified subject
+            List<Diagnosis> diagnoses = new List<Diagnosis>();
+            List<Topic> subjectTopics = _db.getTopics(subject);
+            foreach (string diagnosys in qDiagnoses)
+            {
+                if (subjectTopics.Where(t => t.TopicId.Equals(diagnosys)).ToList().Count == 0)
+                {
+                    return "Error. " + diagnosys + " is not a topic of " + subject;
+                }
+            }
+            if (qDiagnoses.Count == 0)
+            {
+                qDiagnoses.Add(Topics.NORMAL);
+            }
+            lock (_syncLockQuestionId)
+            {
+                // save images
+                List<string> imagesPathes = new List<string>();
+                addQuestion(sub, subjectTopics.Where(st => qDiagnoses.Contains(st.TopicId)).ToList(), imagesPathes);
+            }
+            return Replies.SUCCESS;
+        }
+
+        public string removeQuestions(int userUniqueInt, List<int> questionsIdsList)
+        {
+            throw new NotImplementedException();
+        }
+
         private User getUserByInt(int userUniqueInt)
         {
             List<User> matches = _usersCache.Where(u => u.uniqueInt.Equals(userUniqueInt)).ToList();
@@ -1410,18 +1478,6 @@ namespace Server
             {
                 _usersCache.RemoveAt(0);
             }
-        }
-
-
-        public string createQuestion(int userUniqueInt, string subject, string[] topics, List<byte[]> allImgs, string freeText)
-        {
-            return Replies.SUCCESS;
-        }
-
-
-        public string removeQuestions(int userUniqueInt, List<int> questionsIdsList)
-        {
-            throw new NotImplementedException();
         }
     }
 }

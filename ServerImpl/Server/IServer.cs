@@ -53,7 +53,7 @@ namespace Server
         // has tests - 100% coverage
         string addTopic(int userUniqueInt, string subject, string topic);
 
-        string addQuestion(int userUniqueInt, string subject, bool isNormal, string text, List<string> qDiagnoses);
+        //string addQuestion(int userUniqueInt, string subject, bool isNormal, string text, List<string> qDiagnoses);
 
         // has tests - 100% coverage
         string setUserAsAdmin(int userUniqueInt, string usernameToTurnToAdmin);
@@ -100,7 +100,7 @@ namespace Server
 
         Tuple<string, string> getSavedGroup(int userUniqueInt);
 
-        string createQuestion(int userUniqueInt, string subject, string[] topics, List<byte[]> allImgs, string freeText);
+        string createQuestion(int userUniqueInt, string subject, List<string> qDiagnoses, List<byte[]> allImgs, string freeText);
 
         string removeQuestions(int userUniqueInt, List<int> questionsIdsList);
     }

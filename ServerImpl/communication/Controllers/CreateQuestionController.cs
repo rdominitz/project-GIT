@@ -58,7 +58,7 @@ namespace communication.Controllers
                 allImgs.Add(dataImg);
             }
 
-            string ans = ServerWiring.getInstance().createQuestion(Convert.ToInt32(cookie.Value), subject, topics, allImgs, freeText);
+            string ans = ServerWiring.getInstance().createQuestion(Convert.ToInt32(cookie.Value), subject, topics.ToList(), allImgs, freeText);
             if (ans == Replies.SUCCESS)
             {
                 return RedirectToAction("Index", "Main", new { message = "Question added successfully" });

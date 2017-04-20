@@ -332,7 +332,7 @@ namespace Server
         }
 
 
-        public string createQuestion(int userUniqueInt, string subject, string[] topics, List<byte[]> allImgs, string freeText)
+        public string createQuestion(int userUniqueInt, string subject, List<string> qDiagnoses, List<byte[]> allImgs, string freeText)
         {
             throw new NotImplementedException();
         }

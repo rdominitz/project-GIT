@@ -24,7 +24,7 @@ namespace ServerLogicTests
         [TestMethod]
         public void getQuestionDiagnosesExistQuestionWithDiagnoses()
         {
-            _server.addQuestion(Users.USER_UNIQUE_INT, "subject", false, "", new List<string>() { "topic" });
+            _server.createQuestion(Users.USER_UNIQUE_INT, "subject", new List<string>() { "topic" }, new List<byte[]>() { new byte[1] { 5 } }, "");
             List<string> l = _server.getQuestionDiagnoses(1);
             Assert.IsTrue(l.Count == 1);
             Assert.IsTrue(l[0].Equals("topic"));
@@ -33,7 +33,7 @@ namespace ServerLogicTests
         [TestMethod]
         public void getQuestionDiagnosesExistQuestionWithoutDiagnoses()
         {
-            _server.addQuestion(Users.USER_UNIQUE_INT, "subject", true, "", new List<string>());
+            _server.createQuestion(Users.USER_UNIQUE_INT, "subject", new List<string>(), new List<byte[]>() { new byte[1] { 5 } }, "");
             List<string> l = _server.getQuestionDiagnoses(1);
             Assert.IsTrue(l.Count == 1);
             Assert.IsTrue(l[0].Equals(Topics.NORMAL));
