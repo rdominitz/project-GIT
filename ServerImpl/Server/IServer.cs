@@ -90,11 +90,11 @@ namespace Server
 
         string addTestToGroup(int userUniqueInt, string groupName, int testId);
         
-		List<String> getUsersGroups(int userUniqueInt);
+		Tuple<string, List<String>> getUsersGroups(int userUniqueInt);
 
-        List<String> getUsersGroupsInvitations(int userUniqueInt);
+        Tuple<string, List<String>> getUsersGroupsInvitations(int userUniqueInt);
 
-        void acceptUsersGroupsInvitations(int userUniqueInt, List<String> groups);
+        string acceptUsersGroupsInvitations(int userUniqueInt, List<String> groups);
 
         string saveSelectedGroup(int userUniqueInt, string groupName);
 

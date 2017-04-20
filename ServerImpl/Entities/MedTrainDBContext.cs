@@ -441,6 +441,69 @@ namespace Entities
                 }
             }
         }
+
+        public List<string> getUserGroups(string userId)
+        {
+            using (var db = new MedTrainDBContext())
+            {
+                var query = from gm in db.GroupsMembers
+                            where gm.UserId.Equals(userId) && gm.invitationAccepted
+                            select gm;
+                List<string> ans = new List<string>();
+                foreach (GroupMember gm in query)
+                {
+                    ans.Add(gm.GroupName);
+                }
+                return ans;
+            }
+        }
+
+        public List<string> getUserInvitations(string userId)
+        {
+            using (var db = new MedTrainDBContext())
+            {
+                var query = from gm in db.GroupsMembers
+                            where gm.UserId.Equals(userId) && !gm.invitationAccepted
+                            select gm;
+                List<string> ans = new List<string>();
+                foreach (GroupMember gm in query)
+                {
+                    ans.Add(gm.GroupName);
+                }
+                return ans;
+            }
+        }
+
+        public bool hasInvitation(string userId, string groupName)
+        {
+            using (var db = new MedTrainDBContext())
+            {
+                var query = from gm in db.GroupsMembers
+                            where gm.UserId.Equals(userId) && gm.GroupName.Equals(groupName) && !gm.invitationAccepted
+                            select gm;
+                return query.Count() != 0;
+            }
+        }
+
+        public GroupMember getGroupMemberInvitation(string userId, string groupName)
+        {
+            using (var db = new MedTrainDBContext())
+            {
+                var query = from gm in db.GroupsMembers
+                            where gm.UserId.Equals(userId) && gm.GroupName.Equals(groupName) && !gm.invitationAccepted
+                            select gm;
+                return query.ToList()[0];
+            }
+        }
+
+        public void updateGroupMember(GroupMember gm)
+        {
+            using (var db = new MedTrainDBContext())
+            {
+                db.Entry(gm).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+        }
         #endregion
         #region test
         public void addTest(Test t)

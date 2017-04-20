@@ -296,6 +296,43 @@ namespace Entities
         {
             _groupsMembers.RemoveAll(gm => gm.GroupName.Equals(g.name) && gm.AdminId.Equals(g.AdminId));
         }
+
+        public List<string> getUserGroups(string userId)
+        {
+            List<GroupMember> matches = _groupsMembers.Where(gm => gm.UserId.Equals(userId) && gm.invitationAccepted).ToList();
+            List<string> ans = new List<string>();
+            foreach (GroupMember gm in matches)
+            {
+                ans.Add(gm.GroupName);
+            }
+            return ans;
+        }
+
+        public List<string> getUserInvitations(string userId)
+        {
+            List<GroupMember> matches = _groupsMembers.Where(gm => gm.UserId.Equals(userId) && !gm.invitationAccepted).ToList();
+            List<string> ans = new List<string>();
+            foreach (GroupMember gm in matches)
+            {
+                ans.Add(gm.GroupName);
+            }
+            return ans;
+        }
+
+        public bool hasInvitation(string userId, string groupName)
+        {
+            return _groupsMembers.Where(gm => gm.UserId.Equals(userId) && gm.GroupName.Equals(groupName) && !gm.invitationAccepted).Count() != 0;
+        }
+
+        public GroupMember getGroupMemberInvitation(string userId, string groupName)
+        {
+            return _groupsMembers.Where(gm => gm.UserId.Equals(userId) && gm.GroupName.Equals(groupName) && !gm.invitationAccepted).ToList()[0];
+        }
+
+        public void updateGroupMember(GroupMember gm)
+        {
+            // nothing for now, probabely the same as update question
+        }
         #endregion
         #region test
         public void addTest(Test t)

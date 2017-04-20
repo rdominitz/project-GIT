@@ -56,6 +56,11 @@ namespace Entities
 
         void addGroupMember(GroupMember gm);
         void removeGroupMembers(Group g);
+        List<string> getUserGroups(string userId);
+        List<string> getUserInvitations(string userId);
+        bool hasInvitation(string userId, string groupName);
+        GroupMember getGroupMemberInvitation(string userId, string groupName);
+        void updateGroupMember(GroupMember gm);
 
         void addTest(Test t);
         List<Test> getAllTests();

@@ -279,17 +279,17 @@ namespace Server
         {
             throw new NotImplementedException();
         }
-        public List<string> getUsersGroups(int userUniqueInt)
+        public Tuple<string, List<string>> getUsersGroups(int userUniqueInt)
         {
             throw new NotImplementedException();
         }
 
-        public List<string> getUsersGroupsInvitations(int userUniqueInt)
+        public Tuple<string, List<String>> getUsersGroupsInvitations(int userUniqueInt)
         {
             throw new NotImplementedException();
         }
 
-        public void acceptUsersGroupsInvitations(int userUniqueInt, List<string> groups)
+        public string acceptUsersGroupsInvitations(int userUniqueInt, List<string> groups)
         {
             throw new NotImplementedException();
         }

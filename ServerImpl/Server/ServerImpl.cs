@@ -1283,19 +1283,61 @@ namespace Server
             return Replies.SUCCESS;
         }
 
-        public List<string> getUsersGroups(int userUniqueInt)
+        public Tuple<string, List<string>> getUsersGroups(int userUniqueInt)
         {
-            return new List<string>() { "group1", "group2", "group3" };
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return new Tuple<string,List<string>>(NOT_LOGGED_IN, null);
+            }
+            updateUserLastActionTime(user);
+            return new Tuple<string, List<string>>(Replies.SUCCESS, _db.getUserGroups(user.UserId));
         }
 
-        public List<string> getUsersGroupsInvitations(int userUniqueInt)
+        public Tuple<string, List<String>> getUsersGroupsInvitations(int userUniqueInt)
         {
-            return new List<string>() { "inv1", "inv2", "inv3" };
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return new Tuple<string, List<string>>(NOT_LOGGED_IN, null);
+            }
+            updateUserLastActionTime(user);
+            return new Tuple<string, List<string>>(Replies.SUCCESS, _db.getUserInvitations(user.UserId));
         }
 
-        public void acceptUsersGroupsInvitations(int userUniqueInt, List<string> groups)
+        public string acceptUsersGroupsInvitations(int userUniqueInt, List<string> groups)
         {
-            throw new NotImplementedException();
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return NOT_LOGGED_IN;
+            }
+            updateUserLastActionTime(user);
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Cannot accept invitations to the following groups:");
+            bool error = false;
+            foreach (string group in groups)
+            {
+                if (!_db.hasInvitation(user.UserId, group))
+                {
+                    sb.Append(Environment.NewLine + group);
+                    error = true;
+                }
+            }
+            if (error)
+            {
+                return sb.ToString();
+            }
+            foreach (string group in groups)
+            {
+                GroupMember gm = _db.getGroupMemberInvitation(user.UserId, group);
+                gm.invitationAccepted = true;
+                _db.updateGroupMember(gm);
+            }
+            return Replies.SUCCESS;
         }
 
         public string saveSelectedGroup(int userUniqueInt, string groupName)
