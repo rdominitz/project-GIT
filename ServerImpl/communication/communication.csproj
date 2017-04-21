@@ -319,6 +319,7 @@
     <Content Include="Views\AddSubject\index.cshtml" />
     <Content Include="Views\AddTopic\index.cshtml" />
     <Content Include="Views\RomoveQuestion\index.cshtml" />
+    <Content Include="Views\MyGroups\groupInvitations.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

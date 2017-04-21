@@ -24,7 +24,6 @@ namespace communication.Controllers
             Tuple<string, Question> q = ServerWiring.getInstance().getNextQuestion(Convert.ToInt32(cookie.Value));
             HttpCookie questionCookie = new HttpCookie("questionId", q.Item2.QuestionId.ToString());
             Response.SetCookie(questionCookie);
-            //Tuple<string, Question> q = ServerWiring.getInstance().getNextQuestion(Convert.ToInt32("100000"));
             List<string> topics = ServerWiring.getInstance().getSubjectTopics(q.Item2.SubjectId);
             ViewBag.topics = topics;
             if(!q.Item1.Equals(Replies.SUCCESS))
