@@ -1,6 +1,6 @@
 ﻿<form id="myGroupsForm" method="POST" action="~/MyGroups/submit">
     <div class="col-md-offset-4">
-        <select id="groupName" name="groupName" class="form-control" multiple="multiple" style="margin-bottom:2px" value="">
+        <select id="groupInvites" name="groupInvites" class="form-control" multiple="multiple" style="margin-bottom:2px" value="">
             @foreach (var gi in (List<String>)ViewData["groupsInvitations"])
             {
                 <option value="@gi">@gi</option>

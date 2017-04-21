@@ -44,7 +44,7 @@ namespace communication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Submit(string[] Groups)
+        public ActionResult Submit(string[] groupInvites)
         {
             HttpCookie userCookie = Request.Cookies["userId"];
             if (userCookie == null)
@@ -52,23 +52,24 @@ namespace communication.Controllers
 
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-            if(Groups == null)
+            if(groupInvites == null)
             {
                 return RedirectToAction("index", "MyGroups", new { message = "you did not choose anything, please choose at least one group" });
             }
-            List<string> list = new List<string>(Groups);
+            List<string> list = new List<string>(groupInvites);
             string s = ServerWiring.getInstance().acceptUsersGroupsInvitations(Convert.ToInt32(userCookie.Value), list);
             if (!s.Equals(Replies.SUCCESS))
             {
                 return RedirectToAction("Index", "Main", new { message = s });
             }
-            Tuple<string, List<String>> groupsInvitationsRes = ServerWiring.getInstance().getUsersGroupsInvitations(Convert.ToInt32(userCookie.Value));
-            if (!groupsInvitationsRes.Item1.Equals(Replies.SUCCESS))
-            {
-                return RedirectToAction("Index", "Main", new { message = groupsInvitationsRes.Item1 });
-            }
-            ViewData["groupsInvitations"] = groupsInvitationsRes.Item2;
-            return PartialView("groupInvitations");
+            /* Tuple<string, List<String>> groupsInvitationsRes = ServerWiring.getInstance().getUsersGroupsInvitations(Convert.ToInt32(userCookie.Value));
+             if (!groupsInvitationsRes.Item1.Equals(Replies.SUCCESS))
+             {
+                 return RedirectToAction("Index", "Main", new { message = groupsInvitationsRes.Item1 });
+             }
+             ViewData["groupsInvitations"] = groupsInvitationsRes.Item2;
+             return PartialView("groupInvitations");*/
+            return RedirectToAction("index", "MyGroups");
         }
     }
 }

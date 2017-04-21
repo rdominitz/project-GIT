@@ -197,6 +197,92 @@ namespace Server
             };
             _db.addGroup(g);
             #endregion
+
+            /*********** Roie added code here*************/
+            #region roie
+            Group g2 = new Group
+            {
+                AdminId = "defaultadmin@gmail.com",
+                name = "Test Group 2"
+            };
+            _db.addGroup(g2);
+            Group g3 = new Group
+            {
+                AdminId = "defaultadmin@gmail.com",
+                name = "Test Group 3"
+            };
+            _db.addGroup(g3);
+            Group g4 = new Group
+            {
+                AdminId = "defaultadmin@gmail.com",
+                name = "Test Group 4"
+            };
+            _db.addGroup(g4);
+            Group g5 = new Group
+            {
+                AdminId = "defaultadmin@gmail.com",
+                name = "Test Group 5"
+            };
+            _db.addGroup(g5);
+            Group g6 = new Group
+            {
+                AdminId = "defaultadmin@gmail.com",
+                name = "Test Group 6"
+            };
+            _db.addGroup(g6);
+
+            GroupMember gm1 = new GroupMember
+            {
+                GroupName = "Test Group 1",
+                AdminId = "defaultadmin@gmail.com",
+                UserId = "user@gmail.com",
+                invitationAccepted = false
+            };
+            _db.addGroupMember(gm1);
+            GroupMember gm2 = new GroupMember
+            {
+                GroupName = "Test Group 2",
+                AdminId = "defaultadmin@gmail.com",
+                UserId = "user@gmail.com",
+                invitationAccepted = false
+            };
+            _db.addGroupMember(gm2);
+            GroupMember gm3 = new GroupMember
+            {
+                GroupName = "Test Group 3",
+                AdminId = "defaultadmin@gmail.com",
+                UserId = "user@gmail.com",
+                invitationAccepted = false
+            };
+            _db.addGroupMember(gm3);
+            GroupMember gm4 = new GroupMember
+            {
+                GroupName = "Test Group 4",
+                AdminId = "defaultadmin@gmail.com",
+                UserId = "user@gmail.com",
+                invitationAccepted = false
+            };
+            _db.addGroupMember(gm4);
+            GroupMember gm5 = new GroupMember
+            {
+                GroupName = "Test Group 5",
+                AdminId = "defaultadmin@gmail.com",
+                UserId = "user@gmail.com",
+                invitationAccepted = false
+            };
+            _db.addGroupMember(gm5);
+            GroupMember gm6 = new GroupMember
+            {
+                GroupName = "Test Group 6",
+                AdminId = "defaultadmin@gmail.com",
+                UserId = "user@gmail.com",
+                invitationAccepted = false
+            };
+            _db.addGroupMember(gm6);
+            #endregion
+
+
+            /*********** Roie stopped adding code here*************/
         }
 
         private void addQuestions(Subject s, List<Topic> diagnoses, List<List<string>> images)
