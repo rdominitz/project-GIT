@@ -905,19 +905,22 @@ namespace Server
             }
             StringBuilder wrongEmails = new StringBuilder();
             wrongEmails.Append("These email addresses are invalid:" + Environment.NewLine);
-            List<string> emails = getEmailsfromString(inviteEmails);
-            bool wrongEmail = false;
-            foreach (string email in emails)
+            if (!inviteEmails.Equals(""))
             {
-                if (!InputTester.isLegalEmail(email))
+                List<string> emails = getEmailsfromString(inviteEmails);
+                bool wrongEmail = false;
+                foreach (string email in emails)
                 {
-                    wrongEmail = true;
-                    wrongEmails.Append(email + Environment.NewLine);
+                    if (!InputTester.isLegalEmail(email))
+                    {
+                        wrongEmail = true;
+                        wrongEmails.Append(email + Environment.NewLine);
+                    }
                 }
-            }
-            if (wrongEmail)
-            {
-                return wrongEmails.ToString();
+                if (wrongEmail)
+                {
+                    return wrongEmails.ToString();
+                }
             }
             // verify user is logged in
             User user = getUserByInt(userUniqueInt);
@@ -942,14 +945,14 @@ namespace Server
                 Group g = new Group { AdminId = admin.AdminId, name = groupName };
                 _db.addGroup(g);
             }
-            return inviteToGroup(userUniqueInt, groupName, inviteEmails, emailContent);
+            return inviteEmails .Equals("") ? Replies.SUCCESS : inviteToGroup(userUniqueInt, groupName, inviteEmails, emailContent);
         }
 
         public string inviteToGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent)
         {
             // check for illegal input values
             List<string> input = new List<string>() { groupName };
-            if (!InputTester.isValidInput(input))
+            if (!InputTester.isValidInput(input) || inviteEmails == null || inviteEmails.Equals(""))
             {
                 return GENERAL_INPUT_ERROR;
             }

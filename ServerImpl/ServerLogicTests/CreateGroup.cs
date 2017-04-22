@@ -7,9 +7,6 @@ using Constants;
 
 namespace ServerLogicTests
 {
-    /// <summary>
-    /// Summary description for CreateGroup
-    /// </summary>
     [TestClass]
     public class CreateGroup
     {
@@ -23,15 +20,11 @@ namespace ServerLogicTests
             _server.login("defaultadmin@gmail.com", "password");
         }
 
-        // string createGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent)
-
-        // success
-        // not admin
-        // not logged in
-        // bad email
-        // bad emails
-        // nulls, "null"s, ""s
-        // admin has a group with that name
+        [TestMethod]
+        public void createGroupSuccessfullyNoInvitees()
+        {
+            Assert.IsTrue(_server.createGroup(Users.USER_UNIQUE_INT, "group1", "", "join my group :)").Equals(Replies.SUCCESS));
+        }
 
         [TestMethod]
         public void createGroupSuccessfullyOneInvitee()

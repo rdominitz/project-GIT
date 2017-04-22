@@ -71,8 +71,10 @@ namespace Server
         // has tests - 100% coverage
         string createGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent);
 
+        // has tests - 100% coverage
         string inviteToGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent);
 
+        // has tests - 100% coverage
         Tuple<string, List<string>> getAllAdminsGroups(int userUniqueInt);
 
         string removeGroup(int userUniqueInt, string groupName);
