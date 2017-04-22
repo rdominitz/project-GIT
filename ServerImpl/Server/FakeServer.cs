@@ -337,5 +337,15 @@ namespace Server
         {
             throw new NotImplementedException();
         }
+
+        public Tuple<string, List<Tuple<string, int>>> getUnfinishedTests(int userUniqueInt, string groupName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Tuple<string, List<Tuple<string, int>>> getFinishedTests(int userUniqueInt, string groupName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -105,5 +105,8 @@ namespace Server
         string createQuestion(int userUniqueInt, string subject, List<string> qDiagnoses, List<byte[]> allImgs, string freeText);
 
         string removeQuestions(int userUniqueInt, List<int> questionsIdsList);
+
+        Tuple<string, List<Tuple<string, int>>> getUnfinishedTests(int userUniqueInt, string groupName);
+        Tuple<string, List<Tuple<string, int>>> getFinishedTests(int userUniqueInt, string groupName);
     }
 }
