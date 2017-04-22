@@ -1315,7 +1315,7 @@ namespace Server
                 return new Tuple<string,List<string>>(NOT_LOGGED_IN, null);
             }
             updateUserLastActionTime(user);
-            return new Tuple<string, List<string>>(Replies.SUCCESS, _db.getUserGroups(user.UserId));
+            return groupMembers(_db.getUserGroups(user.UserId));
         }
 
         public Tuple<string, List<String>> getUsersGroupsInvitations(int userUniqueInt)
@@ -1327,7 +1327,17 @@ namespace Server
                 return new Tuple<string, List<string>>(NOT_LOGGED_IN, null);
             }
             updateUserLastActionTime(user);
-            return new Tuple<string, List<string>>(Replies.SUCCESS, _db.getUserInvitations(user.UserId));
+            return groupMembers(_db.getUserInvitations(user.UserId));
+        }
+
+        private Tuple<string, List<string>> groupMembers(List<GroupMember> gms)
+        {
+            List<string> l = new List<string>();
+            foreach (GroupMember gm in gms)
+            {
+                l.Add(gm.ToString());
+            }
+            return new Tuple<string, List<string>>(Replies.SUCCESS, l);
         }
 
         public string acceptUsersGroupsInvitations(int userUniqueInt, List<string> groups)
@@ -1348,7 +1358,9 @@ namespace Server
             bool error = false;
             foreach (string group in groups)
             {
-                if (!_db.hasInvitation(user.UserId, group))
+                string groupName = group.Substring(0, group.LastIndexOf('(') - 1);
+                string adminId = group.Substring(group.LastIndexOf('('), group.Length);
+                if (!_db.hasInvitation(user.UserId, groupName, adminId))
                 {
                     sb.Append(Environment.NewLine + group);
                     error = true;
@@ -1360,7 +1372,9 @@ namespace Server
             }
             foreach (string group in groups)
             {
-                GroupMember gm = _db.getGroupMemberInvitation(user.UserId, group);
+                string groupName = group.Substring(0, group.LastIndexOf('(') - 1);
+                string adminId = group.Substring(group.LastIndexOf('('), group.Length);
+                GroupMember gm = _db.getGroupMemberInvitation(user.UserId, groupName, adminId);
                 gm.invitationAccepted = true;
                 _db.updateGroupMember(gm);
             }

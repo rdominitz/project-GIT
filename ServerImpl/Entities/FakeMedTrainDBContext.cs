@@ -297,36 +297,26 @@ namespace Entities
             _groupsMembers.RemoveAll(gm => gm.GroupName.Equals(g.name) && gm.AdminId.Equals(g.AdminId));
         }
 
-        public List<string> getUserGroups(string userId)
+        public List<GroupMember> getUserGroups(string userId)
         {
-            List<GroupMember> matches = _groupsMembers.Where(gm => gm.UserId.Equals(userId) && gm.invitationAccepted).ToList();
-            List<string> ans = new List<string>();
-            foreach (GroupMember gm in matches)
-            {
-                ans.Add(gm.GroupName);
-            }
-            return ans;
+            return _groupsMembers.Where(gm => gm.UserId.Equals(userId) && gm.invitationAccepted).ToList();
         }
 
-        public List<string> getUserInvitations(string userId)
+        public List<GroupMember> getUserInvitations(string userId)
         {
-            List<GroupMember> matches = _groupsMembers.Where(gm => gm.UserId.Equals(userId) && !gm.invitationAccepted).ToList();
-            List<string> ans = new List<string>();
-            foreach (GroupMember gm in matches)
-            {
-                ans.Add(gm.GroupName);
-            }
-            return ans;
+            return _groupsMembers.Where(gm => gm.UserId.Equals(userId) && !gm.invitationAccepted).ToList();
         }
 
-        public bool hasInvitation(string userId, string groupName)
+        public bool hasInvitation(string userId, string groupName, string adminId)
         {
-            return _groupsMembers.Where(gm => gm.UserId.Equals(userId) && gm.GroupName.Equals(groupName) && !gm.invitationAccepted).Count() != 0;
+            return _groupsMembers.Where(gm => gm.UserId.Equals(userId) && gm.GroupName.Equals(groupName) &&
+                gm.AdminId.Equals(adminId) && !gm.invitationAccepted).Count() == 1;
         }
 
-        public GroupMember getGroupMemberInvitation(string userId, string groupName)
+        public GroupMember getGroupMemberInvitation(string userId, string groupName, string adminId)
         {
-            return _groupsMembers.Where(gm => gm.UserId.Equals(userId) && gm.GroupName.Equals(groupName) && !gm.invitationAccepted).ToList()[0];
+            return _groupsMembers.Where(gm => gm.UserId.Equals(userId) && gm.GroupName.Equals(groupName) &&
+                gm.AdminId.Equals(adminId) && !gm.invitationAccepted).ToList()[0];
         }
 
         public void updateGroupMember(GroupMember gm)

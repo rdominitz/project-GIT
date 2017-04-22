@@ -442,55 +442,47 @@ namespace Entities
             }
         }
 
-        public List<string> getUserGroups(string userId)
+        public List<GroupMember> getUserGroups(string userId)
         {
             using (var db = new MedTrainDBContext())
             {
                 var query = from gm in db.GroupsMembers
                             where gm.UserId.Equals(userId) && gm.invitationAccepted
                             select gm;
-                List<string> ans = new List<string>();
-                foreach (GroupMember gm in query)
-                {
-                    ans.Add(gm.GroupName);
-                }
-                return ans;
+                return query.ToList();
             }
         }
 
-        public List<string> getUserInvitations(string userId)
+        public List<GroupMember> getUserInvitations(string userId)
         {
             using (var db = new MedTrainDBContext())
             {
                 var query = from gm in db.GroupsMembers
                             where gm.UserId.Equals(userId) && !gm.invitationAccepted
                             select gm;
-                List<string> ans = new List<string>();
-                foreach (GroupMember gm in query)
-                {
-                    ans.Add(gm.GroupName);
-                }
-                return ans;
+                return query.ToList();
             }
         }
 
-        public bool hasInvitation(string userId, string groupName)
+        public bool hasInvitation(string userId, string groupName, string adminId)
         {
             using (var db = new MedTrainDBContext())
             {
                 var query = from gm in db.GroupsMembers
-                            where gm.UserId.Equals(userId) && gm.GroupName.Equals(groupName) && !gm.invitationAccepted
+                            where gm.UserId.Equals(userId) && gm.GroupName.Equals(groupName) &&
+                                gm.AdminId.Equals(adminId) && !gm.invitationAccepted
                             select gm;
-                return query.Count() != 0;
+                return query.Count() == 1;
             }
         }
 
-        public GroupMember getGroupMemberInvitation(string userId, string groupName)
+        public GroupMember getGroupMemberInvitation(string userId, string groupName, string adminId)
         {
             using (var db = new MedTrainDBContext())
             {
                 var query = from gm in db.GroupsMembers
-                            where gm.UserId.Equals(userId) && gm.GroupName.Equals(groupName) && !gm.invitationAccepted
+                            where gm.UserId.Equals(userId) && gm.GroupName.Equals(groupName) &&
+                                gm.AdminId.Equals(adminId) && !gm.invitationAccepted
                             select gm;
                 return query.ToList()[0];
             }

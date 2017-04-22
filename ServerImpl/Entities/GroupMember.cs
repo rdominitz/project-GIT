@@ -18,5 +18,10 @@ namespace Entities
         public string UserId { get; set; }
         [Required]
         public bool invitationAccepted { get; set; }
+
+        public override string ToString()
+        {
+            return GroupName + "(created by " + AdminId + ")";
+        }
     }
 }
