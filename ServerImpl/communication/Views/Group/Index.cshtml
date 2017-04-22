@@ -10,29 +10,26 @@
             alert("@ViewBag.message");
         </script>
     }
+    <h2 class="cen col-md-offset-4">@ViewBag.group_name</h2>
 
-
-    @if ((List<Tuple<string, int>>)ViewBag.groups != null)
-            {
+    @if ((List<Tuple<string, int>>)ViewBag.unFinishedTests != null)
+    {
         <br />
-        if (((List<Tuple<string, int>>)ViewBag.groups).Count != 0)
+        if (((List<Tuple<string, int>>)ViewBag.unFinishedTests).Count != 0)
         {
-            <h2 class="cen col-md-offset-4">@ViewBag.group_name</h2>
-        }
-        <br />
-        <div class="btn-toolbar col-md-offset-4" role="toolbar">
-            @foreach (var g in (List<String>)ViewData["groups"])
-                {
-
-                <div class="container">
-                    <button name="@g" +"_button" type="button" style="margin-bottom:6px" class="btn btn-primary" id="@g" onclick="location.href='@Url.Action("Index", "Group",new { groupName = g})'">@g</button>
+            <form id="getQuestionForm" method="POST" action="~/GetQuestion/submit">
+                <div class="form-group">
+                    <label for="subject" class="control-label">Subject</label>
+                    <select id="subject" name="subject" class="form-control" onchange="giveSelection(this.value)">
+                        @foreach (var test in (List<Tuple<string, int>>)ViewBag.unFinishedTests)
+                        {
+                            <option value="@test.Item2">@test.Item1</option>
+                        }
+                    </select>
+                    <br />
+                    <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Take Test</button>
                 </div>
-            }
-        </div>
+            </form>
+        }
     }
-    <br />
-    @Html.Partial("groupInvitations");
-
-
 </div>
-
