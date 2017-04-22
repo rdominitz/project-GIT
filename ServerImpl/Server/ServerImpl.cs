@@ -1365,7 +1365,13 @@ namespace Server
                 }
                 int i = group.LastIndexOf(GroupsMembers.CREATED_BY);
                 string groupName = group.Substring(0, i);
-                string adminId = group.Substring(i + GroupsMembers.CREATED_BY.Length, group.Length - 1);
+                string adminId = group.Substring(i + GroupsMembers.CREATED_BY.Length);
+                adminId = adminId.Substring(0, adminId.Length - 1);
+                if (!InputTester.isLegalEmail(adminId) || _db.getAdmin(adminId) == null)
+                {
+                    return "Error. Some groups names are invalid.";
+                }
+                l.Add(new Tuple<string, string>(groupName, adminId));
             }
             foreach (Tuple<string, string> t in l)
             {
