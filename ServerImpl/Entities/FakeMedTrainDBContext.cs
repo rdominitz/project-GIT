@@ -27,6 +27,7 @@ namespace Entities
         private List<Test> _tests;
         private List<GroupTest> _groupsTests;
         private List<TestQuestion> _testsQuestions;
+        private List<GroupTestAnswer> _groupsTestsAnswers;
 
         public FakeMedTrainDBContext()
         {
@@ -46,12 +47,12 @@ namespace Entities
             _tests = new List<Test>();
             _groupsTests = new List<GroupTest>();
             _testsQuestions = new List<TestQuestion>();
+            _groupsTestsAnswers = new List<GroupTestAnswer>();
         }
 
         //public IDbSet<Test> Tests { get; set; }
         //public IDbSet<Group> Groups { get; set; }
         //public IDbSet<UserGroupTest> UsersGroupsTests { get; set; }
-        //public IDbSet<GroupTestAnswer> GroupsTestsQuestionsAnswers { get; set; }
 
         public int getMillisecondsToSleep()
         {
@@ -339,18 +340,29 @@ namespace Entities
         {
             return new List<Test>(_tests);
         }
+
+        public Test getTest(int testId)
+        {
+            List<Test> matches = _tests.Where(t => t.TestId == testId).ToList();
+            return matches.Count == 1 ? matches[0] : null;
+        }
         #endregion
         #region group test
         public void addGroupTest(GroupTest gt)
         {
-            if (_admins.Where(a => a.AdminId.Equals(gt.adminId)).Count() == 0 || 
-                _groups.Where(g => g.AdminId.Equals(gt.adminId) && g.name.Equals(gt.GroupName)).Count() == 0 ||
+            if (_admins.Where(a => a.AdminId.Equals(gt.AdminId)).Count() == 0 || 
+                _groups.Where(g => g.AdminId.Equals(gt.AdminId) && g.name.Equals(gt.GroupName)).Count() == 0 ||
                 _tests.Where(t => t.TestId == gt.TestId).Count() == 0 ||
-                _groupsTests.Where(gtest => gtest.adminId.Equals(gt.adminId) && gtest.GroupName.Equals(gt.GroupName) && gtest.TestId == gt.TestId).Count() != 0)
+                _groupsTests.Where(gtest => gtest.AdminId.Equals(gt.AdminId) && gtest.GroupName.Equals(gt.GroupName) && gtest.TestId == gt.TestId).Count() != 0)
             {
                 return;
             }
             _groupsTests.Add(gt);
+        }
+
+        public List<GroupTest> getGroupTests(string groupName, string adminId)
+        {
+            return _groupsTests.Where(gt => gt.GroupName.Equals(groupName) && gt.AdminId.Equals(adminId)).ToList();
         }
         #endregion
         #region test question
@@ -363,6 +375,18 @@ namespace Entities
                 return;
             }
             _testsQuestions.Add(tq);
+        }
+
+        public List<TestQuestion> getTestQuestions(int testId)
+        {
+            return _testsQuestions.Where(tq => tq.TestId == testId).ToList();
+        }
+        #endregion
+        #region group test answer
+        public List<GroupTestAnswer> getGroupTestAnswers(string groupName, string adminId, int testId)
+        {
+            return _groupsTestsAnswers.Where(gta => gta.GroupName.Equals(groupName) && gta.AdminId.Equals(adminId) &&
+                gta.TestId == testId).ToList();
         }
         #endregion
     }

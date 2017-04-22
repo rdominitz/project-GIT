@@ -518,19 +518,38 @@ namespace Entities
                 return db.Tests.ToList();
             }
         }
+
+        public Test getTest(int testId)
+        {
+            using (var db = new MedTrainDBContext())
+            {
+                return db.Tests.Find(testId);
+            }
+        }
         #endregion
         #region group test
         public void addGroupTest(GroupTest gt)
         {
             using (var db = new MedTrainDBContext())
             {
-                if (db.Admins.Find(gt.adminId) == null || db.Groups.Find(gt.adminId, gt.GroupName) == null ||
-                    db.Tests.Find(gt.TestId) == null || db.GroupsTests.Find(gt.adminId, gt.GroupName, gt.TestId) != null)
+                if (db.Admins.Find(gt.AdminId) == null || db.Groups.Find(gt.AdminId, gt.GroupName) == null ||
+                    db.Tests.Find(gt.TestId) == null || db.GroupsTests.Find(gt.AdminId, gt.GroupName, gt.TestId) != null)
                 {
                     return;
                 }
                 db.GroupsTests.Add(gt);
                 db.SaveChanges();
+            }
+        }
+
+        public List<GroupTest> getGroupTests(string groupName, string adminId)
+        {
+            using (var db = new MedTrainDBContext())
+            {
+                var query = from gt in db.GroupsTests
+                            where gt.GroupName.Equals(groupName) && gt.AdminId.Equals(adminId)
+                            select gt;
+                return query.ToList();
             }
         }
         #endregion
@@ -546,6 +565,30 @@ namespace Entities
                 }
                 db.TestsQuestions.Add(tq);
                 db.SaveChanges();
+            }
+        }
+
+        public List<TestQuestion> getTestQuestions(int testId)
+        {
+            using (var db = new MedTrainDBContext())
+            {
+                var query = from tq in db.TestsQuestions
+                            where tq.TestId == testId
+                            select tq;
+                return query.ToList();
+            }
+        }
+        #endregion
+        #region group test answer
+        public List<GroupTestAnswer> getGroupTestAnswers(string groupName, string adminId, int testId)
+        {
+            using (var db = new MedTrainDBContext())
+            {
+                var query = from gta in db.GroupsTestsQuestionsAnswers
+                            where gta.GroupName.Equals(groupName) && gta.AdminId.Equals(adminId) &&
+                                gta.TestId == testId
+                            select gta;
+                return query.ToList();
             }
         }
         #endregion

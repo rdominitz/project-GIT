@@ -23,6 +23,7 @@ namespace Server
         private const string NOT_AN_ADMIN = "Error. only an admin has the required permissions to perform this action.";
         private const string CERTAINTY_LEVEL_ERROR = "Error. Certainty levels must be between 1 to 10.";
         private const string NON_EXISTING_GROUP = "Error. You have not created a group with that name.";
+        private const string INVALID_GROUP_NAME = "Error. Invalid group name.";
         private const int USERS_CACHE_LIMIT = 1000;
         private const int HOURS_TO_LOGOUT = 1;
         private const int MILLISECONDS_TO_SLEEP = HOURS_TO_LOGOUT * 60 * 60 * 1000;
@@ -1303,7 +1304,7 @@ namespace Server
             {
                 return "Error. The administrator " + admin.AdminId + " does not have a group named " + groupName;
             }
-            GroupTest gt = new GroupTest { adminId = admin.AdminId, GroupName = groupName, TestId = testId };
+            GroupTest gt = new GroupTest { AdminId = admin.AdminId, GroupName = groupName, TestId = testId };
             _db.addGroupTest(gt);
             return Replies.SUCCESS;
         }
@@ -1363,17 +1364,14 @@ namespace Server
             {
                 if (group.LastIndexOf(GroupsMembers.CREATED_BY) == -1)
                 {
-                    return "Error. Some groups names are invalid.";
+                    return INVALID_GROUP_NAME;
                 }
-                int i = group.LastIndexOf(GroupsMembers.CREATED_BY);
-                string groupName = group.Substring(0, i);
-                string adminId = group.Substring(i + GroupsMembers.CREATED_BY.Length);
-                adminId = adminId.Substring(0, adminId.Length - 1);
-                if (!InputTester.isLegalEmail(adminId) || _db.getAdmin(adminId) == null)
+                Tuple<string, string> t = getGroupNameAndAdminId(group);
+                if (!InputTester.isLegalEmail(t.Item2) || _db.getAdmin(t.Item2) == null)
                 {
-                    return "Error. Some groups names are invalid.";
+                    return INVALID_GROUP_NAME;
                 }
-                l.Add(new Tuple<string, string>(groupName, adminId));
+                l.Add(t);
             }
             foreach (Tuple<string, string> t in l)
             {
@@ -1536,16 +1534,69 @@ namespace Server
 
         public Tuple<string, List<Tuple<string, int>>> getUnfinishedTests(int userUniqueInt, string groupName)
         {
-            List<Tuple<string, int>> l = new List<Tuple<string, int>>();
-            l.Add(new Tuple<string, int>("test1", 1));
-            l.Add(new Tuple<string, int>("test2", 2));
-            
-            return new Tuple<string, List<Tuple<string, int>>>(Replies.SUCCESS,l);
+            List<string> input = new List<string>() { groupName };
+            if (!InputTester.isValidInput(input))
+            {
+                return new Tuple<string, List<Tuple<string, int>>>(GENERAL_INPUT_ERROR, null);
+            }
+            if (groupName.LastIndexOf(GroupsMembers.CREATED_BY) == -1)
+            {
+                return new Tuple<string, List<Tuple<string, int>>>(INVALID_GROUP_NAME, null);
+            }
+            Tuple<string, string> t = getGroupNameAndAdminId(groupName);
+            return getTests(userUniqueInt, t.Item1, t.Item2, false);
         }
 
         public Tuple<string, List<Tuple<string, int>>> getFinishedTests(int userUniqueInt, string groupName)
         {
-            throw new NotImplementedException();
+            List<string> input = new List<string>() { groupName };
+            if (!InputTester.isValidInput(input))
+            {
+                return new Tuple<string, List<Tuple<string, int>>>(GENERAL_INPUT_ERROR, null);
+            }
+            if (groupName.LastIndexOf(GroupsMembers.CREATED_BY) == -1)
+            {
+                return new Tuple<string, List<Tuple<string, int>>>(INVALID_GROUP_NAME, null);
+            }
+            Tuple<string, string> t = getGroupNameAndAdminId(groupName);
+            return getTests(userUniqueInt, t.Item1, t.Item2, true);
+        }
+
+        private Tuple<string, List<Tuple<string, int>>> getTests(int userUniqueInt, string groupName, string adminId, bool completed)
+        {
+            // verify user logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return new Tuple<string, List<Tuple<string, int>>>(NOT_LOGGED_IN, null);
+            }
+            updateUserLastActionTime(user);
+            // get all tests for the given group
+            List<GroupTest> groupTests = _db.getGroupTests(groupName, adminId);
+            List<Tuple<string, int>> ans = new List<Tuple<string, int>>();
+            // foreach test
+            foreach (GroupTest gt in groupTests)
+            {
+                // verify how many questions a test has
+                Test test = _db.getTest(gt.TestId);
+                if (test == null)
+                {
+                    return new Tuple<string, List<Tuple<string, int>>>("Error. Wrong DB logic.", null);
+                }
+                List<TestQuestion> tqs = _db.getTestQuestions(test.TestId);
+                // how many questions have been answered
+                List<GroupTestAnswer> gtas = _db.getGroupTestAnswers(groupName, adminId, test.TestId);
+                if (!completed && tqs.Count > gtas.Count)
+                {
+                    ans.Add(new Tuple<string, int>(test.testName, test.TestId));
+                }
+                else if (completed && tqs.Count == gtas.Count)
+                {
+                    ans.Add(new Tuple<string, int>(test.testName, test.TestId));
+                }
+            }
+
+            return new Tuple<string, List<Tuple<string, int>>>(Replies.SUCCESS, ans);
         }
 
         private User getUserByInt(int userUniqueInt)
@@ -1570,6 +1621,15 @@ namespace Server
             {
                 _usersCache.RemoveAt(0);
             }
+        }
+
+        private Tuple<string, string> getGroupNameAndAdminId(string s)
+        {
+            int i = s.LastIndexOf(GroupsMembers.CREATED_BY);
+            string groupName = s.Substring(0, i);
+            string adminId = s.Substring(i + GroupsMembers.CREATED_BY.Length);
+            adminId = adminId.Substring(0, adminId.Length - 1);
+            return new Tuple<string, string>(groupName, adminId);
         }
     }
 }

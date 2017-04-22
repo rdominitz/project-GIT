@@ -64,9 +64,14 @@ namespace Entities
 
         void addTest(Test t);
         List<Test> getAllTests();
+        Test getTest(int testId);
 
         void addGroupTest(GroupTest gt);
+        List<GroupTest> getGroupTests(string groupName, string adminId);
 
         void addTestQuestion(TestQuestion tq);
+        List<TestQuestion> getTestQuestions(int testId);
+
+        List<GroupTestAnswer> getGroupTestAnswers(string groupName, string adminId, int testId);
     }
 }
