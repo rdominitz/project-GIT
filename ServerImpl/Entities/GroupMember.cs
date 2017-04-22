@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Constants;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,5 +19,10 @@ namespace Entities
         public string UserId { get; set; }
         [Required]
         public bool invitationAccepted { get; set; }
+
+        public override string ToString()
+        {
+            return GroupName + GroupsMembers.CREATED_BY + AdminId + ")";
+        }
     }
 }

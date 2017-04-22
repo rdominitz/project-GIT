@@ -53,8 +53,6 @@ namespace Server
         // has tests - 100% coverage
         string addTopic(int userUniqueInt, string subject, string topic);
 
-        //string addQuestion(int userUniqueInt, string subject, bool isNormal, string text, List<string> qDiagnoses);
-
         // has tests - 100% coverage
         string setUserAsAdmin(int userUniqueInt, string usernameToTurnToAdmin);
 
@@ -70,6 +68,7 @@ namespace Server
         // has tests - 100% coverage
         string getUserName(int userUniqueInt);
 
+        // has tests - 100% coverage
         string createGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent);
 
         string inviteToGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent);
@@ -100,6 +99,7 @@ namespace Server
 
         Tuple<string, string> getSavedGroup(int userUniqueInt);
 
+        // allows empty list of images for tests
         string createQuestion(int userUniqueInt, string subject, List<string> qDiagnoses, List<byte[]> allImgs, string freeText);
 
         string removeQuestions(int userUniqueInt, List<int> questionsIdsList);

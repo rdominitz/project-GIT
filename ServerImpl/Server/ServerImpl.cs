@@ -831,73 +831,6 @@ namespace Server
             return Replies.SUCCESS;
         }
 
-        public string addQuestion(int userUniqueInt, string subject, bool isNormal, string text, List<string> qDiagnoses)
-        {
-            // check for illegal input values
-            List<string> input = new List<string>(qDiagnoses);
-            input.Add(subject);
-            if (!InputTester.isValidInput(input) || text == null || text == "null")
-            {
-                return GENERAL_INPUT_ERROR;
-            }
-            // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
-            {
-                return NOT_LOGGED_IN;
-            }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return NOT_AN_ADMIN;
-            }
-            // verify subject exist
-            Subject sub = _db.getSubject(subject);
-            if (sub == null)
-            {
-                return "Error. Subject does not exist in the system.";
-            }
-            // verify all diagnoses are topics of the specified subject
-            List<Diagnosis> diagnoses = new List<Diagnosis>();
-            List<Topic> subjectTopics = _db.getTopics(subject);
-            foreach (string diagnosys in qDiagnoses)
-            {
-                if (subjectTopics.Where(t => t.TopicId.Equals(diagnosys)).ToList().Count == 0)
-                {
-                    return "Error. " + diagnosys + " is not a topic of " + subject;
-                }
-            }
-            if (qDiagnoses.Count == 0)
-            {
-                qDiagnoses.Add(Topics.NORMAL);
-            }
-            Question q = new Question { };
-            lock (_syncLockQuestionId)
-            {
-                foreach (string diagnosis in qDiagnoses)
-                {
-                    diagnoses.Add(new Diagnosis { QuestionId = _questionID, SubjectId = subject, TopicId = diagnosis });
-                }
-                q.QuestionId = _questionID;
-                q.SubjectId = subject;
-                q.normal = isNormal;
-                q.text = "";
-                q.level = Levels.DEFAULT_LVL;
-                q.points = Questions.QUESTION_INITAL_POINTS;
-                q.timeAdded = DateTime.Now;
-                _questionID++;
-            }
-            foreach (Diagnosis d in diagnoses)
-            {
-                _db.addDiagnosis(d);
-            }
-            _db.addQuestion(q);
-            _db.SaveChanges();
-            return Replies.SUCCESS;
-        }
-
         public string setUserAsAdmin(int userUniqueInt, string usernameToTurnToAdmin)
         {
             if (!InputTester.isLegalEmail(usernameToTurnToAdmin))
@@ -966,7 +899,7 @@ namespace Server
         {
             // check for illegal input values
             List<string> input = new List<string>() { groupName };
-            if (!InputTester.isValidInput(input))
+            if (!InputTester.isValidInput(input) || inviteEmails == null)
             {
                 return GENERAL_INPUT_ERROR;
             }
@@ -1382,7 +1315,7 @@ namespace Server
                 return new Tuple<string,List<string>>(NOT_LOGGED_IN, null);
             }
             updateUserLastActionTime(user);
-            return new Tuple<string, List<string>>(Replies.SUCCESS, _db.getUserGroups(user.UserId));
+            return groupMembers(_db.getUserGroups(user.UserId));
         }
 
         public Tuple<string, List<String>> getUsersGroupsInvitations(int userUniqueInt)
@@ -1394,7 +1327,17 @@ namespace Server
                 return new Tuple<string, List<string>>(NOT_LOGGED_IN, null);
             }
             updateUserLastActionTime(user);
-            return new Tuple<string, List<string>>(Replies.SUCCESS, _db.getUserInvitations(user.UserId));
+            return groupMembers(_db.getUserInvitations(user.UserId));
+        }
+
+        private Tuple<string, List<string>> groupMembers(List<GroupMember> gms)
+        {
+            List<string> l = new List<string>();
+            foreach (GroupMember gm in gms)
+            {
+                l.Add(gm.ToString());
+            }
+            return new Tuple<string, List<string>>(Replies.SUCCESS, l);
         }
 
         public string acceptUsersGroupsInvitations(int userUniqueInt, List<string> groups)
@@ -1413,11 +1356,28 @@ namespace Server
             StringBuilder sb = new StringBuilder();
             sb.Append("Cannot accept invitations to the following groups:");
             bool error = false;
+            List<Tuple<string, string>> l = new List<Tuple<string, string>>();
             foreach (string group in groups)
             {
-                if (!_db.hasInvitation(user.UserId, group))
+                if (group.LastIndexOf(GroupsMembers.CREATED_BY) == -1)
                 {
-                    sb.Append(Environment.NewLine + group);
+                    return "Error. Some groups names are invalid.";
+                }
+                int i = group.LastIndexOf(GroupsMembers.CREATED_BY);
+                string groupName = group.Substring(0, i);
+                string adminId = group.Substring(i + GroupsMembers.CREATED_BY.Length);
+                adminId = adminId.Substring(0, adminId.Length - 1);
+                if (!InputTester.isLegalEmail(adminId) || _db.getAdmin(adminId) == null)
+                {
+                    return "Error. Some groups names are invalid.";
+                }
+                l.Add(new Tuple<string, string>(groupName, adminId));
+            }
+            foreach (Tuple<string, string> t in l)
+            {
+                if (!_db.hasInvitation(user.UserId, t.Item1, t.Item2))
+                {
+                    sb.Append(Environment.NewLine + t.Item1);
                     error = true;
                 }
             }
@@ -1425,9 +1385,9 @@ namespace Server
             {
                 return sb.ToString();
             }
-            foreach (string group in groups)
+            foreach (Tuple<string, string> t in l)
             {
-                GroupMember gm = _db.getGroupMemberInvitation(user.UserId, group);
+                GroupMember gm = _db.getGroupMemberInvitation(user.UserId, t.Item1, t.Item2);
                 gm.invitationAccepted = true;
                 _db.updateGroupMember(gm);
             }
@@ -1485,7 +1445,7 @@ namespace Server
         public string createQuestion(int userUniqueInt, string subject, List<string> qDiagnoses, List<byte[]> allImgs, string freeText)
         {
             // check for illegal input values
-            if (qDiagnoses == null || allImgs == null || allImgs.Count == 0)
+            if (qDiagnoses == null || allImgs == null)
             {
                 return GENERAL_INPUT_ERROR;
             }
