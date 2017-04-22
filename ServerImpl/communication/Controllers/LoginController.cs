@@ -18,8 +18,9 @@ namespace communication.Controllers
             {
                ViewData["message"] = message;
             }
-            
-         
+            Response.Cookies.Remove("testID");
+            Response.Cookies.Remove("groupName");
+
             return View();
         }
 

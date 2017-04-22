@@ -23,6 +23,10 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
+
+            Response.Cookies.Remove("testID");
+            Response.Cookies.Remove("groupName");
+
             string name = ServerWiring.getInstance().getUserName(Convert.ToInt32(cookie.Value));
             Boolean isAdmin = ServerWiring.getInstance().isAdmin(Convert.ToInt32(cookie.Value));
             ViewBag.name = name;

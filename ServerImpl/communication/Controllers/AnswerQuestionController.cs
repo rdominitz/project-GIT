@@ -21,7 +21,17 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-            Tuple<string, Question> q = ServerWiring.getInstance().getNextQuestion(Convert.ToInt32(cookie.Value));
+            Tuple<string, Question> q = null;
+            HttpCookie testCookie = Request.Cookies["testID"];
+            HttpCookie groupCookie = Request.Cookies["groupName"];
+            if(groupCookie == null || testCookie == null)
+            { 
+                q = ServerWiring.getInstance().getNextQuestion(Convert.ToInt32(cookie.Value));
+            }
+            else
+            {
+                // q = ServerWiring.getInstance().getNextQuestion(Convert.ToInt32(cookie.Value),groupCookie.Value,testCookie.Value);
+            }
             HttpCookie questionCookie = new HttpCookie("questionId", q.Item2.QuestionId.ToString());
             Response.SetCookie(questionCookie);
             List<string> topics = ServerWiring.getInstance().getSubjectTopics(q.Item2.SubjectId);
@@ -58,11 +68,23 @@ namespace communication.Controllers
                  diagnosisList = diagnosis.ToList();
                  sure2List = sure2.ToList();
             }
-
-            string ans = ServerWiring.getInstance().answerAQuestion(Convert.ToInt32(userCookie.Value), Convert.ToInt32(questionCookie.Value),norm.Equals("true"), sure1, diagnosisList, sure2List);
+            string ans = "";
+            bool hasMoreQuestions = false;
+            HttpCookie testCookie = Request.Cookies["testID"];
+            HttpCookie groupCookie = Request.Cookies["groupName"];
+            if (groupCookie == null || testCookie == null)
+            {
+                 ans = ServerWiring.getInstance().answerAQuestion(Convert.ToInt32(userCookie.Value), Convert.ToInt32(questionCookie.Value), norm.Equals("true"), sure1, diagnosisList, sure2List);
+                 hasMoreQuestions = ServerWiring.getInstance().hasMoreQuestions(Convert.ToInt32(userCookie.Value));
+            }
+            else
+            {
+                // ans = ServerWiring.getInstance().answerAQuestion(Convert.ToInt32(userCookie.Value),groupCookie.Value,testCookie.Value, Convert.ToInt32(questionCookie.Value), norm.Equals("true"), sure1, diagnosisList, sure2List);
+                //hasMoreQuestions = ServerWiring.getInstance().hasMoreQuestions(Convert.ToInt32(userCookie.Value), groupCookie.Value, testCookie.Value);
+            }
             if (ans.Equals("show answer"))
             {
-                bool hasMoreQuestions = ServerWiring.getInstance().hasMoreQuestions(Convert.ToInt32(userCookie.Value));
+                 
                 if (hasMoreQuestions)
                 {
                     return RedirectToAction("Index", "ShowAnswers", new { hasMoreQuestions = false });

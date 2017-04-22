@@ -22,9 +22,15 @@ namespace communication.Controllers
             {
                 ViewBag.message = message;
             }
+
+            Response.Cookies.Remove("testID");
+            Response.Cookies.Remove("groupName");
+
             string name = ServerWiring.getInstance().getUserName(Convert.ToInt32(cookie.Value));
             string group_name = groupName.Substring(0, groupName.LastIndexOf(GroupsMembers.CREATED_BY));
             ViewBag.group_name = group_name;
+            HttpCookie groupCookie = new HttpCookie("groupName", group_name);
+            Response.SetCookie(groupCookie);
             Tuple<string, List<Tuple<string, int>>> unFinishedTests = ServerWiring.getInstance().getUnfinishedTests(Convert.ToInt32(cookie.Value), groupName);
             //Tuple<string, List<Tuple<string, int>>> finishedTests = ServerWiring.getInstance().getFinishedTests(Convert.ToInt32(cookie.Value), groupName);
             if (!unFinishedTests.Item1.Equals(Replies.SUCCESS))
@@ -33,6 +39,32 @@ namespace communication.Controllers
             }
             ViewBag.unFinishedTests = unFinishedTests.Item2;
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Submit(string testID)
+        {
+
+            HttpCookie cookie = Request.Cookies["userId"];
+            if (cookie == null)
+            {
+                return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
+            }
+            HttpCookie groupCookie = Request.Cookies["groupName"];
+            if (groupCookie == null)
+            {
+                return RedirectToAction("Index", "Login", new { message = "a cookie has been deleted, please try again" });
+            }
+            HttpCookie testCookie = new HttpCookie("testID", testID);
+            Response.SetCookie(testCookie);
+            /*string ans = ServerWiring.getInstance().getTest(Convert.ToInt32(cookie.Value), Convert.ToInt32(testID), groupCookie.Value);
+            if (ans == Replies.SUCCESS)
+            {
+                return RedirectToAction("Index", "AnswerQuestion");
+            }*/
+
+            return RedirectToAction("Index", "AnswerQuestion");
+            //return RedirectToAction("Index", "Group", new { groupName = groupCookie.Value, message = ans });
         }
     }
 }

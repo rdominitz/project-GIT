@@ -17,10 +17,10 @@
         <br />
         if (((List<Tuple<string, int>>)ViewBag.unFinishedTests).Count != 0)
         {
-            <form id="getQuestionForm" method="POST" action="~/GetQuestion/submit">
+            <form id="chooseTestForm" method="POST">
                 <div class="form-group">
-                    <label for="subject" class="control-label">Select A Test To Answer</label>
-                    <select id="subject" name="subject" class="form-control" onchange="giveSelection(this.value)">
+                    <label for="testID" class="control-label">Select A Test To Answer</label>
+                    <select id="testID" name="testID" class="form-control" onchange="giveSelection(this.value)">
                         @foreach (var test in (List<Tuple<string, int>>)ViewBag.unFinishedTests)
                         {
                             <option value="@test.Item2">@test.Item1</option>
