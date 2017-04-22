@@ -40,6 +40,7 @@ namespace Entities
         List<Diagnosis> getQuestionDiagnoses(int qId);
 
         void addAnswer(Answer a);
+        Answer getAnswer(int answerId);
 
         void addDiagnosisCertainty(DiagnosisCertainty dc);
 

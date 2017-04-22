@@ -217,6 +217,12 @@ namespace Entities
                 _answers.Add(a);
             }
         }
+
+        public Answer getAnswer(int answerId)
+        {
+            List<Answer> matches = _answers.Where(a => a.AnswerId == answerId).ToList();
+            return matches.Count == 1 ? matches[0] : null;
+        }
         #endregion
         #region diagnosis certainty
         public void addDiagnosisCertainty(DiagnosisCertainty dc)

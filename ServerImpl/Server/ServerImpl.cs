@@ -24,6 +24,7 @@ namespace Server
         private const string CERTAINTY_LEVEL_ERROR = "Error. Certainty levels must be between 1 to 10.";
         private const string NON_EXISTING_GROUP = "Error. You have not created a group with that name.";
         private const string INVALID_GROUP_NAME = "Error. Invalid group name.";
+        private const string DB_FAULT = "Error. DB fault.";
         private const int USERS_CACHE_LIMIT = 1000;
         private const int HOURS_TO_LOGOUT = 1;
         private const int MILLISECONDS_TO_SLEEP = HOURS_TO_LOGOUT * 60 * 60 * 1000;
@@ -1581,12 +1582,25 @@ namespace Server
                 Test test = _db.getTest(gt.TestId);
                 if (test == null)
                 {
-                    return new Tuple<string, List<Tuple<string, int>>>("Error. Wrong DB logic.", null);
+                    return new Tuple<string, List<Tuple<string, int>>>(DB_FAULT, null);
                 }
                 List<TestQuestion> tqs = _db.getTestQuestions(test.TestId);
                 // how many questions have been answered
                 List<GroupTestAnswer> gtas = _db.getGroupTestAnswers(groupName, adminId, test.TestId);
-                if (!completed && tqs.Count > gtas.Count)
+                int counter = 0;
+                foreach (GroupTestAnswer gta in gtas)
+                {
+                    Answer a = _db.getAnswer(gta.AnswerId);
+                    if (a == null)
+                    {
+                        return new Tuple<string, List<Tuple<string, int>>>(DB_FAULT, null);
+                    }
+                    if (a.UserId.Equals(user.UserId))
+                    {
+                        counter++;
+                    }
+                }
+                if (!completed && tqs.Count > counter)
                 {
                     ans.Add(new Tuple<string, int>(test.testName, test.TestId));
                 }
