@@ -30,7 +30,7 @@ namespace communication.Controllers
             }
             else
             {
-                // q = ServerWiring.getInstance().getNextQuestion(Convert.ToInt32(cookie.Value),groupCookie.Value,testCookie.Value);
+                 q = ServerWiring.getInstance().getNextQuestion(Convert.ToInt32(cookie.Value),groupCookie.Value,testCookie.Value);
             }
             HttpCookie questionCookie = new HttpCookie("questionId", q.Item2.QuestionId.ToString());
             Response.SetCookie(questionCookie);
@@ -79,8 +79,8 @@ namespace communication.Controllers
             }
             else
             {
-                // ans = ServerWiring.getInstance().answerAQuestion(Convert.ToInt32(userCookie.Value),groupCookie.Value,testCookie.Value, Convert.ToInt32(questionCookie.Value), norm.Equals("true"), sure1, diagnosisList, sure2List);
-                //hasMoreQuestions = ServerWiring.getInstance().hasMoreQuestions(Convert.ToInt32(userCookie.Value), groupCookie.Value, testCookie.Value);
+                ans = ServerWiring.getInstance().answerAQuestion(Convert.ToInt32(userCookie.Value),groupCookie.Value,testCookie.Value, Convert.ToInt32(questionCookie.Value), norm.Equals("true"), sure1, diagnosisList, sure2List);
+                hasMoreQuestions = ServerWiring.getInstance().hasMoreQuestions(Convert.ToInt32(userCookie.Value), groupCookie.Value, testCookie.Value);
             }
             if (ans.Equals("show answer"))
             {

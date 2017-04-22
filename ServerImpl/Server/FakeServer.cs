@@ -345,5 +345,20 @@ namespace Server
         {
             throw new NotImplementedException();
         }
+
+        public Tuple<string, Question> getNextQuestion(int userUniqueInt, string group, string test)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string answerAQuestion(int userUniqueInt, string group, string test, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool hasMoreQuestions(int userUniqueInt, string group, string test)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
