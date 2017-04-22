@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Constants;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,7 +22,7 @@ namespace Entities
 
         public override string ToString()
         {
-            return GroupName + "(created by " + AdminId + ")";
+            return GroupName + GroupsMembers.CREATED_BY + AdminId + ")";
         }
     }
 }

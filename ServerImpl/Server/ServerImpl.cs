@@ -1356,13 +1356,22 @@ namespace Server
             StringBuilder sb = new StringBuilder();
             sb.Append("Cannot accept invitations to the following groups:");
             bool error = false;
+            List<Tuple<string, string>> l = new List<Tuple<string, string>>();
             foreach (string group in groups)
             {
-                string groupName = group.Substring(0, group.LastIndexOf('(') - 1);
-                string adminId = group.Substring(group.LastIndexOf('('), group.Length);
-                if (!_db.hasInvitation(user.UserId, groupName, adminId))
+                if (group.LastIndexOf(GroupsMembers.CREATED_BY) == -1)
                 {
-                    sb.Append(Environment.NewLine + group);
+                    return "Error. Some groups names are invalid.";
+                }
+                int i = group.LastIndexOf(GroupsMembers.CREATED_BY);
+                string groupName = group.Substring(0, i);
+                string adminId = group.Substring(i + GroupsMembers.CREATED_BY.Length, group.Length - 1);
+            }
+            foreach (Tuple<string, string> t in l)
+            {
+                if (!_db.hasInvitation(user.UserId, t.Item1, t.Item2))
+                {
+                    sb.Append(Environment.NewLine + t.Item1);
                     error = true;
                 }
             }
@@ -1370,11 +1379,9 @@ namespace Server
             {
                 return sb.ToString();
             }
-            foreach (string group in groups)
+            foreach (Tuple<string, string> t in l)
             {
-                string groupName = group.Substring(0, group.LastIndexOf('(') - 1);
-                string adminId = group.Substring(group.LastIndexOf('('), group.Length);
-                GroupMember gm = _db.getGroupMemberInvitation(user.UserId, groupName, adminId);
+                GroupMember gm = _db.getGroupMemberInvitation(user.UserId, t.Item1, t.Item2);
                 gm.invitationAccepted = true;
                 _db.updateGroupMember(gm);
             }
