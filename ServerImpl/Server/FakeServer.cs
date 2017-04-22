@@ -182,11 +182,6 @@ namespace Server
             return s;
         }
 
-        public string addQuestion(int userUniqueInt, string subject, bool isNormal, string text, List<string> qDiagnoses)
-        {
-            throw new NotImplementedException();
-        }
-
         public string setUserAsAdmin(int userUniqueInt, string usernameToTurnToAdmin)
         {
             string s = "";

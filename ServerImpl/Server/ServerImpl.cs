@@ -831,73 +831,6 @@ namespace Server
             return Replies.SUCCESS;
         }
 
-        public string addQuestion(int userUniqueInt, string subject, bool isNormal, string text, List<string> qDiagnoses)
-        {
-            // check for illegal input values
-            List<string> input = new List<string>(qDiagnoses);
-            input.Add(subject);
-            if (!InputTester.isValidInput(input) || text == null || text == "null")
-            {
-                return GENERAL_INPUT_ERROR;
-            }
-            // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
-            {
-                return NOT_LOGGED_IN;
-            }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return NOT_AN_ADMIN;
-            }
-            // verify subject exist
-            Subject sub = _db.getSubject(subject);
-            if (sub == null)
-            {
-                return "Error. Subject does not exist in the system.";
-            }
-            // verify all diagnoses are topics of the specified subject
-            List<Diagnosis> diagnoses = new List<Diagnosis>();
-            List<Topic> subjectTopics = _db.getTopics(subject);
-            foreach (string diagnosys in qDiagnoses)
-            {
-                if (subjectTopics.Where(t => t.TopicId.Equals(diagnosys)).ToList().Count == 0)
-                {
-                    return "Error. " + diagnosys + " is not a topic of " + subject;
-                }
-            }
-            if (qDiagnoses.Count == 0)
-            {
-                qDiagnoses.Add(Topics.NORMAL);
-            }
-            Question q = new Question { };
-            lock (_syncLockQuestionId)
-            {
-                foreach (string diagnosis in qDiagnoses)
-                {
-                    diagnoses.Add(new Diagnosis { QuestionId = _questionID, SubjectId = subject, TopicId = diagnosis });
-                }
-                q.QuestionId = _questionID;
-                q.SubjectId = subject;
-                q.normal = isNormal;
-                q.text = "";
-                q.level = Levels.DEFAULT_LVL;
-                q.points = Questions.QUESTION_INITAL_POINTS;
-                q.timeAdded = DateTime.Now;
-                _questionID++;
-            }
-            foreach (Diagnosis d in diagnoses)
-            {
-                _db.addDiagnosis(d);
-            }
-            _db.addQuestion(q);
-            _db.SaveChanges();
-            return Replies.SUCCESS;
-        }
-
         public string setUserAsAdmin(int userUniqueInt, string usernameToTurnToAdmin)
         {
             if (!InputTester.isLegalEmail(usernameToTurnToAdmin))
@@ -966,7 +899,7 @@ namespace Server
         {
             // check for illegal input values
             List<string> input = new List<string>() { groupName };
-            if (!InputTester.isValidInput(input))
+            if (!InputTester.isValidInput(input) || inviteEmails == null)
             {
                 return GENERAL_INPUT_ERROR;
             }
@@ -1485,7 +1418,7 @@ namespace Server
         public string createQuestion(int userUniqueInt, string subject, List<string> qDiagnoses, List<byte[]> allImgs, string freeText)
         {
             // check for illegal input values
-            if (qDiagnoses == null || allImgs == null || allImgs.Count == 0)
+            if (qDiagnoses == null || allImgs == null)
             {
                 return GENERAL_INPUT_ERROR;
             }
