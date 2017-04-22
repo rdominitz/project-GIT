@@ -299,7 +299,6 @@ namespace Server
             {
                 QuestionId = _questionID,
                 SubjectId = s.SubjectId,
-                normal = true,
                 text = "",
                 level = Levels.DEFAULT_LVL,
                 points = Questions.QUESTION_INITAL_POINTS,
@@ -1502,6 +1501,46 @@ namespace Server
 
         public string removeQuestions(int userUniqueInt, List<int> questionsIdsList)
         {
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return NOT_LOGGED_IN;
+            }
+            updateUserLastActionTime(user);
+            // verify user is an admin
+            Admin admin = _db.getAdmin(user.UserId);
+            if (admin == null)
+            {
+                return NOT_AN_ADMIN;
+            }
+            // verify all questions exists
+            lock (_syncLockQuestionId)
+            {
+                foreach (int i in questionsIdsList)
+                {
+                    if (i >= _questionID)
+                    {
+                        return "Error. Some questions cannot be removed.";
+                    }
+                }
+            }
+            foreach (int i in questionsIdsList)
+            {
+                Question q = _db.getQuestion(i);
+                q.isDeleted = true;
+                _db.updateQuestion(q);
+            }
+            return Replies.SUCCESS;
+        }
+
+        public Tuple<string, List<Tuple<string, int>>> getUnfinishedTests(int userUniqueInt, string groupName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Tuple<string, List<Tuple<string, int>>> getFinishedTests(int userUniqueInt, string groupName)
+        {
             throw new NotImplementedException();
         }
 
@@ -1527,16 +1566,6 @@ namespace Server
             {
                 _usersCache.RemoveAt(0);
             }
-        }
-
-        public Tuple<string, List<Tuple<string, int>>> getUnfinishedTests(int userUniqueInt, string groupName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Tuple<string, List<Tuple<string, int>>> getFinishedTests(int userUniqueInt, string groupName)
-        {
-            throw new NotImplementedException();
         }
     }
 }

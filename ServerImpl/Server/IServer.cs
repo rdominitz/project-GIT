@@ -107,6 +107,7 @@ namespace Server
         string removeQuestions(int userUniqueInt, List<int> questionsIdsList);
 
         Tuple<string, List<Tuple<string, int>>> getUnfinishedTests(int userUniqueInt, string groupName);
+        
         Tuple<string, List<Tuple<string, int>>> getFinishedTests(int userUniqueInt, string groupName);
     }
 }

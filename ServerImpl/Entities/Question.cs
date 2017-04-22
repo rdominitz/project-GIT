@@ -14,8 +14,6 @@ namespace Entities
         public int QuestionId { get; set; }
         [Required]
         public string SubjectId { get; set; }
-        [Required]
-        public bool normal { get; set; }
         public string text { get; set; }
         [Required]
         public DateTime timeAdded { get; set; }

@@ -125,7 +125,7 @@ namespace QALogic
 
         public string answerAQuestion(User u, Question q, bool isNormal, int normalityCertaintyLVL, List<string> diagnoses, List<int> certainties)
         {
-            bool correctAnswer = isNormal == q.normal;
+            bool correctAnswer = true;
             Dictionary<string, int> userLevels = new Dictionary<string, int>();
             // get all correct diagnoses
             List<Diagnosis> qDiagnoses = _db.getQuestionDiagnoses(q.QuestionId);
@@ -145,11 +145,11 @@ namespace QALogic
                 }
                 userLevels[s] = userLevel.level;
                 userLevel.timesAnswered++;
-                if (!isNormal && qDiagnosesNames.Contains(s))
+                if (qDiagnosesNames.Contains(s))
                 {
                     userLevel.timesAnsweredCorrectly++;
                 }
-                else if (!isNormal)
+                else
                 {
                     correctAnswer = false;
                 }

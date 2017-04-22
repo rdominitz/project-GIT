@@ -96,7 +96,6 @@ namespace Server
                 {
                     QuestionId = 1,
                     SubjectId = "subject",
-                    normal = true,
                     text = "",
                     level = Levels.DEFAULT_LVL,
                     points = Questions.QUESTION_INITAL_POINTS,
@@ -115,7 +114,6 @@ namespace Server
                 {
                     QuestionId = 1,
                     SubjectId = "subject",
-                    normal = true,
                     text = "",
                     level = Levels.DEFAULT_LVL,
                     points = Questions.QUESTION_INITAL_POINTS,
