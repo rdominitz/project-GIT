@@ -3,7 +3,7 @@
     ViewBag.Title = "My Groups";
 }
 
-<div class="cen col-md-10">
+<div class="cen ">
     @if (@ViewBag.message != null)
             {
         <script>
@@ -24,7 +24,7 @@
                     {
 
                         <div class="container">
-                            <button name="@g" +"_button" type="button" style="margin-bottom:6px" class="btn btn-primary" id="@g" onclick="location.href='@Url.Action("Index", "Group",new { groupName = g })'">@g</button>
+                            <button name="@g" +"_button" type="button" style="margin-bottom:6px" class="btn btn-primary" id="@g" onclick="location.href='@Url.Action("Index", "Group",new { groupName = g})'">@g</button>
                         </div>
                     }
                 </div>

@@ -266,6 +266,7 @@
     <Compile Include="Controllers\ForgotController.cs" />
     <Compile Include="Controllers\GetQuestionController.cs" />
     <Compile Include="Controllers\GetTestController.cs" />
+    <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MainController.cs" />
@@ -320,6 +321,7 @@
     <Content Include="Views\AddTopic\index.cshtml" />
     <Content Include="Views\RomoveQuestion\index.cshtml" />
     <Content Include="Views\MyGroups\groupInvitations.cshtml" />
+    <Content Include="Views\Group\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
