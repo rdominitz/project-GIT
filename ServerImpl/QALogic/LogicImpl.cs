@@ -123,7 +123,7 @@ namespace QALogic
             return new Tuple<string, List<Question>>(Replies.SUCCESS, test);
         }
 
-        public string answerAQuestion(User u, Question q, bool isNormal, int normalityCertaintyLVL, List<string> diagnoses, List<int> certainties)
+        public Tuple<string, int> answerAQuestion(User u, Question q, bool isNormal, int normalityCertaintyLVL, List<string> diagnoses, List<int> certainties)
         {
             bool correctAnswer = true;
             Dictionary<string, int> userLevels = new Dictionary<string, int>();
@@ -201,6 +201,7 @@ namespace QALogic
             }
             // create a new answer instance and save to DB
             Answer a = new Answer { };
+            int answerId = -1;
             lock (syncLockAnswerId)
             {
                 a.AnswerId = _answerId;
@@ -224,11 +225,13 @@ namespace QALogic
                     };
                     _db.addDiagnosisCertainty(dc);
                 }
+                answerId = _answerId;
+                _answerId++;
             }
             _db.addAnswer(a);
             _db.updateQuestion(q);
             _db.SaveChanges();
-            return Replies.SUCCESS;
+            return new Tuple<string,int>(Replies.SUCCESS, answerId);
         }
 
         private T selectRandomObject<T>(List<T> l)

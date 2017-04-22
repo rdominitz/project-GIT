@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Server;
 using Constants;
+using Entities;
 
 namespace ServerLogicTests
 {
@@ -15,7 +16,7 @@ namespace ServerLogicTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _server = new ServerImpl(new Entities.FakeMedTrainDBContext());
+            _server = new ServerImpl(new FakeMedTrainDBContext());
             _server.login("defaultadmin@gmail.com", "password");
             _server.createGroup(Users.USER_UNIQUE_INT, _group, "", "");
         }

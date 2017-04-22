@@ -38,6 +38,6 @@ namespace QALogic
         /// <returns>
         /// success message after saving the relevant data to the DB
         /// </returns>
-        string answerAQuestion(User u, Question q, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties);
+        Tuple<string, int> answerAQuestion(User u, Question q, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties);
     }
 }

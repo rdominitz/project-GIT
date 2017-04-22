@@ -36,7 +36,8 @@ namespace ServerLogicTests
             _server.createGroup(Users.USER_UNIQUE_INT, groupName, "", "");
             Tuple<string, List<string>> t = _server.getAllAdminsGroups(Users.USER_UNIQUE_INT);
             Assert.IsTrue(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsTrue(t.Item2.Count == 1 && t.Item2.Contains(groupName));
+            Assert.IsTrue(t.Item2.Count == 1);
+            Assert.IsTrue(t.Item2.Contains(groupName));
         }
 
         [TestMethod]
@@ -48,7 +49,9 @@ namespace ServerLogicTests
             _server.createGroup(Users.USER_UNIQUE_INT, groupName2, "", "");
             Tuple<string, List<string>> t = _server.getAllAdminsGroups(Users.USER_UNIQUE_INT);
             Assert.IsTrue(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsTrue(t.Item2.Count == 2 && t.Item2.Contains(groupName1) && t.Item2.Contains(groupName2));
+            Assert.IsTrue(t.Item2.Count == 2);
+            Assert.IsTrue(t.Item2.Contains(groupName1));
+            Assert.IsTrue(t.Item2.Contains(groupName2));
         }
 
         [TestMethod]

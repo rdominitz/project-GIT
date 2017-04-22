@@ -77,6 +77,7 @@ namespace Server
         // has tests - 100% coverage
         Tuple<string, List<string>> getAllAdminsGroups(int userUniqueInt);
 
+        // has tests - 100% coverage
         string removeGroup(int userUniqueInt, string groupName);
 
         string createTest(int userUniqueInt, string subject, List<string> topics);
