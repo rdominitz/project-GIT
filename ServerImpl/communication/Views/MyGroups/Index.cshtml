@@ -12,16 +12,19 @@
     }
     
         <div class="form-group">
-            <br />
-            <h2 class="cen col-md-offset-4">My Groups</h2>
-            <br />
             @if ((List<String>)@ViewData["groups"] != null)
             {
+                <br />
+                if(((List<String>)ViewData["groups"]).Count != 0) {
+                <h2 class="cen col-md-offset-4">My Groups</h2>
+                }
+                <br />
                 <div class="btn-toolbar col-md-offset-4" role="toolbar">
                     @foreach (var g in (List<String>)ViewData["groups"])
                     {
-                        <div class="btn-group">
-                            <button name="@g" +"_button" type="button" class="btn btn-primary " id="@g" onclick="location.href='@Url.Action("Index", "Group",new { groupName = g })'">@g</button>
+
+                        <div class="container">
+                            <button name="@g" +"_button" type="button" style="margin-bottom:6px" class="btn btn-primary" id="@g" onclick="location.href='@Url.Action("Index", "Group",new { groupName = g })'">@g</button>
                         </div>
                     }
                 </div>
