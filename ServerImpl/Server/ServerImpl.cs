@@ -1536,7 +1536,11 @@ namespace Server
 
         public Tuple<string, List<Tuple<string, int>>> getUnfinishedTests(int userUniqueInt, string groupName)
         {
-            throw new NotImplementedException();
+            List<Tuple<string, int>> l = new List<Tuple<string, int>>();
+            l.Add(new Tuple<string, int>("test1", 1));
+            l.Add(new Tuple<string, int>("test2", 2));
+            
+            return new Tuple<string, List<Tuple<string, int>>>(Replies.SUCCESS,l);
         }
 
         public Tuple<string, List<Tuple<string, int>>> getFinishedTests(int userUniqueInt, string groupName)

@@ -3,14 +3,14 @@
     ViewBag.Title = "Index";
 }
 
-<div class="cen ">
+<div class="cen col-md-offset-4 ">
     @if (@ViewBag.message != null)
     {
         <script>
             alert("@ViewBag.message");
         </script>
     }
-    <h2 class="cen col-md-offset-4">@ViewBag.group_name</h2>
+    <h2 class="cen">@ViewBag.group_name</h2>
 
     @if ((List<Tuple<string, int>>)ViewBag.unFinishedTests != null)
     {
@@ -19,7 +19,7 @@
         {
             <form id="getQuestionForm" method="POST" action="~/GetQuestion/submit">
                 <div class="form-group">
-                    <label for="subject" class="control-label">Subject</label>
+                    <label for="subject" class="control-label">Select A Test To Answer</label>
                     <select id="subject" name="subject" class="form-control" onchange="giveSelection(this.value)">
                         @foreach (var test in (List<Tuple<string, int>>)ViewBag.unFinishedTests)
                         {

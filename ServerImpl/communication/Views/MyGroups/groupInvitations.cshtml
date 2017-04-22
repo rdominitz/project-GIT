@@ -1,8 +1,8 @@
 ﻿@if (((List<String>)ViewData["groupsInvitations"]).Count != 0)
 {
 <form id="myGroupsForm" method="POST" action="~/MyGroups/submit">
-    <h2 class="cen col-md-offset-4">Groups invitations</h2>
-    <div class="col-md-offset-4 col-md-6">
+    <h2 class="cen ">Groups invitations</h2>
+    <div class="col-md-6">
         <select id="groupInvites" name="groupInvites" class="form-control" multiple="multiple" style="margin-bottom:2px; width:auto" value="">
             @foreach (var gi in (List<String>)ViewData["groupsInvitations"])
             {

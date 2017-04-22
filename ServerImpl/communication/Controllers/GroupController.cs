@@ -25,13 +25,13 @@ namespace communication.Controllers
             string name = ServerWiring.getInstance().getUserName(Convert.ToInt32(cookie.Value));
             string group_name = groupName.Substring(0, groupName.LastIndexOf(GroupsMembers.CREATED_BY));
             ViewBag.group_name = group_name;
-            /*Tuple<string, List<Tuple<string, int>>> unFinishedTests = ServerWiring.getInstance().getUnfinishedTests(Convert.ToInt32(cookie.Value), groupName);
+            Tuple<string, List<Tuple<string, int>>> unFinishedTests = ServerWiring.getInstance().getUnfinishedTests(Convert.ToInt32(cookie.Value), groupName);
             //Tuple<string, List<Tuple<string, int>>> finishedTests = ServerWiring.getInstance().getFinishedTests(Convert.ToInt32(cookie.Value), groupName);
             if (!unFinishedTests.Item1.Equals(Replies.SUCCESS))
             {
                 return RedirectToAction("Index", "Main", new { message = unFinishedTests.Item1 });
             }
-            ViewBag.groups = unFinishedTests.Item2;*/
+            ViewBag.unFinishedTests = unFinishedTests.Item2;
             return View();
         }
     }

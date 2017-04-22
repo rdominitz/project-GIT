@@ -3,7 +3,7 @@
     ViewBag.Title = "My Groups";
 }
 
-<div class="cen ">
+<div class="cen col-md-offset-4  ">
     @if (@ViewBag.message != null)
             {
         <script>
@@ -16,10 +16,10 @@
             {
                 <br />
                 if(((List<String>)ViewData["groups"]).Count != 0) {
-                <h2 class="cen col-md-offset-4">My Groups</h2>
+                <h2 class="cen ">My Groups</h2>
                 }
                 <br />
-                <div class="btn-toolbar col-md-offset-4" role="toolbar">
+                <div class="btn-toolbar " role="toolbar">
                     @foreach (var g in (List<String>)ViewData["groups"])
                     {
 
