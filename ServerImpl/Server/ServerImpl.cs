@@ -666,7 +666,7 @@ namespace Server
             List<string> ans = new List<string>();
             foreach (Image i in l)
             {
-                ans.Add(i.ImageId);
+                ans.Add(i.ImageId.Replace("..", "../com"));
             }
             return ans;
         }

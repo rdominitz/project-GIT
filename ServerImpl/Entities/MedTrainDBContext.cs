@@ -33,8 +33,8 @@ namespace Entities
             : base("MedTrainDB")
         {
             //Database.SetInitializer<MedTrainDBContext>(new CreateDatabaseIfNotExists<MedTrainDBContext>());
-            //Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseIfModelChanges<MedTrainDBContext>());
-            Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseAlways<MedTrainDBContext>());
+            Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseIfModelChanges<MedTrainDBContext>());
+            //Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseAlways<MedTrainDBContext>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -429,7 +429,7 @@ namespace Entities
         {
             using (var db = new MedTrainDBContext())
             {
-                if (db.Groups.Find(gm.AdminId, gm.GroupName) == null || db.GroupsMembers.Find(gm.AdminId, gm.GroupName, gm.UserId) != null)
+                if (db.Groups.Find(gm.AdminId, gm.GroupName) == null || db.GroupsMembers.Find(gm.GroupName, gm.AdminId, gm.UserId) != null)
                 {
                     return;
                 }
