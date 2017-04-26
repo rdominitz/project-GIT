@@ -1,6 +1,8 @@
 ﻿using communication.Core;
 using communication.Models.GetTest;
+using communication.Models.Questions;
 using Constants;
+using Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +11,10 @@ using System.Web.Mvc;
 
 namespace communication.Controllers
 {
-    public class RomoveQuestionController : Controller
+    public class RemoveQuestionController : Controller
     {
         //
-        // GET: /RomoveQuestion/
+        // GET: /RemoveQuestion/
         [HttpGet]
         public ActionResult Index(string message)
         {
@@ -22,21 +24,23 @@ namespace communication.Controllers
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
             ViewBag.message = message;
-            return View(getData());
+            return View(getData(Convert.ToInt32(cookie.Value)));
         }
 
-
-        private List<GetTestData> getData()
+        List<QuestionData> getData(int adminId)
         {
-            List<GetTestData> data = new List<GetTestData>();
-            List<string> subjects = ServerWiring.getInstance().getAllSubjects();
-            foreach (string subject in subjects)
+            List<QuestionData> data = new List<QuestionData>();
+            Tuple<string, List<Question>> questions = ServerWiring.getInstance().getAllReleventQuestions(adminId);
+            // verify success
+            foreach (Question q in questions.Item2)
             {
-                List<string> list = ServerWiring.getInstance().getSubjectTopics(subject);
-                data.Add(new GetTestData(subject, list));
+                data.Add(new QuestionData(q));
             }
             return data;
         }
+
+
+
 
         [HttpPost]
         public ActionResult Submit(int[] QuestionData)

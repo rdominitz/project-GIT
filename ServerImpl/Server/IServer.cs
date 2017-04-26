@@ -96,11 +96,15 @@ namespace Server
 		Tuple<string, List<String>> getUsersGroups(int userUniqueInt);
 
         Tuple<string, List<String>> getUsersGroupsInvitations(int userUniqueInt);
+        
         string answerAQuestion(int userUniqueInt, string group, string test, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties);
+        
         string acceptUsersGroupsInvitations(int userUniqueInt, List<String> groups);
 
         string saveSelectedGroup(int userUniqueInt, string groupName);
+        
         bool hasMoreQuestions(int userUniqueInt, string group, string test);
+       
         Tuple<string, string> getSavedGroup(int userUniqueInt);
 
         // allows empty list of images for tests
@@ -111,5 +115,9 @@ namespace Server
         Tuple<string, List<Tuple<string, int>>> getUnfinishedTests(int userUniqueInt, string groupName);
         
         Tuple<string, List<Tuple<string, int>>> getFinishedTests(int userUniqueInt, string groupName);
+
+        string saveSelectedSubjectTopic(int userUniqueInt, string subject, List<string> topicsList);
+
+        Tuple<string, List<Question>> getAllReleventQuestions(int userUniqueInt);
     }
 }

@@ -1660,5 +1660,16 @@ namespace Server
         {
             throw new NotImplementedException();
         }
+
+        public string saveSelectedSubjectTopic(int userUniqueInt, string subject, List<string> topicsList)
+        {
+            throw new NotImplementedException();
+        }
+
+        //all relevnt questions on the subject and topic the saved in the last function (saveSelectedSubjectTopic)
+        public Tuple<string, List<Question>> getAllReleventQuestions(int userUniqueInt)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

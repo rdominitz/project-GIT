@@ -8,17 +8,17 @@
 
 
     <div>
-        <form id="removeQuestionsform" method="POST" action="~/RemoveQuestions/submit">
+        <form id="removeQuestionsform" method="POST" action="~/RemoveQuestion/submit">
 
             <h2>Select Questions to remove</h2>
             <br />
             @if (@ViewBag.message != null)
             {
                 <script>
-                alert("@ViewBag.message");
+                    alert("@ViewBag.message");
                 </script>
             }
-         
+
             <div class="container" id="links">
                 @foreach (var question in Model)
                 {
