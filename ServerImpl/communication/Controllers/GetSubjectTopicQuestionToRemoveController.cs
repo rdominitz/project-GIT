@@ -32,7 +32,6 @@ namespace communication.Controllers
             foreach (string subject in subjects)
             {
                 List<string> list = ServerWiring.getInstance().getSubjectTopics(subject);
-                list.Remove(Constants.Topics.NORMAL);
                 data.Add(new GetTestData(subject, list));
             }
             return data;
