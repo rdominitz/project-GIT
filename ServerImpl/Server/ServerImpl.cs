@@ -1626,17 +1626,17 @@ namespace Server
             return new Tuple<string, List<Tuple<string, int>>>(Replies.SUCCESS, ans);
         }
 
-        public Tuple<string, Question> getNextQuestion(int userUniqueInt, string group, string test)
+        public Tuple<string, Question> getNextQuestionGroupTest(int userUniqueInt, string group, int test)
         {
             throw new NotImplementedException();
         }
 
-        public string answerAQuestion(int userUniqueInt, string group, string test, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties)
+        public string answerAQuestionGroupTest(int userUniqueInt, string group, int test, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties)
         {
             throw new NotImplementedException();
         }
 
-        public bool hasMoreQuestions(int userUniqueInt, string group, string test)
+        public bool hasMoreQuestionsGroupTest(int userUniqueInt, string group, string test)
         {
             throw new NotImplementedException();
         }

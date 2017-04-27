@@ -30,7 +30,8 @@ namespace Server
 
         // has tests - 100% coverage
         Tuple<string, Question> getNextQuestion(int userUniqueInt);
-        Tuple<string, Question> getNextQuestion(int userUniqueInt, string group, string test);
+        
+        Tuple<string, Question> getNextQuestionGroupTest(int userUniqueInt, string group, string test);
 
         // has tests - 100% coverage
         Tuple<string, List<Question>> getAnsweres(int userUniqueInt);
@@ -97,13 +98,13 @@ namespace Server
 
         Tuple<string, List<String>> getUsersGroupsInvitations(int userUniqueInt);
         
-        string answerAQuestion(int userUniqueInt, string group, string test, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties);
+        string answerAQuestionGroupTest(int userUniqueInt, string group, int test, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties);
         
         string acceptUsersGroupsInvitations(int userUniqueInt, List<String> groups);
 
         string saveSelectedGroup(int userUniqueInt, string groupName);
         
-        bool hasMoreQuestions(int userUniqueInt, string group, string test);
+        bool hasMoreQuestionsGroupTest(int userUniqueInt, string group, int test);
        
         Tuple<string, string> getSavedGroup(int userUniqueInt);
 
