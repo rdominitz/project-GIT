@@ -308,17 +308,17 @@ namespace Server
         {
             foreach (List<string> l in images)
             {
-                addQuestion(s, diagnoses, l);
+                addQuestion(s, diagnoses, l, "");
             }
         }
 
-        private void addQuestion(Subject s, List<Topic> diagnoses, List<string> images)
+        private void addQuestion(Subject s, List<Topic> diagnoses, List<string> images, string qText)
         {
             Question q = new Question
             {
                 QuestionId = _questionID,
                 SubjectId = s.SubjectId,
-                text = "",
+                text = qText,
                 level = Levels.DEFAULT_LVL,
                 points = Questions.QUESTION_INITAL_POINTS,
                 timeAdded = DateTime.Now,
@@ -1392,10 +1392,12 @@ namespace Server
                     MemoryStream ms = new MemoryStream(allImgs[i], 0, allImgs[i].Length);
                     ms.Write(allImgs[i], 0, allImgs[i].Length);
                     Image image = Image.FromStream(ms, true);
-                    string path = "../communication/Images/" + _questionID + "_img" + (i + 1) + ".jpg";
+                    string str = Directory.GetCurrentDirectory();
+                    string path = @"C:/Users/galmo/Documents/GitHub/project-GIT/ServerImpl/communication/Images/q" + _questionID + "_img" + (i + 1) + ".jpg";
                     image.Save(path, ImageFormat.Jpeg);
+                    imagesPathes.Add("../Images/q" + _questionID + "_img" + (i + 1) + ".jpg");
                 }
-                addQuestion(sub, subjectTopics.Where(st => qDiagnoses.Contains(st.TopicId)).ToList(), imagesPathes);
+                addQuestion(sub, subjectTopics.Where(st => qDiagnoses.Contains(st.TopicId)).ToList(), imagesPathes, freeText);
             }
             return Replies.SUCCESS;
         }
