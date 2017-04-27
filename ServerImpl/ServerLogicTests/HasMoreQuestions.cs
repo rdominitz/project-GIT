@@ -34,7 +34,7 @@ namespace ServerLogicTests
         {
             _server.hasMoreQuestions(Users.USER_UNIQUE_INT);
             Question q = _server.getNextQuestion(Users.USER_UNIQUE_INT).Item2;
-            _server.answerAQuestion(Users.USER_UNIQUE_INT, q.QuestionId, true, 7, new List<string>(), new List<int>());
+            _server.answerAQuestion(Users.USER_UNIQUE_INT, q.QuestionId, true, 7, new List<string>(), new List<int>(), true);
             Assert.IsFalse(_server.hasMoreQuestions(Users.USER_UNIQUE_INT));
         }
 

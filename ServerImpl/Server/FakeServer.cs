@@ -49,7 +49,7 @@ namespace Server
             return s;
         }
 
-        public Tuple<string, int> answerAQuestion(int userUniqueInt, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties)
+        public Tuple<string, int> answerAQuestion(int userUniqueInt, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties, bool b)
         {
             throw new NotImplementedException();
         }

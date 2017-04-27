@@ -32,6 +32,10 @@ namespace communication.Controllers
             {
                  q = ServerWiring.getInstance().getNextQuestionGroupTest(Convert.ToInt32(cookie.Value),groupCookie.Value,Convert.ToInt32(testCookie.Value));
             }
+            if (!q.Item1.Equals(Replies.SUCCESS))
+            {
+                return RedirectToAction("Index", "Login", new { message = q.Item1 });
+            }
             HttpCookie questionCookie = new HttpCookie("questionId", q.Item2.QuestionId.ToString());
             Response.SetCookie(questionCookie);
             List<string> topics = ServerWiring.getInstance().getSubjectTopics(q.Item2.SubjectId);
@@ -39,10 +43,6 @@ namespace communication.Controllers
             if (!q.Item2.text.Equals(""))
             {
                 ViewData["text"] = q.Item2.text;
-            }
-            if(!q.Item1.Equals(Replies.SUCCESS))
-            {
-                return RedirectToAction("Index", "Login", new { message = q.Item1 });
             }
 
             List<String> lst = ServerWiring.getInstance().getQuestionImages(q.Item2.QuestionId);
@@ -78,7 +78,7 @@ namespace communication.Controllers
             HttpCookie groupCookie = Request.Cookies["groupName"];
             if (groupCookie == null || testCookie == null)
             {
-                 ans = ServerWiring.getInstance().answerAQuestion(Convert.ToInt32(userCookie.Value), Convert.ToInt32(questionCookie.Value), norm.Equals("true"), sure1, diagnosisList, sure2List).Item1;
+                 ans = ServerWiring.getInstance().answerAQuestion(Convert.ToInt32(userCookie.Value), Convert.ToInt32(questionCookie.Value), norm.Equals("true"), sure1, diagnosisList, sure2List, true).Item1;
                  hasMoreQuestions = ServerWiring.getInstance().hasMoreQuestions(Convert.ToInt32(userCookie.Value));
             }
             else
