@@ -29,9 +29,18 @@
                 <select id="topics" name="topics" class="form-control" required multiple="multiple">
                     @foreach (var subject in Model)
                     {
+                        var firstIteration = true;
                         foreach (var topics in subject.vals)
                         {
-                            <option selected data-option="@subject.key" value="@topics">@topics</option>
+                            if (firstIteration) 
+                            { 
+                                <option selected data-option="@subject.key" value="@topics">@topics</option>
+                                firstIteration = false;
+                            }
+                            else
+                            {
+                                <option data-option="@subject.key" value="@topics">@topics</option>
+                            }
                         }
                     }
                 </select>

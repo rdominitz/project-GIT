@@ -22,7 +22,7 @@
             <div class="container" id="links">
                 @foreach (var question in Model)
                 {
-                    <input type="checkbox" id="QuestionData" name="QuestionData" class="form-control" value="@question.qID"> @question.qID
+                    <input type="checkbox" id="QuestionData" name="QuestionData" value="@question.qID"> @question.qID
 
                     foreach (var pic in question.pics)
                     {

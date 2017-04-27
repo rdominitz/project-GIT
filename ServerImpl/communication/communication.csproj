@@ -259,6 +259,7 @@
     <Compile Include="Controllers\AddTestToGroupController.cs" />
     <Compile Include="Controllers\AddToExistGroupController.cs" />
     <Compile Include="Controllers\AddTopicController.cs" />
+    <Compile Include="Controllers\administrationController.cs" />
     <Compile Include="Controllers\AnswerQuestionController.cs" />
     <Compile Include="Controllers\CreateGroupController.cs" />
     <Compile Include="Controllers\CreateQuestionController.cs" />
@@ -325,6 +326,7 @@
     <Content Include="Views\MyGroups\groupInvitations.cshtml" />
     <Content Include="Views\Group\Index.cshtml" />
     <Content Include="Views\GetSubjectTopicQuestionToRemove\index.cshtml" />
+    <Content Include="Views\administration\index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

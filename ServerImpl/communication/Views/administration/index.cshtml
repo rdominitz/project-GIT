@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "administration";
+}
+
+<meta id="meta" name="@ViewBag.Title" />
+<div class="cen col-md-offset-4">
+    @if (@ViewBag.message != null)
+    {
+        <script>
+            alert("@ViewBag.message");
+        </script>
+    }
+    <div class="container">
+        <br/> <h2>Administration</h2>
+        <br/>
+        <br/>
+            <button name="createGroup" type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "CreateGroup")'">Create a group</button>
+            <button name="manageMyGroups" type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "ManageGroup")'">Manage my groups</button>
+            <button name="createTest" type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "CreateTest")'">Create a test</button>
+            <button name="addSubject" type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "AddSubject")'">Add a subject</button>
+            <button name="addTopic" type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "AddTopic")'">Add a topic</button>
+            <button name="createQuestion" type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "CreateQuestion")'">Add a question</button>
+            <button name="removeQuestions" type="button" class="btn btn-primary btn-block" id="test" style="width: 200px;" onclick="location.href='@Url.Action("Index", "GetSubjectTopicQuestionToRemove")'">Remove questions</button>
+    </div>
+</div>
+
+
+
+
