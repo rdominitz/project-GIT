@@ -25,6 +25,7 @@ namespace Server
         private const string NON_EXISTING_GROUP = "Error. You have not created a group with that name.";
         private const string INVALID_GROUP_NAME = "Error. Invalid group name.";
         private const string DB_FAULT = "Error. DB fault.";
+        private const string NOT_A_SUBJECT = "Error. Subject does not exist in the system.";
         private const int USERS_CACHE_LIMIT = 1000;
         private const int HOURS_TO_LOGOUT = 1;
         private const int MILLISECONDS_TO_SLEEP = HOURS_TO_LOGOUT * 60 * 60 * 1000;
@@ -35,6 +36,7 @@ namespace Server
         private Dictionary<User, List<Question>> _usersTestsAnswerEveryTime;
         private Dictionary<User, List<Question>> _usersTestsAnswersAtEndRemainingQuestions;
         private Dictionary<User, List<Question>> _usersTestsAnswersAtEndAnsweredQuestions;
+        private Dictionary<User, List<Question>> _questionsForGroupTest;
         private Dictionary<string, string> _selectedGroups;
         private Dictionary<string, List<Question>> _testQuestions;
 
@@ -61,6 +63,7 @@ namespace Server
             _usersTestsAnswerEveryTime = new Dictionary<User, List<Question>>();
             _usersTestsAnswersAtEndRemainingQuestions = new Dictionary<User, List<Question>>();
             _usersTestsAnswersAtEndAnsweredQuestions = new Dictionary<User, List<Question>>();
+            _questionsForGroupTest = new Dictionary<User, List<Question>>();
             _selectedGroups = new Dictionary<string, string>();
             _testQuestions = new Dictionary<string, List<Question>>();
             _db = db;
@@ -199,7 +202,6 @@ namespace Server
             };
             _db.addGroup(g);
             #endregion
-
             /*********** Roie added code here*************/
             #region roie
             Group g2 = new Group
@@ -282,9 +284,19 @@ namespace Server
             };
             _db.addGroupMember(gm6);
             #endregion
-
-
             /*********** Roie stopped adding code here*************/
+            #region add test
+            Test t = new Test { TestId = _testID, AdminId = "defaultAdmin@gmail.com", testName = "example test" };
+            _testID++;
+            _db.addTest(t);
+            for (int i = 5; i <= 13; i++)
+            {
+                TestQuestion tq = new TestQuestion { TestId = 1, QuestionId = i };
+                _db.addTestQuestion(tq);
+            }
+            GroupTest gt = new GroupTest{GroupName = "Test Group 1", AdminId = "defaultAdmin@gmail.com", TestId = 1};
+            _db.addGroupTest(gt);
+            #endregion
         }
 
         private void addQuestions(Subject s, List<Topic> diagnoses, List<List<string>> images)
@@ -1106,6 +1118,7 @@ namespace Server
             {
                 return GENERAL_INPUT_ERROR;
             }
+            topics.Insert(0, Topics.NORMAL);
             List<string> input = new List<string>() { subject };
             foreach (string s in topics)
             {
@@ -1473,7 +1486,7 @@ namespace Server
             Subject sub = _db.getSubject(subject);
             if (sub == null)
             {
-                return "Error. Subject does not exist in the system.";
+                return NOT_A_SUBJECT;
             }
             // verify all diagnoses are topics of the specified subject
             List<Diagnosis> diagnoses = new List<Diagnosis>();
@@ -1613,6 +1626,97 @@ namespace Server
             return new Tuple<string, List<Tuple<string, int>>>(Replies.SUCCESS, ans);
         }
 
+        public Tuple<string, Question> getNextQuestion(int userUniqueInt, string group, string test)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string answerAQuestion(int userUniqueInt, string group, string test, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool hasMoreQuestions(int userUniqueInt, string group, string test)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string saveSelectedSubjectTopic(int userUniqueInt, string subject, List<string> topicsList)
+        {
+            // check for illegal input values
+            if (topicsList == null)
+            {
+                return GENERAL_INPUT_ERROR;
+            }
+            List<string> input = new List<string>(topicsList);
+            input.Add(subject);
+            if (!InputTester.isValidInput(input))
+            {
+                return GENERAL_INPUT_ERROR;
+            }
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return NOT_LOGGED_IN;
+            }
+            updateUserLastActionTime(user);
+            // verify user is an admin
+            Admin admin = _db.getAdmin(user.UserId);
+            if (admin == null)
+            {
+                return NOT_AN_ADMIN;
+            }
+            // verify subject exist
+            Subject sub = _db.getSubject(subject);
+            if (sub == null)
+            {
+                return NOT_A_SUBJECT;
+            }
+            // verify all diagnoses are topics of the specified subject
+            List<Diagnosis> diagnoses = new List<Diagnosis>();
+            List<Topic> subjectTopics = _db.getTopics(subject);
+            foreach (string diagnosys in topicsList)
+            {
+                if (subjectTopics.Where(t => t.TopicId.Equals(diagnosys)).ToList().Count == 0)
+                {
+                    return "Error. " + diagnosys + " is not a topic of " + subject;
+                }
+            }
+            List<Question> questions = new List<Question>();
+            foreach (string topic in topicsList)
+            {
+                questions.AddRange(_db.getQuestions(subject, topic));
+            }
+            _questionsForGroupTest[user] = questions;
+            return Replies.SUCCESS;
+        }
+
+        //all relevnt questions on the subject and topic the saved in the last function (saveSelectedSubjectTopic)
+        public Tuple<string, List<Question>> getAllReleventQuestions(int userUniqueInt)
+        {
+            // verify user is logged in
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
+            {
+                return new Tuple<string,List<Question>>(NOT_LOGGED_IN, null);
+            }
+            updateUserLastActionTime(user);
+            // verify user is an admin
+            Admin admin = _db.getAdmin(user.UserId);
+            if (admin == null)
+            {
+                return new Tuple<string,List<Question>>(NOT_AN_ADMIN, null);
+            }
+            if (!_questionsForGroupTest.Keys.Contains(user))
+            {
+                return new Tuple<string, List<Question>>("Error. No questions available.", null);
+            }
+            List<Question> l = _questionsForGroupTest[user];
+            _questionsForGroupTest.Remove(user);
+            return new Tuple<string, List<Question>>(Replies.SUCCESS, l);
+        }
+
         private User getUserByInt(int userUniqueInt)
         {
             List<User> matches = _usersCache.Where(u => u.uniqueInt.Equals(userUniqueInt)).ToList();
@@ -1644,32 +1748,6 @@ namespace Server
             string adminId = s.Substring(i + GroupsMembers.CREATED_BY.Length);
             adminId = adminId.Substring(0, adminId.Length - 1);
             return new Tuple<string, string>(groupName, adminId);
-        }
-
-        public Tuple<string, Question> getNextQuestion(int userUniqueInt, string group, string test)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string answerAQuestion(int userUniqueInt, string group, string test, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool hasMoreQuestions(int userUniqueInt, string group, string test)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string saveSelectedSubjectTopic(int userUniqueInt, string subject, List<string> topicsList)
-        {
-            throw new NotImplementedException();
-        }
-
-        //all relevnt questions on the subject and topic the saved in the last function (saveSelectedSubjectTopic)
-        public Tuple<string, List<Question>> getAllReleventQuestions(int userUniqueInt)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -569,7 +569,7 @@ namespace Entities
             using (var db = new MedTrainDBContext())
             {
                 if (db.Tests.Find(tq.TestId) == null || db.Questions.Find(tq.QuestionId) == null ||
-                    db.TestsQuestions.Find(tq.TestId, tq.QuestionId) != null)
+                    db.Questions.Find(tq.QuestionId).isDeleted || db.TestsQuestions.Find(tq.TestId, tq.QuestionId) != null)
                 {
                     return;
                 }
