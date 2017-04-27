@@ -283,6 +283,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\GroupStatistics\GroupStatisticsData.cs" />
     <Compile Include="Models\Group\GroupData.cs" />
     <Compile Include="Models\GetQuestion\GetQuestionData.cs" />
     <Compile Include="Models\GetTest\GetTestData.cs" />
@@ -327,6 +328,7 @@
     <Content Include="Views\Group\Index.cshtml" />
     <Content Include="Views\GetSubjectTopicQuestionToRemove\index.cshtml" />
     <Content Include="Views\administration\index.cshtml" />
+    <Content Include="Views\GroupStatistics\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -339,7 +341,6 @@
     <Folder Include="Models\Entity\" />
     <Folder Include="Models\Register\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\GroupStatistics\" />
     <Folder Include="Views\Images\" />
   </ItemGroup>
   <ItemGroup>

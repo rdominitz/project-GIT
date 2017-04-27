@@ -29,6 +29,7 @@ namespace communication.Controllers
             string name = ServerWiring.getInstance().getUserName(Convert.ToInt32(cookie.Value));
             string group_name = groupName.Substring(0, groupName.LastIndexOf(GroupsMembers.CREATED_BY));
             ViewBag.group_name = group_name;
+            ViewBag.full_groupName = groupName;
             HttpCookie groupCookie = new HttpCookie("groupName", group_name);
             Response.SetCookie(groupCookie);
             Tuple<string, List<Tuple<string, int>>> unFinishedTests = ServerWiring.getInstance().getUnfinishedTests(Convert.ToInt32(cookie.Value), groupName);

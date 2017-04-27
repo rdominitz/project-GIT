@@ -1,0 +1,166 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@model communication.Models.GroupStatistics.GroupStatisticsData
+@section Scripts
+{
+   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    
+<script type="text/javascript">
+    google.charts.load('current', { packages: ['table', 'corechart', 'line'] });
+    //google.charts.setOnLoadCallback(drawGradesChart);
+    google.charts.setOnLoadCallback(drawTestsChart);
+    //google.charts.setOnLoadCallback(drawChart1);
+    google.charts.setOnLoadCallback(drawGradesChart2);
+
+
+
+    function drawTestsChart() {
+        // Define the chart to be drawn.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Test Name');
+        data.addColumn('number', '# correct answers');
+        data.addColumn('number', '# question in test');
+        data.addColumn('number', 'grade');
+        @foreach (var test in Model.list)
+        {
+            Double grade = ((test.Item2 * 100) / test.Item3) ;
+            <text>
+            data.addRows([['@test.Item1', @test.Item2, @test.Item3,@grade]]);
+            </text>
+        }
+
+
+
+      // Instantiate and draw the chart.
+      var chart = new google.visualization.Table(document.getElementById('PastTests'));
+      chart.draw(data, null);
+    }
+
+    function drawGradesChart() {
+        // Define the chart to be drawn.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Test Name');
+        data.addColumn('number', 'grade');
+       
+        @foreach (var test in Model.list)
+        {
+            Double grade = ((test.Item2 * 100) / test.Item3) ;
+            <text>
+        data.addRows([['@test.Item1',@grade]]);
+        
+            </text>
+
+        }
+
+        var options = {
+            chart: {
+                title: 'Grades',
+
+            },
+            width: 500,
+            height: 300,
+            axes: {
+                x: {
+                    0: {side: 'top'}
+                }
+            }
+        };
+
+        var chart = new google.charts.Line(document.getElementById('TestGrades'));
+
+        chart.draw(data, google.charts.Line.convertOptions(options));
+    }
+
+
+    function drawChart1() {
+        // Define the chart to be drawn.
+        var data = google.visualization.arrayToDataTable([
+        ['Task', 'Hours per Day'],
+        ['Work', 11],
+        ['Eat', 2],
+        ['Commute', 2],
+        ['Watch TV', 2],
+        ['Sleep', 7]
+        ]);
+
+        var options = {
+            title: 'My Daily Activities'
+        };
+
+        // Instantiate and draw the chart.
+        var chart = new google.visualization.PieChart(document.getElementById('myPieChart'));
+        chart.draw(data, options);
+    }
+
+    function drawGradesChart2() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Test Name');
+        data.addColumn('number', 'grade');
+       
+        @foreach (var test in Model.list)
+        {
+            Double grade = ((test.Item2 * 100) / test.Item3) ;
+            <text>
+        data.addRows([['@test.Item1',@grade]]);
+        
+            </text>
+
+        }
+
+        var options = {
+            title: 'Grades',
+            width: 500,
+            height: 300,
+            bar: { groupWidth: "95%" },
+            legend: { position: "none" },
+        };
+
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0, 1,
+                         {
+                             calc: "stringify",
+                             sourceColumn: 1,
+                             type: "string",
+                             role: "annotation"
+                         }]);
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('TestGrades1'));
+
+        chart.draw(view,options);
+    }
+
+
+</script>
+
+
+}
+
+<div class="cen">
+    <br />
+    @if (@ViewBag.message != null)
+    {
+        <script>
+            alert("@ViewBag.message");
+</script>
+    }
+
+    <table >
+        <tr>
+            <td><div id="myPieChart"  /></td>
+        </tr>
+        <tr>
+            <td> <div id="PastTests" /></td>
+            <td><div id="TestGrades1" /></td>
+</tr>
+        <tr>
+            <td> <div id="TestGrades" /></td>
+        </tr>
+       
+        </table>
+
+
+
+</div>
+
