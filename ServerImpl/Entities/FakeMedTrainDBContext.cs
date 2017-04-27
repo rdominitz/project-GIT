@@ -162,7 +162,7 @@ namespace Entities
 
         public List<Question> getQuestions(string subject, string topic)
         {
-            List<Question> matches = _questions.Where(q => q.SubjectId.Equals(subject)).ToList();
+            List<Question> matches = _questions.Where(q => q.SubjectId.Equals(subject) && !q.isDeleted).ToList();
             List<Question> ans = new List<Question>();
             foreach (Question q in matches)
             {

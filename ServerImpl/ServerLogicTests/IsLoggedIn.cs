@@ -21,19 +21,19 @@ namespace ServerLogicTests
         public void isLoggedInTrue()
         {
             _server.login("defaultadmin@gmail.com", "password");
-            Assert.IsTrue(_server.isLoggedIn(Users.USER_UNIQUE_INT));
+            Assert.IsTrue(_server.isLoggedIn(Users.USER_UNIQUE_INT) != null);
         }
 
         [TestMethod]
         public void isLoggedInFalse()
         {
-            Assert.IsFalse(_server.isLoggedIn(Users.USER_UNIQUE_INT));
+            Assert.IsTrue(_server.isLoggedIn(Users.USER_UNIQUE_INT) == null);
         }
 
         [TestMethod]
         public void isLoggedInWrongUserId()
         {
-            Assert.IsFalse(_server.isLoggedIn(Users.USER_UNIQUE_INT - 1));
+            Assert.IsTrue(_server.isLoggedIn(Users.USER_UNIQUE_INT - 1) == null);
         }
     }
 }

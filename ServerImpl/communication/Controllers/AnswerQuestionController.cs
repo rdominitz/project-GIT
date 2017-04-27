@@ -30,7 +30,7 @@ namespace communication.Controllers
             }
             else
             {
-                 q = ServerWiring.getInstance().getNextQuestionGroupTest(Convert.ToInt32(cookie.Value),groupCookie.Value,testCookie.Value);
+                 q = ServerWiring.getInstance().getNextQuestionGroupTest(Convert.ToInt32(cookie.Value),groupCookie.Value,Convert.ToInt32(testCookie.Value));
             }
             HttpCookie questionCookie = new HttpCookie("questionId", q.Item2.QuestionId.ToString());
             Response.SetCookie(questionCookie);

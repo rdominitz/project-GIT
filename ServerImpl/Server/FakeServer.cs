@@ -204,9 +204,9 @@ namespace Server
 
         public void logout(int userUniqueInt) { }
 
-        public bool isLoggedIn(int userUniqueInt)
+        public User isLoggedIn(int userUniqueInt)
         {
-            return userUniqueInt == Users.USER_UNIQUE_INT;
+            return userUniqueInt == Users.USER_UNIQUE_INT ? new User() : null;
         }
 
         public string getUserName(int userUniqueInt)
@@ -346,7 +346,7 @@ namespace Server
             throw new NotImplementedException();
         }
 
-        public Tuple<string, Question> getNextQuestionGroupTest(int userUniqueInt, string group, string test)
+        public Tuple<string, Question> getNextQuestionGroupTest(int userUniqueInt, string group, int test)
         {
             throw new NotImplementedException();
         }

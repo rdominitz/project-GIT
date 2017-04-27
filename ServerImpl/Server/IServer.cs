@@ -31,7 +31,7 @@ namespace Server
         // has tests - 100% coverage
         Tuple<string, Question> getNextQuestion(int userUniqueInt);
         
-        Tuple<string, Question> getNextQuestionGroupTest(int userUniqueInt, string group, string test);
+        Tuple<string, Question> getNextQuestionGroupTest(int userUniqueInt, string group, int test);
 
         // has tests - 100% coverage
         Tuple<string, List<Question>> getAnsweres(int userUniqueInt);
@@ -65,7 +65,7 @@ namespace Server
         void logout(int userUniqueInt);
 
         // has tests - 100% coverage
-        bool isLoggedIn(int userUniqueInt);
+        User isLoggedIn(int userUniqueInt);
 
         // has tests - 100% coverage
         string getUserName(int userUniqueInt);
