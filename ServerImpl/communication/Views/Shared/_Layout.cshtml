@@ -25,7 +25,7 @@
             <div class="navbar-header">
 
                
-                @if (Request.Cookies["userId"] != null && ServerWiring.getInstance().isLoggedIn(Convert.ToInt32(Request.Cookies["userId"].Value)))
+                @if (Request.Cookies["userId"] != null && ServerWiring.getInstance().isLoggedIn(Convert.ToInt32(Request.Cookies["userId"].Value)) != null)
                 {
                     @Html.ActionLink("Main page", "Index", "Main", new { area = "" }, new { @class = "navbar-brand" })
                 }

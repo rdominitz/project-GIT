@@ -648,17 +648,12 @@ namespace Server
 
         public Tuple<string, Question> getNextQuestion(int userUniqueInt)
         {
-            User user = getUserByInt(userUniqueInt);
-            if (user == null)
-            {
-                return new Tuple<string, Question>(USER_NOT_REGISTERED, null);
-            }
             // verify user is logged in
-            if (!_loggedUsers.ContainsKey(user))
+            User user = isLoggedIn(userUniqueInt);
+            if (user == null)
             {
                 return new Tuple<string, Question>(NOT_LOGGED_IN, null);
             }
-            updateUserLastActionTime(user);
             Question q = getQuestionFromTest(_usersTestsAnswerEveryTime, user);
             if (q == null)
             {
@@ -708,12 +703,11 @@ namespace Server
                 return GENERAL_INPUT_ERROR;
             }
             // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            User user = isLoggedIn(userUniqueInt);
+            if (user == null)
             {
                 return NOT_LOGGED_IN;
             }
-            updateUserLastActionTime(user);
             if (numOfQuestions < 1)
             {
                 return "Error - invalid number of questions for test.";
@@ -772,18 +766,11 @@ namespace Server
             {
                 return GENERAL_INPUT_ERROR;
             }
-            // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            // verify user has permissions
+            string s = hasPermissions(userUniqueInt).Item1;
+            if (!s.Equals(Replies.SUCCESS))
             {
-                return NOT_LOGGED_IN;
-            }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return NOT_AN_ADMIN;
+                return s;
             }
             // verify subject does not exist
             Subject sub = _db.getSubject(subject);
@@ -808,18 +795,11 @@ namespace Server
             {
                 return GENERAL_INPUT_ERROR;
             }
-            // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            // verify user has permissions
+            string s = hasPermissions(userUniqueInt).Item1;
+            if (!s.Equals(Replies.SUCCESS))
             {
-                return NOT_LOGGED_IN;
-            }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return NOT_AN_ADMIN;
+                return s;
             }
             // verify subject exist
             Subject sub = _db.getSubject(subject);
@@ -845,18 +825,11 @@ namespace Server
             {
                 return INVALID_EMAIL;
             }
-            // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            // verify user has permissions
+            string s = hasPermissions(userUniqueInt).Item1;
+            if (!s.Equals(Replies.SUCCESS))
             {
-                return NOT_LOGGED_IN;
-            }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return NOT_AN_ADMIN;
+                return s;
             }
             User u = _db.getUser(usernameToTurnToAdmin);
             // verify user exist
@@ -872,12 +845,11 @@ namespace Server
         public bool hasMoreQuestions(int userUniqueInt)
         {
             // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            User user = isLoggedIn(userUniqueInt);
+            if (user == null)
             {
                 return false;
             }
-            updateUserLastActionTime(user);
             return _usersTestsAnswerEveryTime.Keys.Contains(user) || _usersTestsAnswersAtEndRemainingQuestions.Keys.Contains(user);
         }
 
@@ -929,27 +901,20 @@ namespace Server
                     return wrongEmails.ToString();
                 }
             }
-            // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            // verify user has permissions
+            Tuple<string, Admin> t = hasPermissions(userUniqueInt);
+            if (!t.Item1.Equals(Replies.SUCCESS))
             {
-                return NOT_LOGGED_IN;
-            }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return NOT_AN_ADMIN;
+                return t.Item1;
             }
             lock (_syncLockGroup)
             {
-                Group group = _db.getGroup(admin.AdminId, groupName);
+                Group group = _db.getGroup(t.Item2.AdminId, groupName);
                 if (group != null)
                 {
                     return "Error. You have already created a group with that name.";
                 }
-                Group g = new Group { AdminId = admin.AdminId, name = groupName };
+                Group g = new Group { AdminId = t.Item2.AdminId, name = groupName };
                 _db.addGroup(g);
             }
             return inviteEmails .Equals("") ? Replies.SUCCESS : inviteToGroup(userUniqueInt, groupName, inviteEmails, emailContent);
@@ -979,22 +944,16 @@ namespace Server
             {
                 return wrongEmails.ToString();
             }
-            // verify user is logged in
+            // verify user has permissions
+            Tuple<string, Admin> t = hasPermissions(userUniqueInt);
+            if (!t.Item1.Equals(Replies.SUCCESS))
+            {
+                return t.Item1;
+            }
             User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
-            {
-                return NOT_LOGGED_IN;
-            }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return NOT_AN_ADMIN;
-            }
             lock (_syncLockGroup)
             {
-                if (_db.getGroup(admin.AdminId, groupName) == null)
+                if (_db.getGroup(t.Item2.AdminId, groupName) == null)
                 {
                     return NON_EXISTING_GROUP;
                 }
@@ -1010,7 +969,7 @@ namespace Server
                 foreach (string email in emails)
                 {
                     EmailSender.sendMail(email, "MedTrain Group Invitation", emailContent);
-                    GroupMember gm = new GroupMember { GroupName = groupName, AdminId = admin.AdminId, UserId = email, invitationAccepted = false };
+                    GroupMember gm = new GroupMember { GroupName = groupName, AdminId = t.Item2.AdminId, UserId = email, invitationAccepted = false };
                     _db.addGroupMember(gm);
                 }
             }
@@ -1049,20 +1008,13 @@ namespace Server
 
         public Tuple<string, List<string>> getAllAdminsGroups(int userUniqueInt)
         {
-            // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            // verify user has permissions
+            Tuple<string, Admin> t = hasPermissions(userUniqueInt);
+            if (!t.Item1.Equals(Replies.SUCCESS))
             {
-                return new Tuple<string, List<string>>(NOT_LOGGED_IN, null);
+                return new Tuple<string,List<string>>(t.Item1, null);
             }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return new Tuple<string, List<string>>(NOT_AN_ADMIN, null);
-            }
-            List<Group> groups = _db.getAdminsGroups(admin.AdminId);
+            List<Group> groups = _db.getAdminsGroups(t.Item2.AdminId);
             List<string> adminsGroups = new List<string>();
             foreach (Group g in groups)
             {
@@ -1079,22 +1031,15 @@ namespace Server
             {
                 return GENERAL_INPUT_ERROR;
             }
-            // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            // verify user has permissions
+            Tuple<string, Admin> t = hasPermissions(userUniqueInt);
+            if (!t.Item1.Equals(Replies.SUCCESS))
             {
-                return NOT_LOGGED_IN;
-            }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return NOT_AN_ADMIN;
+                return t.Item1;
             }
             lock (_syncLockGroup)
             {
-                Group g = _db.getGroup(admin.AdminId, groupName);
+                Group g = _db.getGroup(t.Item2.AdminId, groupName);
                 if (g == null)
                 {
                     return NON_EXISTING_GROUP;
@@ -1122,18 +1067,11 @@ namespace Server
             {
                 return GENERAL_INPUT_ERROR;
             }
-            // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            // verify user has permissions
+            Tuple<string, Admin> t = hasPermissions(userUniqueInt);
+            if (!t.Item1.Equals(Replies.SUCCESS))
             {
-                return NOT_LOGGED_IN;
-            }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return NOT_AN_ADMIN;
+                return t.Item1;
             }
             // verify subject is valid
             if (_db.getSubject(subject) == null)
@@ -1146,9 +1084,9 @@ namespace Server
             bool faultyTopics = false;
             List<Topic> subjectTopics = _db.getTopics(subject);
             List<string> subjectTopicsNames = new List<string>();
-            foreach (Topic t in subjectTopics)
+            foreach (Topic topic in subjectTopics)
             {
-                subjectTopicsNames.Add(t.TopicId);
+                subjectTopicsNames.Add(topic.TopicId);
             }
             foreach (string s in topics)
             {
@@ -1189,31 +1127,24 @@ namespace Server
                     selecetedQuestions.Add(q);
                 }
             }
-            _testQuestions[admin.AdminId] = selecetedQuestions;
+            _testQuestions[t.Item2.AdminId] = selecetedQuestions;
             return Replies.SUCCESS;
         }
 
         public List<Question> getTestQuestions(int userUniqueInt)
         {
-            // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            // verify user has permissions
+            Tuple<string, Admin> t = hasPermissions(userUniqueInt);
+            if (!t.Item1.Equals(Replies.SUCCESS))
             {
                 return null;
             }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
+            if (!_testQuestions.Keys.Contains(t.Item2.AdminId))
             {
                 return null;
             }
-            if (!_testQuestions.Keys.Contains(admin.AdminId))
-            {
-                return null;
-            }
-            List<Question> ans = _testQuestions[admin.AdminId];
-            _testQuestions.Remove(admin.AdminId);
+            List<Question> ans = _testQuestions[t.Item2.AdminId];
+            _testQuestions.Remove(t.Item2.AdminId);
             return ans;
         }
 
@@ -1225,18 +1156,11 @@ namespace Server
             {
                 return GENERAL_INPUT_ERROR;
             }
-            // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            // verify user has permissions
+            Tuple<string, Admin> t = hasPermissions(userUniqueInt);
+            if (!t.Item1.Equals(Replies.SUCCESS))
             {
-                return NOT_LOGGED_IN;
-            }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return NOT_AN_ADMIN;
+                return t.Item1;
             }
             // verify all question ids are valid
             foreach (int i in questionsIds)
@@ -1248,7 +1172,7 @@ namespace Server
             }
             lock (_syncLockTestId)
             {
-                _db.addTest(new Test { TestId = _testID, testName = name, AdminId = admin.AdminId });
+                _db.addTest(new Test { TestId = _testID, testName = name, AdminId = t.Item2.AdminId });
                 foreach (int i in questionsIds)
                 {
                     _db.addTestQuestion(new TestQuestion { TestId = _testID, QuestionId = i });
@@ -1260,28 +1184,16 @@ namespace Server
 
         public bool isAdmin(int userUniqueInt)
         {
-            User u = getUserByInt(userUniqueInt);
-            if (u == null)
-            {
-                return false;
-            }
-            return _db.getAdmin(u.UserId) != null;
+            return hasPermissions(userUniqueInt).Item1.Equals(Replies.SUCCESS);
         }
 
         public Tuple<string, List<Test>> getAllTests(int userUniqueInt)
         {
-            // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            // verify user has permissions
+            string s = hasPermissions(userUniqueInt).Item1;
+            if (!s.Equals(Replies.SUCCESS))
             {
-                return new Tuple<string, List<Test>>(NOT_LOGGED_IN, null);
-            }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return new Tuple<string, List<Test>>(NOT_AN_ADMIN, null);
+                return new Tuple<string,List<Test>>(s, null);
             }
             return new Tuple<string, List<Test>>(Replies.SUCCESS, _db.getAllTests());
         }
@@ -1294,25 +1206,18 @@ namespace Server
             {
                 return GENERAL_INPUT_ERROR;
             }
-            // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            // verify user has permissions
+            Tuple<string, Admin> t = hasPermissions(userUniqueInt);
+            if (!t.Item1.Equals(Replies.SUCCESS))
             {
-                return NOT_LOGGED_IN;
-            }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return NOT_AN_ADMIN;
+                return t.Item1;
             }
             // verify group exist
-            if (_db.getGroup(admin.AdminId, groupName) == null)
+            if (_db.getGroup(t.Item2.AdminId, groupName) == null)
             {
-                return "Error. The administrator " + admin.AdminId + " does not have a group named " + groupName;
+                return "Error. The administrator " + t.Item2.AdminId + " does not have a group named " + groupName;
             }
-            GroupTest gt = new GroupTest { AdminId = admin.AdminId, GroupName = groupName, TestId = testId };
+            GroupTest gt = new GroupTest { AdminId = t.Item2.AdminId, GroupName = groupName, TestId = testId };
             _db.addGroupTest(gt);
             return Replies.SUCCESS;
         }
@@ -1320,24 +1225,22 @@ namespace Server
         public Tuple<string, List<string>> getUsersGroups(int userUniqueInt)
         {
             // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            User user = isLoggedIn(userUniqueInt);
+            if (user == null)
             {
                 return new Tuple<string,List<string>>(NOT_LOGGED_IN, null);
             }
-            updateUserLastActionTime(user);
             return groupMembers(_db.getUserGroups(user.UserId));
         }
 
         public Tuple<string, List<String>> getUsersGroupsInvitations(int userUniqueInt)
         {
             // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            User user = isLoggedIn(userUniqueInt);
+            if (user == null)
             {
                 return new Tuple<string, List<string>>(NOT_LOGGED_IN, null);
             }
-            updateUserLastActionTime(user);
             return groupMembers(_db.getUserInvitations(user.UserId));
         }
 
@@ -1358,12 +1261,11 @@ namespace Server
                 return GENERAL_INPUT_ERROR;
             }
             // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            User user = isLoggedIn(userUniqueInt);
+            if (user == null)
             {
                 return NOT_LOGGED_IN;
             }
-            updateUserLastActionTime(user);
             StringBuilder sb = new StringBuilder();
             sb.Append("Cannot accept invitations to the following groups:");
             bool error = false;
@@ -1409,44 +1311,30 @@ namespace Server
             {
                 return GENERAL_INPUT_ERROR;
             }
-            // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            // verify user has permissions
+            Tuple<string, Admin> t = hasPermissions(userUniqueInt);
+            if (!t.Item1.Equals(Replies.SUCCESS))
             {
-                return NOT_LOGGED_IN;
+                return t.Item1;
             }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return NOT_AN_ADMIN;
-            }
-            _selectedGroups[admin.AdminId] = groupName;
+            _selectedGroups[t.Item2.AdminId] = groupName;
             return Replies.SUCCESS;
         }
 
         public Tuple<string, string> getSavedGroup(int userUniqueInt)
         {
-            // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            // verify user has permissions
+            Tuple<string, Admin> t = hasPermissions(userUniqueInt);
+            if (!t.Item1.Equals(Replies.SUCCESS))
             {
-                return new Tuple<string, string>(NOT_LOGGED_IN, null);
+                return new Tuple<string, string>(t.Item1, null);
             }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return new Tuple<string, string>(NOT_AN_ADMIN, null);
-            }
-            if (!_selectedGroups.Keys.Contains(admin.AdminId))
+            if (!_selectedGroups.Keys.Contains(t.Item2.AdminId))
             {
                 return new Tuple<string, string>("Error. You have not selected a group.", null);
             }
-            string groupName = _selectedGroups[admin.AdminId];
-            _selectedGroups.Remove(admin.AdminId);
+            string groupName = _selectedGroups[t.Item2.AdminId];
+            _selectedGroups.Remove(t.Item2.AdminId);
             return new Tuple<string, string>(Replies.SUCCESS, groupName);
         }
 
@@ -1463,34 +1351,16 @@ namespace Server
             {
                 return GENERAL_INPUT_ERROR;
             }
-            // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            // verify user has permissions
+            string s = hasPermissions(userUniqueInt).Item1;
+            if (!s.Equals(Replies.SUCCESS))
             {
-                return NOT_LOGGED_IN;
+                return s;
             }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
+            string errMsg = verifySubjectAndTopicsMatch(subject, qDiagnoses);
+            if (!errMsg.Equals(Replies.SUCCESS))
             {
-                return NOT_AN_ADMIN;
-            }
-            // verify subject exist
-            Subject sub = _db.getSubject(subject);
-            if (sub == null)
-            {
-                return NOT_A_SUBJECT;
-            }
-            // verify all diagnoses are topics of the specified subject
-            List<Diagnosis> diagnoses = new List<Diagnosis>();
-            List<Topic> subjectTopics = _db.getTopics(subject);
-            foreach (string diagnosys in qDiagnoses)
-            {
-                if (subjectTopics.Where(t => t.TopicId.Equals(diagnosys)).ToList().Count == 0)
-                {
-                    return "Error. " + diagnosys + " is not a topic of " + subject;
-                }
+                return errMsg;
             }
             if (qDiagnoses.Count == 0)
             {
@@ -1505,20 +1375,34 @@ namespace Server
             return Replies.SUCCESS;
         }
 
+        private string verifySubjectAndTopicsMatch(string subject, List<string> qDiagnoses)
+        {
+            // verify subject exist
+            Subject sub = _db.getSubject(subject);
+            if (sub == null)
+            {
+                return NOT_A_SUBJECT;
+            }
+            // verify all diagnoses are topics of the specified subject
+            List<Diagnosis> diagnoses = new List<Diagnosis>();
+            List<Topic> subjectTopics = _db.getTopics(subject);
+            foreach (string diagnosis in qDiagnoses)
+            {
+                if (subjectTopics.Where(t => t.TopicId.Equals(diagnosis)).ToList().Count == 0)
+                {
+                    return "Error. " + diagnosis + " is not a topic of " + subject;
+                }
+            }
+            return Replies.SUCCESS;
+        }
+
         public string removeQuestions(int userUniqueInt, List<int> questionsIdsList)
         {
-            // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            // verify user has permissions
+            string s = hasPermissions(userUniqueInt).Item1;
+            if (!s.Equals(Replies.SUCCESS))
             {
-                return NOT_LOGGED_IN;
-            }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return NOT_AN_ADMIN;
+                return s;
             }
             // verify all questions exists
             lock (_syncLockQuestionId)
@@ -1573,12 +1457,11 @@ namespace Server
         private Tuple<string, List<Tuple<string, int>>> getTests(int userUniqueInt, string groupName, string adminId, bool completed)
         {
             // verify user logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            User user = isLoggedIn(userUniqueInt);
+            if (user == null)
             {
                 return new Tuple<string, List<Tuple<string, int>>>(NOT_LOGGED_IN, null);
             }
-            updateUserLastActionTime(user);
             // get all tests for the given group
             List<GroupTest> groupTests = _db.getGroupTests(groupName, adminId);
             List<Tuple<string, int>> ans = new List<Tuple<string, int>>();
@@ -1689,12 +1572,11 @@ namespace Server
             }
             Tuple<string, string> t = getGroupNameAndAdminId(group);
             // verify user is logged in
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            User user = isLoggedIn(userUniqueInt);
+            if (user == null)
             {
                 return NOT_LOGGED_IN;
             }
-            updateUserLastActionTime(user);
             // verify group exist
             if (_db.getGroup(t.Item2, t.Item1) == null)
             {
@@ -1778,19 +1660,13 @@ namespace Server
             {
                 return GENERAL_INPUT_ERROR;
             }
-            // verify user is logged in
+            // verify user has permissions
+            string s = hasPermissions(userUniqueInt).Item1;
+            if (!s.Equals(Replies.SUCCESS))
+            {
+                return s;
+            }
             User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
-            {
-                return NOT_LOGGED_IN;
-            }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return NOT_AN_ADMIN;
-            }
             // verify subject exist
             Subject sub = _db.getSubject(subject);
             if (sub == null)
@@ -1816,22 +1692,15 @@ namespace Server
             return Replies.SUCCESS;
         }
 
-        //all relevnt questions on the subject and topic the saved in the last function (saveSelectedSubjectTopic)
         public Tuple<string, List<Question>> getAllReleventQuestions(int userUniqueInt)
         {
-            // verify user is logged in
+            // verify user has permissions
+            string s = hasPermissions(userUniqueInt).Item1;
+            if (!s.Equals(Replies.SUCCESS))
+            {
+                return new Tuple<string,List<Question>>(s, null);
+            }
             User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
-            {
-                return new Tuple<string, List<Question>>(NOT_LOGGED_IN, null);
-            }
-            updateUserLastActionTime(user);
-            // verify user is an admin
-            Admin admin = _db.getAdmin(user.UserId);
-            if (admin == null)
-            {
-                return new Tuple<string, List<Question>>(NOT_AN_ADMIN, null);
-            }
             if (!_questionsForGroupTest.Keys.Contains(user))
             {
                 return new Tuple<string, List<Question>>("Error. No questions available.", null);
@@ -1872,6 +1741,17 @@ namespace Server
             string adminId = s.Substring(i + GroupsMembers.CREATED_BY.Length);
             adminId = adminId.Substring(0, adminId.Length - 1);
             return new Tuple<string, string>(groupName, adminId);
+        }
+
+        private Tuple<string, Admin> hasPermissions(int userUniqueInt)
+        {
+            User u = isLoggedIn(userUniqueInt);
+            if (u == null)
+            {
+                return new Tuple<string,Admin>(NOT_LOGGED_IN, null);
+            }
+            Admin a = _db.getAdmin(u.UserId);
+            return a != null ? new Tuple<string, Admin>(Replies.SUCCESS, a) : new Tuple<string, Admin>(NOT_AN_ADMIN, null);
         }
     }
 }
