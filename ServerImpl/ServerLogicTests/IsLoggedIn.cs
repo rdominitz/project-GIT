@@ -27,13 +27,13 @@ namespace ServerLogicTests
         [TestMethod]
         public void isLoggedInFalse()
         {
-            Assert.IsTrue(_server.isLoggedIn(Users.USER_UNIQUE_INT) == null);
+            Assert.IsFalse(_server.isLoggedIn(Users.USER_UNIQUE_INT) != null);
         }
 
         [TestMethod]
         public void isLoggedInWrongUserId()
         {
-            Assert.IsTrue(_server.isLoggedIn(Users.USER_UNIQUE_INT - 1) == null);
+            Assert.IsFalse(_server.isLoggedIn(Users.USER_UNIQUE_INT - 1) != null);
         }
     }
 }

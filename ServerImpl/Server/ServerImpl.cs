@@ -26,7 +26,7 @@ namespace Server
         private const string INVALID_GROUP_NAME = "Error. Invalid group name.";
         private const string DB_FAULT = "Error. DB fault.";
         private const string NOT_A_SUBJECT = "Error. Subject does not exist in the system.";
-        private const string NON_EXISTING_TEST = "Error. There is no test matching the given value.";
+        private const string NON_EXISTING_TEST = "Error. The requested test does not exist.";
         private const int USERS_CACHE_LIMIT = 1000;
         private const int HOURS_TO_LOGOUT = 1;
         private const int MILLISECONDS_TO_SLEEP = HOURS_TO_LOGOUT * 60 * 60 * 1000;
@@ -562,8 +562,13 @@ namespace Server
             {
                 return GENERAL_INPUT_ERROR;
             }
-            User user = isLoggedIn(userUniqueInt);
+            User user = getUserByInt(userUniqueInt);
             if (user == null)
+            {
+                return USER_NOT_REGISTERED;
+            }
+            // verify user is logged in
+            if (!_loggedUsers.ContainsKey(user))
             {
                 return NOT_LOGGED_IN;
             }
@@ -636,11 +641,12 @@ namespace Server
 
         public Tuple<string, List<Question>> getAnsweres(int userUniqueInt)
         {
-            User user = isLoggedIn(userUniqueInt);
-            if (user == null)
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
             {
                 return new Tuple<string, List<Question>>(NOT_LOGGED_IN, null);
             }
+            updateUserLastActionTime(user);
             List<Question> l = _usersTestsAnswersAtEndAnsweredQuestions[user];
             _usersTestsAnswersAtEndAnsweredQuestions.Remove(user);
             return new Tuple<string, List<Question>>(Replies.SUCCESS, l);
@@ -861,16 +867,17 @@ namespace Server
                 return null;
             }
             updateUserLastActionTime(user);
-            return _loggedUsers.Keys.Contains(user) ? user : null;
+            return user;
         }
 
         public string getUserName(int userUniqueInt)
         {
-            User user = isLoggedIn(userUniqueInt);
-            if (user == null)
+            User user = getUserByInt(userUniqueInt);
+            if (user == null || !_loggedUsers.ContainsKey(user))
             {
                 return "";
             }
+            updateUserLastActionTime(user);
             return user.userFirstName + " " + user.userLastName;
         }
 
@@ -1370,7 +1377,7 @@ namespace Server
             {
                 // save images
                 List<string> imagesPathes = new List<string>();
-                addQuestion(sub, subjectTopics.Where(st => qDiagnoses.Contains(st.TopicId)).ToList(), imagesPathes);
+                //addQuestion(sub, subjectTopics.Where(st => qDiagnoses.Contains(st.TopicId)).ToList(), imagesPathes);
             }
             return Replies.SUCCESS;
         }
@@ -1505,32 +1512,11 @@ namespace Server
 
         public Tuple<string, Question> getNextQuestionGroupTest(int userUniqueInt, string group, int test)
         {
-            Tuple<string, List<int>> t = groupTestQuestions(userUniqueInt, group, test);
-            if (!t.Item1.Equals(Replies.SUCCESS))
-            {
-                return new Tuple<string, Question>(t.Item1, null);
-            }
-            if (t.Item2.Count == 0)
-            {
-                return new Tuple<string, Question>("Error. All questions have been answered.", null);
-            }
-            Question q = _db.getQuestion(t.Item2[0]);
-            if (q == null)
-            {
-                return new Tuple<string, Question>(DB_FAULT, null);
-            }
-            return new Tuple<string, Question>(Replies.SUCCESS, q);
+            throw new NotImplementedException();
         }
 
         public string answerAQuestionGroupTest(int userUniqueInt, string group, int test, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties)
         {
-            string s = groupTestInputValidation(userUniqueInt, group, test);
-            if (!s.Equals(Replies.SUCCESS))
-            {
-                return s;
-            }
-            // save regular answer
-            // save GTA
             throw new NotImplementedException();
         }
 
@@ -1597,54 +1583,7 @@ namespace Server
 
         private Tuple<string, List<int>> groupTestRemainingQuestions(int userUniqueInt, string group, int test)
         {
-            // get all test questions
-            List<TestQuestion> testQuestions = _db.getTestQuestions(test);
-            List<Question> questions = new List<Question>();
-            foreach (TestQuestion tq in testQuestions)
-            {
-                Question q = _db.getQuestion(tq.QuestionId);
-                if (q == null)
-                {
-                    return new Tuple<string, List<int>>(DB_FAULT, null);
-                }
-                questions.Add(q);
-            }
-            // get all relevant group test answers
-            Tuple<string, string> t = getGroupNameAndAdminId(group);
-            List<GroupTestAnswer> gtas = _db.getGroupTestAnswers(t.Item1, t.Item2, test);
-            List<GroupTestAnswer> relevantGTAs = new List<GroupTestAnswer>();
-            User user = getUserByInt(userUniqueInt);
-            foreach (GroupTestAnswer gta in gtas)
-            {
-                if (user.UserId.Equals(gta.UserId))
-                {
-                    relevantGTAs.Add(gta);
-                }
-            }
-            // get all relevant answers
-            List<Answer> answers = new List<Answer>();
-            foreach (GroupTestAnswer gta in relevantGTAs)
-            {
-                Answer a = _db.getAnswer(gta.AnswerId);
-                if (a == null)
-                {
-                    return new Tuple<string, List<int>>(DB_FAULT, null);
-                }
-                answers.Add(a);
-            }
-            // get a question not answered by the user
-            List<int> questionsIds = new List<int>();
-            foreach (Question q in questions)
-            {
-                questionsIds.Add(q.QuestionId);
-            }
-            List<int> answeredQuestionsIds = new List<int>();
-            foreach (Answer a in answers)
-            {
-                answeredQuestionsIds.Add(a.QuestionId);
-            }
-            List<int> remainingQuestionsIds = questionsIds.Except(answeredQuestionsIds).ToList();
-            return new Tuple<string, List<int>>(Replies.SUCCESS, remainingQuestionsIds);
+            return null;
         }
 
         public string saveSelectedSubjectTopic(int userUniqueInt, string subject, List<string> topicsList)

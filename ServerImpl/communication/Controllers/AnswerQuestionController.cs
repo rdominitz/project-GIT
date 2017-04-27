@@ -36,6 +36,10 @@ namespace communication.Controllers
             Response.SetCookie(questionCookie);
             List<string> topics = ServerWiring.getInstance().getSubjectTopics(q.Item2.SubjectId);
             ViewBag.topics = topics;
+            if (!q.Item2.text.Equals(""))
+            {
+                ViewData["text"] = q.Item2.text;
+            }
             if(!q.Item1.Equals(Replies.SUCCESS))
             {
                 return RedirectToAction("Index", "Login", new { message = q.Item1 });

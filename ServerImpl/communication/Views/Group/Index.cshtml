@@ -20,7 +20,7 @@
             <form id="chooseTestForm" method="POST" action="~/group/submit">
                 <div class="form-group">
                     <label for="testID" class="control-label">Select A Test To Answer</label>
-                    <select id="testID" name="testID" class="form-control" onchange="giveSelection(this.value)">
+                    <select id="testID" name="testID" class="form-control">
                         @foreach (var test in (List<Tuple<string, int>>)ViewBag.unFinishedTests)
                         {
                             <option value="@test.Item2">@test.Item1</option>
@@ -33,5 +33,7 @@
         }
     }
 
+    
+    <button name="statistics" type="button" class="btn btn-primary btn-block" id="statistics" style="width: 280px" onclick="location.href='@Url.Action("Index", "GroupStatistics", new {groupName = ViewBag.group_name })'">View Group Statistics</button>
 
 </div>
