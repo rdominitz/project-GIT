@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class Image
+    public class QuestionImage
     {
         [Key]
         [Column(Order = 1)]

@@ -15,7 +15,7 @@ namespace Entities
         public IDbSet<Subject> Subjects { get; set; }
         public IDbSet<Topic> Topics { get; set; }
         public IDbSet<Question> Questions { get; set; }
-        public IDbSet<Image> Images { get; set; }
+        public IDbSet<QuestionImage> Images { get; set; }
         public IDbSet<Diagnosis> Diagnoses { get; set; }
         public IDbSet<Test> Tests { get; set; }
         public IDbSet<TestQuestion> TestsQuestions { get; set; }
@@ -27,14 +27,14 @@ namespace Entities
         public IDbSet<UserLevelAnswer> UsersLevelsWhenAnswring { get; set; }
         public IDbSet<UserLevel> UsersLevels { get; set; }
         public IDbSet<UserGroupTest> UsersGroupsTests { get; set; }
-        public IDbSet<GroupTestAnswer> GroupsTestsQuestionsAnswers { get; set; }
+        public IDbSet<GroupTestAnswer> GroupsTestsAnswers { get; set; }
 
         public MedTrainDBContext()
             : base("MedTrainDB")
         {
             //Database.SetInitializer<MedTrainDBContext>(new CreateDatabaseIfNotExists<MedTrainDBContext>());
-            Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseIfModelChanges<MedTrainDBContext>());
-            //Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseAlways<MedTrainDBContext>());
+            //Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseIfModelChanges<MedTrainDBContext>());
+            Database.SetInitializer<MedTrainDBContext>(new DropCreateDatabaseAlways<MedTrainDBContext>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -237,7 +237,7 @@ namespace Entities
         }
         #endregion
         #region image
-        public void addImage(Image i)
+        public void addImage(QuestionImage i)
         {
             using (var db = new MedTrainDBContext())
             {
@@ -250,7 +250,7 @@ namespace Entities
             }
         }
 
-        public List<Image> getQuestionImages(int qId)
+        public List<QuestionImage> getQuestionImages(int qId)
         {
             using (var db = new MedTrainDBContext())
             {
@@ -590,11 +590,27 @@ namespace Entities
         }
         #endregion
         #region group test answer
+        public void addGroupTestAnswer(GroupTestAnswer gta)
+        {
+            using (var db = new MedTrainDBContext())
+            {
+                if (db.Users.Find(gta.UserId) == null || db.Admins.Find(gta.AdminId) == null ||
+                    db.Groups.Find(gta.AdminId, gta.GroupName) == null || db.Tests.Find(gta.TestId) == null ||
+                    db.Answers.Find(gta.AnswerId) == null ||
+                    db.GroupsTestsAnswers.Find(gta.GroupName, gta.AdminId, gta.TestId, gta.AnswerId) != null)
+                {
+                    return;
+                }
+                db.GroupsTestsAnswers.Add(gta);
+                db.SaveChanges();
+            }
+        }
+
         public List<GroupTestAnswer> getGroupTestAnswers(string groupName, string adminId, int testId)
         {
             using (var db = new MedTrainDBContext())
             {
-                var query = from gta in db.GroupsTestsQuestionsAnswers
+                var query = from gta in db.GroupsTestsAnswers
                             where gta.GroupName.Equals(groupName) && gta.AdminId.Equals(adminId) &&
                                 gta.TestId == testId
                             select gta;

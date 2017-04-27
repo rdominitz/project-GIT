@@ -63,7 +63,7 @@
     <Compile Include="GroupMember.cs" />
     <Compile Include="GroupTest.cs" />
     <Compile Include="GroupTestAnswer.cs" />
-    <Compile Include="Image.cs" />
+    <Compile Include="QuestionImage.cs" />
     <Compile Include="IMedTrainDBContext.cs" />
     <Compile Include="MedTrainDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

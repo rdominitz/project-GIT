@@ -181,11 +181,11 @@ namespace QALogic
                 double lvl = userLevel.level;
                 if (qDiagnosesNames.Contains(s))
                 {
-                    q.points -= (Levels.MAX_LVL + 1 - lvl) / qDiagnoses.Count;
+                    q.points -= (Levels.MAX_LVL + 1 - lvl) / (double)qDiagnoses.Count;
                 }
                 else
                 {
-                    q.points += lvl / qDiagnoses.Count;
+                    q.points += lvl / (double)qDiagnoses.Count;
                 }
             }
             // update question's level if needed

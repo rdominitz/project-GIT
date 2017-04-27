@@ -33,8 +33,8 @@ namespace Entities
         List<Question> getQuestions(string subject, string topic);
         List<Question> getNormalQuestions(string subject);
 
-        void addImage(Image i);
-        List<Image> getQuestionImages(int qId);
+        void addImage(QuestionImage i);
+        List<QuestionImage> getQuestionImages(int qId);
 
         void addDiagnosis(Diagnosis d);
         List<Diagnosis> getQuestionDiagnoses(int qId);
@@ -73,6 +73,7 @@ namespace Entities
         void addTestQuestion(TestQuestion tq);
         List<TestQuestion> getTestQuestions(int testId);
 
+        void addGroupTestAnswer(GroupTestAnswer gta);
         List<GroupTestAnswer> getGroupTestAnswers(string groupName, string adminId, int testId);
     }
 }

@@ -78,7 +78,7 @@ namespace communication.Controllers
             HttpCookie groupCookie = Request.Cookies["groupName"];
             if (groupCookie == null || testCookie == null)
             {
-                 ans = ServerWiring.getInstance().answerAQuestion(Convert.ToInt32(userCookie.Value), Convert.ToInt32(questionCookie.Value), norm.Equals("true"), sure1, diagnosisList, sure2List);
+                 ans = ServerWiring.getInstance().answerAQuestion(Convert.ToInt32(userCookie.Value), Convert.ToInt32(questionCookie.Value), norm.Equals("true"), sure1, diagnosisList, sure2List).Item1;
                  hasMoreQuestions = ServerWiring.getInstance().hasMoreQuestions(Convert.ToInt32(userCookie.Value));
             }
             else

@@ -16,7 +16,7 @@ namespace Entities
         private List<Subject> _subjects;
         private List<Topic> _topics;
         private List<Question> _questions;
-        private List<Image> _images;
+        private List<QuestionImage> _images;
         private List<Diagnosis> _diagnoses;
         private List<Answer> _answers;
         private List<DiagnosisCertainty> _diagnosesCertainties;
@@ -36,7 +36,7 @@ namespace Entities
             _subjects = new List<Subject>();
             _topics = new List<Topic>();
             _questions = new List<Question>();
-            _images = new List<Image>();
+            _images = new List<QuestionImage>();
             _diagnoses = new List<Diagnosis>();
             _answers = new List<Answer>();
             _diagnosesCertainties = new List<DiagnosisCertainty>();
@@ -50,8 +50,6 @@ namespace Entities
             _groupsTestsAnswers = new List<GroupTestAnswer>();
         }
 
-        //public IDbSet<Test> Tests { get; set; }
-        //public IDbSet<Group> Groups { get; set; }
         //public IDbSet<UserGroupTest> UsersGroupsTests { get; set; }
 
         public int getMillisecondsToSleep()
@@ -180,7 +178,7 @@ namespace Entities
         }
         #endregion
         #region image
-        public void addImage(Image i)
+        public void addImage(QuestionImage i)
         {
             if (_questions.Where(q => q.QuestionId == i.QuestionId).Count() == 0 ||
                 _images.Where(image => image.ImageId.Equals(i.ImageId) && image.QuestionId == i.QuestionId).Count() != 0)
@@ -190,7 +188,7 @@ namespace Entities
             _images.Add(i);
         }
 
-        public List<Image> getQuestionImages(int qId)
+        public List<QuestionImage> getQuestionImages(int qId)
         {
             return _images.Where(i => i.QuestionId == qId).ToList();
         }
@@ -389,6 +387,21 @@ namespace Entities
         }
         #endregion
         #region group test answer
+        public void addGroupTestAnswer(GroupTestAnswer gta)
+        {
+            if (_users.Where(u => u.UserId.Equals(gta.UserId)).Count() == 0 ||
+                _admins.Where(a => a.AdminId.Equals(gta.AdminId)).Count() == 0 ||
+                _groups.Where(g => g.AdminId.Equals(gta.AdminId) && g.name.Equals(gta.GroupName)).Count() == 0 ||
+                _tests.Where(t => t.TestId == gta.TestId).Count() == 0 ||
+                _answers.Where(a => a.AnswerId == gta.AnswerId).Count() == 0 ||
+                _groupsTestsAnswers.Where(GTA => GTA.GroupName.Equals(gta.GroupName) && GTA.AdminId.Equals(gta.AdminId) &&
+                                            GTA.TestId == gta.TestId && GTA.AnswerId == gta.AnswerId).Count() != 1)
+            {
+                return;
+            }
+            _groupsTestsAnswers.Add(gta);
+        }
+
         public List<GroupTestAnswer> getGroupTestAnswers(string groupName, string adminId, int testId)
         {
             return _groupsTestsAnswers.Where(gta => gta.GroupName.Equals(groupName) && gta.AdminId.Equals(adminId) &&

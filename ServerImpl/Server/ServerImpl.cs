@@ -7,6 +7,9 @@ using Entities;
 using Constants;
 using System.Threading;
 using QALogic;
+using System.Drawing;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace Server
 {
@@ -30,6 +33,7 @@ namespace Server
         private const int USERS_CACHE_LIMIT = 1000;
         private const int HOURS_TO_LOGOUT = 1;
         private const int MILLISECONDS_TO_SLEEP = HOURS_TO_LOGOUT * 60 * 60 * 1000;
+        private const int ERROR = -1;
 
         private List<User> _usersCache; // each action will move the user to the last position of the cache, removing old users from the beginning
         private Dictionary<User, DateTime> _loggedUsers;
@@ -333,7 +337,7 @@ namespace Server
             }
             foreach (string path in images)
             {
-                Image i = new Image
+                QuestionImage i = new QuestionImage
                 {
                     ImageId = path,
                     QuestionId = _questionID,
@@ -523,31 +527,31 @@ namespace Server
             return Replies.SUCCESS;
         }
 
-        public string answerAQuestion(int userUniqueInt, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties)
+        public Tuple<string, int> answerAQuestion(int userUniqueInt, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties)
         {
             if (diagnoses == null || diagnosisCertainties == null)
             {
-                return "Error - a list cannot be null";
+                return new Tuple<string, int>("Error. A list cannot be null", ERROR);
             }
             if (diagnoses.Count != diagnosisCertainties.Count)
             {
-                return "Error - cannot have a different number of diagnoses and diagnosis certainties.";
+                return new Tuple<string, int>("Error. Cannot have a different number of diagnoses and diagnosis certainties.", -1);
             }
             if (normalityCertainty < 1 || normalityCertainty > 10)
             {
-                return CERTAINTY_LEVEL_ERROR;
+                return new Tuple<string, int>(CERTAINTY_LEVEL_ERROR, ERROR);
             }
             foreach (int i in diagnosisCertainties)
             {
                 if (i < 1 || i > 10)
                 {
-                    return CERTAINTY_LEVEL_ERROR;
+                    return new Tuple<string, int>(CERTAINTY_LEVEL_ERROR, ERROR);
                 }
             }
             // check for illegal input values
             if (isNormal && diagnoses.Count != 0)
             {
-                return "Error - cannot have diagnoses for a question that was deemed normal.";
+                return new Tuple<string, int>("Error. Cannot have diagnoses for a question that was deemed normal.", ERROR);
             }
             if (isNormal)
             {
@@ -560,34 +564,29 @@ namespace Server
             }
             if (!InputTester.isValidInput(input))
             {
-                return GENERAL_INPUT_ERROR;
+                return new Tuple<string, int>(GENERAL_INPUT_ERROR, ERROR);
             }
-            User user = getUserByInt(userUniqueInt);
+            User user = isLoggedIn(userUniqueInt);
             if (user == null)
             {
-                return USER_NOT_REGISTERED;
-            }
-            // verify user is logged in
-            if (!_loggedUsers.ContainsKey(user))
-            {
-                return NOT_LOGGED_IN;
+                return new Tuple<string, int>(NOT_LOGGED_IN, ERROR);
             }
             if (!_usersTestsAnswerEveryTime.Keys.Contains(user) && !_usersTestsAnswersAtEndRemainingQuestions.Keys.Contains(user))
             {
-                return "Error. Cannot answer a question prior to requesting one.";
+                return new Tuple<string, int>("Error. Cannot answer a question prior to requesting one.", ERROR);
             }
             updateUserLastActionTime(user);
             // get data from DB
             Question q = _db.getQuestion(questionID);
             if (q == null)
             {
-                return "Wrong data accepted. Incorrect question ID was recieved.";
+                return new Tuple<string, int>("Wrong data accepted. Incorrect question ID was recieved.", ERROR);
             }
             foreach (string s in diagnoses)
             {
                 if (_db.getTopic(q.SubjectId, s) == null)
                 {
-                    return "Error. diagnosis " + s + " is invalid for subject " + q.SubjectId;
+                    return new Tuple<string, int>("Error. diagnosis " + s + " is invalid for subject " + q.SubjectId, ERROR);
                 }
             }
             foreach (Diagnosis d in _db.getQuestionDiagnoses(q.QuestionId))
@@ -599,7 +598,7 @@ namespace Server
                     _db.addUserLevel(userLevel);
                 }
             }
-            _logic.answerAQuestion(user, q, isNormal, normalityCertainty, diagnoses, diagnosisCertainties);
+            int answerId = _logic.answerAQuestion(user, q, isNormal, normalityCertainty, diagnoses, diagnosisCertainties).Item2;
             // if answer at end save q in answered questions, if remaining does not contain user return "Done" else return "Next"
             if (_usersTestsAnswersAtEndRemainingQuestions.ContainsKey(user))
             {
@@ -620,9 +619,9 @@ namespace Server
                 if (l.Count == 0)
                 {
                     _usersTestsAnswersAtEndRemainingQuestions.Remove(user);
-                    return Replies.SHOW_ANSWER;
+                    return new Tuple<string, int>(Replies.SHOW_ANSWER, answerId);
                 }
-                return Replies.NEXT;
+                return new Tuple<string, int>(Replies.NEXT, answerId);
             }
             // else return "Show Answer"
             else
@@ -635,7 +634,7 @@ namespace Server
                 {
                     _usersTestsAnswerEveryTime.Remove(user);
                 }
-                return Replies.SHOW_ANSWER;
+                return new Tuple<string, int>(Replies.SHOW_ANSWER, answerId);
             }
         }
 
@@ -670,9 +669,9 @@ namespace Server
 
         public List<string> getQuestionImages(int questionId)
         {
-            List<Image> l = _db.getQuestionImages(questionId);
+            List<QuestionImage> l = _db.getQuestionImages(questionId);
             List<string> ans = new List<string>();
-            foreach (Image i in l)
+            foreach (QuestionImage i in l)
             {
                 ans.Add(i.ImageId.Replace("..", "../com"));
             }
@@ -1364,26 +1363,6 @@ namespace Server
             {
                 return s;
             }
-            string errMsg = verifySubjectAndTopicsMatch(subject, qDiagnoses);
-            if (!errMsg.Equals(Replies.SUCCESS))
-            {
-                return errMsg;
-            }
-            if (qDiagnoses.Count == 0)
-            {
-                qDiagnoses.Add(Topics.NORMAL);
-            }
-            lock (_syncLockQuestionId)
-            {
-                // save images
-                List<string> imagesPathes = new List<string>();
-                //addQuestion(sub, subjectTopics.Where(st => qDiagnoses.Contains(st.TopicId)).ToList(), imagesPathes);
-            }
-            return Replies.SUCCESS;
-        }
-
-        private string verifySubjectAndTopicsMatch(string subject, List<string> qDiagnoses)
-        {
             // verify subject exist
             Subject sub = _db.getSubject(subject);
             if (sub == null)
@@ -1399,6 +1378,24 @@ namespace Server
                 {
                     return "Error. " + diagnosis + " is not a topic of " + subject;
                 }
+            }
+            if (qDiagnoses.Count == 0)
+            {
+                qDiagnoses.Add(Topics.NORMAL);
+            }
+            lock (_syncLockQuestionId)
+            {
+                // save images
+                List<string> imagesPathes = new List<string>();
+                for (int i = 0; i < allImgs.Count; i++)
+                {
+                    MemoryStream ms = new MemoryStream(allImgs[i], 0, allImgs[i].Length);
+                    ms.Write(allImgs[i], 0, allImgs[i].Length);
+                    Image image = Image.FromStream(ms, true);
+                    string path = "../communication/Images/" + _questionID + "_img" + (i + 1) + ".jpg";
+                    image.Save(path, ImageFormat.Jpeg);
+                }
+                addQuestion(sub, subjectTopics.Where(st => qDiagnoses.Contains(st.TopicId)).ToList(), imagesPathes);
             }
             return Replies.SUCCESS;
         }
@@ -1517,6 +1514,29 @@ namespace Server
 
         public string answerAQuestionGroupTest(int userUniqueInt, string group, int test, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties)
         {
+            string s = groupTestInputValidation(userUniqueInt, group, test);
+            if (!s.Equals(Replies.SUCCESS))
+            {
+                return s;
+            }
+            // answer the question via answerAQuestion
+            Tuple<string, int> t = answerAQuestion(userUniqueInt, questionID, isNormal, normalityCertainty, diagnoses, diagnosisCertainties);
+            // if successfull, add to GroupsTestsAnswers
+            if (t.Item2 == ERROR)
+            {
+                return t.Item1;
+            }
+            Tuple<string, string> splittedGroupName = getGroupNameAndAdminId(group);
+            User u = getUserByInt(userUniqueInt);
+            GroupTestAnswer gta = new GroupTestAnswer
+            {
+                GroupName = splittedGroupName.Item1,
+                AdminId = splittedGroupName.Item2,
+                AnswerId = t.Item2,
+                UserId = u.UserId,
+                TestId = test
+            };
+            
             throw new NotImplementedException();
         }
 
@@ -1583,7 +1603,54 @@ namespace Server
 
         private Tuple<string, List<int>> groupTestRemainingQuestions(int userUniqueInt, string group, int test)
         {
-            return null;
+            // get all test questions
+            List<TestQuestion> testQuestions = _db.getTestQuestions(test);
+            List<Question> questions = new List<Question>();
+            foreach (TestQuestion tq in testQuestions)
+            {
+                Question q = _db.getQuestion(tq.QuestionId);
+                if (q == null)
+                {
+                    return new Tuple<string, List<int>>(DB_FAULT, null);
+                }
+                questions.Add(q);
+            }
+            // get all relevant group test answers
+            Tuple<string, string> t = getGroupNameAndAdminId(group);
+            List<GroupTestAnswer> gtas = _db.getGroupTestAnswers(t.Item1, t.Item2, test);
+            List<GroupTestAnswer> relevantGTAs = new List<GroupTestAnswer>();
+            User user = getUserByInt(userUniqueInt);
+            foreach (GroupTestAnswer gta in gtas)
+            {
+                if (user.UserId.Equals(gta.UserId))
+                {
+                    relevantGTAs.Add(gta);
+                }
+            }
+            // get all relevant answers
+            List<Answer> answers = new List<Answer>();
+            foreach (GroupTestAnswer gta in relevantGTAs)
+            {
+                Answer a = _db.getAnswer(gta.AnswerId);
+                if (a == null)
+                {
+                    return new Tuple<string, List<int>>(DB_FAULT, null);
+                }
+                answers.Add(a);
+            }
+            // get a question not answered by the user
+            List<int> questionsIds = new List<int>();
+            foreach (Question q in questions)
+            {
+                questionsIds.Add(q.QuestionId);
+            }
+            List<int> answeredQuestionsIds = new List<int>();
+            foreach (Answer a in answers)
+            {
+                answeredQuestionsIds.Add(a.QuestionId);
+            }
+            List<int> remainingQuestionsIds = questionsIds.Except(answeredQuestionsIds).ToList();
+            return new Tuple<string, List<int>>(Replies.SUCCESS, remainingQuestionsIds);
         }
 
         public string saveSelectedSubjectTopic(int userUniqueInt, string subject, List<string> topicsList)
