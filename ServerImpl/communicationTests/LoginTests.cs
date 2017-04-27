@@ -62,9 +62,9 @@ namespace communicationTests
         [TestMethod]
         public void SuccessfulLogin_Test()
         {
-            var controller = new LoginController() ;
-            
-            
+            var controller = new LoginController();
+
+
             /* var request = new Mock<HttpRequestBase>();
              request.SetupGet(x => x.Request).Returns(request.Object);
              controller.ControllerContext = new ControllerContext(request.Object, new RouteData(), controller);*/
@@ -89,7 +89,7 @@ namespace communicationTests
                 });
             response.SetupGet(x => x.Cookies).Returns(new HttpCookieCollection());
             //response.Setup(x => x.SetCookie(It.IsAny<HttpCookie>())).;
-            
+
 
             var context = new Mock<HttpContextBase>() { CallBase = true };
             context.SetupGet(x => x.Request).Returns(request.Object);
@@ -98,9 +98,23 @@ namespace communicationTests
 
 
             controller.ControllerContext = new ControllerContext(context.Object, new RouteData(), controller);
-            
+
             var result = controller.Submit("user@gmail.com", "password") as ViewResult;
             Assert.AreEqual("Index", result.ViewName);
+        }
+
+        [TestMethod]
+        public void SuccessfulLogin_Test2()
+        {
+            var mockController = new Mock<LoginController>();
+            var controller = new LoginController();
+            controller.ActionInvoker.InvokeAction(controller.ControllerContext, "Submit");
+            mockController.Object.Submit("", "");
+            //mockController.Verify(mockController.Object.ActionInvoker.InvokeAction(LoginController,"Submit")
+            //var controller = new LoginController();
+            //controller.Request.Cookies.Add
+            var result = controller.Submit("user@gmail.com", "password") as ViewResult;
+            //Assert.()
         }
     }
 }

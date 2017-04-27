@@ -30,12 +30,16 @@ namespace communication.Controllers
             }
             else
             {
-                 q = ServerWiring.getInstance().getNextQuestionGroupTest(Convert.ToInt32(cookie.Value),groupCookie.Value,testCookie.Value);
+                 q = ServerWiring.getInstance().getNextQuestionGroupTest(Convert.ToInt32(cookie.Value),groupCookie.Value, Convert.ToInt32(testCookie.Value));
             }
             HttpCookie questionCookie = new HttpCookie("questionId", q.Item2.QuestionId.ToString());
             Response.SetCookie(questionCookie);
             List<string> topics = ServerWiring.getInstance().getSubjectTopics(q.Item2.SubjectId);
             ViewBag.topics = topics;
+            if (!q.Item2.text.Equals(""))
+            {
+                ViewData["text"] = q.Item2.text;
+            }
             if(!q.Item1.Equals(Replies.SUCCESS))
             {
                 return RedirectToAction("Index", "Login", new { message = q.Item1 });

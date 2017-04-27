@@ -23,6 +23,12 @@
         {
             <img src="@s" alt="Image not found" style="width:404px;height:328px;" />
         }
+
+        @if(ViewData["text"] != null)
+        {
+            <p>@ViewData["text"]</p>
+            <br/>
+        }
     </div>
     <div class="btn-toolbar">
         <div>

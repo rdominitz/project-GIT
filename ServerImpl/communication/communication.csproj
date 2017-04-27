@@ -268,6 +268,7 @@
     <Compile Include="Controllers\GetSubjectTopicQuestionToRemoveController.cs" />
     <Compile Include="Controllers\GetTestController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
+    <Compile Include="Controllers\GroupStatisticsController.cs" />
     <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MainController.cs" />
@@ -336,6 +337,7 @@
     <Folder Include="Models\Entity\" />
     <Folder Include="Models\Register\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\GroupStatistics\" />
     <Folder Include="Views\Images\" />
   </ItemGroup>
   <ItemGroup>

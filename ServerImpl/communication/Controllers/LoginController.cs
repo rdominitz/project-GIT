@@ -18,6 +18,7 @@ namespace communication.Controllers
             {
                ViewData["message"] = message;
             }
+            
             Response.Cookies.Remove("testID");
             Response.Cookies.Remove("groupName");
 
@@ -32,10 +33,10 @@ namespace communication.Controllers
             Tuple<string, int> ans = ServerWiring.getInstance().login(email, password);
             if (ans.Item1.Equals(Replies.SUCCESS))
             {
-                //var json = JsonConvert.SerializeObject(ans.Item2);
+               
                 HttpCookie userCookie = new HttpCookie("userId", ans.Item2.ToString());
                 Response.SetCookie(userCookie);
-                //return View("main/index");
+                
                 return RedirectToAction("Index", "Main");
             }
             ViewBag.errorMessage = ans.Item1;
