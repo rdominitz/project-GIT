@@ -21,6 +21,12 @@ namespace communication.Controllers
             
             Response.Cookies.Remove("testID");
             Response.Cookies.Remove("groupName");
+            HttpCookie cookie = Request.Cookies["userId"];
+            if (cookie != null)
+            {
+                ServerWiring.getInstance().logout(Convert.ToInt32(cookie.Value));
+            }
+            Response.Cookies.Remove("userId");
 
             return View();
         }

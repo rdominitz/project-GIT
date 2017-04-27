@@ -100,7 +100,7 @@ namespace Server
             _db.addAdmin(a);
             if (_db.getMillisecondsToSleep() != 0)
             {
-                //setDB();
+                setDB();
             }
         }
 
@@ -161,7 +161,7 @@ namespace Server
             #region median sternotomy
             Topic cxrMedianSternotomy = new Topic { TopicId = "Median Sternotomy", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
             _db.addTopic(cxrMedianSternotomy);
-            addQuestions(chestXRays, new List<Topic>() { cxrLeftPleuralEffusion }, new List<List<string>>()
+            addQuestions(chestXRays, new List<Topic>() { cxrMedianSternotomy }, new List<List<string>>()
             {
                 new List<string>() { "../Images/q23_22_PA.png", "../Images/q23_22_Lat.png" },
                 new List<string>() { "../Images/q24_33_PA.png", "../Images/q24_33_Lat.png" },
@@ -172,7 +172,7 @@ namespace Server
             #region right middle lobe collapse
             Topic cxrRightMiddleLobeCollapse = new Topic { TopicId = "Right Middle Lobe Collapse", SubjectId = "Chest x-Rays", timeAdded = DateTime.Now };
             _db.addTopic(cxrRightMiddleLobeCollapse);
-            addQuestions(chestXRays, new List<Topic>() { cxrLeftPleuralEffusion }, new List<List<string>>()
+            addQuestions(chestXRays, new List<Topic>() { cxrRightMiddleLobeCollapse }, new List<List<string>>()
             {
                 new List<string>() { "../Images/q27_4_PA.png" },
                 new List<string>() { "../Images/q28_13_PA.png", "../Images/q28_13_Lat.png" },
@@ -384,10 +384,22 @@ namespace Server
 
         private void removeUserFromCache(User u)
         {
-            _loggedUsers.Remove(u);
-            _usersTestsAnswerEveryTime.Remove(u);
-            _usersTestsAnswersAtEndRemainingQuestions.Remove(u);
-            _usersTestsAnswersAtEndAnsweredQuestions.Remove(u);
+            User remove = null;
+            foreach (User user in _loggedUsers.Keys)
+            {
+                if (user.UserId.Equals(u.UserId))
+                {
+                    remove = user;
+                    break;
+                }
+            }
+            if (remove == null)
+            {
+                return;
+            }
+            _usersTestsAnswerEveryTime.Remove(remove);
+            _usersTestsAnswersAtEndRemainingQuestions.Remove(remove);
+            _usersTestsAnswersAtEndAnsweredQuestions.Remove(remove);
         }
 
         public void logout(int userUniqueInt)
@@ -487,7 +499,8 @@ namespace Server
             _usersCache.Remove(u);
             _usersCache.Add(u);
             // addd user to logged users list
-            updateUserLastActionTime(u);
+            _loggedUsers[u] = DateTime.Now; 
+            //updateUserLastActionTime(u);
             return new Tuple<string, int>(Replies.SUCCESS, u.uniqueInt);
         }
 
@@ -644,12 +657,11 @@ namespace Server
 
         public Tuple<string, List<Question>> getAnsweres(int userUniqueInt)
         {
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            User user = isLoggedIn(userUniqueInt);
+            if (user == null)
             {
                 return new Tuple<string, List<Question>>(NOT_LOGGED_IN, null);
             }
-            updateUserLastActionTime(user);
             List<Question> l = _usersTestsAnswersAtEndAnsweredQuestions[user];
             _usersTestsAnswersAtEndAnsweredQuestions.Remove(user);
             return new Tuple<string, List<Question>>(Replies.SUCCESS, l);
@@ -865,7 +877,7 @@ namespace Server
         public User isLoggedIn(int userUniqueInt)
         {
             User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            if (user == null || !isLoggedIn(user))
             {
                 return null;
             }
@@ -873,14 +885,25 @@ namespace Server
             return user;
         }
 
+        private bool isLoggedIn(User u)
+        {
+            foreach (User user in _loggedUsers.Keys)
+            {
+                if (user.UserId.Equals(u.UserId))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public string getUserName(int userUniqueInt)
         {
-            User user = getUserByInt(userUniqueInt);
-            if (user == null || !_loggedUsers.ContainsKey(user))
+            User user = isLoggedIn(userUniqueInt);
+            if (user == null)
             {
                 return "";
             }
-            updateUserLastActionTime(user);
             return user.userFirstName + " " + user.userLastName;
         }
 
@@ -1750,6 +1773,19 @@ namespace Server
 
         private void updateUserLastActionTime(User u)
         {
+            User update = null;
+            foreach (User user in _loggedUsers.Keys)
+            {
+                if (user.UserId.Equals(u.UserId))
+                {
+                    update = user;
+                    break;
+                }
+            }
+            if (update == null)
+            {
+                return;
+            }
             _loggedUsers[u] = DateTime.Now;
             _usersCache.Remove(u);
             _usersCache.Add(u);

@@ -86,14 +86,17 @@ namespace communication.Controllers
                 ans = ServerWiring.getInstance().answerAQuestionGroupTest(Convert.ToInt32(userCookie.Value), groupCookie.Value, Convert.ToInt32(testCookie.Value), Convert.ToInt32(questionCookie.Value), norm.Equals("true"), sure1, diagnosisList, sure2List);
                 hasMoreQuestions = ServerWiring.getInstance().hasMoreQuestionsGroupTest(Convert.ToInt32(userCookie.Value), groupCookie.Value, Convert.ToInt32(testCookie.Value));
             }
-            if (ans.Equals("show answer"))
+            if (ans.Equals(Replies.SHOW_ANSWER))
             {
-                 
                 if (hasMoreQuestions)
                 {
                     return RedirectToAction("Index", "ShowAnswers", new { hasMoreQuestions = false });
                 }
-                return RedirectToAction("Index", "ShowAnswers", new {hasMoreQuestions = true});
+                return RedirectToAction("Index", "ShowAnswers", new { hasMoreQuestions = true });
+            }
+            else if (ans.Equals(Replies.SUCCESS))
+            {
+                return RedirectToAction("Index", "Main");
             }
             else
             {
