@@ -19,6 +19,8 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
+            removeCookie("testID");
+            removeCookie("groupName");
             Tuple<string, List<Question>> q = ServerWiring.getInstance().getAnsweres(Convert.ToInt32(cookie.Value));
 
             List<ShowAnswersData> questions = new List<ShowAnswersData>();
@@ -40,6 +42,16 @@ namespace communication.Controllers
             }
             ViewData["next"] = next;
             return View(questions);
+        }
+
+        private void removeCookie(string s)
+        {
+            if (Request.Cookies[s] != null)
+            {
+                var c = new HttpCookie(s);
+                c.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(c);
+            }
         }
     }
 }

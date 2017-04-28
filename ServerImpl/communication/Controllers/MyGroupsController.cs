@@ -18,6 +18,8 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you are not logged in. please log in and then try again" });
             }
+            removeCookie("testID");
+            removeCookie("groupName");
             if (message != null)
             {
                 ViewBag.message = message;
@@ -64,6 +66,16 @@ namespace communication.Controllers
             }
            
             return RedirectToAction("index", "MyGroups");
+        }
+
+        private void removeCookie(string s)
+        {
+            if (Request.Cookies[s] != null)
+            {
+                var c = new HttpCookie(s);
+                c.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(c);
+            }
         }
     }
 }

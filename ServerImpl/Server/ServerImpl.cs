@@ -1500,34 +1500,14 @@ namespace Server
             // foreach test
             foreach (GroupTest gt in groupTests)
             {
-                // verify how many questions a test has
-                Test test = _db.getTest(gt.TestId);
-                if (test == null)
+                if (!completed && hasMoreQuestionsGroupTest(userUniqueInt, groupName + GroupsMembers.CREATED_BY + adminId + ")", gt.TestId))
                 {
-                    return new Tuple<string, List<Tuple<string, int>>>(DB_FAULT, null);
-                }
-                List<TestQuestion> tqs = _db.getTestQuestions(test.TestId);
-                // how many questions have been answered
-                List<GroupTestAnswer> gtas = _db.getGroupTestAnswers(groupName, adminId, test.TestId);
-                int counter = 0;
-                foreach (GroupTestAnswer gta in gtas)
-                {
-                    Answer a = _db.getAnswer(gta.AnswerId);
-                    if (a == null)
-                    {
-                        return new Tuple<string, List<Tuple<string, int>>>(DB_FAULT, null);
-                    }
-                    if (a.UserId.Equals(user.UserId))
-                    {
-                        counter++;
-                    }
-                }
-                if (!completed && tqs.Count > counter)
-                {
+                    Test test = _db.getTest(gt.TestId);
                     ans.Add(new Tuple<string, int>(test.testName, test.TestId));
                 }
-                else if (completed && tqs.Count == gtas.Count)
+                if (completed && !hasMoreQuestionsGroupTest(userUniqueInt, groupName + GroupsMembers.CREATED_BY + adminId + ")", gt.TestId))
                 {
+                    Test test = _db.getTest(gt.TestId);
                     ans.Add(new Tuple<string, int>(test.testName, test.TestId));
                 }
             }

@@ -19,6 +19,12 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you are not logged in. please log in and then try again" });
             }
+            if (Request.Cookies["testID"] != null)
+            {
+                var c = new HttpCookie("testID");
+                c.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(c);
+            }
             if (message != null)
             {
                 ViewBag.message = message;

@@ -18,15 +18,15 @@ namespace communication.Controllers
             {
                ViewData["message"] = message;
             }
-            
-            Response.Cookies.Remove("testID");
-            Response.Cookies.Remove("groupName");
+
+            removeCookie("testID");
+            removeCookie("groupName");
             HttpCookie cookie = Request.Cookies["userId"];
             if (cookie != null)
             {
                 ServerWiring.getInstance().logout(Convert.ToInt32(cookie.Value));
             }
-            Response.Cookies.Remove("userId");
+            removeCookie("userId");
 
             return View();
         }
@@ -63,6 +63,14 @@ namespace communication.Controllers
             return View("forgot/index");
         }
 
-
+        private void removeCookie(string s)
+        {
+            if (Request.Cookies[s] != null)
+            {
+                var c = new HttpCookie(s);
+                c.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(c);
+            }
+        }
     }
 }

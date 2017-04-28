@@ -23,8 +23,19 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-
+            removeCookie("testID");
+            removeCookie("groupName");
             return View();
+        }
+
+        private void removeCookie(string s)
+        {
+            if (Request.Cookies[s] != null)
+            {
+                var c = new HttpCookie(s);
+                c.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(c);
+            }
         }
 	}
 }

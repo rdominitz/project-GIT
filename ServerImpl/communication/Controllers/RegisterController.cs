@@ -14,6 +14,9 @@ namespace communication.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            removeCookie("testID");
+            removeCookie("groupName");
+            removeCookie("userId");
             return View();
         }
 
@@ -27,8 +30,6 @@ namespace communication.Controllers
             Tuple<string, int> ans = ServerWiring.getInstance().register(email, password, convert(level), fname, lname);
             if(ans.Item1.Equals(Replies.SUCCESS))
             {
-               
-               
                 return RedirectToAction("Index", "Main");
             }
             ViewBag.errorMessage = ans.Item1;
@@ -67,6 +68,16 @@ namespace communication.Controllers
                     return "Fellow";
                 default:
                     return "Attending";
+            }
+        }
+
+        private void removeCookie(string s)
+        {
+            if (Request.Cookies[s] != null)
+            {
+                var c = new HttpCookie(s);
+                c.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(c);
             }
         }
     }

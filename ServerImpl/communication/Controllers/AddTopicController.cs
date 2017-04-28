@@ -24,6 +24,8 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
+            removeCookie("testID");
+            removeCookie("groupName");
             List<string> subjects = ServerWiring.getInstance().getAllSubjects();
             return View(getData());
         }
@@ -38,7 +40,6 @@ namespace communication.Controllers
             }
             return data;
         }
-
 
         [HttpPost]
         public ActionResult Submit(string subject, string topicName)
@@ -56,6 +57,16 @@ namespace communication.Controllers
                 return RedirectToAction("Index", "Main", new { message = "Topic added successfully" });
             }
             return RedirectToAction("Index", "AddTopic", new { message = ans });
+        }
+
+        private void removeCookie(string s)
+        {
+            if (Request.Cookies[s] != null)
+            {
+                var c = new HttpCookie(s);
+                c.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(c);
+            }
         }
 	}
 }

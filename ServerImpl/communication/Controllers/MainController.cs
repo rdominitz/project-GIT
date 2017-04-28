@@ -23,9 +23,8 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-
-            Response.Cookies.Remove("testID");
-            Response.Cookies.Remove("groupName");
+            removeCookie("testID");
+            removeCookie("groupName");
 
             string name = ServerWiring.getInstance().getUserName(Convert.ToInt32(cookie.Value));
             Boolean isAdmin = ServerWiring.getInstance().isAdmin(Convert.ToInt32(cookie.Value));
@@ -34,6 +33,14 @@ namespace communication.Controllers
             return View();
         }
 
-       
+        private void removeCookie(string s)
+        {
+            if (Request.Cookies[s] != null)
+            {
+                var c = new HttpCookie(s);
+                c.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(c);
+            }
+        }
     }
 }

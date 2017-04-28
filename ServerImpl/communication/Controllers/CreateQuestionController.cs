@@ -47,7 +47,8 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-
+            removeCookie("testID");
+            removeCookie("groupName");
             List<byte[]> allImgs = new List<byte[]>();
 
             foreach (HttpPostedFileBase img in imgs)
@@ -67,6 +68,14 @@ namespace communication.Controllers
             return RedirectToAction("Index", "CreateQuestion", new { message = ans });
         }
 
-
+        private void removeCookie(string s)
+        {
+            if (Request.Cookies[s] != null)
+            {
+                var c = new HttpCookie(s);
+                c.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(c);
+            }
+        }
     }
 }

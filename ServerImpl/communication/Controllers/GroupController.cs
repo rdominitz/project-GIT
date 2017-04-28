@@ -22,9 +22,8 @@ namespace communication.Controllers
             {
                 ViewBag.message = message;
             }
-
-            Response.Cookies.Remove("testID");
-            Response.Cookies.Remove("groupName");
+            removeCookie("testID");
+            removeCookie("groupName");
 
             string name = ServerWiring.getInstance().getUserName(Convert.ToInt32(cookie.Value));
             string group_name = groupName.Substring(0, groupName.LastIndexOf(GroupsMembers.CREATED_BY));
@@ -70,6 +69,16 @@ namespace communication.Controllers
 
             return RedirectToAction("Index", "AnswerQuestion");
             //return RedirectToAction("Index", "Group", new { groupName = groupCookie.Value, message = ans });
+        }
+
+        private void removeCookie(string s)
+        {
+            if (Request.Cookies[s] != null)
+            {
+                var c = new HttpCookie(s);
+                c.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(c);
+            }
         }
     }
 }

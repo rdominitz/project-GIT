@@ -21,7 +21,8 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-           
+            removeCookie("testID");
+            removeCookie("groupName");
 
             return View(getData(Convert.ToInt32(cookie.Value)));
         }
@@ -33,7 +34,7 @@ namespace communication.Controllers
             // verify success
             foreach (Test test in tests.Item2)
             {
-                data.Add(new TestData(test.TestId ,test.ToString()));
+                data.Add(new TestData(test.TestId, test.ToString()));
             }
             return data;
         }
@@ -53,7 +54,7 @@ namespace communication.Controllers
             String[] testIdArr1 = testIdArr[1].Split(' ');
             int testId = int.Parse(testIdArr1[1]);
 
-            Tuple <string,string> groupName = ServerWiring.getInstance().getSavedGroup(Convert.ToInt32(cookie.Value));
+            Tuple<string, string> groupName = ServerWiring.getInstance().getSavedGroup(Convert.ToInt32(cookie.Value));
             if (!groupName.Item1.Equals(Replies.SUCCESS))
             {
                 return RedirectToAction("Index", "ManageGroup", new { message = "There was a problem, please reconnect" });
@@ -64,6 +65,16 @@ namespace communication.Controllers
                 return RedirectToAction("Index", "ManageGroup", new { message = "The test was successfully added to the group" });
             }
             return RedirectToAction("Index", "AddTestToGroup", ViewBag.group);
+        }
+
+        private void removeCookie(string s)
+        {
+            if (Request.Cookies[s] != null)
+            {
+                var c = new HttpCookie(s);
+                c.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(c);
+            }
         }
     }
 }
