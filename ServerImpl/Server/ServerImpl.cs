@@ -1794,5 +1794,22 @@ namespace Server
             Admin a = _db.getAdmin(u.UserId);
             return a != null ? new Tuple<string, Admin>(Replies.SUCCESS, a) : new Tuple<string, Admin>(NOT_AN_ADMIN, null);
         }
+
+
+        public string saveGroupAndTest(int userUniqueInt, string groupName, int testId)
+        {
+            return Replies.SUCCESS;
+        }
+
+        public Tuple<string, Tuple<string, int>> getSavedGroupAndTest(int userUniqueInt)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public List<Question> getTestQuestionsByTestId(int userUniqueInt, int testId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

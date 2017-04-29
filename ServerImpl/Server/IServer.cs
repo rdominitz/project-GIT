@@ -120,5 +120,11 @@ namespace Server
         string saveSelectedSubjectTopic(int userUniqueInt, string subject, List<string> topicsList);
 
         Tuple<string, List<Question>> getAllReleventQuestions(int userUniqueInt);
+
+        string saveGroupAndTest(int userUniqueInt, string groupName, int testId);
+
+        Tuple<string, Tuple<string, int>> getSavedGroupAndTest(int userUniqueInt);
+
+        List<Question> getTestQuestionsByTestId(int userUniqueInt, int testId);
     }
 }

@@ -59,12 +59,21 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "ManageGroup", new { message = "There was a problem, please reconnect" });
             }
-            string ans = ServerWiring.getInstance().addTestToGroup(Convert.ToInt32(cookie.Value), groupName.Item2, testId);
+
+            string ans = ServerWiring.getInstance().saveGroupAndTest(Convert.ToInt32(cookie.Value), groupName.Item2, testId);
             if (ans.Equals(Replies.SUCCESS))
             {
-                return RedirectToAction("Index", "ManageGroup", new { message = "The test was successfully added to the group" });
+                return RedirectToAction("Index", "SeeTestDetails", new { testId = testId });
             }
+
             return RedirectToAction("Index", "AddTestToGroup", ViewBag.group);
+
+
+           // string ans = ServerWiring.getInstance().addTestToGroup(Convert.ToInt32(cookie.Value), groupName.Item2, testId);
+            //if (ans.Equals(Replies.SUCCESS))
+            //{
+             //   return RedirectToAction("Index", "ManageGroup", new { message = "The test was successfully added to the group" });
+           // }
         }
 
         private void removeCookie(string s)

@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "see test details";
+}
+
+@model IEnumerable<communication.Models.Questions.QuestionData>
+
+
+    <div>
+        <form id="seeTestDetailsForm" method="POST" action="~/SeeTestDetails/submit">
+
+            <h2>Test's questions</h2>
+            <br />
+            @if (@ViewBag.message != null)
+            {
+                <script>
+                    alert("@ViewBag.message");
+                </script>
+            }
+
+            <div class="container" id="links">
+                @foreach (var question in Model)
+                {
+                    foreach (var pic in question.pics)
+                    {
+                        <img src="@pic" alt="Image not found" style="width:202px;height:164px;" />
+                    }
+                    <p>The diagnosis for this case is :</p>
+                    foreach (var d in question.dignosis)
+                    {
+                        <p>@d</p><br />
+                    }
+                }
+            </div>
+
+            <script type="text/javascript">
+                $('#Data').tokenize();
+            </script>
+
+
+
+            <button type="submit" class="btn btn-primary btn-block" style="width: 280px;">Create test</button>
+        </form>
+    </div>

@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Set User As Admin";
+}
+
+<div class="cen col-md-offset-4">
+    <form id="addSubjectForm" method="POST" action="~/SetUserAsAdmin/submit">
+        <div class="form-group">
+            <br />
+            <h2>Add adminstrator</h2>
+            <br />
+
+            @if (@ViewBag.message != null)
+            {
+                <script>
+                    alert("@ViewBag.message");
+                </script>
+            }
+
+            <input type="email" class="form-control" name="userEmail" id="userEmail" value="@ViewBag.userEmail" required>
+
+            <br />
+            <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Set user as adminstrator</button>
+
+        </div>
+    </form>
+</div>
+

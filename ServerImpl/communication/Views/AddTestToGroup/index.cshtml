@@ -19,7 +19,7 @@
                 </script>
             }
             <label for="testDetails" class="control-label">test Details</label>
-            <select id="testDetails" name="testDetails" class="form-control" value="">
+            <select id="testDetails" name="testDetails" class="form-control">
                 @foreach (var test in Model)
                 {
                     <option value="@test.testString">@test.testString</option>
@@ -29,7 +29,7 @@
             </select>
             
             <br />
-            <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Add test</button>
+            <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">See test's questions</button>
 
         </div>
     </form>
