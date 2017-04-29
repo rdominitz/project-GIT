@@ -277,7 +277,9 @@
     <Compile Include="Controllers\MyGroupsController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\RemoveQuestionController.cs" />
+    <Compile Include="Controllers\SeeTestDetailsController.cs" />
     <Compile Include="Controllers\SelectQuestionsController.cs" />
+    <Compile Include="Controllers\SetUserAsAdminController.cs" />
     <Compile Include="Controllers\ShowAnswersController.cs" />
     <Compile Include="Core\ServerWiring.cs" />
     <Compile Include="Global.asax.cs">
@@ -329,6 +331,8 @@
     <Content Include="Views\GetSubjectTopicQuestionToRemove\index.cshtml" />
     <Content Include="Views\administration\index.cshtml" />
     <Content Include="Views\GroupStatistics\Index.cshtml" />
+    <Content Include="Views\SetUserAsAdmin\index.cshtml" />
+    <Content Include="Views\SeeTestDetails\index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
