@@ -33,18 +33,18 @@
                 @foreach (var subject in Model)
                 {
                     var firstIteration = true;
-                        foreach (var topics in subject.vals)
-                        {
-                            if (firstIteration) 
-                            { 
-                                <option selected data-option="@subject.key" value="@topics">@topics</option>
-                                firstIteration = false;
-                            }
-                            else
-                            {
-                                <option data-option="@subject.key" value="@topics">@topics</option>
-                            }
+                    foreach (var topics in subject.vals)
+                    {
+                        if (firstIteration) 
+                        { 
+                            <option selected data-option="@subject.key" value="@topics">@topics</option>
+                            firstIteration = false;
                         }
+                        else
+                        {
+                            <option data-option="@subject.key" value="@topics">@topics</option>
+                        }
+                    }
                 }
                 
             </select>

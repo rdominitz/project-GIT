@@ -50,6 +50,10 @@ namespace communication.Controllers
             }
             
             List<int> questionsIdsList = new List<int>();
+            if (QuestionData == null)
+            {
+                return RedirectToAction("Index", "CreateTest", new { message = "Select at least one question" });
+            }
             questionsIdsList = QuestionData.ToList();
             
             ViewBag.testName = testName;

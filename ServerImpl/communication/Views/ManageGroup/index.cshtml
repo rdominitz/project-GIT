@@ -11,14 +11,14 @@
             <br />
             <h2>Select a group</h2>
             <br />
-            @if (@ViewBag.message != null)
+            @if (@ViewData["message"] != null)
             {
                 <script>
-                    alert("@ViewBag.message");
+                    alert("@ViewData["message"]");
                 </script>
             }
             <label for="groupName" class="control-label">Group Name</label>
-            <select id="groupName" name="groupName" class="form-control" value="">
+            <select id="groupName" name="groupName" class="form-control">
                 @foreach (var group in Model)
                 {
                     <option value="@group.key">@group.key</option>

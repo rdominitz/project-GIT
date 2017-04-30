@@ -20,9 +20,11 @@
             }
             <label for="testDetails" class="control-label">test Details</label>
             <select id="testDetails" name="testDetails" class="form-control">
-                @foreach (var test in Model)
-                {
-                    <option value="@test.testString">@test.testString</option>
+                @if (Model != null) { 
+                    foreach (var test in Model)
+                    {
+                        <option value="@test.testString">@test.testString</option>
+                    }
                 }
                 @ViewBag.testDetails=this.value
                 @ViewBag.testId=test.testId

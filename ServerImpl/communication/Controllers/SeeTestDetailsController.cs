@@ -23,23 +23,28 @@ namespace communication.Controllers
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
             ViewBag.testId = testId;
-            return View(getData(Convert.ToInt32(cookie.Value), testId));
+            List<QuestionData> questions = getData(Convert.ToInt32(cookie.Value), testId);
+            if (questions != null)
+                return View(questions);
+            return View();
         }
 
         List<QuestionData> getData(int adminId, int testId)
         {
-
+            List<QuestionData> data = new List<QuestionData>();
             Tuple<string, List<Question>> t = ServerWiring.getInstance().getTestQuestionsByTestId(adminId, testId);
             if (!t.Item1.Equals(Replies.SUCCESS))
             {
-                // error
+                return data;
             }
             List<Question> testQuestions = t.Item2;
-            List<QuestionData> data = new List<QuestionData>();
-            // verify success
-            foreach(Question q in testQuestions)
+
+            if (testQuestions != null)
             {
-                data.Add(new QuestionData(q));
+                foreach (Question q in testQuestions)
+                {
+                    data.Add(new QuestionData(q));
+                }
             }
             return data;
         }

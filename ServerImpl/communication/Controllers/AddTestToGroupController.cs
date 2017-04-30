@@ -23,18 +23,22 @@ namespace communication.Controllers
             }
             removeCookie("testID");
             removeCookie("groupName");
-
-            return View(getData(Convert.ToInt32(cookie.Value)));
+            List<TestData> tests = getData(Convert.ToInt32(cookie.Value));
+            if (tests.Count!= 0)
+                return View(tests);
+            return View();
         }
 
         List<TestData> getData(int adminId)
         {
             List<TestData> data = new List<TestData>();
             Tuple<string, List<Test>> tests = ServerWiring.getInstance().getAllTests(adminId);
-            // verify success
-            foreach (Test test in tests.Item2)
+            if (tests.Item2.Count != 0)
             {
-                data.Add(new TestData(test.TestId, test.ToString()));
+                foreach (Test test in tests.Item2)
+                {
+                    data.Add(new TestData(test.TestId, test.ToString()));
+                }
             }
             return data;
         }
@@ -47,7 +51,10 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-
+            if (testDetails == null)
+            {
+                return RedirectToAction("Index", "ManageGroup", new { message = "You must choose at least one test" });
+            }
             ViewBag.testDetails = testDetails;
             String[] details = testDetails.Split(',');
             String[] testIdArr = details[0].Split(':');
@@ -65,15 +72,7 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "SeeTestDetails", new { testId = testId });
             }
-
             return RedirectToAction("Index", "AddTestToGroup", ViewBag.group);
-
-
-           // string ans = ServerWiring.getInstance().addTestToGroup(Convert.ToInt32(cookie.Value), groupName.Item2, testId);
-            //if (ans.Equals(Replies.SUCCESS))
-            //{
-             //   return RedirectToAction("Index", "ManageGroup", new { message = "The test was successfully added to the group" });
-           // }
         }
 
         private void removeCookie(string s)

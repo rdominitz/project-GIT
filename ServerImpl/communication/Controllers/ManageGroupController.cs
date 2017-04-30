@@ -38,7 +38,7 @@ namespace communication.Controllers
             string ans = ServerWiring.getInstance().removeGroup(Convert.ToInt32(cookie.Value), groupName);
             if (ans.Equals(Replies.SUCCESS))
             {
-                return RedirectToAction("Index", "Main");
+                return RedirectToAction("Index", "Administration");
             }
             return RedirectToAction("Index", "ManageGroup", new { message = ans });
         }
@@ -79,7 +79,7 @@ namespace communication.Controllers
         {
             List<GroupData> data = new List<GroupData>();
             Tuple<string, List<string>> groups = ServerWiring.getInstance().getAllAdminsGroups(adminId);
-            // verify success
+           
             foreach (string group in groups.Item2)
             {
                 data.Add(new GroupData(group));

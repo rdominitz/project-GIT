@@ -26,19 +26,29 @@ namespace communication.Controllers
             removeCookie("testID");
             removeCookie("groupName");
             ViewBag.message = message;
-            return View(getData(Convert.ToInt32(cookie.Value)));
+            List<QuestionData> questions= getData(Convert.ToInt32(cookie.Value));
+            if (questions != null)
+                return View(questions);
+            else
+                return View();
         }
 
         List<QuestionData> getData(int adminId)
         {
             List<QuestionData> data = new List<QuestionData>();
             Tuple<string, List<Question>> questions = ServerWiring.getInstance().getAllReleventQuestions(adminId);
-            // verify success
-            foreach (Question q in questions.Item2)
+            if (questions.Item1 == Replies.SUCCESS)
             {
-                data.Add(new QuestionData(q));
+                foreach (Question q in questions.Item2)
+                {
+                    data.Add(new QuestionData(q));
+                }
+                return data;
             }
-            return data;
+            else
+            {
+                return data;
+            }
         }
 
         [HttpPost]
@@ -52,6 +62,10 @@ namespace communication.Controllers
             }
 
             List<int> questionsIdsList = new List<int>();
+            if (QuestionData == null)
+            {
+                return RedirectToAction("Index", "Administration", new { message = "Select at least one question to remove" });
+            }
             questionsIdsList = QuestionData.ToList();
             ViewData["QuestionData"] = QuestionData;
 
