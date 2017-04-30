@@ -24,7 +24,7 @@ namespace ServerLogicTests
         [TestMethod]
         public void getQuestionDiagnosesExistQuestionWithDiagnoses()
         {
-            _server.createQuestion(Users.USER_UNIQUE_INT, "subject", new List<string>() { "topic" }, new List<byte[]>() { new byte[1] { 5 } }, "");
+            _server.createQuestion(Users.USER_UNIQUE_INT, "subject", new List<string>() { "topic" }, new List<byte[]>(), "");
             List<string> l = _server.getQuestionDiagnoses(1);
             Assert.IsTrue(l.Count == 1);
             Assert.IsTrue(l[0].Equals("topic"));

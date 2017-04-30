@@ -28,8 +28,13 @@ namespace communication.Controllers
 
         List<QuestionData> getData(int adminId, int testId)
         {
-            
-            List<Question> testQuestions = ServerWiring.getInstance().getTestQuestionsByTestId(adminId, testId);
+
+            Tuple<string, List<Question>> t = ServerWiring.getInstance().getTestQuestionsByTestId(adminId, testId);
+            if (!t.Item1.Equals(Replies.SUCCESS))
+            {
+                // error
+            }
+            List<Question> testQuestions = t.Item2;
             List<QuestionData> data = new List<QuestionData>();
             // verify success
             foreach(Question q in testQuestions)

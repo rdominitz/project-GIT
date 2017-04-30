@@ -44,6 +44,7 @@ namespace Server
         private Dictionary<User, List<Question>> _questionsForGroupTest;
         private Dictionary<string, string> _selectedGroups;
         private Dictionary<string, List<Question>> _testQuestions;
+        private Dictionary<User, Tuple<string, int>> _testDisplaying;
 
         private int _userUniqueInt;
         private readonly object _syncLockUserUniqueInt;
@@ -71,6 +72,7 @@ namespace Server
             _questionsForGroupTest = new Dictionary<User, List<Question>>();
             _selectedGroups = new Dictionary<string, string>();
             _testQuestions = new Dictionary<string, List<Question>>();
+            _testDisplaying = new Dictionary<User, Tuple<string, int>>();
             _db = db;
             _logic = new LogicImpl(db);
             _userUniqueInt = 100000;
@@ -397,6 +399,7 @@ namespace Server
             {
                 return;
             }
+            _loggedUsers.Remove(remove);
             _usersTestsAnswerEveryTime.Remove(remove);
             _usersTestsAnswersAtEndRemainingQuestions.Remove(remove);
             _usersTestsAnswersAtEndAnsweredQuestions.Remove(remove);
@@ -1738,6 +1741,59 @@ namespace Server
             return new Tuple<string, List<Question>>(Replies.SUCCESS, l);
         }
 
+        public string saveGroupAndTest(int userUniqueInt, string groupName, int testId)
+        {
+            if (!InputTester.isValidInput(new List<string>() { groupName }))
+            {
+                return GENERAL_INPUT_ERROR;
+            }
+            // verify user has permissions
+            string s = hasPermissions(userUniqueInt).Item1;
+            if (!s.Equals(Replies.SUCCESS))
+            {
+                return s;
+            }
+            User user = getUserByInt(userUniqueInt);
+            _testDisplaying[user] = new Tuple<string, int>(groupName, testId);
+            return Replies.SUCCESS;
+        }
+
+        public Tuple<string, Tuple<string, int>> getSavedGroupAndTest(int userUniqueInt)
+        {
+            // verify user has permissions
+            string s = hasPermissions(userUniqueInt).Item1;
+            if (!s.Equals(Replies.SUCCESS))
+            {
+                return new Tuple<string, Tuple<string, int>>(s, null);
+            }
+            User user = getUserByInt(userUniqueInt);
+            if (!_testDisplaying.Keys.Contains(user))
+            {
+                return new Tuple<string, Tuple<string, int>>("Error. You have not selected a test to display.", null);
+            }
+            Tuple<string, int> t = _testDisplaying[user];
+            _testDisplaying.Remove(user);
+            return new Tuple<string, Tuple<string, int>>(Replies.SUCCESS, t);
+        }
+
+
+        public Tuple<string, List<Question>> getTestQuestionsByTestId(int userUniqueInt, int testId)
+        {
+            // verify user has permissions
+            string s = hasPermissions(userUniqueInt).Item1;
+            if (!s.Equals(Replies.SUCCESS))
+            {
+                return new Tuple<string, List<Question>>(s, null);
+            }
+            List<TestQuestion> tqs = _db.getTestQuestions(testId);
+            List<Question> ans = new List<Question>();
+            foreach (TestQuestion tq in tqs)
+            {
+                ans.Add(_db.getQuestion(tq.QuestionId));
+            }
+            return new Tuple<string, List<Question>>(Replies.SUCCESS, ans);
+        }
+
         private User getUserByInt(int userUniqueInt)
         {
             List<User> matches = _usersCache.Where(u => u.uniqueInt.Equals(userUniqueInt)).ToList();
@@ -1793,23 +1849,6 @@ namespace Server
             }
             Admin a = _db.getAdmin(u.UserId);
             return a != null ? new Tuple<string, Admin>(Replies.SUCCESS, a) : new Tuple<string, Admin>(NOT_AN_ADMIN, null);
-        }
-
-
-        public string saveGroupAndTest(int userUniqueInt, string groupName, int testId)
-        {
-            return Replies.SUCCESS;
-        }
-
-        public Tuple<string, Tuple<string, int>> getSavedGroupAndTest(int userUniqueInt)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public List<Question> getTestQuestionsByTestId(int userUniqueInt, int testId)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -125,6 +125,6 @@ namespace Server
 
         Tuple<string, Tuple<string, int>> getSavedGroupAndTest(int userUniqueInt);
 
-        List<Question> getTestQuestionsByTestId(int userUniqueInt, int testId);
+        Tuple<string, List<Question>> getTestQuestionsByTestId(int userUniqueInt, int testId);
     }
 }
