@@ -38,7 +38,7 @@ namespace communication.Controllers
             }
             HttpCookie questionCookie = new HttpCookie("questionId", q.Item2.QuestionId.ToString());
             Response.SetCookie(questionCookie);
-            List<string> topics = ServerWiring.getInstance().getSubjectTopics(q.Item2.SubjectId);
+            List<string> topics = ServerWiring.getInstance().getSubjectTopicsGetAQuestion(q.Item2.SubjectId);
             ViewBag.topics = topics;
             if (!q.Item2.text.Equals(""))
             {
@@ -48,7 +48,7 @@ namespace communication.Controllers
             List<String> lst = ServerWiring.getInstance().getQuestionImages(q.Item2.QuestionId);
             ViewData["Images"] = lst;
 
-            List<string> subject_list = ServerWiring.getInstance().getSubjectTopics(q.Item2.SubjectId);
+            List<string> subject_list = ServerWiring.getInstance().getSubjectTopicsGetAQuestion(q.Item2.SubjectId);
             subject_list.Remove(Constants.Topics.NORMAL);
             ViewData["subjects"] =  subject_list;
             return View();

@@ -33,7 +33,7 @@ namespace communication.Controllers
             List<string> subjects = ServerWiring.getInstance().getAllSubjects();
             foreach (string subject in subjects)
             {
-                List<string> list = ServerWiring.getInstance().getSubjectTopics(subject);
+                List<string> list = ServerWiring.getInstance().getSubjectTopicsGetAQuestion(subject);
                 list.Remove(Constants.Topics.NORMAL);
                 data.Add(new GetTestData(subject, list));
             }

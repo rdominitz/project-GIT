@@ -47,7 +47,9 @@ namespace Server
         List<string> getAllSubjects();
 
         // has tests - 100% coverage
-        List<string> getSubjectTopics(string subject);
+        List<string> getSubjectTopicsGetAQuestion(string subject);
+
+        List<string> getSubjectTopicsCreateAQuestion(string subject);
 
         // has tests - 100% coverage
         string addSubject(int userUniqueInt, string subject);

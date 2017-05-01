@@ -28,7 +28,7 @@ namespace communication.Controllers
             List<string> subjects = ServerWiring.getInstance().getAllSubjects();
             foreach (string subject in subjects)
             {
-                List<string> list = ServerWiring.getInstance().getSubjectTopics(subject);
+                List<string> list = ServerWiring.getInstance().getSubjectTopicsCreateAQuestion(subject);
                 data.Add(new GetQuestionData(subject, list));
             }
             return View(data);

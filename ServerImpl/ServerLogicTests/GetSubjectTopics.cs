@@ -22,30 +22,30 @@ namespace ServerLogicTests
         }
 
         [TestMethod]
-        public void getSubjectTopicsSuccessfully()
+        public void getSubjectTopicsGetAQuestionSuccessfully()
         {
-            List<string> l = _server.getSubjectTopics("subject");
+            List<string> l = _server.getSubjectTopicsGetAQuestion("subject");
             Assert.IsTrue(l.Count == 1);
             Assert.IsTrue(l[0].Equals("topic"));
         }
 
         [TestMethod]
-        public void getSubjectTopicsSubjectIsNull()
+        public void getSubjectTopicsGetAQuestionSubjectIsNull()
         {
             ;
-            Assert.IsTrue(_server.getSubjectTopics(null) == null);
+            Assert.IsTrue(_server.getSubjectTopicsGetAQuestion(null) == null);
         }
 
         [TestMethod]
-        public void getSubjectTopicsSubjectIsNullString()
+        public void getSubjectTopicsGetAQuestionSubjectIsNullString()
         {
-            Assert.IsTrue(_server.getSubjectTopics("null") == null);
+            Assert.IsTrue(_server.getSubjectTopicsGetAQuestion("null") == null);
         }
 
         [TestMethod]
-        public void getSubjectTopicsSubjectIsEmptyString()
+        public void getSubjectTopicsGetAQuestionSubjectIsEmptyString()
         {
-            Assert.IsTrue(_server.getSubjectTopics("") == null);
+            Assert.IsTrue(_server.getSubjectTopicsGetAQuestion("") == null);
         }
     }
 }

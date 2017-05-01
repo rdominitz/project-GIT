@@ -770,7 +770,17 @@ namespace Server
             return l;
         }
 
-        public List<string> getSubjectTopics(string subject)
+        public List<string> getSubjectTopicsGetAQuestion(string subject)
+        {
+            return getSubjectTopics(subject, true);
+        }
+
+        public List<string> getSubjectTopicsCreateAQuestion(string subject)
+        {
+            return getSubjectTopics(subject, false);
+        }
+
+        private List<string> getSubjectTopics(string subject, bool isGettingAQuestion)
         {
             if (!InputTester.isValidInput(new List<string>() { subject }))
             {
@@ -778,7 +788,10 @@ namespace Server
             }
             setSubjectsAndTopics();
             List<string> l = _subjectsTopics[subject];
-            l.Remove(Topics.NORMAL);
+            if (isGettingAQuestion)
+            {
+                l.Remove(Topics.NORMAL);
+            }
             return l;
         }
 

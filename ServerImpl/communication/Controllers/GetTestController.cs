@@ -31,7 +31,7 @@ namespace communication.Controllers
             List<string> subjects = ServerWiring.getInstance().getAllSubjects();
             foreach (string subject in subjects)
             {
-                List<string> list = ServerWiring.getInstance().getSubjectTopics(subject);
+                List<string> list = ServerWiring.getInstance().getSubjectTopicsGetAQuestion(subject);
                 list.Remove(Constants.Topics.NORMAL);
                 data.Add(new GetTestData(subject, list));
             }
@@ -41,7 +41,7 @@ namespace communication.Controllers
         [HttpGet]
         public List<string> SubjectChanged(string subject)
         {
-            return ServerWiring.getInstance().getSubjectTopics(subject);
+            return ServerWiring.getInstance().getSubjectTopicsGetAQuestion(subject);
 
         }
 
