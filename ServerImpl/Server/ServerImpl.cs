@@ -1575,7 +1575,7 @@ namespace Server
                 TestId = test
             };
             _db.addGroupTestAnswer(gta);
-            return hasMoreQuestionsGroupTest(userUniqueInt, group, test) ? Replies.NEXT : Replies.SHOW_ANSWER;
+            return hasMoreQuestionsGroupTest(userUniqueInt, group, test) ? Replies.NEXT : Replies.SUCCESS;
         }
 
         public bool hasMoreQuestionsGroupTest(int userUniqueInt, string group, int test)
