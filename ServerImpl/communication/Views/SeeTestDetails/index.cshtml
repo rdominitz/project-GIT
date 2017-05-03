@@ -7,7 +7,7 @@
 
 
     <div>
-        <form id="seeTestDetailsForm" method="POST" action="~/SeeTestDetails/submit">
+        <form id="seeTestDetailsForm" method="POST">
 
             <h2>Test's questions</h2>
             <br />
@@ -39,6 +39,8 @@
 
 
 
-            <button type="submit" class="btn btn-primary btn-block" style="width: 280px;">Select test</button>
+            <button type="submit" value="submit" formaction="~/SeeTestDetails/submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Select test</button>
+            <button type="submit" value="cancel" formaction="~/SeeTestDetails/cancel" name="cancel" class="btn btn-primary btn-block" style="width: 280px;" id="test">Cancel</button>
+
         </form>
     </div>

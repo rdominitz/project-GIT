@@ -49,8 +49,6 @@ namespace communication.Controllers
             return data;
         }
 
-
-
         [HttpPost]
         public ActionResult Submit()
         {
@@ -73,6 +71,18 @@ namespace communication.Controllers
                return RedirectToAction("Index", "ManageGroup", new { message = "The test was successfully added to the group" });
             }
             return RedirectToAction("Index", "AddTestToGroup", groupAndTest.Item2.Item1);
+        }
+
+        [HttpPost]
+        public ActionResult Cancel()
+        {
+            HttpCookie cookie = Request.Cookies["userId"];
+            if (cookie == null)
+            {
+                return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
+            }
+
+            return RedirectToAction("Index", "ManageGroup");
         }
 	}
 }
