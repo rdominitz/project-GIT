@@ -35,11 +35,10 @@ namespace communication.Controllers
 
             string ans = ServerWiring.getInstance().createGroup(Convert.ToInt32(cookie.Value), groupName, inviteEmails, emailContent);
             if (ans.Equals(Replies.SUCCESS))
-            {
-                //show messege  "Group created successfully"
-                return RedirectToAction("Index", "Main");
+            { 
+                return RedirectToAction("Index", "Administration", new { message = "Group created successfully" });
             }
-            return RedirectToAction("Index", "CreateGroup", new { message = ans });
+            return RedirectToAction("Index", "CreateGroup", new { message = "Invalid email address entered. Please try again" });
         }
 
         private void removeCookie(string s)
