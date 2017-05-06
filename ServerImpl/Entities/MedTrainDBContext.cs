@@ -210,7 +210,7 @@ namespace Entities
                     return new List<Question>();
                 }
                 var query = from q in db.Questions
-                            where q.SubjectId.Equals(subject) && q.isDeleted == false
+                            where q.SubjectId.Equals(subject) && !q.isDeleted
                             select q;
                 List<Question> ans = new List<Question>();
                 foreach (Question q in query)

@@ -52,7 +52,7 @@ namespace communication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Submit(int[] QuestionData)
+        public ActionResult Submit(int[] QuestionData, string reson)
         {
 
             HttpCookie cookie = Request.Cookies["userId"];
@@ -61,23 +61,29 @@ namespace communication.Controllers
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
 
-            List<int> questionsIdsList = new List<int>();
+            
             if (QuestionData == null)
             {
-                return RedirectToAction("Index", "Administration", new { message = "Select at least one question to remove" });
+                return RedirectToAction("Index", "Administration", new { message = "Select one question to remove" });
             }
-            questionsIdsList = QuestionData.ToList();
+            int id = QuestionData[0];
+            string reson1 = ViewBag.reson;
+            List<Tuple<int, string>> questionsIdsAndResonsList = new List<Tuple<int,string>>();
+
+            Tuple<int, string> temp = new Tuple<int, string>(id, reson1);
+            questionsIdsAndResonsList.Add(temp);
+            
             ViewData["QuestionData"] = QuestionData;
 
 
-            string ans = ServerWiring.getInstance().removeQuestions(Convert.ToInt32(cookie.Value), questionsIdsList);
+            string ans = ServerWiring.getInstance().removeQuestions(Convert.ToInt32(cookie.Value), questionsIdsAndResonsList);
             if (ans == Replies.SUCCESS)
             {
                 return RedirectToAction("Index", "Main", new { message = "Questions removed successfully" });
             }
 
 
-            return RedirectToAction("Index", "RemoveQuestion", new { message = ans });
+            return RedirectToAction("Index", "RemoveQuestion", new { message = "ans" });
         }
 
         private void removeCookie(string s)

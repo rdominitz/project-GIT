@@ -22,7 +22,7 @@
             <div class="container" id="links">
                 @foreach (var question in Model)
                 {
-                    <input type="checkbox" id="QuestionData" name="QuestionData" value="@question.qID"> @question.qID
+                    <input type="radio" id="QuestionData" name="QuestionData" value="@question.qID"> @question.qID
 
                     foreach (var pic in question.pics)
                     {
@@ -31,12 +31,15 @@
                     <p>The diagnosis for this case is :</p>
                     foreach (var d in question.dignosis)
                     {
-                        <p>@d</p><br />
+                        <p>@d </p>
                     }
 
                 }
             </div>
-
+            <br />
+            <p>Reson to remove:</p>
+            <input type="text" class="form-control" name="reson" id="reson" value="@ViewBag.reson">
+            <br />
             <script type="text/javascript">
                 $('#QuestionData').tokenize();
             </script>

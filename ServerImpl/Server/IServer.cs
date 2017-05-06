@@ -113,7 +113,7 @@ namespace Server
         // allows empty list of images for tests
         string createQuestion(int userUniqueInt, string subject, List<string> qDiagnoses, List<byte[]> allImgs, string freeText);
 
-        string removeQuestions(int userUniqueInt, List<int> questionsIdsList);
+        string removeQuestions(int userUniqueInt, List<Tuple<int,string>> questionsIdsList);
 
         Tuple<string, List<Tuple<string, int>>> getUnfinishedTests(int userUniqueInt, string groupName);
         
@@ -128,7 +128,5 @@ namespace Server
         Tuple<string, Tuple<string, int>> getSavedGroupAndTest(int userUniqueInt);
 
         Tuple<string, List<Question>> getTestQuestionsByTestId(int userUniqueInt, int testId);
-
-        bool isQuestionRemoved(int questionId);
     }
 }

@@ -41,7 +41,7 @@ namespace Server
         private Dictionary<User, List<Question>> _usersTestsAnswerEveryTime;
         private Dictionary<User, List<Question>> _usersTestsAnswersAtEndRemainingQuestions;
         private Dictionary<User, List<Question>> _usersTestsAnswersAtEndAnsweredQuestions;
-        private Dictionary<User, List<Question>> _questionsForGroupTest;
+        private Dictionary<User, List<Question>> _questionsToRemove;
         private Dictionary<string, string> _selectedGroups;
         private Dictionary<string, Tuple<string, List<Question>>> _testQuestions;
         private Dictionary<User, Tuple<string, int>> _testDisplaying;
@@ -69,7 +69,7 @@ namespace Server
             _usersTestsAnswerEveryTime = new Dictionary<User, List<Question>>();
             _usersTestsAnswersAtEndRemainingQuestions = new Dictionary<User, List<Question>>();
             _usersTestsAnswersAtEndAnsweredQuestions = new Dictionary<User, List<Question>>();
-            _questionsForGroupTest = new Dictionary<User, List<Question>>();
+            _questionsToRemove = new Dictionary<User, List<Question>>();
             _selectedGroups = new Dictionary<string, string>();
             _testQuestions = new Dictionary<string, Tuple<string, List<Question>>>();
             _testDisplaying = new Dictionary<User, Tuple<string, int>>();
@@ -100,10 +100,10 @@ namespace Server
             _db.addUser(u);
             Admin a = new Admin { AdminId = "defaultadmin@gmail.com" };
             _db.addAdmin(a);
-            if (_db.getMillisecondsToSleep() != 0)
-            {
+           // if (_db.getMillisecondsToSleep() != 0)
+            //{
                 setDB();
-            }
+          //  }
         }
 
         public void setDB()
@@ -1470,7 +1470,7 @@ namespace Server
             return Replies.SUCCESS;
         }
 
-        public string removeQuestions(int userUniqueInt, List<int> questionsIdsList)
+        public string removeQuestions(int userUniqueInt, List<Tuple<int,string>> questionsIdsAndResonsList)
         {
             // verify user has permissions
             string s = hasPermissions(userUniqueInt).Item1;
@@ -1481,18 +1481,26 @@ namespace Server
             // verify all questions exists
             lock (_syncLockQuestionId)
             {
-                foreach (int i in questionsIdsList)
+                foreach (Tuple<int, string> t in questionsIdsAndResonsList)
                 {
-                    if (i >= _questionID)
+                    if (t.Item1 >= _questionID)
                     {
                         return "Error. Some questions cannot be removed.";
                     }
                 }
             }
-            foreach (int i in questionsIdsList)
+            foreach (Tuple<int, string> t in questionsIdsAndResonsList)
             {
-                Question q = _db.getQuestion(i);
+                Question q = _db.getQuestion(t.Item1);
                 q.isDeleted = true;
+                if (q.text == "")
+                {
+                    q.text = t.Item2;
+                }
+                else
+                {
+                    q.text += Environment.NewLine + Environment.NewLine + t.Item2;
+                }
                 _db.updateQuestion(q);
             }
             return Replies.SUCCESS;
@@ -1602,16 +1610,6 @@ namespace Server
             };
             _db.addGroupTestAnswer(gta);
             return hasMoreQuestionsGroupTest(userUniqueInt, group, test) ? Replies.NEXT : Replies.SUCCESS;
-        }
-
-        public bool hasMoreQuestionsGroupTest(int userUniqueInt, string group, int test)
-        {
-            Tuple<string, List<int>> t = groupTestQuestions(userUniqueInt, group, test);
-            if (!t.Item1.Equals(Replies.SUCCESS))
-            {
-                return false;
-            }
-            return t.Item2.Count != 0;
         }
 
         private Tuple<string, List<int>> groupTestQuestions(int userUniqueInt, string group, int test)
@@ -1758,7 +1756,7 @@ namespace Server
             {
                 questions.AddRange(_db.getQuestions(subject, topic));
             }
-            _questionsForGroupTest[user] = questions;
+            _questionsToRemove[user] = questions;
             return Replies.SUCCESS;
         }
 
@@ -1771,12 +1769,12 @@ namespace Server
                 return new Tuple<string,List<Question>>(s, null);
             }
             User user = getUserByInt(userUniqueInt);
-            if (!_questionsForGroupTest.Keys.Contains(user))
+            if (!_questionsToRemove.Keys.Contains(user))
             {
                 return new Tuple<string, List<Question>>("Error. No questions available.", null);
             }
-            List<Question> l = _questionsForGroupTest[user];
-            _questionsForGroupTest.Remove(user);
+            List<Question> l = _questionsToRemove[user];
+            _questionsToRemove.Remove(user);
             return new Tuple<string, List<Question>>(Replies.SUCCESS, l);
         }
 
