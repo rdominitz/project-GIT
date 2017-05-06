@@ -66,7 +66,10 @@ namespace Entities
         {
             using (var db = new MedTrainDBContext())
             {
-                return db.Users.Find(UserId);
+                var query = from u in db.Users
+                            where u.UserId.Equals(UserId)
+                            select u;
+                return query.Count() == 1 ? query.ToList()[0] : null;
             }
         }
 
