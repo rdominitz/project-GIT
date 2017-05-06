@@ -627,19 +627,28 @@ namespace Server
             // if answer at end save q in answered questions, if remaining does not contain user return "Done" else return "Next"
             if (hasKey(_usersTestsAnswersAtEndRemainingQuestions, user))
             {
+                User userInDictionary = null;
+                foreach (User u in _usersTestsAnswersAtEndRemainingQuestions.Keys)
+                {
+                    if (u.UserId.Equals(user.UserId))
+                    {
+                        userInDictionary = u;
+                        break;
+                    }
+                }
                 // remove first question
-                List<Question> l = _usersTestsAnswersAtEndRemainingQuestions[user];
+                List<Question> l = _usersTestsAnswersAtEndRemainingQuestions[userInDictionary];
                 l.RemoveAt(0);
-                if (!_usersTestsAnswersAtEndAnsweredQuestions.ContainsKey(user))
+                if (!hasKey(_usersTestsAnswersAtEndAnsweredQuestions, userInDictionary))
                 {
                     //q.diagnoses = qDiagnoses;
-                    _usersTestsAnswersAtEndAnsweredQuestions[user] = new List<Question>() { q };
+                    _usersTestsAnswersAtEndAnsweredQuestions[userInDictionary] = new List<Question>() { q };
                 }
                 else
                 {
-                    List<Question> answered = _usersTestsAnswersAtEndAnsweredQuestions[user];
+                    List<Question> answered = _usersTestsAnswersAtEndAnsweredQuestions[userInDictionary];
                     answered.Add(q);
-                    _usersTestsAnswersAtEndAnsweredQuestions[user] = answered;
+                    _usersTestsAnswersAtEndAnsweredQuestions[userInDictionary] = answered;
                 }
                 if (l.Count == 0)
                 {
@@ -653,19 +662,26 @@ namespace Server
             else
             {
                 User userInDictionary = null;
-                //foreach ()
-                List<Question> l = _usersTestsAnswerEveryTime[user];
+                foreach (User u in _usersTestsAnswerEveryTime.Keys)
+                {
+                    if (u.UserId.Equals(user.UserId))
+                    {
+                        userInDictionary = u;
+                        break;
+                    }
+                }
+                List<Question> l = _usersTestsAnswerEveryTime[userInDictionary];
                 //q.diagnoses = qDiagnoses;
-                _usersTestsAnswersAtEndAnsweredQuestions[user] = new List<Question>() { q };
+                _usersTestsAnswersAtEndAnsweredQuestions[userInDictionary] = new List<Question>() { q };
                 l.RemoveAt(0);
                 if (l.Count == 0)
                 {
-                    removeUserFromDictionary(user, _usersTestsAnswerEveryTime);
+                    removeUserFromDictionary(userInDictionary, _usersTestsAnswerEveryTime);
                     //_usersTestsAnswerEveryTime.Remove(user);
                 }
                 else
                 {
-                    _usersTestsAnswerEveryTime[user] = l;
+                    _usersTestsAnswerEveryTime[userInDictionary] = l;
                 }
                 return new Tuple<string, int>(Replies.SHOW_ANSWER, answerId);
             }
@@ -690,8 +706,20 @@ namespace Server
             {
                 return new Tuple<string, List<Question>>(NOT_LOGGED_IN, null);
             }
-            List<Question> l = _usersTestsAnswersAtEndAnsweredQuestions[user];
-            _usersTestsAnswersAtEndAnsweredQuestions.Remove(user);
+            User userInDictionary = null;
+            foreach (User u in _usersTestsAnswersAtEndAnsweredQuestions.Keys)
+            {
+                if (u.UserId.Equals(user.UserId))
+                {
+                    userInDictionary = u;
+                }
+            }
+            if (userInDictionary == null)
+            {
+                return new Tuple<string, List<Question>>("Error.", null);
+            }
+            List<Question> l = _usersTestsAnswersAtEndAnsweredQuestions[userInDictionary];
+            _usersTestsAnswersAtEndAnsweredQuestions.Remove(userInDictionary);
             return new Tuple<string, List<Question>>(Replies.SUCCESS, l);
         }
 
@@ -737,7 +765,7 @@ namespace Server
         {
             foreach (User u in d.Keys)
             {
-                if (u.UserId.Equals(user.UserId))
+                if (u.UserId.Equals(user.UserId) && d[u].Count > 0)
                 {
                     return d[u][0];
                 }
@@ -1902,7 +1930,18 @@ namespace Server
                 return;
             }
             _loggedUsers[u] = DateTime.Now;
-            _usersCache.Remove(u);
+            User remove = null;
+            foreach (User user in _usersCache)
+            {
+                if (u.UserId.Equals(user.UserId))
+                {
+                    remove = user;
+                }
+            }
+            if (remove != null)
+            {
+                _usersCache.Remove(remove);
+            }
             _usersCache.Add(u);
             if (_usersCache.Count == USERS_CACHE_LIMIT)
             {
