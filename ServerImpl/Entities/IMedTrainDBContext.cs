@@ -65,7 +65,7 @@ namespace Entities
         List<GroupMember> getGroupMembers(string groupName, string adminId);
 
         void addTest(Test t);
-        List<Test> getAllTests();
+        List<Test> getAllTests(string subject);
         Test getTest(int testId);
 
         void addGroupTest(GroupTest gt);

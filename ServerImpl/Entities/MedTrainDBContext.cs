@@ -532,11 +532,14 @@ namespace Entities
             }
         }
 
-        public List<Test> getAllTests()
+        public List<Test> getAllTests(string subject)
         {
             using (var db = new MedTrainDBContext())
             {
-                return db.Tests.ToList();
+                var query = from t in db.Tests
+                            where t.subject.Equals(subject)
+                            select t;
+                return query.ToList();
             }
         }
 

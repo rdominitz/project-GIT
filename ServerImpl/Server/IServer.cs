@@ -92,7 +92,7 @@ namespace Server
 
         bool isAdmin(int userUniqueInt);
 
-        Tuple<string, List<Test>> getAllTests(int userUniqueInt);
+        Tuple<string, List<Test>> getAllTests(int userUniqueInt, string subject);
 
         string addTestToGroup(int userUniqueInt, string groupName, int testId);
         

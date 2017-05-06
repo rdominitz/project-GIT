@@ -2,37 +2,74 @@
 @{
     ViewBag.Title = "Add test to group";
 }
+@model IEnumerable<communication.Models.GetTest.GetTestData>
 
-@model IEnumerable<communication.Models.Test.TestData>
-<meta id="meta" name="@ViewBag.Title" />
+        <meta id="meta" name="@ViewBag.Title" />
 
-<div class="cen col-md-offset-4">
-    <form id="createGroupForm" method="POST" action="~/AddTestToGroup/submit">
-        <div class="form-group">
-            <br />
-            <h2>Select a test</h2>
-            <br />
-            @if (@ViewBag.message != null)
-            {
-                <script>
-                    alert("@ViewBag.message");
-                </script>
-            }
-            <label for="testDetails" class="control-label">test Details</label>
-            <select id="testDetails" name="testDetails" class="form-control">
-                @if (Model != null) { 
-                    foreach (var test in Model)
+        <div class="cen col-md-offset-4">
+            <form id="createGroupForm" method="POST" action="~/AddTestToGroup/submit">
+                <div class="form-group">
+                    <br />
+                    <h2>Select a test</h2>
+                    <br />
+                    @if (@ViewBag.message != null)
                     {
-                        <option value="@test.testString">@test.testString</option>
+                        <script>
+                            alert("@ViewBag.message");
+                        </script>
                     }
-                }
-                @ViewBag.testDetails=this.value
-                @ViewBag.testId=test.testId
-            </select>
-            
-            <br />
-            <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">See test's questions</button>
+                    <label for="subject" class="control-label">Subject</label>
+                    <select id="subject" name="subject" class="form-control" onchange="giveSelection(this.value)">
+                        @foreach (var test in Model)
+                        {
+                            <option value="@test.key">@test.key</option>
+                        }
+                        @ViewBag.subject=this.value
+                    </select>
+                    <br />
 
+                    <label for="testDetails" class="control-label">test Details</label>
+                    <br />
+                    <select id="testDetails" name="testDetails" class="form-control">
+                        @if (Model != null)
+                        {
+                            foreach (var sub in Model)
+                            {
+                                foreach (var test in sub.vals)
+                                {
+                                     <option data-option="@sub.key" value="@test">@test</option>
+                                }
+                               
+                            }
+                        }
+                        @ViewBag.testDetails=this.value
+                        @ViewBag.testId=test.testId
+                    </select>
+
+                    <script type="text/javascript">
+                        var sel1 = document.querySelector('#subject');
+                        var sel2 = document.querySelector('#testDetails');
+                        var options2 = sel2.querySelectorAll('option');
+
+                        function giveSelection(selValue) {
+                            sel2.innerHTML = '';
+                            for (var i = 0; i < options2.length; i++) {
+                                if (options2[i].dataset.option === selValue) {
+                                    sel2.appendChild(options2[i]);
+                                }
+                            }
+                        }
+                        giveSelection(sel1.value);
+                    </script>
+
+                    <script type="text/javascript">
+                        $('#testDetails').tokenize();
+                    </script>
+
+
+                    <br />
+                    <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">See test's questions</button>
+
+                </div>
+            </form>
         </div>
-    </form>
-</div>

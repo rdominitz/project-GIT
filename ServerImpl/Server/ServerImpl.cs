@@ -293,7 +293,7 @@ namespace Server
             #endregion
             /*********** Roie stopped adding code here*************/
             #region add test
-            Test t = new Test { TestId = _testID, AdminId = "defaultAdmin@gmail.com", testName = "example test" };
+            Test t = new Test { TestId = _testID, AdminId = "defaultadmin@gmail.com", testName = "example test", subject = chestXRays.SubjectId };
             _testID++;
             _db.addTest(t);
             for (int i = 5; i <= 13; i++)
@@ -301,7 +301,7 @@ namespace Server
                 TestQuestion tq = new TestQuestion { TestId = 1, QuestionId = i };
                 _db.addTestQuestion(tq);
             }
-            GroupTest gt = new GroupTest{GroupName = "Test Group 1", AdminId = "defaultAdmin@gmail.com", TestId = 1};
+            GroupTest gt = new GroupTest{GroupName = "Test Group 1", AdminId = "defaultadmin@gmail.com", TestId = 1};
             _db.addGroupTest(gt);
             #endregion
         }
@@ -1254,7 +1254,7 @@ namespace Server
             return hasPermissions(userUniqueInt).Item1.Equals(Replies.SUCCESS);
         }
 
-        public Tuple<string, List<Test>> getAllTests(int userUniqueInt)
+        public Tuple<string, List<Test>> getAllTests(int userUniqueInt, string subject)
         {
             // verify user has permissions
             string s = hasPermissions(userUniqueInt).Item1;
@@ -1262,7 +1262,7 @@ namespace Server
             {
                 return new Tuple<string,List<Test>>(s, null);
             }
-            return new Tuple<string, List<Test>>(Replies.SUCCESS, _db.getAllTests());
+            return new Tuple<string, List<Test>>(Replies.SUCCESS, _db.getAllTests(subject));
         }
 
         public string addTestToGroup(int userUniqueInt, string groupName, int testId)

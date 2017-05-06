@@ -1,4 +1,5 @@
 ﻿using communication.Core;
+using communication.Models.GetTest;
 using communication.Models.Test;
 using Constants;
 using Entities;
@@ -23,22 +24,40 @@ namespace communication.Controllers
             }
             removeCookie("testID");
             removeCookie("groupName");
-            List<TestData> tests = getData(Convert.ToInt32(cookie.Value));
+            List<GetTestData> tests = getData(Convert.ToInt32(cookie.Value));
             if (tests.Count!= 0)
                 return View(tests);
             return View();
         }
 
-        List<TestData> getData(int adminId)
+     /*   List<TestData> getData(int adminId)
         {
             List<TestData> data = new List<TestData>();
-            Tuple<string, List<Test>> tests = ServerWiring.getInstance().getAllTests(adminId);
+            string subject = ViewBag.subject;
+            Tuple<string, List<Test>> tests = ServerWiring.getInstance().getAllTests(adminId, subject);
             if (tests.Item2.Count != 0)
             {
                 foreach (Test test in tests.Item2)
                 {
-                    data.Add(new TestData(test.TestId, test.ToString()));
+                    data.Add(new TestData(test.TestId, subject, test.ToString()));
                 }
+            }
+            return data;
+        }*/
+
+        private List<GetTestData> getData(int adminId)
+        {
+            List<GetTestData> data = new List<GetTestData>();
+            List<string> subjects = ServerWiring.getInstance().getAllSubjects();
+            foreach (string subject in subjects)
+            {
+                Tuple<string, List<Test>> tests = ServerWiring.getInstance().getAllTests(adminId, subject);
+                List<string> testStrings = new List<string>();
+                foreach (Test test in tests.Item2)
+                {
+                    testStrings.Add(test.ToString());
+                }
+                data.Add(new GetTestData(subject, testStrings));
             }
             return data;
         }

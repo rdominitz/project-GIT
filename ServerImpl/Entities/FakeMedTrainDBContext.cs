@@ -347,9 +347,10 @@ namespace Entities
             _tests.Add(t);
         }
 
-        public List<Test> getAllTests()
+        public List<Test> getAllTests(string subject)
         {
-            return new List<Test>(_tests);
+            List<Test> matches = _tests.Where(t => t.subject.Equals(subject)).ToList();
+            return matches;
         }
 
         public Test getTest(int testId)
