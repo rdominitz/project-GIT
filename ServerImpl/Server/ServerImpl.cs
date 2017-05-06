@@ -1611,6 +1611,16 @@ namespace Server
             _db.addGroupTestAnswer(gta);
             return hasMoreQuestionsGroupTest(userUniqueInt, group, test) ? Replies.NEXT : Replies.SUCCESS;
         }
+        
+        public bool hasMoreQuestionsGroupTest(int userUniqueInt, string group, int test)
+        {
+            Tuple<string, List<int>> t = groupTestQuestions(userUniqueInt, group, test);
+            if (!t.Item1.Equals(Replies.SUCCESS))
+            {
+                return false;
+            }
+            return t.Item2.Count != 0;
+        }
 
         private Tuple<string, List<int>> groupTestQuestions(int userUniqueInt, string group, int test)
         {
@@ -1828,12 +1838,6 @@ namespace Server
                 ans.Add(_db.getQuestion(tq.QuestionId));
             }
             return new Tuple<string, List<Question>>(Replies.SUCCESS, ans);
-        }
-
-        public bool isQuestionRemoved(int questionId)
-        {
-            Question q = _db.getQuestion(questionId);
-            return q != null && q.isDeleted;
         }
 
         private User getUserByInt(int userUniqueInt)
