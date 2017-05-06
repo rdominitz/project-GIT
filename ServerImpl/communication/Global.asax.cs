@@ -19,7 +19,7 @@ namespace communication
         void Application_Start(object sender, EventArgs e)
         {
             // Code that runs on application startup
-            ServerWiring.initServer(new FakeMedTrainDBContext());
+            ServerWiring.initServer(new MedTrainDBContext());
             IServer a = ServerWiring.getInstance();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
