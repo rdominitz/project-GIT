@@ -128,5 +128,7 @@ namespace Server
         Tuple<string, Tuple<string, int>> getSavedGroupAndTest(int userUniqueInt);
 
         Tuple<string, List<Question>> getTestQuestionsByTestId(int userUniqueInt, int testId);
+
+        bool isQuestionRemoved(int questionId);
     }
 }

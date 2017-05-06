@@ -15,6 +15,8 @@ namespace Entities
         public string testName { get; set; }
         [Required]
         public string AdminId { get; set; }
+        [Required]
+        public string subject { get; set; }
 
         public override string ToString()
         {

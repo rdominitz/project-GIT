@@ -506,13 +506,24 @@ namespace Entities
                 db.SaveChanges();
             }
         }
+
+        public List<GroupMember> getGroupMembers(string groupName, string adminId)
+        {
+            using (var db = new MedTrainDBContext())
+            {
+                var query = from gm in db.GroupsMembers
+                            where gm.GroupName.Equals(groupName) && gm.AdminId.Equals(adminId) && gm.invitationAccepted
+                            select gm;
+                return query.ToList();
+            }
+        }
         #endregion
         #region test
         public void addTest(Test t)
         {
             using (var db = new MedTrainDBContext())
             {
-                if (db.Admins.Find(t.AdminId) == null || db.Tests.Find(t.TestId) != null)
+                if (db.Admins.Find(t.AdminId) == null || db.Subjects.Find(t.subject) == null || db.Tests.Find(t.TestId) != null)
                 {
                     return;
                 }
@@ -602,6 +613,21 @@ namespace Entities
                     return;
                 }
                 db.GroupsTestsAnswers.Add(gta);
+                db.SaveChanges();
+            }
+        }
+
+        public void removeGroupTestAnswers(string groupName, string adminId)
+        {
+            using (var db = new MedTrainDBContext())
+            {
+                var query = from gta in db.GroupsTestsAnswers
+                            where gta.GroupName.Equals(groupName) && gta.AdminId.Equals(adminId)
+                            select gta;
+                foreach (GroupTestAnswer gta in query)
+                {
+                    db.GroupsTestsAnswers.Remove(gta);
+                }
                 db.SaveChanges();
             }
         }

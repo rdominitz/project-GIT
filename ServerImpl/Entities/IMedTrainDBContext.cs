@@ -62,6 +62,7 @@ namespace Entities
         bool hasInvitation(string userId, string groupName, string adminId);
         GroupMember getGroupMemberInvitation(string userId, string groupName, string adminId);
         void updateGroupMember(GroupMember gm);
+        List<GroupMember> getGroupMembers(string groupName, string adminId);
 
         void addTest(Test t);
         List<Test> getAllTests();
@@ -74,6 +75,7 @@ namespace Entities
         List<TestQuestion> getTestQuestions(int testId);
 
         void addGroupTestAnswer(GroupTestAnswer gta);
+        void removeGroupTestAnswers(string groupName, string adminId);
         List<GroupTestAnswer> getGroupTestAnswers(string groupName, string adminId, int testId);
     }
 }

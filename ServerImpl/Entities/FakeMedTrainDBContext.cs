@@ -328,11 +328,18 @@ namespace Entities
         {
             // nothing for now, probabely the same as update question
         }
+
+        public List<GroupMember> getGroupMembers(string groupName, string adminId)
+        {
+            return _groupsMembers.Where(gm => gm.GroupName.Equals(groupName) &&
+                gm.AdminId.Equals(adminId) && gm.invitationAccepted).ToList();
+        }
         #endregion
         #region test
         public void addTest(Test t)
         {
             if (_admins.Where(a => a.AdminId.Equals(t.AdminId)).Count() == 0 ||
+                _subjects.Where(s => s.SubjectId.Equals(t.subject)).Count() == 0 ||
                 _tests.Where(test => test.TestId == t.TestId).Count() != 0)
             {
                 return;
@@ -400,6 +407,15 @@ namespace Entities
                 return;
             }
             _groupsTestsAnswers.Add(gta);
+        }
+
+        public void removeGroupTestAnswers(string groupName, string adminId)
+        {
+            List<GroupTestAnswer> matches = _groupsTestsAnswers.Where(gta => gta.GroupName.Equals(groupName) && gta.AdminId.Equals(adminId)).ToList();
+            foreach (GroupTestAnswer gta in matches)
+            {
+                _groupsTestsAnswers.Remove(gta);
+            }
         }
 
         public List<GroupTestAnswer> getGroupTestAnswers(string groupName, string adminId, int testId)

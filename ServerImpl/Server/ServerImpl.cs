@@ -43,7 +43,7 @@ namespace Server
         private Dictionary<User, List<Question>> _usersTestsAnswersAtEndAnsweredQuestions;
         private Dictionary<User, List<Question>> _questionsForGroupTest;
         private Dictionary<string, string> _selectedGroups;
-        private Dictionary<string, List<Question>> _testQuestions;
+        private Dictionary<string, Tuple<string, List<Question>>> _testQuestions;
         private Dictionary<User, Tuple<string, int>> _testDisplaying;
 
         private int _userUniqueInt;
@@ -71,7 +71,7 @@ namespace Server
             _usersTestsAnswersAtEndAnsweredQuestions = new Dictionary<User, List<Question>>();
             _questionsForGroupTest = new Dictionary<User, List<Question>>();
             _selectedGroups = new Dictionary<string, string>();
-            _testQuestions = new Dictionary<string, List<Question>>();
+            _testQuestions = new Dictionary<string, Tuple<string, List<Question>>>();
             _testDisplaying = new Dictionary<User, Tuple<string, int>>();
             _db = db;
             _logic = new LogicImpl(db);
@@ -598,6 +598,10 @@ namespace Server
             {
                 return new Tuple<string, int>("Wrong data accepted. Incorrect question ID was recieved.", ERROR);
             }
+            if (q.isDeleted)
+            {
+                return new Tuple<string, int>("Error. the question is marked as \"Removed\" so an answer cannot be saved.", ERROR);
+            }
             foreach (string s in diagnoses)
             {
                 if (_db.getTopic(q.SubjectId, s) == null)
@@ -1095,6 +1099,7 @@ namespace Server
                 }
                 _db.removeGroupMembers(g);
                 _db.removeGroup(g);
+                _db.removeGroupTestAnswers(groupName, t.Item2.AdminId);
             }
             return Replies.SUCCESS;
         }
@@ -1176,7 +1181,7 @@ namespace Server
                     selecetedQuestions.Add(q);
                 }
             }
-            _testQuestions[t.Item2.AdminId] = selecetedQuestions;
+            _testQuestions[t.Item2.AdminId] = new Tuple<string,List<Question>>(subject, selecetedQuestions);
             return Replies.SUCCESS;
         }
 
@@ -1192,8 +1197,8 @@ namespace Server
             {
                 return null;
             }
-            List<Question> ans = _testQuestions[t.Item2.AdminId];
-            _testQuestions.Remove(t.Item2.AdminId);
+            List<Question> ans = _testQuestions[t.Item2.AdminId].Item2;
+            //_testQuestions.Remove(t.Item2.AdminId);
             return ans;
         }
 
@@ -1219,9 +1224,22 @@ namespace Server
                     return "Error. An invalid question has been selected.";
                 }
             }
+            // randomize questions order
+            Random rnd = new Random();
+            int n = questionsIds.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rnd.Next(n + 1);
+                int value = questionsIds[k];
+                questionsIds[k] = questionsIds[n];
+                questionsIds[n] = value;
+            }
+            string testSubject = _testQuestions[t.Item2.AdminId].Item1;
+            _testQuestions.Remove(t.Item2.AdminId);
             lock (_syncLockTestId)
             {
-                _db.addTest(new Test { TestId = _testID, testName = name, AdminId = t.Item2.AdminId });
+                _db.addTest(new Test { TestId = _testID, testName = name, AdminId = t.Item2.AdminId, subject = testSubject });
                 foreach (int i in questionsIds)
                 {
                     _db.addTestQuestion(new TestQuestion { TestId = _testID, QuestionId = i });
@@ -1268,6 +1286,14 @@ namespace Server
             }
             GroupTest gt = new GroupTest { AdminId = t.Item2.AdminId, GroupName = groupName, TestId = testId };
             _db.addGroupTest(gt);
+            // email group members they have a test
+            List<GroupMember> gms = _db.getGroupMembers(groupName, t.Item2.AdminId);
+            foreach (GroupMember gm in gms)
+            {
+                string msg = "A new test has been added to your group " + groupName + Environment.NewLine +
+                    "Login now to complete it!";
+                EmailSender.sendMail(gm.UserId, "New test in group " + groupName, msg);
+            }
             return Replies.SUCCESS;
         }
 
@@ -1789,7 +1815,6 @@ namespace Server
             return new Tuple<string, Tuple<string, int>>(Replies.SUCCESS, t);
         }
 
-
         public Tuple<string, List<Question>> getTestQuestionsByTestId(int userUniqueInt, int testId)
         {
             // verify user has permissions
@@ -1805,6 +1830,12 @@ namespace Server
                 ans.Add(_db.getQuestion(tq.QuestionId));
             }
             return new Tuple<string, List<Question>>(Replies.SUCCESS, ans);
+        }
+
+        public bool isQuestionRemoved(int questionId)
+        {
+            Question q = _db.getQuestion(questionId);
+            return q != null && q.isDeleted;
         }
 
         private User getUserByInt(int userUniqueInt)
