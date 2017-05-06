@@ -1,4 +1,6 @@
 ﻿using communication.Core;
+using communication.Models.GetQuestion;
+using communication.Models.GetTest;
 using communication.Models.Subjects;
 using Constants;
 using System;
@@ -26,17 +28,17 @@ namespace communication.Controllers
             }
             removeCookie("testID");
             removeCookie("groupName");
-            List<string> subjects = ServerWiring.getInstance().getAllSubjects();
             return View(getData());
         }
 
-        private List<SubjectData> getData()
+        private List<GetQuestionData> getData()
         {
-            List<SubjectData> data = new List<SubjectData>();
+            List<GetQuestionData> data = new List<GetQuestionData>();
             List<string> subjects = ServerWiring.getInstance().getAllSubjects();
             foreach (string subject in subjects)
             {
-                data.Add(new SubjectData(subject));
+                List<string> list = ServerWiring.getInstance().getSubjectTopicsGetAQuestion(subject);
+                data.Add(new GetQuestionData(subject, list));
             }
             return data;
         }

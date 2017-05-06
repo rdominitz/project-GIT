@@ -21,6 +21,15 @@
 
             <br />
             <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Add subject</button>
+            <br /><br />
+            <label for="subjects" class="control-label">Existing Subjects:</label>
+            <ul id="subjects " style="list-style-type:square">
+                @foreach (var subject in Model)
+                {
+                    <li>@subject.subject</li>
+                }
+            </ul>
+
 
         </div>
     </form>

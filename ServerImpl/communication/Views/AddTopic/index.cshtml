@@ -3,7 +3,7 @@
     ViewBag.Title = "add topic";
 }
 
-@model IEnumerable<communication.Models.Subjects.SubjectData>
+@model IEnumerable<communication.Models.GetQuestion.GetQuestionData>
 
     <div class="cen col-md-offset-4">
         <form id="addTopicForm" method="POST" action="~/AddTopic/submit">
@@ -19,10 +19,10 @@
                     </script>
                 }
                 <label for="subject" class="control-label">Subject</label>
-                <select id="subject" name="subject" class="form-control">
+                <select id="subject" name="subject" class="form-control" onchange="giveSelection(this.value)">
                     @foreach (var subject in Model)
                     {
-                        <option value="@subject.subject">@subject.subject</option>
+                        <option value="@subject.key">@subject.key</option>
                     }
                     @ViewBag.subject=this.value
                 </select>
@@ -32,6 +32,40 @@
 
                 <br />
                 <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Add topic</button>
+
+                <br /><br />
+
+                <label for="topics" class="control-label">Exsiting topics:</label>
+                <br />
+                <select id="topics" name="topics" class="form-control" multiple="multiple">
+                    @foreach (var subject in Model)
+                    {
+                        foreach (var topics in subject.vals)
+                        {
+                            <option data-option="@subject.key" value="@topics">@topics</option>
+                        }
+                    }
+                </select>
+                <script type="text/javascript">
+                    var sel1 = document.querySelector('#subject');
+                    var sel2 = document.querySelector('#topics');
+                    var options2 = sel2.querySelectorAll('option');
+
+                    function giveSelection(selValue) {
+                        sel2.innerHTML = '';
+                        for (var i = 0; i < options2.length; i++) {
+                            if (options2[i].dataset.option === selValue) {
+                                sel2.appendChild(options2[i]);
+                            }
+                        }
+                    }
+                    giveSelection(sel1.value);
+                </script>
+
+
+                <script type="text/javascript">
+                    $('#topics').tokenize();
+                </script>
 
             </div>
         </form>

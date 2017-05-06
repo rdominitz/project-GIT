@@ -1,4 +1,5 @@
 ﻿using communication.Core;
+using communication.Models.Subjects;
 using Constants;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,18 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-            return View();
+            return View(getData());
+        }
+
+        private List<SubjectData> getData()
+        {
+            List<SubjectData> data = new List<SubjectData>();
+            List<string> subjects = ServerWiring.getInstance().getAllSubjects();
+            foreach (string subject in subjects)
+            {
+                data.Add(new SubjectData(subject));
+            }
+            return data;
         }
 
 
