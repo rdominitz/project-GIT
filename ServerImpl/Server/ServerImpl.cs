@@ -1492,14 +1492,19 @@ namespace Server
             foreach (Tuple<int, string> t in questionsIdsAndResonsList)
             {
                 Question q = _db.getQuestion(t.Item1);
+                string removalReason = t.Item2;
+                if (removalReason.Equals(""))
+                {
+                    removalReason = "This quesiton has been removed. Any answer will not be accounted for.";
+                }
                 q.isDeleted = true;
                 if (q.text == "")
                 {
-                    q.text = t.Item2;
+                    q.text = s;
                 }
                 else
                 {
-                    q.text += Environment.NewLine + Environment.NewLine + t.Item2;
+                    q.text += Environment.NewLine + Environment.NewLine + s;
                 }
                 _db.updateQuestion(q);
             }
