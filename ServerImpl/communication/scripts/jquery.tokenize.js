@@ -883,10 +883,13 @@
 
 function button2changed() {
     document.getElementById("diagnosis_div").style.display = 'block';
+    document.getElementById("diagnosis_sure").style.display = 'block';
 }
 
 function button1changed() {
     document.getElementById("diagnosis_div").style.display = 'none';
+    document.getElementById("diagnosis_sure").style.display = 'none';
+    
 }
 
 function replaceAll(str, find, replace) {
