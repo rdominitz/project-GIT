@@ -128,5 +128,11 @@ namespace Server
         Tuple<string, Tuple<string, int>> getSavedGroupAndTest(int userUniqueInt);
 
         Tuple<string, List<Question>> getTestQuestionsByTestId(int userUniqueInt, int testId);
+
+        Tuple<string, List<Tuple<string, int, int,int>>> getPastGroupGrades(int userUniqueInt, string groupName); // first int is num of question, second is num of correct answers, third where is the users grade relative to others 
+
+        string declineUsersGroupsInvitations(int userUniqueInt, List<String> groups);
+
+
     }
 }

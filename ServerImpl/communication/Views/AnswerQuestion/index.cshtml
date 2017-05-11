@@ -16,7 +16,12 @@
 
 
 <h2>Answer questions </h2>
-
+@if (@ViewBag.message != null)
+            {
+    <script>
+            alert("@ViewBag.message");
+    </script>
+}
 <div>
     <div id="links">
         @foreach (var s in (List<String>)ViewData["Images"])

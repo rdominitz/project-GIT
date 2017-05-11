@@ -46,7 +46,26 @@ namespace communication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Submit(string[] groupInvites)
+        public ActionResult Submit(string[] groupInvites, string submitButton)
+        {
+            switch (submitButton)
+            {
+                case "accept":
+                    // delegate sending to another controller action
+                    return (Submit_accept(groupInvites));
+                case "decline":
+                    // call another action to perform the cancellation
+                    return (Submit_decline(groupInvites));
+                default:
+                    // If they've submitted the form without a submitButton, 
+                    // just return the view again.
+                    return (View());
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult Submit_accept(string[] groupInvites)
         {
             HttpCookie userCookie = Request.Cookies["userId"];
             if (userCookie == null)
@@ -65,6 +84,29 @@ namespace communication.Controllers
                 return RedirectToAction("Index", "Main", new { message = s });
             }
            
+            return RedirectToAction("index", "MyGroups");
+        }
+
+        [HttpPost]
+        public ActionResult Submit_decline(string[] groupInvites)
+        {
+            HttpCookie userCookie = Request.Cookies["userId"];
+            if (userCookie == null)
+            {
+
+                return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
+            }
+            if (groupInvites == null)
+            {
+                return RedirectToAction("index", "MyGroups", new { message = "you did not choose anything, please choose at least one group" });
+            }
+            List<string> list = new List<string>(groupInvites);
+            string s = ServerWiring.getInstance().declineUsersGroupsInvitations(Convert.ToInt32(userCookie.Value), list);
+            if (!s.Equals(Replies.SUCCESS))
+            {
+                return RedirectToAction("Index", "Main", new { message = s });
+            }
+
             return RedirectToAction("index", "MyGroups");
         }
 

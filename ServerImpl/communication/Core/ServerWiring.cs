@@ -31,7 +31,7 @@ namespace communication.Core
             {
                 if (server == null)
                 {
-                    server = new ServerImpl(new MedTrainDBContext());
+                    server = new ServerImpl(new FakeMedTrainDBContext());
                 }
             }
             return server;

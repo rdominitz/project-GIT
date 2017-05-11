@@ -10,7 +10,9 @@
             }
             @ViewBag.group=this.value
         </select>
-        <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Accept invitations</button>
+        <button type="submit" id="submit" name="submitButton" value="accept" class="btn btn-primary btn-block" style="width: 280px;">Accept invitations</button>
+        <button type="submit"  name="submitButton" value="decline" class="btn btn-primary btn-block" style="width: 280px;">Decline invitations</button>
+
     </div>
 </form>
 }

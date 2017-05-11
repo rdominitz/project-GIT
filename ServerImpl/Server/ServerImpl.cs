@@ -100,10 +100,10 @@ namespace Server
             _db.addUser(u);
             Admin a = new Admin { AdminId = "defaultadmin@gmail.com" };
             _db.addAdmin(a);
-            if (_db.getMillisecondsToSleep() != 0)
-            {
+           // if (_db.getMillisecondsToSleep() != 0)
+          //  {
                 setDB();
-            }
+           // }
         }
 
         public void setDB()
@@ -1985,6 +1985,16 @@ namespace Server
                 return;
             }
             d.Remove(remove);
+        }
+
+        public Tuple<string, List<Tuple<string, int, int, int>>> getPastGroupGrades(int userUniqueInt, string groupName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string declineUsersGroupsInvitations(int userUniqueInt, List<string> groups)
+        {
+            throw new NotImplementedException();
         }
     }
 }

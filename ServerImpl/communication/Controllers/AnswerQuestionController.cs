@@ -69,6 +69,10 @@ namespace communication.Controllers
             List<int> sure2List = new List<int>();
             if (norm.Equals("false"))
             {
+                if(diagnosis == null || sure2 == null)
+                {
+                    return RedirectToAction("Index", new { message = "if you chosen that the diagnosis is abnormal than you must choose at least one diagnosis" });
+                }
                  diagnosisList = diagnosis.ToList();
                  sure2List = sure2.ToList();
             }
