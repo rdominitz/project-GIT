@@ -1889,7 +1889,7 @@ namespace Server
             // get all group tests
             List<GroupTest> groupTests = _db.getGroupTests(t.Item1, t.Item2);
             // get all group members
-            List<GroupMember> groupMembers = _db.getGroupMembers(t.Item2, t.Item2);
+            List<GroupMember> groupMembers = _db.getGroupMembers(t.Item1, t.Item2);
             // foreach test
             foreach (GroupTest gt in groupTests)
             {
@@ -1971,12 +1971,11 @@ namespace Server
             {
                 return -1;
             }
-            List<Tuple<string, int, int, int, int>> relevantTests = null;
             foreach (Tuple<string, int, int, int, int> tuple in usersTests.Item2)
             {
-                if (tuple.Item1.Equals(user.UserId) && tuple.Item5 == testId)
+                if (tuple.Item5 == testId)
                 {
-                    return tuple.Item3 / tuple.Item2;
+                    return Math.Round((double)tuple.Item3 * (100.0 / tuple.Item2), 2);
                 }
             }
             return -1;
