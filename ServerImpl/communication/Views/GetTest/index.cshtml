@@ -29,13 +29,22 @@
                 }
             </select>
             <br />
-            <label for="topic" class="control-label">Topic</label>
-            <select id="topic" name="topic" class="form-control" value="">
+            <label for="topics" class="control-label">Topic</label>
+            <select id="topics" name="topics" class="form-control" multiple="multiple">
                 @foreach (var subject in Model)
                 {
-                    foreach (var topic in subject.vals)
+                    var firstIteration = true;
+                    foreach (var topics in subject.vals)
                     {
-                        <option data-option="@subject.key" value="@topic">@topic</option>
+                        if (firstIteration)
+                        {
+                            <option selected data-option="@subject.key" value="@topics">@topics</option>
+                            firstIteration = false;
+                        }
+                        else
+                        {
+                            <option data-option="@subject.key" value="@topics">@topics</option>
+                        }
                     }
                 }
             </select>
@@ -47,7 +56,7 @@
             </select>
             <script type="text/javascript">
                 var sel1 = document.querySelector('#subject');
-                var sel2 = document.querySelector('#topic');
+                var sel2 = document.querySelector('#topics');
                 var options2 = sel2.querySelectorAll('option');
 
                 function giveSelection(selValue) {

@@ -3,11 +3,10 @@
 }
 
 @model IEnumerable<communication.Models.GetQuestion.GetQuestionData>
-
-
+<meta id="meta" name="@ViewBag.Title" />
 
 <div class="cen col-md-offset-4">
-    <meta id="meta" name="@ViewBag.Title" />
+   
     <br />
     <h2>Select subject and topic</h2>
     <br/>
@@ -27,22 +26,29 @@
                 }
             </select>
             <br />
-            <label for="topic" class="control-label">Topic</label>
-            <select id="topic" name="topic" class="form-control" value="">
+            <label for="topics" class="control-label">Topics</label>
+            <select id="topics" name="topics" multiple="multiple" class="form-control">
                 @foreach (var subject in Model)
                 {
-                    foreach (var topic in subject.vals)
+                    var firstIteration = true;
+                    foreach (var topics in subject.vals)
                     {
-                        <option data-option="@subject.key" value="@topic">@topic</option>
+                        if (firstIteration)
+                        {
+                            <option selected data-option="@subject.key" value="@topics">@topics</option>
+                            firstIteration = false;
+                        }
+                        else
+                        {
+                            <option data-option="@subject.key" value="@topics">@topics</option>
+                        }
                     }
                 }
 
-                <!--  <option value="Cavitary Lesion">Cavitary Lesion</option>
-                  <option value="Interstitial opacities">Interstitial opacities</option> -->
             </select>
             <script type="text/javascript">
                 var sel1 = document.querySelector('#subject');
-                var sel2 = document.querySelector('#topic');
+                var sel2 = document.querySelector('#topics');
                 var options2 = sel2.querySelectorAll('option');
 
                 function giveSelection(selValue) {
