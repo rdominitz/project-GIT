@@ -30,12 +30,12 @@ namespace communication.Controllers
                 ViewBag.message = message;
             }
 
-            
+
 
             string name = ServerWiring.getInstance().getUserName(Convert.ToInt32(cookie.Value));
             string group_name = groupName.Substring(0, groupName.LastIndexOf(GroupsMembers.CREATED_BY));
             GroupStatisticsData data = getData(Convert.ToInt32(cookie.Value), groupName);
-            if(!data.message.Equals(Replies.SUCCESS))
+            if (!data.message.Equals(Replies.SUCCESS))
             {
                 return RedirectToAction("Index", "Main", new { message = data.message });
             }
@@ -46,12 +46,12 @@ namespace communication.Controllers
         {
             GroupStatisticsData data = new GroupStatisticsData();
             //Tuple<string, List<Tuple<string,int,int>>> usersDoneTests = ServerWiring.getInstance().getPastGroupGrades(Convert.ToInt32(cookie.Value), groupName);
-            List<Tuple<string, int, int>> list = new List<Tuple<string, int, int>>();
-            list.Add(new Tuple<string, int, int>("test1", 15, 20));
-            list.Add(new Tuple<string, int, int>("test2", 2, 5));
-            list.Add(new Tuple<string, int, int>("test2", 11, 19));
+            List<Tuple<string, int, int, int>> list = new List<Tuple<string, int, int, int>>();
+            list.Add(new Tuple<string, int, int, int>("test1", 15, 20, 2));
+            list.Add(new Tuple<string, int, int, int>("test2", 2, 5, 7));
+            list.Add(new Tuple<string, int, int, int>("test2", 11, 19, 4));
             data.list = list;
-            Tuple<string, List<Tuple<string, int, int>>> usersDoneTests = new Tuple<string, List<Tuple<string, int, int>>>(Replies.SUCCESS, list);
+            Tuple<string, List<Tuple<string, int, int, int>>> usersDoneTests = new Tuple<string, List<Tuple<string, int, int, int>>>(Replies.SUCCESS, list);
             data.message = usersDoneTests.Item1;
             if (!usersDoneTests.Item1.Equals(Replies.SUCCESS))
             {
@@ -59,6 +59,6 @@ namespace communication.Controllers
             }
             return data;
         }
-       
+
     }
 }

@@ -5,13 +5,13 @@
 @model communication.Models.GroupStatistics.GroupStatisticsData
 @section Scripts
 {
-   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    
-<script type="text/javascript">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
     google.charts.load('current', { packages: ['table', 'corechart', 'line'] });
     //google.charts.setOnLoadCallback(drawGradesChart);
     google.charts.setOnLoadCallback(drawTestsChart);
-    //google.charts.setOnLoadCallback(drawChart1);
+    google.charts.setOnLoadCallback(drawChart1);
     google.charts.setOnLoadCallback(drawGradesChart2);
 
 
@@ -23,11 +23,12 @@
         data.addColumn('number', '# correct answers');
         data.addColumn('number', '# question in test');
         data.addColumn('number', 'grade');
+        data.addColumn('number', 'standing');
         @foreach (var test in Model.list)
         {
             Double grade = ((test.Item2 * 100) / test.Item3) ;
             <text>
-            data.addRows([['@test.Item1', @test.Item2, @test.Item3,@grade]]);
+            data.addRows([['@test.Item1', @test.Item2, @test.Item3,@grade, @test.Item4]]);
             </text>
         }
 
@@ -43,13 +44,13 @@
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Test Name');
         data.addColumn('number', 'grade');
-       
+
         @foreach (var test in Model.list)
         {
             Double grade = ((test.Item2 * 100) / test.Item3) ;
             <text>
         data.addRows([['@test.Item1',@grade]]);
-        
+
             </text>
 
         }
@@ -77,16 +78,25 @@
     function drawChart1() {
         // Define the chart to be drawn.
         var data = google.visualization.arrayToDataTable([
-        ['Task', 'Hours per Day'],
-        ['Work', 11],
-        ['Eat', 2],
-        ['Commute', 2],
-        ['Watch TV', 2],
-        ['Sleep', 7]
+
+        ['Subject', 'Number of questions answered'],
+        ['Normal', 20],
+        ['Cavitary Lesion', 11],
+        ['Interstitial opacities', 2],
+        ['Left Pleural Effusion', 2],
+        ['Median Sternotomy', 2],
+        ['Right Middle Lobe Collapse', 7]
+
         ]);
 
         var options = {
-            title: 'My Daily Activities'
+            title: 'Questions Answered per topic',
+            titleTextStyle: {
+                fontSize: 18, // 12, 18 whatever you want (don't specify px)
+                bold: false
+                },
+            'width':400,
+            'height':300
         };
 
         // Instantiate and draw the chart.
@@ -98,19 +108,23 @@
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Test Name');
         data.addColumn('number', 'grade');
-       
+
         @foreach (var test in Model.list)
         {
             Double grade = ((test.Item2 * 100) / test.Item3) ;
             <text>
         data.addRows([['@test.Item1',@grade]]);
-        
+
             </text>
 
         }
 
         var options = {
             title: 'Grades',
+            titleTextStyle: {
+                fontSize: 18, // 12, 18 whatever you want (don't specify px)
+                bold: false
+            },
             width: 500,
             height: 300,
             bar: { groupWidth: "95%" },
@@ -132,10 +146,14 @@
     }
 
 
-</script>
+    </script>
 
 
 }
+
+<div class="col-md-offset-4">
+    <h2>Your group statistics</h2>
+</div>
 
 <div class="cen">
     <br />
@@ -143,22 +161,22 @@
     {
         <script>
             alert("@ViewBag.message");
-</script>
+        </script>
     }
 
-    <table >
+    <table>
         <tr>
-            <td><div id="myPieChart"  /></td>
+            <td><div class="col-md-offset-6" id="myPieChart" /></td>
         </tr>
         <tr>
             <td> <div id="PastTests" /></td>
             <td><div id="TestGrades1" /></td>
-</tr>
+        </tr>
         <tr>
             <td> <div id="TestGrades" /></td>
         </tr>
-       
-        </table>
+
+    </table>
 
 
 
