@@ -45,13 +45,13 @@ namespace communication.Controllers
         GroupStatisticsData getData(int id, string groupName)
         {
             GroupStatisticsData data = new GroupStatisticsData();
-            //Tuple<string, List<Tuple<string,int,int>>> usersDoneTests = ServerWiring.getInstance().getPastGroupGrades(Convert.ToInt32(cookie.Value), groupName);
-            List<Tuple<string, int, int, int>> list = new List<Tuple<string, int, int, int>>();
-            list.Add(new Tuple<string, int, int, int>("test1", 15, 20, 2));
-            list.Add(new Tuple<string, int, int, int>("test2", 2, 5, 7));
-            list.Add(new Tuple<string, int, int, int>("test3", 11, 19, 4));
-            data.list = list;
-            Tuple<string, List<Tuple<string, int, int, int>>> usersDoneTests = new Tuple<string, List<Tuple<string, int, int, int>>>(Replies.SUCCESS, list);
+            Tuple<string, List<Tuple<string,int,int,int,int>>> usersDoneTests = ServerWiring.getInstance().getPastGroupGrades(id, groupName);
+           // List<Tuple<string, int, int, int>> list = new List<Tuple<string, int, int, int>>();
+            //list.Add(new Tuple<string, int, int, int>("test1", 15, 20, 2));
+            //list.Add(new Tuple<string, int, int, int>("test2", 2, 5, 7));
+            //list.Add(new Tuple<string, int, int, int>("test3", 11, 19, 4));
+            data.list = usersDoneTests.Item2;
+           // Tuple<string, List<Tuple<string, int, int, int>>> usersDoneTests = new Tuple<string, List<Tuple<string, int, int, int>>>(Replies.SUCCESS, list);
             data.message = usersDoneTests.Item1;
             if (!usersDoneTests.Item1.Equals(Replies.SUCCESS))
             {

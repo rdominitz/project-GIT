@@ -1866,26 +1866,26 @@ namespace Server
             return new Tuple<string, List<Question>>(Replies.SUCCESS, ans);
         }
 
-        public Tuple<string, List<Tuple<string, int, int, int>>> getPastGroupGrades(int userUniqueInt, string groupName)
+        public Tuple<string, List<Tuple<string, int, int, int, int>>> getPastGroupGrades(int userUniqueInt, string groupName)
         {
             // verify input
             if (!InputTester.isValidInput(new List<string>() { groupName }))
             {
-                return new Tuple<string, List<Tuple<string, int, int, int>>>(GENERAL_INPUT_ERROR, null);
+                return new Tuple<string, List<Tuple<string, int, int, int, int>>>(GENERAL_INPUT_ERROR, null);
             }
             Tuple<string, string> t = getGroupNameAndAdminId(groupName);
             // verify user is logged in
             User user = isLoggedIn(userUniqueInt);
             if (user == null)
             {
-                return new Tuple<string, List<Tuple<string, int, int, int>>>(NOT_LOGGED_IN, null);
+                return new Tuple<string, List<Tuple<string, int, int, int, int>>>(NOT_LOGGED_IN, null);
             }
             // verify group exist
             if (_db.getGroup(t.Item2, t.Item1) == null)
             {
-                return new Tuple<string, List<Tuple<string, int, int, int>>>(NON_EXISTING_GROUP, null);
+                return new Tuple<string, List<Tuple<string, int, int, int, int>>>(NON_EXISTING_GROUP, null);
             }
-            List<Tuple<string, int, int, int>> l = new List<Tuple<string, int, int, int>>();
+            List<Tuple<string, int, int, int, int>> l = new List<Tuple<string, int, int, int, int>>();
             // get all group tests
             List<GroupTest> groupTests = _db.getGroupTests(t.Item1, t.Item2);
             // get all group members
@@ -1928,7 +1928,7 @@ namespace Server
                 // if the user did not complete the test retutrn an error message
                 if (relevantAnswers.Count < testQuestions.Count)
                 {
-                    return new Tuple<string, List<Tuple<string, int, int, int>>>("Incomplete", null);
+                    return new Tuple<string, List<Tuple<string, int, int, int, int>>>("Incomplete", null);
                 }
                 // count user correct answers
                 int userCorrectAnswers = 0;
@@ -1942,9 +1942,44 @@ namespace Server
                 }
                 // count how many users has a better grade
                 int betterThanUser = numsOfCorrectAnswers.Where(i => i > userCorrectAnswers).Count();
-                l.Add(new Tuple<string, int, int, int>(test.testName, testQuestions.Count, userCorrectAnswers, betterThanUser));
+                l.Add(new Tuple<string, int, int, int, int>(test.testName, testQuestions.Count, userCorrectAnswers, betterThanUser, test.TestId));
             }
-            return new Tuple<string, List<Tuple<string, int, int, int>>>(Replies.SUCCESS, l);
+            return new Tuple<string, List<Tuple<string, int, int, int, int>>>(Replies.SUCCESS, l);
+        }
+
+        public double getTestGrade(int userUniqueInt, string group, int testId)
+        {
+            // verify input
+            if (!InputTester.isValidInput(new List<string>() { group }))
+            {
+                return -1;
+            }
+            Tuple<string, string> t = getGroupNameAndAdminId(group);
+            // verify user is logged in
+            User user = isLoggedIn(userUniqueInt);
+            if (user == null)
+            {
+                return -1;
+            }
+            // verify group exist
+            if (_db.getGroup(t.Item2, t.Item1) == null)
+            {
+                return -1;
+            }
+            Tuple<string, List<Tuple<string, int, int, int, int>>> usersTests = getPastGroupGrades(userUniqueInt, group);
+            if (!usersTests.Item1.Equals(Replies.SUCCESS))
+            {
+                return -1;
+            }
+            List<Tuple<string, int, int, int, int>> relevantTests = null;
+            foreach (Tuple<string, int, int, int, int> tuple in usersTests.Item2)
+            {
+                if (tuple.Item1.Equals(user.UserId) && tuple.Item5 == testId)
+                {
+                    return tuple.Item3 / tuple.Item2;
+                }
+            }
+            return -1;
         }
 
         public string declineUsersGroupsInvitations(int userUniqueInt, List<string> groups)
@@ -2099,11 +2134,6 @@ namespace Server
                 return;
             }
             d.Remove(remove);
-        }
-
-        public int getTestGrade(int userUniqueInt, string group, int testId)
-        {
-            return 30;
         }
     }
 }

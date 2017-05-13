@@ -129,11 +129,11 @@ namespace Server
 
         Tuple<string, List<Question>> getTestQuestionsByTestId(int userUniqueInt, int testId);
 
-        Tuple<string, List<Tuple<string, int, int,int>>> getPastGroupGrades(int userUniqueInt, string groupName);
+        Tuple<string, List<Tuple<string, int, int,int, int>>> getPastGroupGrades(int userUniqueInt, string groupName);
 
         string declineUsersGroupsInvitations(int userUniqueInt, List<String> groups);
 
-        int getTestGrade(int userUniqueInt, string group, int testId);
+        double getTestGrade(int userUniqueInt, string group, int testId);
 
 
     }
