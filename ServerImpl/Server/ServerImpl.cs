@@ -1387,52 +1387,7 @@ namespace Server
 
         public string acceptUsersGroupsInvitations(int userUniqueInt, List<string> groups)
         {
-            if (groups == null)
-            {
-                return GENERAL_INPUT_ERROR;
-            }
-            // verify user is logged in
-            User user = isLoggedIn(userUniqueInt);
-            if (user == null)
-            {
-                return NOT_LOGGED_IN;
-            }
-            StringBuilder sb = new StringBuilder();
-            sb.Append("Cannot accept invitations to the following groups:");
-            bool error = false;
-            List<Tuple<string, string>> l = new List<Tuple<string, string>>();
-            foreach (string group in groups)
-            {
-                if (group.LastIndexOf(GroupsMembers.CREATED_BY) == -1)
-                {
-                    return INVALID_GROUP_NAME;
-                }
-                Tuple<string, string> t = getGroupNameAndAdminId(group);
-                if (!InputTester.isLegalEmail(t.Item2) || _db.getAdmin(t.Item2) == null)
-                {
-                    return INVALID_GROUP_NAME;
-                }
-                l.Add(t);
-            }
-            foreach (Tuple<string, string> t in l)
-            {
-                if (!_db.hasInvitation(user.UserId, t.Item1, t.Item2))
-                {
-                    sb.Append(Environment.NewLine + t.Item1);
-                    error = true;
-                }
-            }
-            if (error)
-            {
-                return sb.ToString();
-            }
-            foreach (Tuple<string, string> t in l)
-            {
-                GroupMember gm = _db.getGroupMemberInvitation(user.UserId, t.Item1, t.Item2);
-                gm.invitationAccepted = true;
-                _db.updateGroupMember(gm);
-            }
-            return Replies.SUCCESS;
+            return editUserInvitations(userUniqueInt, groups, true);
         }
 
         public string saveSelectedGroup(int userUniqueInt, string groupName)
@@ -1901,6 +1856,79 @@ namespace Server
             return new Tuple<string, List<Question>>(Replies.SUCCESS, ans);
         }
 
+        public Tuple<string, List<Tuple<string, int, int, int>>> getPastGroupGrades(int userUniqueInt, string groupName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string declineUsersGroupsInvitations(int userUniqueInt, List<string> groups)
+        {
+            return editUserInvitations(userUniqueInt, groups, false);
+        }
+
+        private string editUserInvitations(int userUniqueInt, List<string> groups, bool accepted)
+        {
+            if (groups == null)
+            {
+                return GENERAL_INPUT_ERROR;
+            }
+            // verify user is logged in
+            User user = isLoggedIn(userUniqueInt);
+            if (user == null)
+            {
+                return NOT_LOGGED_IN;
+            }
+            string s = "decline invitations from";
+            if (accepted)
+            {
+                s = "accept invitations to";
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Cannot " + s + " the following groups:");
+            bool error = false;
+            List<Tuple<string, string>> l = new List<Tuple<string, string>>();
+            foreach (string group in groups)
+            {
+                if (group.LastIndexOf(GroupsMembers.CREATED_BY) == -1)
+                {
+                    return INVALID_GROUP_NAME;
+                }
+                Tuple<string, string> t = getGroupNameAndAdminId(group);
+                if (!InputTester.isLegalEmail(t.Item2) || _db.getAdmin(t.Item2) == null)
+                {
+                    return INVALID_GROUP_NAME;
+                }
+                l.Add(t);
+            }
+            foreach (Tuple<string, string> t in l)
+            {
+                if (!_db.hasInvitation(user.UserId, t.Item1, t.Item2))
+                {
+                    sb.Append(Environment.NewLine + t.Item1);
+                    error = true;
+                }
+            }
+            if (error)
+            {
+                return sb.ToString();
+            }
+            foreach (Tuple<string, string> t in l)
+            {
+                GroupMember gm = _db.getGroupMemberInvitation(user.UserId, t.Item1, t.Item2);
+                if (accepted)
+                {
+                    gm.invitationAccepted = true;
+                    _db.updateGroupMember(gm);
+                }
+                else
+                {
+                    _db.removeGroupMember(gm);
+                    _db.SaveChanges();
+                }
+            }
+            return Replies.SUCCESS;
+        }
+
         private User getUserByInt(int userUniqueInt)
         {
             List<User> matches = _usersCache.Where(u => u.uniqueInt.Equals(userUniqueInt)).ToList();
@@ -1985,16 +2013,6 @@ namespace Server
                 return;
             }
             d.Remove(remove);
-        }
-
-        public Tuple<string, List<Tuple<string, int, int, int>>> getPastGroupGrades(int userUniqueInt, string groupName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string declineUsersGroupsInvitations(int userUniqueInt, List<string> groups)
-        {
-            throw new NotImplementedException();
         }
     }
 }

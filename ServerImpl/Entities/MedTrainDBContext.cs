@@ -295,13 +295,13 @@ namespace Entities
         {
             using (var db = new MedTrainDBContext())
             {
-                if (db.Questions.Find(a.QuestionId) == null || db.Users.Find(a.UserId) == null || 
+                if (db.Questions.Find(a.QuestionId) == null || db.Users.Find(a.UserId) == null ||
                     db.Answers.Find(a.AnswerId) != null)
                 {
                     return;
                 }
                 var query = from ans in db.Answers
-                            where ans.QuestionId == a.QuestionId && ans.UserId.Equals(a.UserId) && 
+                            where ans.QuestionId == a.QuestionId && ans.UserId.Equals(a.UserId) &&
                             ans.timeAdded.Equals(a.timeAdded)
                             select ans;
                 if (query.ToList().Count != 0)
@@ -518,6 +518,14 @@ namespace Entities
                             where gm.GroupName.Equals(groupName) && gm.AdminId.Equals(adminId) && gm.invitationAccepted
                             select gm;
                 return query.ToList();
+            }
+        }
+
+        public void removeGroupMember(GroupMember gm)
+        {
+            using (var db = new MedTrainDBContext())
+            {
+                db.GroupsMembers.Remove(gm);
             }
         }
         #endregion

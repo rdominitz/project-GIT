@@ -334,6 +334,12 @@ namespace Entities
             return _groupsMembers.Where(gm => gm.GroupName.Equals(groupName) &&
                 gm.AdminId.Equals(adminId) && gm.invitationAccepted).ToList();
         }
+
+        public void removeGroupMember(GroupMember gm)
+        {
+            _groupsMembers.RemoveAll(groupMember => groupMember.GroupName.Equals(gm.GroupName) &&
+                groupMember.AdminId.Equals(gm.AdminId) && groupMember.UserId.Equals(gm.UserId));
+        }
         #endregion
         #region test
         public void addTest(Test t)
@@ -403,7 +409,7 @@ namespace Entities
                 _tests.Where(t => t.TestId == gta.TestId).Count() == 0 ||
                 _answers.Where(a => a.AnswerId == gta.AnswerId).Count() == 0 ||
                 _groupsTestsAnswers.Where(GTA => GTA.GroupName.Equals(gta.GroupName) && GTA.AdminId.Equals(gta.AdminId) &&
-                                            GTA.TestId == gta.TestId && GTA.AnswerId == gta.AnswerId).Count() != 1)
+                                            GTA.TestId == gta.TestId && GTA.AnswerId == gta.AnswerId).Count() != 0)
             {
                 return;
             }

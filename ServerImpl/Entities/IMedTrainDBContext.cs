@@ -63,6 +63,7 @@ namespace Entities
         GroupMember getGroupMemberInvitation(string userId, string groupName, string adminId);
         void updateGroupMember(GroupMember gm);
         List<GroupMember> getGroupMembers(string groupName, string adminId);
+        void removeGroupMember(GroupMember gm);
 
         void addTest(Test t);
         List<Test> getAllTests(string subject);
