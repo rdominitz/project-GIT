@@ -49,7 +49,7 @@ namespace communication.Controllers
             List<Tuple<string, int, int, int>> list = new List<Tuple<string, int, int, int>>();
             list.Add(new Tuple<string, int, int, int>("test1", 15, 20, 2));
             list.Add(new Tuple<string, int, int, int>("test2", 2, 5, 7));
-            list.Add(new Tuple<string, int, int, int>("test2", 11, 19, 4));
+            list.Add(new Tuple<string, int, int, int>("test3", 11, 19, 4));
             data.list = list;
             Tuple<string, List<Tuple<string, int, int, int>>> usersDoneTests = new Tuple<string, List<Tuple<string, int, int, int>>>(Replies.SUCCESS, list);
             data.message = usersDoneTests.Item1;

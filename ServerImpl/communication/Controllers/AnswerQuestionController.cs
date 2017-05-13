@@ -100,7 +100,8 @@ namespace communication.Controllers
             }
             else if (ans.Equals(Replies.SUCCESS))
             {
-                return RedirectToAction("Index", "Main");
+                int grade = ServerWiring.getInstance().getTestGrade(Convert.ToInt32(userCookie.Value), groupCookie.Value, Convert.ToInt32(testCookie.Value));
+                return RedirectToAction("Index", "Main", new { message = "your grade is "+grade});
             }
             else
             {

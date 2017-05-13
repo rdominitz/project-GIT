@@ -133,6 +133,8 @@ namespace Server
 
         string declineUsersGroupsInvitations(int userUniqueInt, List<String> groups);
 
+        int getTestGrade(int userUniqueInt, string group, int testId);
+
 
     }
 }

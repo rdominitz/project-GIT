@@ -2100,5 +2100,10 @@ namespace Server
             }
             d.Remove(remove);
         }
+
+        public int getTestGrade(int userUniqueInt, string group, int testId)
+        {
+            return 30;
+        }
     }
 }
