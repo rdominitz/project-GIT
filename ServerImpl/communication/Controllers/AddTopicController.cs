@@ -56,7 +56,7 @@ namespace communication.Controllers
             string ans = ServerWiring.getInstance().addTopic(Convert.ToInt32(cookie.Value),subject, topicName);
             if (ans.Equals(Replies.SUCCESS))
             {
-                return RedirectToAction("Index", "Main", new { message = "Topic added successfully" });
+                return RedirectToAction("Index", "Administration", new { message = "Topic added successfully" });
             }
             return RedirectToAction("Index", "AddTopic", new { message = ans });
         }

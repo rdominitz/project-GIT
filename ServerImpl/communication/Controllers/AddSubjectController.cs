@@ -53,7 +53,7 @@ namespace communication.Controllers
             string ans = ServerWiring.getInstance().addSubject(Convert.ToInt32(cookie.Value), subjectName);
             if (ans.Equals(Replies.SUCCESS))
             {
-                return RedirectToAction("Index", "Main", new { message = "subject added successfully" });
+                return RedirectToAction("Index", "Administration", new { message = "subject added successfully" });
             }
             return RedirectToAction("Index", "AddSubject", new { message = ans });
         }

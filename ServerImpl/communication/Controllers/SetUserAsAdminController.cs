@@ -39,7 +39,7 @@ namespace communication.Controllers
             string ans = ServerWiring.getInstance().setUserAsAdmin(Convert.ToInt32(cookie.Value), userEmail);
             if (ans.Equals(Replies.SUCCESS))
             {
-                return RedirectToAction("Index", "Main", new { message = "User added as administrator successfully" });
+                return RedirectToAction("Index", "Administration", new { message = "User added as administrator successfully" });
             }
             return RedirectToAction("Index", "SetUserAsAdmin", new { message = ans });
         }

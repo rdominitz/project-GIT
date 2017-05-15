@@ -68,7 +68,7 @@ namespace communication.Controllers
             
             if (ans.Equals(Replies.SUCCESS))
             {
-               return RedirectToAction("Index", "ManageGroup", new { message = "The test was successfully added to the group" });
+                return RedirectToAction("Index", "Administration", new { message = "The test was successfully added to the group" });
             }
             return RedirectToAction("Index", "AddTestToGroup", groupAndTest.Item2.Item1);
         }

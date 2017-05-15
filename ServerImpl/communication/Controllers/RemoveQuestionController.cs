@@ -52,7 +52,7 @@ namespace communication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Submit(int[] QuestionData, string reson)
+        public ActionResult Submit(int[] QuestionData, string reason)
         {
 
             HttpCookie cookie = Request.Cookies["userId"];
@@ -67,10 +67,12 @@ namespace communication.Controllers
                 return RedirectToAction("Index", "Administration", new { message = "Select one question to remove" });
             }
             int id = QuestionData[0];
-            string reson1 = ViewBag.reson;
+            string reason1 = ViewBag.reason;
+            if (reason1 == null)
+                reason1 = "";
             List<Tuple<int, string>> questionsIdsAndResonsList = new List<Tuple<int,string>>();
 
-            Tuple<int, string> temp = new Tuple<int, string>(id, reson1);
+            Tuple<int, string> temp = new Tuple<int, string>(id, reason1);
             questionsIdsAndResonsList.Add(temp);
             
             ViewData["QuestionData"] = QuestionData;
@@ -79,7 +81,7 @@ namespace communication.Controllers
             string ans = ServerWiring.getInstance().removeQuestions(Convert.ToInt32(cookie.Value), questionsIdsAndResonsList);
             if (ans == Replies.SUCCESS)
             {
-                return RedirectToAction("Index", "Main", new { message = "Questions removed successfully" });
+                return RedirectToAction("Index", "Administration", new { message = "Question removed successfully" });
             }
 
 

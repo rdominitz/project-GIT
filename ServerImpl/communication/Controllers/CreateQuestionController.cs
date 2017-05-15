@@ -62,7 +62,7 @@ namespace communication.Controllers
             string ans = ServerWiring.getInstance().createQuestion(Convert.ToInt32(cookie.Value), subject, topics.ToList(), allImgs, freeText);
             if (ans == Replies.SUCCESS)
             {
-                return RedirectToAction("Index", "Main", new { message = "Question added successfully" });
+                return RedirectToAction("Index", "Administration", new { message = "Question added successfully" });
             }
 
             return RedirectToAction("Index", "CreateQuestion", new { message = ans });
