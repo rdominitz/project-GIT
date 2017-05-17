@@ -26,9 +26,9 @@
         data.addColumn('number', 'standing');
         @foreach (var test in Model.list)
         {
-            Double grade = ((test.Item2 * 100) / test.Item3) ;
+            Double grade = ((test.Item3 * 100) / test.Item2) ;
             <text>
-            data.addRows([['@test.Item1', @test.Item2, @test.Item3,@grade, @test.Item4]]);
+            data.addRows([['@test.Item1', @test.Item3, @test.Item2,@grade, @test.Item4]]);
             </text>
         }
 
@@ -47,7 +47,7 @@
 
         @foreach (var test in Model.list)
         {
-            Double grade = ((test.Item2 * 100) / test.Item3) ;
+            Double grade = ((test.Item3 * 100) / test.Item2) ;
             <text>
         data.addRows([['@test.Item1',@grade]]);
 
@@ -111,7 +111,7 @@
 
         @foreach (var test in Model.list)
         {
-            Double grade = ((test.Item2 * 100) / test.Item3) ;
+            Double grade = ((test.Item3 * 100) / test.Item2) ;
             <text>
         data.addRows([['@test.Item1',@grade]]);
 

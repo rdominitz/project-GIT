@@ -21,18 +21,18 @@ namespace communication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Submit(string email, string fname, string lname, string password, string level)
+        public ActionResult Submit(string emailReg, string fname, string lname, string passwordReg, string level)
         {
-            ViewBag.email = email;
+            ViewBag.emailReg = emailReg;
             ViewBag.fname = fname;
             ViewBag.lname = lname;
 
-            Tuple<string, int> ans = ServerWiring.getInstance().register(email, password, convert(level), fname, lname);
+            Tuple<string, int> ans = ServerWiring.getInstance().register(emailReg, passwordReg, convert(level), fname, lname);
             if(ans.Item1.Equals(Replies.SUCCESS))
             {
-                return RedirectToAction("Index", "Main");
+                return RedirectToAction("Index", "Login", new { message = "You have successfully registered" });
             }
-            ViewBag.errorMessage = ans.Item1;
+            ViewBag.errorMessageReg = ans.Item1;
             return View("index");
         }
 

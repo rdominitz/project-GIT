@@ -15,6 +15,7 @@ namespace communication.Controllers
         // GET: AnswerQuestion
         public ActionResult Index(string message)
         {
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
             ViewBag.message = message;
             HttpCookie cookie = Request.Cookies["userId"];
             if (cookie == null)
