@@ -2134,5 +2134,10 @@ namespace Server
             }
             d.Remove(remove);
         }
+
+        public Tuple<string, List<Test>> getGroupTests(int adminId, string group)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
