@@ -281,6 +281,7 @@
     <Compile Include="Controllers\SelectQuestionsController.cs" />
     <Compile Include="Controllers\SetUserAsAdminController.cs" />
     <Compile Include="Controllers\ShowAnswersController.cs" />
+    <Compile Include="Controllers\ViewGroupTestsController.cs" />
     <Compile Include="Core\ServerWiring.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -333,6 +334,7 @@
     <Content Include="Views\GroupStatistics\Index.cshtml" />
     <Content Include="Views\SetUserAsAdmin\index.cshtml" />
     <Content Include="Views\SeeTestDetails\index.cshtml" />
+    <Content Include="Views\ViewGroupTests\index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

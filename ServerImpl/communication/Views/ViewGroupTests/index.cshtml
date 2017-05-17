@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "view group tests";
+}
+@model IEnumerable<communication.Models.GetTest.GetTestData>
+
+    <meta id="meta" name="@ViewBag.Title" />
+
+    <div class="cen col-md-offset-4">
+        <form id="createGroupForm" method="POST" action="~/ViewGroupTests/submit">
+            <div class="form-group">
+                <br />
+                <h2> Group tests </h2>
+                <br />
+                @if (@ViewBag.message != null)
+                {
+                    <script>
+                        alert("@ViewBag.message");
+                    </script>
+                }
+
+                <label for="testDetails" class="control-label">test Details</label>
+                <br />
+                <select id="testDetails" name="testDetails" multiple="multiple" class="form-control" style="width:300px">
+                    @if (Model != null)
+                    {
+                        foreach (var group in Model)
+                        {
+                            foreach (var test in group.vals)
+                            {
+                                <option data-option="@group.key" value="@test">@test</option>
+                            }
+                        }
+                    }
+                    @ViewBag.testDetails=this.value
+                    @ViewBag.testId=test.testId
+                </select>
+            </div>
+        </form>
+    </div>
