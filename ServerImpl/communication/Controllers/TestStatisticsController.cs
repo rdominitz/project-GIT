@@ -67,7 +67,7 @@ namespace communication.Controllers
         TestStatisticsData getData(int adminId, int testId, string groupName)
         {
             TestStatisticsData data = new TestStatisticsData();
-            Tuple<string, List<Tuple<string, int>>> usersGrades = ServerWiring.getInstance().getGrades(adminId,testId, groupName);
+            Tuple<string, List<Tuple<string, double>>> usersGrades = ServerWiring.getInstance().getGrades(adminId, testId, groupName);
             if (!usersGrades.Item1.Equals(Replies.SUCCESS))
             {
                 return data;

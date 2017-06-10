@@ -21,7 +21,6 @@ namespace Server
         private const string ILLEGAL_PASSWORD = "Illegal password. Password must be 5 to 15 characters long and consist of only letters and numbers.";
         private const string INVALID_TEMPORAL_PASSWORD = "Bad cookie. Could not identify user.";
         private const string NOT_LOGGED_IN = "User is not logged in.";
-        
         private const string USER_NOT_REGISTERED = "User is not registered.";
         private const string NOT_AN_ADMIN = "Error. only an admin has the required permissions to perform this action.";
         private const string CERTAINTY_LEVEL_ERROR = "Error. Certainty levels must be between 1 to 10.";
@@ -42,7 +41,6 @@ namespace Server
         private Dictionary<User, List<Question>> _usersTestsAnswersAtEndRemainingQuestions;
         private Dictionary<User, List<Question>> _usersTestsAnswersAtEndAnsweredQuestions;
         private Dictionary<User, List<Question>> _questionsToRemove;
-        private Dictionary<string, string> _selectedGroups;
         private Dictionary<string, Tuple<string, List<Question>>> _testQuestions;
         private Dictionary<User, Tuple<string, int>> _testDisplaying;
 
@@ -68,7 +66,6 @@ namespace Server
             _usersTestsAnswersAtEndRemainingQuestions = new Dictionary<User, List<Question>>();
             _usersTestsAnswersAtEndAnsweredQuestions = new Dictionary<User, List<Question>>();
             _questionsToRemove = new Dictionary<User, List<Question>>();
-            _selectedGroups = new Dictionary<string, string>();
             _testQuestions = new Dictionary<string, Tuple<string, List<Question>>>();
             _testDisplaying = new Dictionary<User, Tuple<string, int>>();
             _db = db;
@@ -960,7 +957,7 @@ namespace Server
                 foreach (string email in emails)
                 {
                     EmailSender.sendMail(email, "MedTrain Group Invitation", emailContent);
-                    GroupMember gm = new GroupMember { GroupName = groupName, AdminId = t.Item2.AdminId, UserId = email, invitationAccepted = false };
+                    GroupMember gm = new GroupMember { GroupName = getGroupNameAndAdminId(groupName).Item1, AdminId = t.Item2.AdminId, UserId = email, invitationAccepted = false };
                     _db.addGroupMember(gm);
                 }
             }
@@ -1275,40 +1272,6 @@ namespace Server
         public string acceptUsersGroupsInvitations(int userUniqueInt, List<string> groups)
         {
             return editUserInvitations(userUniqueInt, groups, true);
-        }
-
-        public string saveSelectedGroup(int userUniqueInt, string groupName)
-        {
-            List<string> input = new List<string>() { groupName };
-            if (!InputTester.isValidInput(input))
-            {
-                return GENERAL_INPUT_ERROR;
-            }
-            // verify user has permissions
-            Tuple<string, Admin> t = hasPermissions(userUniqueInt);
-            if (!t.Item1.Equals(Replies.SUCCESS))
-            {
-                return t.Item1;
-            }
-            _selectedGroups[t.Item2.AdminId] = groupName;
-            return Replies.SUCCESS;
-        }
-
-        public Tuple<string, string> getSavedGroup(int userUniqueInt)
-        {
-            // verify user has permissions
-            Tuple<string, Admin> t = hasPermissions(userUniqueInt);
-            if (!t.Item1.Equals(Replies.SUCCESS))
-            {
-                return new Tuple<string, string>(t.Item1, null);
-            }
-            if (!_selectedGroups.Keys.Contains(t.Item2.AdminId))
-            {
-                return new Tuple<string, string>("Error. You have not selected a group.", null);
-            }
-            string groupName = _selectedGroups[t.Item2.AdminId];
-            _selectedGroups.Remove(t.Item2.AdminId);
-            return new Tuple<string, string>(Replies.SUCCESS, groupName);
         }
 
         public string createQuestion(int userUniqueInt, string subject, List<string> qDiagnoses, List<byte[]> allImgs, string freeText)
@@ -1821,6 +1784,10 @@ namespace Server
                 int betterThanUser = numsOfCorrectAnswers.Where(i => i > userCorrectAnswers).Count();
                 l.Add(new Tuple<string, int, int, int, int>(test.testName, testQuestions.Count, userCorrectAnswers, betterThanUser, test.TestId));
             }
+            if (l.Count == 0)
+            {
+                return new Tuple<string, List<Tuple<string, int, int, int, int>>>("Error. No statistics to show.", null);
+            }
             return new Tuple<string, List<Tuple<string, int, int, int, int>>>(Replies.SUCCESS, l);
         }
 
@@ -1958,6 +1925,52 @@ namespace Server
                 tests.Add(test);
             }
             return new Tuple<string, List<Test>>(Replies.SUCCESS, tests);
+        }
+
+        public Tuple<string, List<Tuple<string, double>>> getGrades(int userUniqueInt, int testId, string group)
+        {
+            // verify input
+            if (!InputTester.isValidInput(new List<string>() { group }))
+            {
+                return new Tuple<string, List<Tuple<string, double>>>(GENERAL_INPUT_ERROR, null);
+            }
+            Tuple<string, string> t = getGroupNameAndAdminId(group);
+            // verify user has permissions
+            string s = hasPermissions(userUniqueInt).Item1;
+            if (!s.Equals(Replies.SUCCESS))
+            {
+                return new Tuple<string, List<Tuple<string, double>>>(s, null);
+            }
+            // verify group exist
+            if (_db.getGroup(t.Item2, t.Item1) == null)
+            {
+                return new Tuple<string, List<Tuple<string, double>>>(NON_EXISTING_GROUP, null);
+            }
+            // verify test exist
+            if (_db.getTest(testId) == null)
+            {
+                return new Tuple<string, List<Tuple<string, double>>>(NON_EXISTING_TEST, null);
+            }
+            // get group members
+            List<GroupMember> groupMembers = _db.getGroupMembers(t.Item1, t.Item2);
+            // foreach member get their grade
+            List<Tuple<string, double>> ans = new List<Tuple<string, double>>();
+            foreach (GroupMember gm in groupMembers)
+            {
+                User u = _db.getUser(gm.UserId);
+                Tuple<string, List<Tuple<string, int, int, int, int>>> grades = getPastGroupGrades(u.uniqueInt, group);
+                Tuple<string, int, int, int, int> relevantGrade = null;
+                foreach (Tuple<string, int, int, int, int> grade in grades.Item2)
+                {
+                    if (grade.Item5 == testId)
+                    {
+                        relevantGrade = grade;
+                        break;
+                    }
+                }
+                ans.Add(new Tuple<string, double>(u.UserId, relevantGrade.Item3 * 100 / relevantGrade.Item2));
+            }
+            return new Tuple<string, List<Tuple<string, double>>>(Replies.SUCCESS, ans);
         }
 
         private void updateUserLastActionTime(User u)
