@@ -13,7 +13,7 @@ namespace communication.Controllers
     {
         //
         // GET: /TestStatistics/
-        public ActionResult Index(int testId)
+        public ActionResult Index(string testId)
         {
             HttpCookie cookie = Request.Cookies["userId"];
 
@@ -28,7 +28,7 @@ namespace communication.Controllers
                 Response.Cookies.Add(c);
             }
             HttpCookie groupCookie = Request.Cookies["groupName"];
-            TestStatisticsData data = getData(Convert.ToInt32(cookie.Value), testId, groupCookie.Value);
+            TestStatisticsData data = getData(Convert.ToInt32(cookie.Value), Convert.ToInt32(testId), groupCookie.Value);
             Dictionary<string, double> range = new Dictionary<string, double>();
             range["0-55"] = 0;
             range["56-70"] = 0;
