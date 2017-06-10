@@ -32,16 +32,10 @@ namespace communication.Controllers
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
             removeCookie("testID");
-          //  removeCookie("groupName");
+
             ViewBag.inviteEmails = inviteEmails;
             ViewBag.emailContent = emailContent;
             HttpCookie groupCookie = Request.Cookies["groupName"];
-           // Tuple<string, string> groupName = ServerWiring.getInstance().getSavedGroup(Convert.ToInt32(cookie.Value));
-            
-          //  if (!groupName.Item1.Equals(Replies.SUCCESS))
-         //   {
-         //       return RedirectToAction("Index", "ManageGroup", new { message = groupName.Item1 });
-         //   }
             string ans = ServerWiring.getInstance().inviteToGroup(Convert.ToInt32(cookie.Value), groupCookie.Value, inviteEmails, emailContent);
             if (ans.Equals(Replies.SUCCESS))
             {

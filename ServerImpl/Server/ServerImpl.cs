@@ -89,6 +89,7 @@ namespace Server
             removeUsersThread.Start();
             _um.register("defaultadmin@gmail.com", "password", Users.medicalTrainingLevels[0], "default", "admin");
             Admin a = new Admin { AdminId = "defaultadmin@gmail.com" };
+            _um.register("aCohen@post.bgu.ac.il", "password", Users.medicalTrainingLevels[0], "a", "cohen");
             _db.addAdmin(a);
             Admin a1 = new Admin { AdminId = "aCohen@post.bgu.ac.il" };
             _db.addAdmin(a1);
