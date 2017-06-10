@@ -100,10 +100,10 @@ namespace Server
             _db.addUser(u);
             Admin a = new Admin { AdminId = "defaultadmin@gmail.com" };
             _db.addAdmin(a);
-            //if (_db.getMillisecondsToSleep() != 0)
-            //{
+            if (_db.getMillisecondsToSleep() != 0)
+            {
                 setDB();
-            //}
+            }
         }
 
         public void setDB()
