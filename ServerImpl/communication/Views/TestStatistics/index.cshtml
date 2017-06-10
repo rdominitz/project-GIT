@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Test Statistics";
 }
-@model communication.Models.GroupStatistics.TestStatisticsData
+@model communication.Models.TestStatistics.TestStatisticsData
 
 @section Scripts
 {
@@ -11,7 +11,7 @@
     <script type="text/javascript">
     google.charts.load('current', { packages: ['table', 'corechart', 'line'] });
     google.charts.setOnLoadCallback(drawTestsChart);
-    google.charts.setOnLoadCallback(drawGradesChart);
+    //google.charts.setOnLoadCallback(drawGradesChart);
 
     function drawTestsChart() {
         // Define the chart to be drawn.
@@ -21,7 +21,7 @@
         @foreach (var user in Model.gradesInTest)
         {
             <text>
-            data.addRow(['@user.Item1', @user.Item2]);
+            data.addRow(['@user.Item1', '@user.Item2']);
             </text>
         }
 
@@ -36,13 +36,12 @@
         data.addColumn('string', 'grades range');
         data.addColumn('number', 'count');
 
-        @foreach (var test in Model.list)
+        @foreach (var r in (Model.rangeCount).Keys)
         {
-            Double grade = ((test.Item3 * 100) / test.Item2) ;
-            <text>
-        data.addRows([['@test.Item1',@grade]]);
 
-            </text>
+            <text>
+        data.addRow([@r, @(Model.rangeCount).Keys[r]]);
+        </text>
 
         }
 

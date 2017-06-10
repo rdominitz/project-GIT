@@ -22,6 +22,7 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
+
             List<GetTestData> tests = getData(Convert.ToInt32(cookie.Value));
             if (tests.Count != 0)
                 return View(tests);
@@ -40,10 +41,31 @@ namespace communication.Controllers
             List<string> testStrings = new List<string>();
             foreach (Test test in tests.Item2)
             {
-               testStrings.Add(test.ToString());
+                testStrings.Add(test.ToString());
             }
             data.Add(new GetTestData(groupCookie.Value, testStrings));
             return data;
         }
-	}
+
+        [HttpPost]
+        public ActionResult Submit(string testDetails)
+        {
+            ViewBag.testDetails = testDetails;
+            String[] details = testDetails.Split(',');
+            String[] testIdArr = details[0].Split(':');
+            String[] testIdArr1 = testIdArr[1].Split(' ');
+           // int testId = int.Parse(testIdArr1[1]);
+            HttpCookie testCookie = new HttpCookie("testId", testIdArr1[1]);
+            Response.SetCookie(testCookie);
+
+            HttpCookie cookie = Request.Cookies["userId"];
+            if (cookie == null)
+            {
+                return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
+            }
+
+            return RedirectToAction("Index", "TestStatistics");
+        }
+
+    }
 }
