@@ -6,7 +6,7 @@
     <meta id="meta" name="@ViewBag.Title" />
 
     <div class="cen col-md-offset-4">
-        <form id="createGroupForm" method="POST" action="~/ViewGroupTests/submit">
+        <form id="createGroupForm" >
             <div class="form-group">
                 <br />
                 <h2> Group tests </h2>
@@ -20,7 +20,7 @@
 
                 <label for="testDetails" class="control-label">test Details</label>
                 <br />
-                <select id="testDetails" name="testDetails" multiple="multiple" class="form-control" style="width:300px">
+                <select id="testDetails" name="testDetails"  class="form-control" >
                     @if (Model != null)
                     {
                         foreach (var group in Model)
@@ -34,6 +34,8 @@
                     @ViewBag.testDetails=this.value
                     @ViewBag.testId=test.testId
                 </select>
+                <br/>
+                <button name="statistics" type="button" class="btn btn-primary btn-block" id="statistics" style="width: 280px" onclick="location.href='@Url.Action("Index", "testStatistics", new { testId = ViewBag.testId })'">View test statistics</button>
             </div>
         </form>
     </div>
