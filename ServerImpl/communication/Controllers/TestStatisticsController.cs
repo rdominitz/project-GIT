@@ -13,23 +13,18 @@ namespace communication.Controllers
     {
         //
         // GET: /TestStatistics/
-        public ActionResult Index(string testId)
+        public ActionResult Index()
         {
             HttpCookie cookie = Request.Cookies["userId"];
-
+            HttpCookie test = Request.Cookies["testId"];
             if (cookie == null)
             {
                 return RedirectToAction("Index", "Login", new { message = "you are not logged in. please log in and then try again" });
             }
-            if (Request.Cookies["testID"] != null)
-            {
-                var c = new HttpCookie("testID");
-                c.Expires = DateTime.Now.AddDays(-1);
-                Response.Cookies.Add(c);
-            }
+
             HttpCookie groupCookie = Request.Cookies["groupName"];
-            TestStatisticsData data = getData(Convert.ToInt32(cookie.Value), Convert.ToInt32(testId), groupCookie.Value);
-            Dictionary<string, double> range = new Dictionary<string, double>();
+            TestStatisticsData data = getData(Convert.ToInt32(cookie.Value), Convert.ToInt32(test.Value), groupCookie.Value);
+            Dictionary<string, int> range = new Dictionary<string, int>();
             range["0-55"] = 0;
             range["56-70"] = 0;
             range["71-80"] = 0;
