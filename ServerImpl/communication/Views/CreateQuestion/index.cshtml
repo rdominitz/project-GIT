@@ -15,6 +15,7 @@
                 alert("@ViewBag.message");
             </script>
         }
+
         <form id="createQuestionForm" method="POST" action="~/CreateQuestion/submit" new { enctype="multipart/form-data" }>
             <div class="form-group">
                 <label for="subject" class="control-label">Subject</label>
@@ -67,7 +68,7 @@
 
 
             <label for="imgs" class="control-label">Select images</label>
-            <input type="file" name="imgs" id="imgs" multiple>
+            <input type="file" name="imgs" id="imgs" multiple required>
             <br />
 
 

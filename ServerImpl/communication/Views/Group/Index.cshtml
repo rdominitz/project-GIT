@@ -19,7 +19,7 @@
         {
             <form id="chooseTestForm" method="POST" action="~/group/submit">
                 <div class="form-group">
-                    <label for="testID" class="control-label">Select A Test To Answer</label>
+                    <label for="testID" class="control-label">Select a test to answer</label>
                     <select id="testID" name="testID" class="form-control">
                         @foreach (var test in (List<Tuple<string, int>>)ViewBag.unFinishedTests)
                         {
@@ -27,13 +27,13 @@
                         }
                     </select>
                     <br />
-                    <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px">Take Test</button>
+                    <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px">Take test</button>
                 </div>
             </form>
         }
     }
 
     
-    <button name="statistics" type="button" class="btn btn-primary btn-block" id="statistics" style="width: 280px" onclick="location.href='@Url.Action("Index", "GroupStatistics", new {groupName = ViewBag.full_groupName })'">View Group Statistics</button>
+    <button name="statistics" type="button" class="btn btn-primary btn-block" id="statistics" style="width: 280px" onclick="location.href='@Url.Action("Index", "GroupStatistics", new {groupName = ViewBag.full_groupName })'">View group statistics</button>
 
 </div>

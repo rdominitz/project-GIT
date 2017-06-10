@@ -100,10 +100,23 @@ namespace Server
             _db.addUser(u);
             Admin a = new Admin { AdminId = "defaultadmin@gmail.com" };
             _db.addAdmin(a);
-            if (_db.getMillisecondsToSleep() != 0)
+            User u1 = new User
             {
-                setDB();
-            }
+                uniqueInt = _userUniqueInt,
+                UserId = "aCohen@post.bgu.ac.il",
+                userFirstName = "default",
+                userLastName = "admin",
+                userMedicalTraining = Users.medicalTrainingLevels[0],
+                userPassword = "password"
+            };
+            _userUniqueInt++;
+            _db.addUser(u1);
+            Admin a1 = new Admin { AdminId = "aCohen@post.bgu.ac.il" };
+            _db.addAdmin(a1);
+            //if (_db.getMillisecondsToSleep() != 0)
+            //{
+            setDB();
+            //}
         }
 
         public void setDB()
@@ -204,8 +217,8 @@ namespace Server
             #region add group
             Group g = new Group
             {
-                AdminId = "defaultadmin@gmail.com",
-                name = "Test Group 1"
+                AdminId = "aCohen@post.bgu.ac.il",
+                name = "Cavitary Lesions"
             };
             _db.addGroup(g);
             #endregion
@@ -213,79 +226,79 @@ namespace Server
             #region roie
             Group g2 = new Group
             {
-                AdminId = "defaultadmin@gmail.com",
-                name = "Test Group 2"
+                AdminId = "aCohen@post.bgu.ac.il",
+                name = "Basic diagnosis"
             };
             _db.addGroup(g2);
             Group g3 = new Group
             {
-                AdminId = "defaultadmin@gmail.com",
-                name = "Test Group 3"
+                AdminId = "aCohen@post.bgu.ac.il",
+                name = "Interstitial opacities"
             };
             _db.addGroup(g3);
             Group g4 = new Group
             {
-                AdminId = "defaultadmin@gmail.com",
-                name = "Test Group 4"
+                AdminId = "aCohen@post.bgu.ac.il",
+                name = "Pleural Effusions"
             };
             _db.addGroup(g4);
             Group g5 = new Group
             {
-                AdminId = "defaultadmin@gmail.com",
-                name = "Test Group 5"
+                AdminId = "aCohen@post.bgu.ac.il",
+                name = "Median Sternotomy"
             };
             _db.addGroup(g5);
             Group g6 = new Group
             {
-                AdminId = "defaultadmin@gmail.com",
-                name = "Test Group 6"
+                AdminId = "aCohen@post.bgu.ac.il",
+                name = "Middle Lobe Collapses"
             };
             _db.addGroup(g6);
 
             GroupMember gm1 = new GroupMember
             {
-                GroupName = "Test Group 1",
-                AdminId = "defaultadmin@gmail.com",
+                GroupName = "Cavitary Lesions",
+                AdminId = "aCohen@post.bgu.ac.il",
                 UserId = "user@gmail.com",
                 invitationAccepted = false
             };
             _db.addGroupMember(gm1);
             GroupMember gm2 = new GroupMember
             {
-                GroupName = "Test Group 2",
-                AdminId = "defaultadmin@gmail.com",
+                GroupName = "Middle Lobe Collapses",
+                AdminId = "aCohen@post.bgu.ac.il",
                 UserId = "user@gmail.com",
                 invitationAccepted = false
             };
             _db.addGroupMember(gm2);
             GroupMember gm3 = new GroupMember
             {
-                GroupName = "Test Group 3",
-                AdminId = "defaultadmin@gmail.com",
+                GroupName = "Median Sternotomy",
+                AdminId = "aCohen@post.bgu.ac.il",
                 UserId = "user@gmail.com",
                 invitationAccepted = false
             };
             _db.addGroupMember(gm3);
             GroupMember gm4 = new GroupMember
             {
-                GroupName = "Test Group 4",
-                AdminId = "defaultadmin@gmail.com",
+                GroupName = "Pleural Effusions",
+                AdminId = "aCohen@post.bgu.ac.il",
                 UserId = "user@gmail.com",
                 invitationAccepted = false
             };
             _db.addGroupMember(gm4);
             GroupMember gm5 = new GroupMember
             {
-                GroupName = "Test Group 5",
-                AdminId = "defaultadmin@gmail.com",
+                GroupName = "Interstitial opacities",
+                AdminId = "aCohen@post.bgu.ac.il",
                 UserId = "user@gmail.com",
                 invitationAccepted = false
             };
             _db.addGroupMember(gm5);
             GroupMember gm6 = new GroupMember
             {
-                GroupName = "Test Group 6",
-                AdminId = "defaultadmin@gmail.com",
+                GroupName = "Basic diagnosis",
+                AdminId = "aCohen@post.bgu.ac.il",
                 UserId = "user@gmail.com",
                 invitationAccepted = false
             };
@@ -293,7 +306,7 @@ namespace Server
             #endregion
             /*********** Roie stopped adding code here*************/
             #region add test
-            Test t = new Test { TestId = _testID, AdminId = "defaultadmin@gmail.com", testName = "example test", subject = chestXRays.SubjectId };
+            Test t = new Test { TestId = _testID, AdminId = "aCohen@post.bgu.ac.il", testName = "Basic diagnosis - midterm", subject = chestXRays.SubjectId };
             _testID++;
             _db.addTest(t);
             for (int i = 5; i <= 13; i++)
@@ -301,7 +314,7 @@ namespace Server
                 TestQuestion tq = new TestQuestion { TestId = 1, QuestionId = i };
                 _db.addTestQuestion(tq);
             }
-            GroupTest gt = new GroupTest{GroupName = "Test Group 1", AdminId = "defaultadmin@gmail.com", TestId = 1};
+            GroupTest gt = new GroupTest{GroupName = "Basic diagnosis", AdminId = "aCohen@post.bgu.ac.il", TestId = 1};
             _db.addGroupTest(gt);
             #endregion
         }
@@ -2133,6 +2146,11 @@ namespace Server
                 return;
             }
             d.Remove(remove);
+        }
+
+        public Tuple<string, List<Test>> getGroupTests(int adminId, string group)
+        {
+            throw new NotImplementedException();
         }
     }
 }
