@@ -11,5 +11,6 @@ namespace Constants
         public const string SUCCESS = "success";
         public const string NEXT = "next";
         public const string SHOW_ANSWER = "show answer";
+        public const string EMAIL_IN_USE = "This eMail address is already in use.";
     }
 }

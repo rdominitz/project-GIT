@@ -21,7 +21,7 @@ namespace Server
         private const string ILLEGAL_PASSWORD = "Illegal password. Password must be 5 to 15 characters long and consist of only letters and numbers.";
         private const string INVALID_TEMPORAL_PASSWORD = "Bad cookie. Could not identify user.";
         private const string NOT_LOGGED_IN = "User is not logged in.";
-        private const string EMAIL_IN_USE = "This eMail address is already in use.";
+        
         private const string USER_NOT_REGISTERED = "User is not registered.";
         private const string NOT_AN_ADMIN = "Error. only an admin has the required permissions to perform this action.";
         private const string CERTAINTY_LEVEL_ERROR = "Error. Certainty levels must be between 1 to 10.";
@@ -45,9 +45,6 @@ namespace Server
         private Dictionary<string, string> _selectedGroups;
         private Dictionary<string, Tuple<string, List<Question>>> _testQuestions;
         private Dictionary<User, Tuple<string, int>> _testDisplaying;
-
-        private int _userUniqueInt;
-        private readonly object _syncLockUserUniqueInt;
 
         private int _questionID;
         private readonly object _syncLockQuestionId;
@@ -80,8 +77,6 @@ namespace Server
             _se = new SystemExtensions(db);
             _um = new UsersManager(db);
 
-            _userUniqueInt = 100000;
-            _syncLockUserUniqueInt = new object();
             _questionID = 1;
             _syncLockQuestionId = new object();
             _syncLockGroup = new object();
@@ -92,30 +87,9 @@ namespace Server
             setSubjectsAndTopics();
             Thread removeUsersThread = new Thread(new ThreadStart(removeNonActiveUsers));
             removeUsersThread.Start();
-            User u = new User
-            {
-                uniqueInt = _userUniqueInt,
-                UserId = "defaultadmin@gmail.com",
-                userFirstName = "default",
-                userLastName = "admin",
-                userMedicalTraining = Users.medicalTrainingLevels[0],
-                userPassword = "password"
-            };
-            _userUniqueInt++;
-            _db.addUser(u);
+            _um.register("defaultadmin@gmail.com", "password", Users.medicalTrainingLevels[0], "default", "admin");
             Admin a = new Admin { AdminId = "defaultadmin@gmail.com" };
             _db.addAdmin(a);
-            User u1 = new User
-            {
-                uniqueInt = _userUniqueInt,
-                UserId = "aCohen@post.bgu.ac.il",
-                userFirstName = "default",
-                userLastName = "admin",
-                userMedicalTraining = Users.medicalTrainingLevels[0],
-                userPassword = "password"
-            };
-            _userUniqueInt++;
-            _db.addUser(u1);
             Admin a1 = new Admin { AdminId = "aCohen@post.bgu.ac.il" };
             _db.addAdmin(a1);
             //if (_db.getMillisecondsToSleep() != 0)
@@ -202,17 +176,7 @@ namespace Server
             #endregion
             // add more questions
             #region add user
-            User u = new User
-            {
-                UserId = "user@gmail.com",
-                userPassword = "password",
-                userMedicalTraining = Users.medicalTrainingLevels[0],
-                userFirstName = "first name",
-                userLastName = "last name",
-                uniqueInt = _userUniqueInt
-            };
-            _userUniqueInt++;
-            _db.addUser(u);
+            _um.register("user@gmail.com", "password", Users.medicalTrainingLevels[0], "first name", "last name");
             #endregion
             _subjectsTopics["Chest x-Rays"] = new List<string>()
             {
@@ -452,23 +416,7 @@ namespace Server
             {
                 return new Tuple<string, int>("Error - incorrect medical training level.", -1);
             }
-            // search DB
-            if (_db.getUser(eMail) != null)
-            {
-                return new Tuple<string, int>(EMAIL_IN_USE, -1);
-            }
-            // if DB contains user with that eMail return error message
-            int userUniqueInt = 0;
-            User user = null;
-            lock (_syncLockUserUniqueInt)
-            {
-                userUniqueInt = _userUniqueInt;
-                user = new User { UserId = eMail, userPassword = password, userMedicalTraining = medicalTraining, userFirstName = firstName, userLastName = lastName, uniqueInt = _userUniqueInt };
-                _userUniqueInt++;
-            }
-            // add to DB
-            _db.addUser(user);
-            return new Tuple<string, int>(Replies.SUCCESS, userUniqueInt);
+            return _um.register(eMail, password, medicalTraining, firstName, lastName);
         }
 
         public Tuple<string, int> login(string eMail, string password)
@@ -980,7 +928,7 @@ namespace Server
                 Group g = new Group { AdminId = t.Item2.AdminId, name = groupName };
                 _db.addGroup(g);
             }
-            return inviteEmails .Equals("") ? Replies.SUCCESS : inviteToGroup(userUniqueInt, groupName, inviteEmails, emailContent);
+            return inviteEmails .Equals("") ? Replies.SUCCESS : inviteToGroup(userUniqueInt, groupName + GroupsMembers.CREATED_BY + t.Item2.AdminId + ")", inviteEmails, emailContent);
         }
 
         public string inviteToGroup(int userUniqueInt, string groupName, string inviteEmails, string emailContent)
