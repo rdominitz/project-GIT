@@ -103,12 +103,8 @@ namespace Server
         string answerAQuestionGroupTest(int userUniqueInt, string group, int test, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties);
         
         string acceptUsersGroupsInvitations(int userUniqueInt, List<String> groups);
-
-        string saveSelectedGroup(int userUniqueInt, string groupName);
         
         bool hasMoreQuestionsGroupTest(int userUniqueInt, string group, int test);
-       
-        Tuple<string, string> getSavedGroup(int userUniqueInt);
 
         // allows empty list of images for tests
         string createQuestion(int userUniqueInt, string subject, List<string> qDiagnoses, List<byte[]> allImgs, string freeText);
