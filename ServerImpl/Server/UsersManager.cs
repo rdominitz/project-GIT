@@ -58,15 +58,35 @@ namespace Server
             return new Tuple<string, User>(Replies.SUCCESS, user);
         }
 
-        // has tests - 100% coverage
         public string restorePassword(string eMail)
         {
-            return "";
+            // search user in DB
+            User user = _db.getUser(eMail);
+            // if doesn't exist return error message
+            if (user == null)
+            {
+                return "eMail address does not exist in the system.";
+            }
+            // send eMail
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Hello " + user.userFirstName + " " + user.userLastName + "," + Environment.NewLine);
+            sb.Append(Environment.NewLine);
+            sb.Append("Your password for our system is: " + user.userPassword + Environment.NewLine);
+            EmailSender.sendMail(eMail, "Medical Training System Password Restoration", sb.ToString());
+            return Replies.SUCCESS;
         }
 
-        public string setUserAsAdmin(int userUniqueInt, string usernameToTurnToAdmin)
+        public string setUserAsAdmin(string usernameToTurnToAdmin)
         {
-            return "";
+            User u = _db.getUser(usernameToTurnToAdmin);
+            // verify user exist
+            if (u == null)
+            {
+                return "Error. Cannot make " + usernameToTurnToAdmin + " an admin since " + usernameToTurnToAdmin + " is not registered to the system.";
+            }
+            _db.addAdmin(new Admin { AdminId = u.UserId });
+            _db.SaveChanges();
+            return Replies.SUCCESS;
         }
     }
 }

@@ -10,28 +10,31 @@ namespace ServerLogicTests
     public class InviteToGroup
     {
         private IServer _server;
-        private string _group = "group1";
-        private string _email = "invitee@gmail.com";
+        private static string _group = "group";
+        private static string _email = "defaultadmin@gmail.com";
+        private string _groupCreatedBy = _group + GroupsMembers.CREATED_BY + _email + ")";
+        private string _nonExistingGroupCreatedBy = _group + "1" + GroupsMembers.CREATED_BY + _email + ")";
+        private string _inviteeEmail = "invitee@gmail.com";
 
         [TestInitialize]
         public void TestInitialize()
         {
             _server = new ServerImpl(new FakeMedTrainDBContext());
-            _server.login("defaultadmin@gmail.com", "password");
+            _server.login(_email, "password");
             _server.createGroup(Users.USER_UNIQUE_INT, _group, "", "");
         }
 
         [TestMethod]
         public void inviteToGRoupSuccessfullyInviteSingleRegisteredUser()
         {
-            _server.register(_email, "password", Users.medicalTrainingLevels[0], "fn", "ln");
-            Assert.IsTrue(_server.inviteToGroup(Users.USER_UNIQUE_INT, _group, _email, "").Equals(Replies.SUCCESS));
+            _server.register(_inviteeEmail, "password", Users.medicalTrainingLevels[0], "fn", "ln");
+            Assert.IsTrue(_server.inviteToGroup(Users.USER_UNIQUE_INT, _groupCreatedBy, _inviteeEmail, "").Equals(Replies.SUCCESS));
         }
 
         [TestMethod]
         public void inviteToGRoupSuccessfullyInviteSingleUnregisteredUser()
         {
-            Assert.IsTrue(_server.inviteToGroup(Users.USER_UNIQUE_INT, _group, _email, "").Equals(Replies.SUCCESS));
+            Assert.IsTrue(_server.inviteToGroup(Users.USER_UNIQUE_INT, _groupCreatedBy, _inviteeEmail, "").Equals(Replies.SUCCESS));
         }
 
         [TestMethod]
@@ -42,7 +45,7 @@ namespace ServerLogicTests
             string email2 = "invitee2@gmail.com";
             _server.register(email2, "password", Users.medicalTrainingLevels[0], "fn", "ln");
             string emails = email1 + ", " + email2;
-            Assert.IsTrue(_server.inviteToGroup(Users.USER_UNIQUE_INT, _group, emails, "").Equals(Replies.SUCCESS));
+            Assert.IsTrue(_server.inviteToGroup(Users.USER_UNIQUE_INT, _groupCreatedBy, emails, "").Equals(Replies.SUCCESS));
         }
 
         [TestMethod]
@@ -51,14 +54,14 @@ namespace ServerLogicTests
             string email1 = "invitee1@gmail.com";
             string email2 = "invitee2@gmail.com";
             string emails = email1 + ", " + email2;
-            Assert.IsTrue(_server.inviteToGroup(Users.USER_UNIQUE_INT, _group, emails, "").Equals(Replies.SUCCESS));
+            Assert.IsTrue(_server.inviteToGroup(Users.USER_UNIQUE_INT, _groupCreatedBy, emails, "").Equals(Replies.SUCCESS));
         }
 
         [TestMethod]
         public void inviteToGRoupUserNotLoggedIn()
         {
             _server.logout(Users.USER_UNIQUE_INT);
-            Assert.IsFalse(_server.inviteToGroup(Users.USER_UNIQUE_INT, _group, _email, "").Equals(Replies.SUCCESS));
+            Assert.IsFalse(_server.inviteToGroup(Users.USER_UNIQUE_INT, _group, _inviteeEmail, "").Equals(Replies.SUCCESS));
         }
 
         [TestMethod]
@@ -66,37 +69,37 @@ namespace ServerLogicTests
         {
             _server.register("newuser@gmail.com", "password", Users.medicalTrainingLevels[0], "first name", "last name");
             Tuple<string, int> t = _server.login("newuser@gmail.com", "password");
-            Assert.IsFalse(_server.inviteToGroup(t.Item2, _group, _email, "").Equals(Replies.SUCCESS));
+            Assert.IsFalse(_server.inviteToGroup(t.Item2, _group, _inviteeEmail, "").Equals(Replies.SUCCESS));
         }
 
         [TestMethod]
         public void inviteToGRoupWrongUserId()
         {
-            Assert.IsFalse(_server.inviteToGroup(Users.USER_UNIQUE_INT - 1, _group, _email, "").Equals(Replies.SUCCESS));
+            Assert.IsFalse(_server.inviteToGroup(Users.USER_UNIQUE_INT - 1, _group, _inviteeEmail, "").Equals(Replies.SUCCESS));
         }
 
         [TestMethod]
         public void inviteToGRoupNonExistingGroup()
         {
-            Assert.IsFalse(_server.inviteToGroup(Users.USER_UNIQUE_INT, _group + "1", _email, "").Equals(Replies.SUCCESS));
+            Assert.IsFalse(_server.inviteToGroup(Users.USER_UNIQUE_INT, _nonExistingGroupCreatedBy, _inviteeEmail, "").Equals(Replies.SUCCESS));
         }
 
         [TestMethod]
         public void inviteToGRoupGroupNameIsNull()
         {
-            Assert.IsFalse(_server.inviteToGroup(Users.USER_UNIQUE_INT, null, _email, "").Equals(Replies.SUCCESS));
+            Assert.IsFalse(_server.inviteToGroup(Users.USER_UNIQUE_INT, null, _inviteeEmail, "").Equals(Replies.SUCCESS));
         }
 
         [TestMethod]
         public void inviteToGRoupGroupNameIsNullString()
         {
-            Assert.IsFalse(_server.inviteToGroup(Users.USER_UNIQUE_INT, "null", _email, "").Equals(Replies.SUCCESS));
+            Assert.IsFalse(_server.inviteToGroup(Users.USER_UNIQUE_INT, "null", _inviteeEmail, "").Equals(Replies.SUCCESS));
         }
 
         [TestMethod]
         public void inviteToGRoupGroupNameIsEmptyString()
         {
-            Assert.IsFalse(_server.inviteToGroup(Users.USER_UNIQUE_INT, "", _email, "").Equals(Replies.SUCCESS));
+            Assert.IsFalse(_server.inviteToGroup(Users.USER_UNIQUE_INT, "", _inviteeEmail, "").Equals(Replies.SUCCESS));
         }
 
         [TestMethod]

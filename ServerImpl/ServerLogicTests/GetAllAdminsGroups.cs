@@ -37,7 +37,7 @@ namespace ServerLogicTests
             Tuple<string, List<string>> t = _server.getAllAdminsGroups(Users.USER_UNIQUE_INT);
             Assert.IsTrue(t.Item1.Equals(Replies.SUCCESS));
             Assert.IsTrue(t.Item2.Count == 1);
-            Assert.IsTrue(t.Item2.Contains(groupName));
+            Assert.IsTrue(t.Item2[0].Contains(groupName));
         }
 
         [TestMethod]
@@ -50,8 +50,8 @@ namespace ServerLogicTests
             Tuple<string, List<string>> t = _server.getAllAdminsGroups(Users.USER_UNIQUE_INT);
             Assert.IsTrue(t.Item1.Equals(Replies.SUCCESS));
             Assert.IsTrue(t.Item2.Count == 2);
-            Assert.IsTrue(t.Item2.Contains(groupName1));
-            Assert.IsTrue(t.Item2.Contains(groupName2));
+            Assert.IsTrue(t.Item2[0].Contains(groupName1));
+            Assert.IsTrue(t.Item2[1].Contains(groupName2));
         }
 
         [TestMethod]
