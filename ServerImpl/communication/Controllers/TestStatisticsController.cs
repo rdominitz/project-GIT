@@ -29,6 +29,37 @@ namespace communication.Controllers
             }
             HttpCookie groupCookie = Request.Cookies["groupName"];
             TestStatisticsData data = getData(Convert.ToInt32(cookie.Value), testId, groupCookie.Value);
+            Dictionary<string, double> range = new Dictionary<string, double>();
+            range["0-55"] = 0;
+            range["56-70"] = 0;
+            range["71-80"] = 0;
+            range["81-90"] = 0;
+            range["91-100"] = 0;
+           
+            foreach (Tuple<string, int> t in data.gradesInTest)
+            {
+                if (t.Item2 <= 55)
+                {
+                    range["0-55"]++;
+                }
+                else if (t.Item2 > 55 && t.Item2 <= 70)
+                {
+                    range["56-70"]++;
+                }
+                else if (t.Item2 > 70 && t.Item2 <= 80)
+                {
+                    range["71-80"]++;
+                }
+                else if (t.Item2 > 80 && t.Item2 <= 90)
+                {
+                    range["81-90"]++;
+                }
+                else if (t.Item2 > 90 && t.Item2 <= 100)
+                {
+                    range["91-100"]++;
+                }
+            }
+            data.rangeCount = range;
             return View(data);
         }
 

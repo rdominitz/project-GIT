@@ -2,4 +2,87 @@
 @{
     ViewBag.Title = "Test Statistics";
 }
+@model communication.Models.GroupStatistics.TestStatisticsData
+
+@section Scripts
+{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+    google.charts.load('current', { packages: ['table', 'corechart', 'line'] });
+    google.charts.setOnLoadCallback(drawTestsChart);
+    google.charts.setOnLoadCallback(drawGradesChart);
+
+    function drawTestsChart() {
+        // Define the chart to be drawn.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'User Name');
+        data.addColumn('number', 'grade');
+        @foreach (var user in Model.gradesInTest)
+        {
+            <text>
+            data.addRow(['@user.Item1', @user.Item2]);
+            </text>
+        }
+
+      // Instantiate and draw the chart.
+      var chart = new google.visualization.Table(document.getElementById('PastTests'));
+      chart.draw(data, null);
+    }
+
+    function drawGradesChart() {
+        // Define the chart to be drawn.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'grades range');
+        data.addColumn('number', 'count');
+
+        @foreach (var test in Model.list)
+        {
+            Double grade = ((test.Item3 * 100) / test.Item2) ;
+            <text>
+        data.addRows([['@test.Item1',@grade]]);
+
+            </text>
+
+        }
+
+        var options = {
+            chart: {
+                title: 'Grades',
+
+            },
+            width: 500,
+            height: 300,
+            axes: {
+                x: {
+                    0: {side: 'top'}
+                }
+            }
+        };
+
+        var chart = new google.charts.Line(document.getElementById('TestGrades'));
+
+        chart.draw(data, google.charts.Line.convertOptions(options));
+    }
+    </script>
+}
+
+<div class="col-md-offset-3">
+    <h2>Test group statistics</h2>
+</div>
+
+<div class="cen">
+    <br />
+    <table>
+        <tr>
+            <td><div class="col-md-offset-6" id="myPieChart" /></td>
+        </tr>
+        <tr>
+            <td> <div id="PastTests" /></td>
+        </tr>
+        <tr>
+            <td> <div id="TestGrades" /></td>
+        </tr>
+    </table>
+</div>
 
