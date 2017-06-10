@@ -1903,15 +1903,15 @@ namespace Server
             List<GroupTest> groupTests = _db.getGroupTests(t.Item1, t.Item2);
             // get all group members
             List<GroupMember> groupMembers = _db.getGroupMembers(t.Item1, t.Item2);
-            // foreach test
+            // foreach group test
             foreach (GroupTest gt in groupTests)
             {
+                // get test
                 Test test = _db.getTest(gt.TestId);
-                // get all questions
+                // get test questions
                 List<TestQuestion> testQuestions = _db.getTestQuestions(gt.TestId);
                 // get user answers
                 List<GroupTestAnswer> answers = _db.getGroupTestAnswers(t.Item1, t.Item2, gt.TestId);
-                List<Tuple<string, List<GroupTestAnswer>>> answersByUser = new List<Tuple<string, List<GroupTestAnswer>>>();
                 List<GroupTestAnswer> relevantAnswers = new List<GroupTestAnswer>();
                 List<int> numsOfCorrectAnswers = new List<int>();
                 foreach (GroupMember gm in groupMembers)
@@ -1932,16 +1932,16 @@ namespace Server
                         }
                     }
                     numsOfCorrectAnswers.Add(correctAnswers);
-                    answersByUser.Add(new Tuple<string, List<GroupTestAnswer>>(gm.UserId, usersAnswers));
+                    // set relevant answers if current user is the requesting user
                     if (gm.UserId.Equals(user.UserId))
                     {
                         relevantAnswers = usersAnswers;
                     }
                 }
-                // if the user did not complete the test retutrn an error message
+                // if the user did not complete the test ignore this test
                 if (relevantAnswers.Count < testQuestions.Count)
                 {
-                    return new Tuple<string, List<Tuple<string, int, int, int, int>>>("Incomplete", null);
+                    continue;
                 }
                 // count user correct answers
                 int userCorrectAnswers = 0;
@@ -2062,6 +2062,40 @@ namespace Server
             return Replies.SUCCESS;
         }
 
+        public Tuple<string, List<Test>> getGroupTests(int userUniqueInt, string group)
+        {
+            // verify input
+            if (!InputTester.isValidInput(new List<string>() { group }))
+            {
+                return new Tuple<string, List<Test>>(GENERAL_INPUT_ERROR, null);
+            }
+            Tuple<string, string> t = getGroupNameAndAdminId(group);
+            // verify user has permissions
+            string s = hasPermissions(userUniqueInt).Item1;
+            if (!s.Equals(Replies.SUCCESS))
+            {
+                return new Tuple<string, List<Test>>(s, null);
+            }
+            // verify group exist
+            if (_db.getGroup(t.Item2, t.Item1) == null)
+            {
+                return new Tuple<string, List<Test>>(NON_EXISTING_GROUP, null);
+            }
+            // get group tests
+            List<GroupTest> gts = _db.getGroupTests(t.Item1, t.Item2);
+            List<Test> tests = new List<Test>();
+            foreach (GroupTest gt in gts)
+            {
+                Test test = _db.getTest(gt.TestId);
+                if (test == null)
+                {
+                    return new Tuple<string, List<Test>>("Error. Invalid data - there is a group test to group " + t.Item1 + "with id " + gt.TestId + " but no test with that id in the DB.", null);
+                }
+                tests.Add(test);
+            }
+            return new Tuple<string, List<Test>>(Replies.SUCCESS, tests);
+        }
+
         private User getUserByInt(int userUniqueInt)
         {
             List<User> matches = _usersCache.Where(u => u.uniqueInt.Equals(userUniqueInt)).ToList();
@@ -2146,11 +2180,6 @@ namespace Server
                 return;
             }
             d.Remove(remove);
-        }
-
-        public Tuple<string, List<Test>> getGroupTests(int adminId, string group)
-        {
-            throw new NotImplementedException();
         }
     }
 }

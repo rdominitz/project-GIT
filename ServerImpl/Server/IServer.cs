@@ -135,8 +135,6 @@ namespace Server
 
         double getTestGrade(int userUniqueInt, string group, int testId);
 
-
-
         Tuple<string, List<Test>> getGroupTests(int adminId, string group);
     }
 }
