@@ -31,13 +31,14 @@ namespace communication.Controllers
         private List<GetTestData> getData(int adminId)
         {
             List<GetTestData> data = new List<GetTestData>();
-            Tuple<string, string> groupName = ServerWiring.getInstance().getSavedGroup(adminId);
-            if (!groupName.Item1.Equals(Replies.SUCCESS))
-            {
-                return data;
-            }
+          //  Tuple<string, string> groupName = ServerWiring.getInstance().getSavedGroup(adminId);
+            HttpCookie groupCookie = Request.Cookies["groupName"];
+   //         if (!groupName.Item1.Equals(Replies.SUCCESS))
+      //      {
+      //          return data;
+       //     }
 
-            Tuple<string, List<Test>> tests = ServerWiring.getInstance().getGroupTests(adminId, groupName.Item2);
+            Tuple<string, List<Test>> tests = ServerWiring.getInstance().getGroupTests(adminId, groupCookie.Value);
             if (!tests.Item1.Equals(Replies.SUCCESS))
             {
                 return data;
@@ -48,7 +49,7 @@ namespace communication.Controllers
             {
                testStrings.Add(test.ToString());
             }
-            data.Add(new GetTestData(groupName.Item2, testStrings));
+            data.Add(new GetTestData(groupCookie.Value, testStrings));
             
             return data;
         }

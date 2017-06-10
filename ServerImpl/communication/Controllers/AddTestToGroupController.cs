@@ -23,7 +23,7 @@ namespace communication.Controllers
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
             removeCookie("testID");
-            removeCookie("groupName");
+            //removeCookie("groupName");
             List<GetTestData> tests = getData(Convert.ToInt32(cookie.Value));
             if (tests.Count!= 0)
                 return View(tests);
@@ -79,14 +79,15 @@ namespace communication.Controllers
             String[] testIdArr = details[0].Split(':');
             String[] testIdArr1 = testIdArr[1].Split(' ');
             int testId = int.Parse(testIdArr1[1]);
+            HttpCookie groupCookie = Request.Cookies["groupName"];
 
-            Tuple<string, string> groupName = ServerWiring.getInstance().getSavedGroup(Convert.ToInt32(cookie.Value));
-            if (!groupName.Item1.Equals(Replies.SUCCESS))
-            {
-                return RedirectToAction("Index", "ManageGroup", new { message = "There was a problem, please reconnect" });
-            }
+           // Tuple<string, string> groupName = ServerWiring.getInstance().getSavedGroup(Convert.ToInt32(cookie.Value));
+        //    if (!groupName.Item1.Equals(Replies.SUCCESS))
+       //     {
+         //       return RedirectToAction("Index", "ManageGroup", new { message = "There was a problem, please reconnect" });
+         //   }
 
-            string ans = ServerWiring.getInstance().saveGroupAndTest(Convert.ToInt32(cookie.Value), groupName.Item2, testId);
+            string ans = ServerWiring.getInstance().saveGroupAndTest(Convert.ToInt32(cookie.Value), groupCookie.Value, testId);
             if (ans.Equals(Replies.SUCCESS))
             {
                 return RedirectToAction("Index", "SeeTestDetails", new { testId = testId });

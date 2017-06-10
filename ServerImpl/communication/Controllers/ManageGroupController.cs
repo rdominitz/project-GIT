@@ -51,12 +51,15 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-            string ans = ServerWiring.getInstance().saveSelectedGroup(Convert.ToInt32(cookie.Value), groupName);
-            if (ans.Equals(Replies.SUCCESS))
-            {
+            //string ans = ServerWiring.getInstance().saveSelectedGroup(Convert.ToInt32(cookie.Value), groupName);
+            HttpCookie groupCookie = new HttpCookie("groupName", groupName);
+
+            Response.SetCookie(groupCookie);
+           // if (ans.Equals(Replies.SUCCESS))
+         //   {
                 return RedirectToAction("Index", "AddToExistGroup");
-            }
-            return RedirectToAction("Index", "ManageGroup", new { message = ans });
+          //  }
+          //  return RedirectToAction("Index", "ManageGroup", new { message = ans });
         }
 
        [HttpPost]
@@ -67,12 +70,35 @@ namespace communication.Controllers
            {
                return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
            }
-           string ans = ServerWiring.getInstance().saveSelectedGroup(Convert.ToInt32(cookie.Value), groupName);
-           if (ans.Equals(Replies.SUCCESS))
-           {
+           HttpCookie groupCookie = new HttpCookie("groupName", groupName);
+
+           Response.SetCookie(groupCookie);
+      //     string ans = ServerWiring.getInstance().saveSelectedGroup(Convert.ToInt32(cookie.Value), groupName);
+         //  if (ans.Equals(Replies.SUCCESS))
+         //  {
                return RedirectToAction("Index", "AddTestToGroup");
+        //   }
+          // return RedirectToAction("Index", "ManageGroup", new { message = ans });
+       }
+
+
+       [HttpPost]
+       public ActionResult saveChangeAndRedirectViewGroupTests(string groupName)
+       {
+           HttpCookie cookie = Request.Cookies["userId"];
+           if (cookie == null)
+           {
+               return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
            }
-           return RedirectToAction("Index", "ManageGroup", new { message = ans });
+           HttpCookie groupCookie = new HttpCookie("groupName", groupName);
+
+           Response.SetCookie(groupCookie);
+         //  string ans = ServerWiring.getInstance().saveSelectedGroup(Convert.ToInt32(cookie.Value), groupName);
+        //   if (ans.Equals(Replies.SUCCESS))
+         //  {
+               return RedirectToAction("Index", "ViewGroupTests");
+        //   }
+         //  return RedirectToAction("Index", "ManageGroup", new { message = ans });
        }
         
         List<GroupData> getData(int adminId)
