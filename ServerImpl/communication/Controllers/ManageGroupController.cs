@@ -51,15 +51,11 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-            //string ans = ServerWiring.getInstance().saveSelectedGroup(Convert.ToInt32(cookie.Value), groupName);
+           
             HttpCookie groupCookie = new HttpCookie("groupName", groupName);
-
             Response.SetCookie(groupCookie);
-           // if (ans.Equals(Replies.SUCCESS))
-         //   {
-                return RedirectToAction("Index", "AddToExistGroup");
-          //  }
-          //  return RedirectToAction("Index", "ManageGroup", new { message = ans });
+            return RedirectToAction("Index", "AddToExistGroup");
+
         }
 
        [HttpPost]
@@ -71,14 +67,8 @@ namespace communication.Controllers
                return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
            }
            HttpCookie groupCookie = new HttpCookie("groupName", groupName);
-
            Response.SetCookie(groupCookie);
-      //     string ans = ServerWiring.getInstance().saveSelectedGroup(Convert.ToInt32(cookie.Value), groupName);
-         //  if (ans.Equals(Replies.SUCCESS))
-         //  {
-               return RedirectToAction("Index", "AddTestToGroup");
-        //   }
-          // return RedirectToAction("Index", "ManageGroup", new { message = ans });
+           return RedirectToAction("Index", "AddTestToGroup");
        }
 
 
@@ -91,14 +81,8 @@ namespace communication.Controllers
                return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
            }
            HttpCookie groupCookie = new HttpCookie("groupName", groupName);
-
            Response.SetCookie(groupCookie);
-         //  string ans = ServerWiring.getInstance().saveSelectedGroup(Convert.ToInt32(cookie.Value), groupName);
-        //   if (ans.Equals(Replies.SUCCESS))
-         //  {
-               return RedirectToAction("Index", "ViewGroupTests");
-        //   }
-         //  return RedirectToAction("Index", "ManageGroup", new { message = ans });
+           return RedirectToAction("Index", "ViewGroupTests");
        }
         
         List<GroupData> getData(int adminId)

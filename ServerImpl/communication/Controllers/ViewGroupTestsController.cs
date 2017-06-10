@@ -31,26 +31,18 @@ namespace communication.Controllers
         private List<GetTestData> getData(int adminId)
         {
             List<GetTestData> data = new List<GetTestData>();
-          //  Tuple<string, string> groupName = ServerWiring.getInstance().getSavedGroup(adminId);
             HttpCookie groupCookie = Request.Cookies["groupName"];
-   //         if (!groupName.Item1.Equals(Replies.SUCCESS))
-      //      {
-      //          return data;
-       //     }
-
             Tuple<string, List<Test>> tests = ServerWiring.getInstance().getGroupTests(adminId, groupCookie.Value);
             if (!tests.Item1.Equals(Replies.SUCCESS))
             {
                 return data;
             }
-
             List<string> testStrings = new List<string>();
             foreach (Test test in tests.Item2)
             {
                testStrings.Add(test.ToString());
             }
             data.Add(new GetTestData(groupCookie.Value, testStrings));
-            
             return data;
         }
 	}
