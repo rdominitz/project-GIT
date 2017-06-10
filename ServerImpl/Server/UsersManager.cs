@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using Constants;
+using Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +12,30 @@ namespace Server
     {
         private IMedTrainDBContext _db;
 
+        public UsersManager(IMedTrainDBContext db)
+        {
+            _db = db;
+        }
+
         public Tuple<string, int> register(string eMail, string password, string medicalTraining, string firstName, string lastName)
         {
             return null;
         }
 
-        // has tests - 100% coverage
-        public Tuple<string, int> login(string eMail, string password)
+        public Tuple<string, User> login(string eMail, string password)
         {
-            return null;
+            // search DB
+            User user = _db.getUser(eMail);
+            if (user == null)
+            {
+                return new Tuple<string, User>("Wrong eMail or password.", null);
+            }
+            // if found add to cache and return relevant message as shown above
+            if (!user.userPassword.Equals(password))
+            {
+                return new Tuple<string, User>("Wrong password", null);
+            }
+            return new Tuple<string, User>(Replies.SUCCESS, user);
         }
 
         // has tests - 100% coverage

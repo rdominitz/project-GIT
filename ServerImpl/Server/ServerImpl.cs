@@ -62,6 +62,7 @@ namespace Server
         private ILogic _logic;
         private IMedTrainDBContext _db;
         private SystemExtensions _se;
+        private UsersManager _um;
 
         public ServerImpl(IMedTrainDBContext db)
         {
@@ -74,8 +75,11 @@ namespace Server
             _testQuestions = new Dictionary<string, Tuple<string, List<Question>>>();
             _testDisplaying = new Dictionary<User, Tuple<string, int>>();
             _db = db;
+
             _logic = new LogicImpl(db);
             _se = new SystemExtensions(db);
+            _um = new UsersManager(db);
+
             _userUniqueInt = 100000;
             _syncLockUserUniqueInt = new object();
             _questionID = 1;
@@ -478,25 +482,14 @@ namespace Server
             {
                 return new Tuple<string, int>(ILLEGAL_PASSWORD, -1);
             }
-            // search DB
-            User user = _db.getUser(eMail);
-            if (user == null)
+            Tuple<string, User> loginResult = _um.login(eMail, password);
+            if (!loginResult.Item1.Equals(Replies.SUCCESS))
             {
-                return new Tuple<string, int>("Wrong eMail or password.", -1);
-            }
-            // if found add to cache and return relevant message as shown above
-            return verifyLogin(user, password);
-        }
-
-        private Tuple<string, int> verifyLogin(User u, string password)
-        {
-            if (!u.userPassword.Equals(password))
-            {
-                return new Tuple<string, int>("Wrong password", -1);
+                return new Tuple<string, int>(loginResult.Item1, -1);
             }
             // addd user to logged users list
-            _loggedUsers[u] = DateTime.Now; 
-            return new Tuple<string, int>(Replies.SUCCESS, u.uniqueInt);
+            _loggedUsers[loginResult.Item2] = DateTime.Now;
+            return new Tuple<string, int>(loginResult.Item1, loginResult.Item2.uniqueInt);
         }
 
         public string restorePassword(string eMail)
@@ -1023,7 +1016,7 @@ namespace Server
             User user = _db.getUser(userUniqueInt);
             lock (_syncLockGroup)
             {
-                if (_db.getGroup(t.Item2.AdminId, groupName) == null)
+                if (_db.getGroup(t.Item2.AdminId, getGroupNameAndAdminId(groupName).Item1) == null)
                 {
                     return NON_EXISTING_GROUP;
                 }
@@ -1109,7 +1102,7 @@ namespace Server
             }
             lock (_syncLockGroup)
             {
-                Group g = _db.getGroup(t.Item2.AdminId, groupName);
+                Group g = _db.getGroup(t.Item2.AdminId, getGroupNameAndAdminId(groupName).Item1);
                 if (g == null)
                 {
                     return NON_EXISTING_GROUP;
@@ -1297,19 +1290,20 @@ namespace Server
                 return t.Item1;
             }
             // verify group exist
-            if (_db.getGroup(t.Item2.AdminId, groupName) == null)
+            Tuple<string, string> groupNameAndAdmin = getGroupNameAndAdminId(groupName);
+            if (_db.getGroup(t.Item2.AdminId, groupNameAndAdmin.Item1) == null)
             {
-                return "Error. The administrator " + t.Item2.AdminId + " does not have a group named " + groupName;
+                return "Error. The administrator " + t.Item2.AdminId + " does not have a group named " + groupNameAndAdmin.Item1;
             }
-            GroupTest gt = new GroupTest { AdminId = t.Item2.AdminId, GroupName = groupName, TestId = testId };
+            GroupTest gt = new GroupTest { AdminId = t.Item2.AdminId, GroupName = groupNameAndAdmin.Item1, TestId = testId };
             _db.addGroupTest(gt);
             // email group members they have a test
-            List<GroupMember> gms = _db.getGroupMembers(groupName, t.Item2.AdminId);
+            List<GroupMember> gms = _db.getGroupMembers(groupNameAndAdmin.Item1, t.Item2.AdminId);
             foreach (GroupMember gm in gms)
             {
-                string msg = "A new test has been added to your group " + groupName + Environment.NewLine +
+                string msg = "A new test has been added to your group " + groupNameAndAdmin.Item1 + Environment.NewLine +
                     "Login now to complete it!";
-                EmailSender.sendMail(gm.UserId, "New test in group " + groupName, msg);
+                EmailSender.sendMail(gm.UserId, "New test in group " + groupNameAndAdmin.Item1, msg);
             }
             return Replies.SUCCESS;
         }
