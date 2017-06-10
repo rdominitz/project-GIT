@@ -4,6 +4,7 @@ using Server;
 using Entities;
 using Constants;
 using System.Text.RegularExpressions;
+using DB;
 
 namespace ServerLogicTests
 {
@@ -15,7 +16,7 @@ namespace ServerLogicTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _server = new ServerImpl(new FakeMedTrainDBContext());
+            _server = new ServerImpl(new DB.FakeMedTrainDBContext());
         }
 
         [TestMethod]

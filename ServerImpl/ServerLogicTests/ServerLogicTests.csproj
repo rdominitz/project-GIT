@@ -71,6 +71,7 @@
     <Compile Include="AddTopic.cs" />
     <Compile Include="AnswerAQuestion.cs" />
     <Compile Include="CreateGroup.cs" />
+    <Compile Include="FakeMedTrainDBContext.cs" />
     <Compile Include="GetAllAdminsGroups.cs" />
     <Compile Include="GetAllSubjects.cs" />
     <Compile Include="GetAnswers.cs" />
@@ -95,6 +96,10 @@
     <ProjectReference Include="..\Constants\Constants.csproj">
       <Project>{540320af-cf89-42bb-ba82-51c80b4ec10b}</Project>
       <Name>Constants</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DB\DB.csproj">
+      <Project>{2eb75fb4-9c98-45a7-af83-6335d6d3f7b2}</Project>
+      <Name>DB</Name>
     </ProjectReference>
     <ProjectReference Include="..\Entities\Entities.csproj">
       <Project>{551dca37-e692-494f-ae55-fa4d3709628b}</Project>

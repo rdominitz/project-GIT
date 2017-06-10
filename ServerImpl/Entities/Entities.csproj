@@ -58,14 +58,11 @@
     <Compile Include="Answer.cs" />
     <Compile Include="Diagnosis.cs" />
     <Compile Include="DiagnosisCertainty.cs" />
-    <Compile Include="FakeMedTrainDBContext.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="GroupMember.cs" />
     <Compile Include="GroupTest.cs" />
     <Compile Include="GroupTestAnswer.cs" />
     <Compile Include="QuestionImage.cs" />
-    <Compile Include="IMedTrainDBContext.cs" />
-    <Compile Include="MedTrainDBContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Question.cs" />
     <Compile Include="Subject.cs" />
@@ -73,7 +70,6 @@
     <Compile Include="TestQuestion.cs" />
     <Compile Include="Topic.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="UserGroupTest.cs" />
     <Compile Include="UserLevel.cs" />
     <Compile Include="UserLevelAnswer.cs" />
   </ItemGroup>

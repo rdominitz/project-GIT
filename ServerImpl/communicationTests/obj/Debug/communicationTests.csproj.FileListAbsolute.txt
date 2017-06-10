@@ -1,0 +1,1 @@
+C:\Users\galmo\Documents\GitHub\project-GIT\ServerImpl\communicationTests\obj\Debug\communicationTests.csprojResolveAssemblyReference.cache

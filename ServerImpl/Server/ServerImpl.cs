@@ -10,6 +10,7 @@ using QALogic;
 using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
+using DB;
 
 namespace Server
 {

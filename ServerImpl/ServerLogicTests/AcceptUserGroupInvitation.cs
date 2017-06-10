@@ -21,7 +21,7 @@ namespace ServerLogicTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _server = new ServerImpl(new FakeMedTrainDBContext());
+            _server = new ServerImpl(new DB.FakeMedTrainDBContext());
             _server.login(_email, "password");
             _inviteeId = _server.register(_inviteeEmail, "password", Users.medicalTrainingLevels[0], "fn", "ln").Item2;
             _server.login(_inviteeEmail, "password");

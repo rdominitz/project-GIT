@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Constants;
 using Server;
 using Entities;
+using DB;
 
 namespace ServerLogicTests
 {
@@ -15,7 +16,7 @@ namespace ServerLogicTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _server = new ServerImpl(new FakeMedTrainDBContext());
+            _server = new ServerImpl(new DB.FakeMedTrainDBContext());
             _server.login("defaultadmin@gmail.com", "password");
             _server.addSubject(Users.USER_UNIQUE_INT, "subject");
             _server.addTopic(Users.USER_UNIQUE_INT, "subject", "topic");
