@@ -281,6 +281,7 @@
     <Compile Include="Controllers\SelectQuestionsController.cs" />
     <Compile Include="Controllers\SetUserAsAdminController.cs" />
     <Compile Include="Controllers\ShowAnswersController.cs" />
+    <Compile Include="Controllers\TestStatisticsController.cs" />
     <Compile Include="Controllers\ViewGroupTestsController.cs" />
     <Compile Include="Core\ServerWiring.cs" />
     <Compile Include="Global.asax.cs">
@@ -293,6 +294,7 @@
     <Compile Include="Models\Questions\QuestionData.cs" />
     <Compile Include="Models\ShowAnswers\ShowAnswersData.cs" />
     <Compile Include="Models\Subjects\SubjectData.cs" />
+    <Compile Include="Models\TestStatistics\TestStatisticsData.cs" />
     <Compile Include="Models\Test\TestData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -335,6 +337,7 @@
     <Content Include="Views\SetUserAsAdmin\index.cshtml" />
     <Content Include="Views\SeeTestDetails\index.cshtml" />
     <Content Include="Views\ViewGroupTests\index.cshtml" />
+    <Content Include="Views\TestStatistics\index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
