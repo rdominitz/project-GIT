@@ -31,16 +31,6 @@ namespace ServerLogicTests
         }
 
         [TestMethod]
-        public void restorePasswordUserNotInCache()
-        {
-            for (int i = 0; i < 1500; i++)
-            {
-                _server.register("user" + i + "@gmail.com", "password1", Users.medicalTrainingLevels[0], "first name", "last name");
-            }
-            Assert.IsTrue(_server.restorePassword("user@gmail.com").Equals(Replies.SUCCESS));
-        }
-
-        [TestMethod]
         public void restorePasswordUsernameStartsWithAt()
         {
             Assert.IsFalse(_server.restorePassword("@gmail.com").Equals(Replies.SUCCESS));

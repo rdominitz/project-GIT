@@ -15,7 +15,7 @@ namespace Server
 {
     public class ServerImpl : IServer
     {
-        private const string WEBSITE = "our website address";
+        private const string WEBSITE = "132.72.23.63/com/login";
         private const string GENERAL_INPUT_ERROR = "There is a null, the string \"null\" or an empty string as an input.";
         private const string INVALID_EMAIL = "Invalid eMail address.";
         private const string ILLEGAL_PASSWORD = "Illegal password. Password must be 5 to 15 characters long and consist of only letters and numbers.";
@@ -30,12 +30,12 @@ namespace Server
         private const string DB_FAULT = "Error. DB fault.";
         private const string NOT_A_SUBJECT = "Error. Subject does not exist in the system.";
         private const string NON_EXISTING_TEST = "Error. The requested test does not exist.";
+        
         private const int USERS_CACHE_LIMIT = 1000;
         private const int HOURS_TO_LOGOUT = 1;
         private const int MILLISECONDS_TO_SLEEP = HOURS_TO_LOGOUT * 60 * 60 * 1000;
         private const int ERROR = -1;
 
-        private List<User> _usersCache; // each action will move the user to the last position of the cache, removing old users from the beginning
         private Dictionary<User, DateTime> _loggedUsers;
 
         private Dictionary<User, List<Question>> _usersTestsAnswerEveryTime;
@@ -61,10 +61,10 @@ namespace Server
 
         private ILogic _logic;
         private IMedTrainDBContext _db;
+        private SystemExtensions _se;
 
         public ServerImpl(IMedTrainDBContext db)
         {
-            _usersCache = new List<User>();
             _loggedUsers = new Dictionary<User, DateTime>();
             _usersTestsAnswerEveryTime = new Dictionary<User, List<Question>>();
             _usersTestsAnswersAtEndRemainingQuestions = new Dictionary<User, List<Question>>();
@@ -75,6 +75,7 @@ namespace Server
             _testDisplaying = new Dictionary<User, Tuple<string, int>>();
             _db = db;
             _logic = new LogicImpl(db);
+            _se = new SystemExtensions(db);
             _userUniqueInt = 100000;
             _syncLockUserUniqueInt = new object();
             _questionID = 1;
@@ -420,7 +421,7 @@ namespace Server
 
         public void logout(int userUniqueInt)
         {
-            User user = getUserByInt(userUniqueInt);
+            User user = _db.getUser(userUniqueInt);
             if (user != null)
             {
                 removeUserFromCache(user);
@@ -447,12 +448,6 @@ namespace Server
             {
                 return new Tuple<string, int>("Error - incorrect medical training level.", -1);
             }
-            // search user in cache
-            List<User> matches = _usersCache.Where(u => u.UserId == eMail).ToList();
-            if (matches.Count != 0)
-            {
-                return new Tuple<string, int>(EMAIL_IN_USE, -1);
-            }
             // search DB
             if (_db.getUser(eMail) != null)
             {
@@ -469,13 +464,6 @@ namespace Server
             }
             // add to DB
             _db.addUser(user);
-            if (_usersCache.Count == USERS_CACHE_LIMIT)
-            {
-                _usersCache.RemoveAt(0);
-            }
-            // add to chache
-            _usersCache.Remove(user);
-            _usersCache.Add(user);
             return new Tuple<string, int>(Replies.SUCCESS, userUniqueInt);
         }
 
@@ -489,12 +477,6 @@ namespace Server
             if (!InputTester.isLegalPassword(password))
             {
                 return new Tuple<string, int>(ILLEGAL_PASSWORD, -1);
-            }
-            // search user in cache
-            List<User> matches = _usersCache.Where(u => u.UserId.Equals(eMail)).ToList();
-            if (matches.Count == 1)
-            {
-                return verifyLogin(matches.ElementAt(0), password);
             }
             // search DB
             User user = _db.getUser(eMail);
@@ -512,12 +494,8 @@ namespace Server
             {
                 return new Tuple<string, int>("Wrong password", -1);
             }
-            // place user at the end of the cache (to be the last one to be removed)
-            _usersCache.Remove(u);
-            _usersCache.Add(u);
             // addd user to logged users list
             _loggedUsers[u] = DateTime.Now; 
-            //updateUserLastActionTime(u);
             return new Tuple<string, int>(Replies.SUCCESS, u.uniqueInt);
         }
 
@@ -528,21 +506,8 @@ namespace Server
             {
                 return INVALID_EMAIL;
             }
-            // search user in cache
-            List<User> matches = _usersCache.Where(u => u.UserId == eMail).ToList();
-            User user = null;
-            if (matches.Count == 1)
-            {
-                // place user at the end of the cache (to be the last one to be removed)
-                _usersCache.Remove(matches.ElementAt(0));
-                _usersCache.Add(matches.ElementAt(0));
-                user = matches.ElementAt(0);
-            }
             // search user in DB
-            if (user == null)
-            {
-                user = _db.getUser(eMail);
-            }
+            User user = _db.getUser(eMail);
             // if doesn't exist return error message
             if (user == null)
             {
@@ -892,19 +857,7 @@ namespace Server
             {
                 return s;
             }
-            // verify subject does not exist
-            Subject sub = _db.getSubject(subject);
-            if (sub != null)
-            {
-                return "Error. Subject already exists in the system.";
-            }
-            // add subject
-            sub = new Subject { SubjectId = subject, timeAdded = DateTime.Now };
-            _db.addSubject(sub);
-            Topic t = new Topic { TopicId = Topics.NORMAL, SubjectId = subject, timeAdded = DateTime.Now };
-            _db.addTopic(t);
-            _db.SaveChanges();
-            return Replies.SUCCESS;
+            return _se.addSubject(subject);
         }
 
         public string addTopic(int userUniqueInt, string subject, string topic)
@@ -921,22 +874,7 @@ namespace Server
             {
                 return s;
             }
-            // verify subject exist
-            Subject sub = _db.getSubject(subject);
-            if (sub == null)
-            {
-                return "Error. Subject does not exist in the system.";
-            }
-            // verify topic does not exist in the system
-            Topic t = _db.getTopic(subject, topic);
-            if (t != null)
-            {
-                return "Error. Topic already exists in the system.";
-            }
-            Topic top = new Topic { SubjectId = subject, timeAdded = DateTime.Now, TopicId = topic };
-            _db.addTopic(top);
-            _db.SaveChanges();
-            return Replies.SUCCESS;
+            return _se.addTopic(subject, topic);
         }
 
         public string setUserAsAdmin(int userUniqueInt, string usernameToTurnToAdmin)
@@ -975,7 +913,7 @@ namespace Server
 
         public User isLoggedIn(int userUniqueInt)
         {
-            User user = getUserByInt(userUniqueInt);
+            User user = _db.getUser(userUniqueInt);
             if (user == null || !isLoggedIn(user))
             {
                 return null;
@@ -1082,7 +1020,7 @@ namespace Server
             {
                 return t.Item1;
             }
-            User user = getUserByInt(userUniqueInt);
+            User user = _db.getUser(userUniqueInt);
             lock (_syncLockGroup)
             {
                 if (_db.getGroup(t.Item2.AdminId, groupName) == null)
@@ -1150,7 +1088,7 @@ namespace Server
             List<string> adminsGroups = new List<string>();
             foreach (Group g in groups)
             {
-                adminsGroups.Add(g.name);
+                adminsGroups.Add(g.name + GroupsMembers.CREATED_BY + t.Item2.AdminId + ")");
             }
             return new Tuple<string, List<string>>(Replies.SUCCESS, adminsGroups);
         }
@@ -1638,7 +1576,7 @@ namespace Server
                 return t.Item1;
             }
             Tuple<string, string> splittedGroupName = getGroupNameAndAdminId(group);
-            User u = getUserByInt(userUniqueInt);
+            User u = _db.getUser(userUniqueInt);
             GroupTestAnswer gta = new GroupTestAnswer
             {
                 GroupName = splittedGroupName.Item1,
@@ -1730,7 +1668,7 @@ namespace Server
             Tuple<string, string> t = getGroupNameAndAdminId(group);
             List<GroupTestAnswer> gtas = _db.getGroupTestAnswers(t.Item1, t.Item2, test);
             List<GroupTestAnswer> relevantGTAs = new List<GroupTestAnswer>();
-            User user = getUserByInt(userUniqueInt);
+            User user = _db.getUser(userUniqueInt);
             foreach (GroupTestAnswer gta in gtas)
             {
                 if (user.UserId.Equals(gta.UserId))
@@ -1783,7 +1721,7 @@ namespace Server
             {
                 return s;
             }
-            User user = getUserByInt(userUniqueInt);
+            User user = _db.getUser(userUniqueInt);
             // verify subject exist
             Subject sub = _db.getSubject(subject);
             if (sub == null)
@@ -1817,7 +1755,7 @@ namespace Server
             {
                 return new Tuple<string,List<Question>>(s, null);
             }
-            User user = getUserByInt(userUniqueInt);
+            User user = _db.getUser(userUniqueInt);
             if (!_questionsToRemove.Keys.Contains(user))
             {
                 return new Tuple<string, List<Question>>("Error. No questions available.", null);
@@ -1839,7 +1777,7 @@ namespace Server
             {
                 return s;
             }
-            User user = getUserByInt(userUniqueInt);
+            User user = _db.getUser(userUniqueInt);
             _testDisplaying[user] = new Tuple<string, int>(groupName, testId);
             return Replies.SUCCESS;
         }
@@ -1852,7 +1790,7 @@ namespace Server
             {
                 return new Tuple<string, Tuple<string, int>>(s, null);
             }
-            User user = getUserByInt(userUniqueInt);
+            User user = _db.getUser(userUniqueInt);
             if (!_testDisplaying.Keys.Contains(user))
             {
                 return new Tuple<string, Tuple<string, int>>("Error. You have not selected a test to display.", null);
@@ -2096,19 +2034,6 @@ namespace Server
             return new Tuple<string, List<Test>>(Replies.SUCCESS, tests);
         }
 
-        private User getUserByInt(int userUniqueInt)
-        {
-            List<User> matches = _usersCache.Where(u => u.uniqueInt.Equals(userUniqueInt)).ToList();
-            if (matches.Count == 1)
-            {
-                return matches.ElementAt(0);
-            }
-            else
-            {
-                return _db.getUser(userUniqueInt);
-            }
-        }
-
         private void updateUserLastActionTime(User u)
         {
             User update = null;
@@ -2125,23 +2050,6 @@ namespace Server
                 return;
             }
             _loggedUsers[u] = DateTime.Now;
-            User remove = null;
-            foreach (User user in _usersCache)
-            {
-                if (u.UserId.Equals(user.UserId))
-                {
-                    remove = user;
-                }
-            }
-            if (remove != null)
-            {
-                _usersCache.Remove(remove);
-            }
-            _usersCache.Add(u);
-            if (_usersCache.Count == USERS_CACHE_LIMIT)
-            {
-                _usersCache.RemoveAt(0);
-            }
         }
 
         private Tuple<string, string> getGroupNameAndAdminId(string s)

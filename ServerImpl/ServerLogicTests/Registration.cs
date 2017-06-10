@@ -36,19 +36,6 @@ namespace ServerLogicTests
         }
 
         [TestMethod]
-        public void registrationUserNotInCache()
-        {
-            _server.register("user@gmail.com", "password1", Users.medicalTrainingLevels[0], "first name", "last name");
-            for (int i = 0; i < 1500; i++)
-            {
-                _server.register("user" + i + "@gmail.com", "password1", Users.medicalTrainingLevels[0], "first name", "last name");
-            }
-            Tuple<string, int> t = _server.register("user@gmail.com", "password2", Users.medicalTrainingLevels[1], "other first name", "other last name");
-            Assert.IsFalse(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsTrue(t.Item2 == -1);
-        }
-
-        [TestMethod]
         public void registrationTooShortPassword()
         {
             Tuple<string, int> t = _server.register("user@gmail.com", "pass", Users.medicalTrainingLevels[0], "first name", "last name");

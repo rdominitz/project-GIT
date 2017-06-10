@@ -35,18 +35,6 @@ namespace ServerLogicTests
         }
 
         [TestMethod]
-        public void loginUserNotInCache()
-        {
-            for (int i = 0; i < 1500; i++)
-            {
-                _server.register("user" + i + "@gmail.com", "password1", Users.medicalTrainingLevels[0], "first name", "last name");
-            }
-            Tuple<string, int> t = _server.login("user@gmail.com", "password");
-            Assert.IsTrue(t.Item1.Equals(Replies.SUCCESS));
-            Assert.IsTrue(t.Item2 != -1);
-        }
-
-        [TestMethod]
         public void loginUsernameWithMoreThanOneAt()
         {
             Tuple<string, int> t = _server.login("user@gm@ail.com", "password");
