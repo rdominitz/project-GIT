@@ -1884,6 +1884,10 @@ namespace Server
                         break;
                     }
                 }
+                if (relevantGrade == null)
+                {
+                    continue;
+                }
                 ans.Add(new Tuple<string, int>(u.UserId, (int)relevantGrade.Item3 * 100 / relevantGrade.Item2));
             }
             return new Tuple<string, List<Tuple<string, int>>>(Replies.SUCCESS, ans);
