@@ -26,16 +26,20 @@
                         foreach (var group in Model)
                         {
                             foreach (var test in group.vals)
-                            {
-                                <option data-option="@group.key" value="@test">@test</option>
+                            { 
+                                <option data-option="@group.key"id="@test" value="@test" onchange="updateValue(this.value)">@test</option>
                             }
                         }
                     }
-                    @ViewBag.testDetails=this.value
-                    @ViewBag.testId=test.testId
                 </select>
                 <br/>
-                <button name="statistics" type="button" class="btn btn-primary btn-block" id="statistics" style="width: 280px" onclick="location.href='@Url.Action("Index", "testStatistics", new { testId = ViewBag.testId })'">View test statistics</button>
+
+                <script>
+                    function updateValue(val) {
+                        @ViewData["testId"] = val;
+                    }
+                </script>
+                <button name="statistics" type="button" class="btn btn-primary btn-block" id="statistics" style="width: 280px" onclick="location.href='@Url.Action("Index", "testStatistics", new { testId = ViewData["testId"] })'">View test statistics</button>
             </div>
         </form>
     </div>
