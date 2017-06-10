@@ -30,8 +30,8 @@ namespace communication.Controllers
             range["71-80"] = 0;
             range["81-90"] = 0;
             range["91-100"] = 0;
-           
-            foreach (Tuple<string, double> t in data.gradesInTest)
+
+            foreach (Tuple<string, int> t in data.gradesInTest)
             {
                 if (t.Item2 <= 55)
                 {
@@ -62,7 +62,7 @@ namespace communication.Controllers
         TestStatisticsData getData(int adminId, int testId, string groupName)
         {
             TestStatisticsData data = new TestStatisticsData();
-            Tuple<string, List<Tuple<string, double>>> usersGrades = ServerWiring.getInstance().getGrades(adminId, testId, groupName);
+            Tuple<string, List<Tuple<string, int>>> usersGrades = ServerWiring.getInstance().getGrades(adminId, testId, groupName);
             if (!usersGrades.Item1.Equals(Replies.SUCCESS))
             {
                 return data;

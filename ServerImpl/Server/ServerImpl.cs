@@ -1632,6 +1632,10 @@ namespace Server
                     return new Tuple<string, List<Tuple<string, int, int, int, int>>>(NOT_LOGGED_IN, null);
                 }
             }
+            else
+            {
+                user = _db.getUser(userUniqueInt);
+            }
             // verify group exist
             if (_db.getGroup(t.Item2, t.Item1) == null)
             {
@@ -1839,34 +1843,34 @@ namespace Server
             return new Tuple<string, List<Test>>(Replies.SUCCESS, tests);
         }
 
-        public Tuple<string, List<Tuple<string, double>>> getGrades(int userUniqueInt, int testId, string group)
+        public Tuple<string, List<Tuple<string, int>>> getGrades(int userUniqueInt, int testId, string group)
         {
             // verify input
             if (!InputTester.isValidInput(new List<string>() { group }))
             {
-                return new Tuple<string, List<Tuple<string, double>>>(GENERAL_INPUT_ERROR, null);
+                return new Tuple<string, List<Tuple<string, int>>>(GENERAL_INPUT_ERROR, null);
             }
             Tuple<string, string> t = getGroupNameAndAdminId(group);
             // verify user has permissions
             string s = hasPermissions(userUniqueInt).Item1;
             if (!s.Equals(Replies.SUCCESS))
             {
-                return new Tuple<string, List<Tuple<string, double>>>(s, null);
+                return new Tuple<string, List<Tuple<string, int>>>(s, null);
             }
             // verify group exist
             if (_db.getGroup(t.Item2, t.Item1) == null)
             {
-                return new Tuple<string, List<Tuple<string, double>>>(NON_EXISTING_GROUP, null);
+                return new Tuple<string, List<Tuple<string, int>>>(NON_EXISTING_GROUP, null);
             }
             // verify test exist
             if (_db.getTest(testId) == null)
             {
-                return new Tuple<string, List<Tuple<string, double>>>(NON_EXISTING_TEST, null);
+                return new Tuple<string, List<Tuple<string, int>>>(NON_EXISTING_TEST, null);
             }
             // get group members
             List<GroupMember> groupMembers = _db.getGroupMembers(t.Item1, t.Item2);
             // foreach member get their grade
-            List<Tuple<string, double>> ans = new List<Tuple<string, double>>();
+            List<Tuple<string, int>> ans = new List<Tuple<string, int>>();
             foreach (GroupMember gm in groupMembers)
             {
                 User u = _db.getUser(gm.UserId);
@@ -1880,9 +1884,9 @@ namespace Server
                         break;
                     }
                 }
-                ans.Add(new Tuple<string, double>(u.UserId, relevantGrade.Item3 * 100 / relevantGrade.Item2));
+                ans.Add(new Tuple<string, int>(u.UserId, (int)relevantGrade.Item3 * 100 / relevantGrade.Item2));
             }
-            return new Tuple<string, List<Tuple<string, double>>>(Replies.SUCCESS, ans);
+            return new Tuple<string, List<Tuple<string, int>>>(Replies.SUCCESS, ans);
         }
 
         private void updateUserLastActionTime(User u)

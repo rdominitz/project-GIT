@@ -11,17 +11,18 @@
     <script type="text/javascript">
     google.charts.load('current', { packages: ['table', 'corechart', 'line'] });
     google.charts.setOnLoadCallback(drawTestsChart);
-    //google.charts.setOnLoadCallback(drawGradesChart);
+    google.charts.setOnLoadCallback(drawGradesChart);
 
     function drawTestsChart() {
         // Define the chart to be drawn.
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'User Name');
-        data.addColumn('number', 'grade');
+        data.addColumn('number', 'Grade');
         @foreach (var user in Model.gradesInTest)
         {
             <text>
-            data.addRow(['@user.Item1', '@user.Item2']);
+        //user.Item1, user.Item2
+        data.addRow(['@user.Item1', user.Item2]);
             </text>
         }
 
@@ -38,11 +39,9 @@
 
         @foreach (var r in (Model.rangeCount).Keys)
         {
-
             <text>
-        data.addRow([@r, @(Model.rangeCount).Keys[r]]);
-        </text>
-
+                data.addRow([@r, @((Model.rangeCount)[r])]);
+            </text>
         }
 
         var options = {
@@ -74,13 +73,10 @@
     <br />
     <table>
         <tr>
-            <td><div class="col-md-offset-6" id="myPieChart" /></td>
-        </tr>
-        <tr>
             <td> <div id="PastTests" /></td>
         </tr>
         <tr>
-            <td> <div id="TestGrades" /></td>
+            <td><div id="TestGrades" /></td>
         </tr>
     </table>
 </div>
