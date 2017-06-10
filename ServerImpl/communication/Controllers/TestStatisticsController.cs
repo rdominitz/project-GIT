@@ -36,7 +36,7 @@ namespace communication.Controllers
             range["81-90"] = 0;
             range["91-100"] = 0;
            
-            foreach (Tuple<string, int> t in data.gradesInTest)
+            foreach (Tuple<string, double> t in data.gradesInTest)
             {
                 if (t.Item2 <= 55)
                 {

@@ -288,5 +288,3 @@ C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\communication\bin\QALogic.
 C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\communication\obj\Debug\communication.csprojResolveAssemblyReference.cache
 C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\communication\obj\Debug\communication.dll
 C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\communication\obj\Debug\communication.pdb
-C:\Users\galmo\Documents\GitHub\project-GIT\ServerImpl\communication\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
-C:\Users\galmo\Documents\GitHub\project-GIT\ServerImpl\communication\bin\System.Web.Http.xml

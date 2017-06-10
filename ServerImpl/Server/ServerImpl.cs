@@ -28,7 +28,7 @@ namespace Server
         private const string NON_EXISTING_GROUP = "Error. You have not created a group with that name.";
         private const string INVALID_GROUP_NAME = "Error. Invalid group name.";
         private const string DB_FAULT = "Error. DB fault.";
-        private const string NOT_A_SUBJECT = "Error. Subject does not exist in the system.";
+        
         private const string NON_EXISTING_TEST = "Error. The requested test does not exist.";
         
         private const int USERS_CACHE_LIMIT = 1000;
@@ -41,12 +41,8 @@ namespace Server
         private Dictionary<User, List<Question>> _usersTestsAnswerEveryTime;
         private Dictionary<User, List<Question>> _usersTestsAnswersAtEndRemainingQuestions;
         private Dictionary<User, List<Question>> _usersTestsAnswersAtEndAnsweredQuestions;
-        private Dictionary<User, List<Question>> _questionsToRemove;
         private Dictionary<string, Tuple<string, List<Question>>> _testQuestions;
         private Dictionary<User, Tuple<string, int>> _testDisplaying;
-
-        private int _questionID;
-        private readonly object _syncLockQuestionId;
 
         private readonly object _syncLockGroup;
 
@@ -59,6 +55,7 @@ namespace Server
         private IMedTrainDBContext _db;
         private SystemExtensions _se;
         private UsersManager _um;
+        private QuestionsManager _qm;
 
         public ServerImpl(IMedTrainDBContext db)
         {
@@ -66,7 +63,6 @@ namespace Server
             _usersTestsAnswerEveryTime = new Dictionary<User, List<Question>>();
             _usersTestsAnswersAtEndRemainingQuestions = new Dictionary<User, List<Question>>();
             _usersTestsAnswersAtEndAnsweredQuestions = new Dictionary<User, List<Question>>();
-            _questionsToRemove = new Dictionary<User, List<Question>>();
             _testQuestions = new Dictionary<string, Tuple<string, List<Question>>>();
             _testDisplaying = new Dictionary<User, Tuple<string, int>>();
             _db = db;
@@ -74,9 +70,8 @@ namespace Server
             _logic = new LogicImpl(db);
             _se = new SystemExtensions(db);
             _um = new UsersManager(db);
-
-            _questionID = 1;
-            _syncLockQuestionId = new object();
+            _qm = new QuestionsManager(db);
+            
             _syncLockGroup = new object();
             _testID = 1;
             _syncLockTestId = new object();
@@ -91,10 +86,10 @@ namespace Server
             _db.addAdmin(a);
             Admin a1 = new Admin { AdminId = "aCohen@post.bgu.ac.il" };
             _db.addAdmin(a1);
-            //if (_db.getMillisecondsToSleep() != 0)
-            //{
-            //setDB();
-            //}
+            if (_db.getMillisecondsToSleep() != 0)
+            {
+                setDB();
+            }
         }
 
         public void setDB()
@@ -291,43 +286,8 @@ namespace Server
         {
             foreach (List<string> l in images)
             {
-                addQuestion(s, diagnoses, l, "");
+                _qm.addQuestion(s, diagnoses, l, "");
             }
-        }
-
-        private void addQuestion(Subject s, List<Topic> diagnoses, List<string> images, string qText)
-        {
-            Question q = new Question
-            {
-                QuestionId = _questionID,
-                SubjectId = s.SubjectId,
-                text = qText,
-                level = Levels.DEFAULT_LVL,
-                points = Questions.QUESTION_INITAL_POINTS,
-                timeAdded = DateTime.Now,
-                isDeleted = false
-            };
-            _db.addQuestion(q);
-            foreach (Topic t in diagnoses)
-            {
-                Diagnosis d = new Diagnosis
-                {
-                    QuestionId = _questionID,
-                    TopicId = t.TopicId,
-                    SubjectId = s.SubjectId
-                };
-                _db.addDiagnosis(d);
-            }
-            foreach (string path in images)
-            {
-                QuestionImage i = new QuestionImage
-                {
-                    ImageId = path,
-                    QuestionId = _questionID,
-                };
-                _db.addImage(i);
-            }
-            _questionID++;
         }
 
         private void setSubjectsAndTopics()
@@ -1294,42 +1254,7 @@ namespace Server
             {
                 return s;
             }
-            // verify subject exist
-            Subject sub = _db.getSubject(subject);
-            if (sub == null)
-            {
-                return NOT_A_SUBJECT;
-            }
-            // verify all diagnoses are topics of the specified subject
-            List<Diagnosis> diagnoses = new List<Diagnosis>();
-            List<Topic> subjectTopics = _db.getTopics(subject);
-            foreach (string diagnosis in qDiagnoses)
-            {
-                if (subjectTopics.Where(t => t.TopicId.Equals(diagnosis)).ToList().Count == 0)
-                {
-                    return "Error. " + diagnosis + " is not a topic of " + subject;
-                }
-            }
-            if (qDiagnoses.Count == 0)
-            {
-                qDiagnoses.Add(Topics.NORMAL);
-            }
-            lock (_syncLockQuestionId)
-            {
-                // save images
-                List<string> imagesPathes = new List<string>();
-                for (int i = 0; i < allImgs.Count; i++)
-                {
-                    MemoryStream ms = new MemoryStream(allImgs[i], 0, allImgs[i].Length);
-                    ms.Write(allImgs[i], 0, allImgs[i].Length);
-                    Image image = Image.FromStream(ms, true);
-                    string path = @"C:/Users/admin/Desktop/project-GIT/ServerImpl/communication/Images/q" + _questionID + "_img" + (i + 1) + ".jpg";
-                    image.Save(path, ImageFormat.Jpeg);
-                    imagesPathes.Add("../Images/q" + _questionID + "_img" + (i + 1) + ".jpg");
-                }
-                addQuestion(sub, subjectTopics.Where(st => qDiagnoses.Contains(st.TopicId)).ToList(), imagesPathes, freeText);
-            }
-            return Replies.SUCCESS;
+            return _qm.createQuestion(subject, qDiagnoses, allImgs, freeText);
         }
 
         public string removeQuestions(int userUniqueInt, List<Tuple<int,string>> questionsIdsAndResonsList)
@@ -1340,37 +1265,7 @@ namespace Server
             {
                 return s;
             }
-            // verify all questions exists
-            lock (_syncLockQuestionId)
-            {
-                foreach (Tuple<int, string> t in questionsIdsAndResonsList)
-                {
-                    if (t.Item1 >= _questionID)
-                    {
-                        return "Error. Some questions cannot be removed.";
-                    }
-                }
-            }
-            foreach (Tuple<int, string> t in questionsIdsAndResonsList)
-            {
-                Question q = _db.getQuestion(t.Item1);
-                string removalReason = t.Item2;
-                if (removalReason.Equals(""))
-                {
-                    removalReason = "This quesiton has been removed. Any answer will not be accounted for.";
-                }
-                q.isDeleted = true;
-                if (q.text == "")
-                {
-                    q.text = s;
-                }
-                else
-                {
-                    q.text += Environment.NewLine + Environment.NewLine + s;
-                }
-                _db.updateQuestion(q);
-            }
-            return Replies.SUCCESS;
+            return _qm.removeQuestions(questionsIdsAndResonsList);
         }
 
         public Tuple<string, List<Tuple<string, int>>> getUnfinishedTests(int userUniqueInt, string groupName)
@@ -1612,29 +1507,7 @@ namespace Server
                 return s;
             }
             User user = _db.getUser(userUniqueInt);
-            // verify subject exist
-            Subject sub = _db.getSubject(subject);
-            if (sub == null)
-            {
-                return NOT_A_SUBJECT;
-            }
-            // verify all diagnoses are topics of the specified subject
-            List<Diagnosis> diagnoses = new List<Diagnosis>();
-            List<Topic> subjectTopics = _db.getTopics(subject);
-            foreach (string diagnosys in topicsList)
-            {
-                if (subjectTopics.Where(t => t.TopicId.Equals(diagnosys)).ToList().Count == 0)
-                {
-                    return "Error. " + diagnosys + " is not a topic of " + subject;
-                }
-            }
-            List<Question> questions = new List<Question>();
-            foreach (string topic in topicsList)
-            {
-                questions.AddRange(_db.getQuestions(subject, topic));
-            }
-            _questionsToRemove[user] = questions;
-            return Replies.SUCCESS;
+            return _qm.saveSelectedSubjectTopic(user, subject, topicsList);
         }
 
         public Tuple<string, List<Question>> getAllReleventQuestions(int userUniqueInt)
@@ -1646,13 +1519,7 @@ namespace Server
                 return new Tuple<string,List<Question>>(s, null);
             }
             User user = _db.getUser(userUniqueInt);
-            if (!_questionsToRemove.Keys.Contains(user))
-            {
-                return new Tuple<string, List<Question>>("Error. No questions available.", null);
-            }
-            List<Question> l = _questionsToRemove[user];
-            _questionsToRemove.Remove(user);
-            return new Tuple<string, List<Question>>(Replies.SUCCESS, l);
+            return _qm.getAllReleventQuestions(user);
         }
 
         public string saveGroupAndTest(int userUniqueInt, string groupName, int testId)
@@ -1709,17 +1576,25 @@ namespace Server
 
         public Tuple<string, List<Tuple<string, int, int, int, int>>> getPastGroupGrades(int userUniqueInt, string groupName)
         {
+            return getPastGroupGrades(userUniqueInt, groupName, false);
+        }
+
+        private Tuple<string, List<Tuple<string, int, int, int, int>>> getPastGroupGrades(int userUniqueInt, string groupName, bool forAdmin)
+        {
             // verify input
             if (!InputTester.isValidInput(new List<string>() { groupName }))
             {
                 return new Tuple<string, List<Tuple<string, int, int, int, int>>>(GENERAL_INPUT_ERROR, null);
             }
             Tuple<string, string> t = getGroupNameAndAdminId(groupName);
-            // verify user is logged in
             User user = isLoggedIn(userUniqueInt);
-            if (user == null)
+            if (!forAdmin)
             {
-                return new Tuple<string, List<Tuple<string, int, int, int, int>>>(NOT_LOGGED_IN, null);
+                // verify user is logged in
+                if (user == null)
+                {
+                    return new Tuple<string, List<Tuple<string, int, int, int, int>>>(NOT_LOGGED_IN, null);
+                }
             }
             // verify group exist
             if (_db.getGroup(t.Item2, t.Item1) == null)
@@ -1959,7 +1834,7 @@ namespace Server
             foreach (GroupMember gm in groupMembers)
             {
                 User u = _db.getUser(gm.UserId);
-                Tuple<string, List<Tuple<string, int, int, int, int>>> grades = getPastGroupGrades(u.uniqueInt, group);
+                Tuple<string, List<Tuple<string, int, int, int, int>>> grades = getPastGroupGrades(u.uniqueInt, group, true);
                 Tuple<string, int, int, int, int> relevantGrade = null;
                 foreach (Tuple<string, int, int, int, int> grade in grades.Item2)
                 {

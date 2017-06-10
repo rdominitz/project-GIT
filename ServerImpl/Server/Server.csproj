@@ -58,6 +58,7 @@
     <Compile Include="InputTester.cs" />
     <Compile Include="IServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuestionsManager.cs" />
     <Compile Include="ServerImpl.cs" />
     <Compile Include="SetDBScript.cs" />
     <Compile Include="SystemExtensions.cs" />

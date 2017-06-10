@@ -29,7 +29,9 @@ namespace DB
         private List<TestQuestion> _testsQuestions;
         private List<GroupTestAnswer> _groupsTestsAnswers;
 
-        public FakeMedTrainDBContext()
+        private int _millisecondsToSleep;
+
+        public FakeMedTrainDBContext(int millisecondsToSleep)
         {
             _users = new List<User>();
             _admins = new List<Admin>();
@@ -48,11 +50,12 @@ namespace DB
             _groupsTests = new List<GroupTest>();
             _testsQuestions = new List<TestQuestion>();
             _groupsTestsAnswers = new List<GroupTestAnswer>();
+            _millisecondsToSleep = millisecondsToSleep;
         }
 
         public int getMillisecondsToSleep()
         {
-            return 0;
+            return _millisecondsToSleep;
         }
 
         public override int SaveChanges()

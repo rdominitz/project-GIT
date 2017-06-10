@@ -15,7 +15,7 @@ namespace ServerLogicTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _server = new ServerImpl(new DB.FakeMedTrainDBContext());
+            _server = new ServerImpl(new FakeMedTrainDBContext(0));
             _server.login("defaultadmin@gmail.com", "password");
             _server.addSubject(Users.USER_UNIQUE_INT, "subject");
         }

@@ -71,7 +71,6 @@
     <Compile Include="AddTopic.cs" />
     <Compile Include="AnswerAQuestion.cs" />
     <Compile Include="CreateGroup.cs" />
-    <Compile Include="FakeMedTrainDBContext.cs" />
     <Compile Include="GetAllAdminsGroups.cs" />
     <Compile Include="GetAllSubjects.cs" />
     <Compile Include="GetAnswers.cs" />
