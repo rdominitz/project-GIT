@@ -268,6 +268,14 @@ namespace Server
             _db.addGroupMember(gm6);
             #endregion
             /*********** Roie stopped adding code here*************/
+            GroupMember gm7 = new GroupMember
+            {
+                GroupName = "Basic diagnosis",
+                AdminId = "aCohen@post.bgu.ac.il",
+                UserId = "defaultadmin@gmail.com",
+                invitationAccepted = true
+            };
+            _db.addGroupMember(gm7);
             #region add test
             Test t = new Test { TestId = _testID, AdminId = "aCohen@post.bgu.ac.il", testName = "Basic diagnosis - midterm", subject = chestXRays.SubjectId };
             _testID++;
@@ -279,6 +287,34 @@ namespace Server
             }
             GroupTest gt = new GroupTest{GroupName = "Basic diagnosis", AdminId = "aCohen@post.bgu.ac.il", TestId = 1};
             _db.addGroupTest(gt);
+            Test t2 = new Test { TestId = _testID, AdminId = "aCohen@post.bgu.ac.il", testName = "Basic diagnosis - final", subject = chestXRays.SubjectId };
+            _testID++;
+            _db.addTest(t2);
+            TestQuestion testq = new TestQuestion { TestId = 2, QuestionId = 1 };
+            GroupTest gt2 = new GroupTest{GroupName = "Basic diagnosis", AdminId = "aCohen@post.bgu.ac.il", TestId = 2};
+            _db.addGroupTest(gt2);
+            _db.addTestQuestion(testq);
+            Answer a1 = new Answer
+            {
+                AnswerId = 1,
+                isCorrectAnswer = true,
+                normal = true,
+                normalityCertainty = 4,
+                QuestionId = 1,
+                questionLevel = 5,
+                timeAdded = DateTime.Now,
+                UserId = "defaultadmin@gmail.com"
+            };
+            _db.addAnswer(a1);
+            GroupTestAnswer gta = new GroupTestAnswer
+            {
+                AdminId = "aCohen@post.bgu.ac.il",
+                AnswerId = 1,
+                GroupName = "Basic diagnosis",
+                TestId = 2,
+                UserId = "defaultadmin@gmail.com"
+            };
+            _db.addGroupTestAnswer(gta);
             #endregion
         }
 

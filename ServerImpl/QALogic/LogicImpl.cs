@@ -20,7 +20,7 @@ namespace QALogic
         public LogicImpl(IMedTrainDBContext db)
         {
             _db = db;
-            _answerId = 1;
+            _answerId = 2;
             syncLockAnswerId = new object();
         }
 

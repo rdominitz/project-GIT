@@ -67,3 +67,5 @@ C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Entities\bin\Debug\WebDriv
 C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Entities\obj\Debug\Entities.csprojResolveAssemblyReference.cache
 C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Entities\obj\Debug\Entities.dll
 C:\Users\galm\Documents\GitHub\project-GIT\ServerImpl\Entities\obj\Debug\Entities.pdb
+C:\Users\galmo\Documents\GitHub\project-GIT\ServerImpl\Entities\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\galmo\Documents\GitHub\project-GIT\ServerImpl\Entities\bin\Debug\WebDriver.xml
