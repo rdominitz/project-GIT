@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "remove questions";
 }
-
+<meta id="meta" name="@ViewBag.Title" />
 @model IEnumerable<communication.Models.Questions.QuestionData>
 
 
@@ -46,6 +46,6 @@
 
 
 
-            <button type="submit" class="btn btn-primary btn-block" style="width: 280px;">Remove selected question</button>
+            <button id="submit" type="submit" class="btn btn-primary btn-block" style="width: 280px;">Remove selected question</button>
         </form>
     </div>
