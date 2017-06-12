@@ -16,84 +16,33 @@ using System.Threading;
 
 namespace AutomationTestsForGUI
 {
-    
+
 
     [TestClass]
     public class LoginAuto
     {
-        private Process _iisProcess;
-        private string baseURL = "http://localhost:9153/";
+        private string baseURL = "http://localhost:9153/login";
         private RemoteWebDriver driver;
-        public TestContext TestContext { get; set; }
-        private void StartIIS()
-        {
-            var applicationPath = GetApplicationPath("communication");
-            var programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 
-            _iisProcess = new Process();
-            _iisProcess.StartInfo.FileName = programFiles + @"\IIS Express\iisexpress.exe";
-            _iisProcess.StartInfo.Arguments = string.Format("/path:{0}/{1}",  applicationPath, "2020");
-            _iisProcess.Start();
+
+
+        [TestInitialize()]
+        public void Initialize()
+        {
+            ChromeOptions options = new ChromeOptions();
+            options.AddArguments("--disable-extensions");
+            options.AddArguments("--start-maximized");
+            options.ToCapabilities();
+            ChromeDriverService service = ChromeDriverService.CreateDefaultService();
+            driver = new ChromeDriver(service, options);
         }
 
 
-        protected virtual string GetApplicationPath(string applicationName)
-        {
-            var solutionFolder = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory)));
-            return Path.Combine(solutionFolder, applicationName);
-        }
-
-
-        public string GetAbsoluteUrl(string relativeUrl)
-        {
-            if (!relativeUrl.StartsWith("/"))
-            {
-                relativeUrl = "/" + relativeUrl;
-            }
-            return String.Format("http://localhost:{0}{1}", 9153, relativeUrl);
-        }
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            // Start IISExpress
-            //StartIIS();
-            //Thread.Sleep(70 * 1000);
-
-            
-        }
-
-
-        [TestCleanup]
-        public void TestCleanup()
-        {
-            // Ensure IISExpress is stopped
-         //   if (_iisProcess.HasExited == false)
-        //    {
-        //        _iisProcess.Kill();
-          //  }
-
-            
-        }
-
-
-
-        /*     [TestInitialize]
-             public void TestInitialize()
-             {
-                 _server = new ServerImpl(new FakeMedTrainDBContext());
-                 _server.login("defaultadmin@gmail.com", "password");
-                 _server.addSubject(Users.USER_UNIQUE_INT, "subject");
-                 _server.addTopic(Users.USER_UNIQUE_INT, "subject", "topic");
-                 _server.addQuestion(Users.USER_UNIQUE_INT, "subject", true, "", new List<string>() { "topic" });
-             }*/
 
         [TestMethod]
         [TestCategory("Selenium")]
         public void Login_Test()
         {
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
             driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(30));
             driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(30));
             driver.Navigate().GoToUrl(this.baseURL);
@@ -113,8 +62,6 @@ namespace AutomationTestsForGUI
         [TestCategory("Selenium")]
         public void LoginFail_Test()
         {
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
             driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(30));
             driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(30));
             driver.Navigate().GoToUrl(this.baseURL);

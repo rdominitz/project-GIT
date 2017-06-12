@@ -80,9 +80,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AdminTestsAuto.cs" />
     <Compile Include="AnswerQuestionAuto.cs" />
     <Compile Include="GetQuestionAuto.cs" />
     <Compile Include="GetTestAuto.cs" />
+    <Compile Include="GroupTestAuto.cs" />
     <Compile Include="LoginAuto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

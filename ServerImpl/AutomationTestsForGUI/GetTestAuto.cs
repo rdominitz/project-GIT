@@ -11,15 +11,24 @@ namespace AutomationTestsForGUI
     [TestClass]
     public class GetTestAuto
     {
-        private string baseURL = "http://localhost:9153/";
+        private string baseURL = "http://localhost:9153/login";
         private RemoteWebDriver driver;
+
+        [TestInitialize()]
+        public void Initialize()
+        {
+            ChromeOptions options = new ChromeOptions();
+            options.AddArguments("--disable-extensions");
+            options.AddArguments("--start-maximized");
+            options.ToCapabilities();
+            ChromeDriverService service = ChromeDriverService.CreateDefaultService();
+            driver = new ChromeDriver(service, options);
+        }
 
         [TestMethod]
         [TestCategory("Selenium")]
         public void GetTest_Test()
         {
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
             driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(30));
             driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(30));
             driver.Navigate().GoToUrl(this.baseURL);
@@ -28,84 +37,81 @@ namespace AutomationTestsForGUI
             driver.FindElementById("password").Clear();
             driver.FindElementById("password").SendKeys("password");
             Thread.Sleep(2 * 1000);
+            //Thread.Sleep(2 * 1000);
             driver.FindElementById("submit").Click();
             Assert.IsTrue(driver.FindElementById("meta").GetAttribute("name").Equals("Main"));
             Thread.Sleep(2 * 1000);
+            //Thread.Sleep(2 * 1000);
             driver.FindElementById("test").Click();
             Assert.IsTrue(driver.FindElementById("meta").GetAttribute("name").Equals("Get Test"));
             SelectElement selector = new SelectElement(driver.FindElementById("subject"));
             selector.SelectByIndex(0);
-            SelectElement topic_selector = new SelectElement(driver.FindElementById("topic"));
+            SelectElement topic_selector = new SelectElement(driver.FindElementById("topics"));
             topic_selector.SelectByIndex(0);
             Thread.Sleep(2 * 1000);
+            //Thread.Sleep(2 * 1000);
             driver.FindElementById("numberOfQuestions").Clear();
             driver.FindElementById("numberOfQuestions").SendKeys("3");
             SelectElement when_to_answer = new SelectElement(driver.FindElementByName("whenToShowAnswer"));
             when_to_answer.SelectByIndex(1);
             Thread.Sleep(2 * 1000);
+            //Thread.Sleep(2 * 1000);
             driver.FindElementById("submit").Click();
             Assert.IsTrue(driver.FindElementById("meta").GetAttribute("name").Equals("Answer Question"));
             Thread.Sleep(2 * 1000);
+            //Thread.Sleep(2 * 1000);
 
             driver.Close();
-
         }
 
-        [TestMethod]
         [TestCategory("Selenium")]
         public void GetTestFail_Test()
         {
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
             driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(30));
             driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(30));
             driver.Navigate().GoToUrl(this.baseURL);
-            driver.FindElementById("email").Clear();
             driver.FindElementById("email").SendKeys("user@gmail.com");
             driver.FindElementById("password").Clear();
             driver.FindElementById("password").SendKeys("password");
             Thread.Sleep(2 * 1000);
+            //Thread.Sleep(2 * 1000);
             driver.FindElementById("submit").Click();
             Assert.IsTrue(driver.FindElementById("meta").GetAttribute("name").Equals("Main"));
             Thread.Sleep(2 * 1000);
+            //Thread.Sleep(2 * 1000);
             driver.FindElementById("test").Click();
             Assert.IsTrue(driver.FindElementById("meta").GetAttribute("name").Equals("Get Test"));
             SelectElement selector = new SelectElement(driver.FindElementById("subject"));
             selector.SelectByIndex(0);
-            SelectElement topic_selector = new SelectElement(driver.FindElementById("topic"));
+            SelectElement topic_selector = new SelectElement(driver.FindElementById("topics"));
             topic_selector.SelectByIndex(0);
             Thread.Sleep(2 * 1000);
+            //Thread.Sleep(2 * 1000);
             driver.FindElementById("numberOfQuestions").Clear();
             driver.FindElementById("numberOfQuestions").SendKeys("-1");
             SelectElement when_to_answer = new SelectElement(driver.FindElementByName("whenToShowAnswer"));
             when_to_answer.SelectByIndex(1);
             Thread.Sleep(2 * 1000);
+            //Thread.Sleep(2 * 1000);
             driver.FindElementById("submit").Click();
 
             bool presentFlag = false;
 
-            try
-            {
+            IAlert alert = driver.SwitchTo().Alert();
+            // Alert present; set the flag
+            presentFlag = true;
+            //Thread.Sleep(2 * 1000);
+            // if present consume the alert
+            alert.Accept();
 
-                // Check the presence of alert
-                IAlert alert = driver.SwitchTo().Alert();
-                // Alert present; set the flag
-                presentFlag = true;
-                // if present consume the alert
-                alert.Accept();
 
-            }
-            catch (NoAlertPresentException ex)
-            {
-                // Alert not present
-                //ex.printStackTrace();
-            }
+
             Assert.IsTrue(presentFlag);
             Assert.IsTrue(driver.FindElementById("meta").GetAttribute("name").Equals("Get Test"));
             Thread.Sleep(2 * 1000);
+            //Thread.Sleep(2 * 1000);
 
             driver.Close();
-
         }
     }
 }
