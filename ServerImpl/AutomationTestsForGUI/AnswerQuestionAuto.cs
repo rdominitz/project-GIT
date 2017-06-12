@@ -27,12 +27,9 @@ namespace AutomationTestsForGUI
         [TestCategory("Selenium")]
         public void AnswerQuestionWithMultiQuestionsAndAnswersAtTheEnd_Test()
         {
-            driver = new ChromeDriver();
             driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(30));
             driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(30));
             driver.Navigate().GoToUrl(this.baseURL);
-
-
             driver.FindElementById("email").SendKeys("user@gmail.com");
             driver.FindElementById("password").Clear();
             driver.FindElementById("password").SendKeys("password");

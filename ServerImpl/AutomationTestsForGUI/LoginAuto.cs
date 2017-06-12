@@ -50,10 +50,10 @@ namespace AutomationTestsForGUI
             driver.FindElementById("email").SendKeys("user@gmail.com");
             driver.FindElementById("password").Clear();
             driver.FindElementById("password").SendKeys("password");
-            Thread.Sleep(3 * 1000);
+            //Thread.Sleep(3 * 1000);
             driver.FindElementById("submit").Click();
             Assert.IsTrue(driver.FindElementById("meta").GetAttribute("name").Equals("Main"));
-            Thread.Sleep(3 * 1000);
+            //Thread.Sleep(3 * 1000);
             driver.Close();
 
         }
@@ -69,10 +69,10 @@ namespace AutomationTestsForGUI
             driver.FindElementById("email").SendKeys("user@gmail.com");
             driver.FindElementById("password").Clear();
             driver.FindElementById("password").SendKeys("something");
-            Thread.Sleep(3 * 1000);
+            //Thread.Sleep(3 * 1000);
             driver.FindElementById("submit").Click();
             Assert.IsFalse(driver.FindElementById("meta").GetAttribute("name").Equals("Main"));
-            Thread.Sleep(2 * 1000);
+            //Thread.Sleep(2 * 1000);
             driver.Close();
 
         }

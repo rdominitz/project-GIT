@@ -44,7 +44,7 @@ namespace AutomationTestsForGUI
             Assert.IsTrue(driver.FindElementById("meta").GetAttribute("name").Equals("Get Question"));
             SelectElement selector = new SelectElement(driver.FindElementById("subject"));
             selector.SelectByIndex(0);
-            SelectElement topic_selector = new SelectElement(driver.FindElementById("topic"));
+            SelectElement topic_selector = new SelectElement(driver.FindElementById("topics"));
             topic_selector.SelectByIndex(1);
             //Thread.Sleep(2 * 1000);
             driver.FindElementById("submit").Click();
