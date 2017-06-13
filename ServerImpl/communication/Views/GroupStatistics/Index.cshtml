@@ -28,14 +28,17 @@
         {
             Double grade = ((test.Item3 * 100) / test.Item2) ;
             <text>
-            data.addRows([['@test.Item1', @test.Item3, @test.Item2,@grade, @test.Item4]]);
+            data.addRows([['@test.Item1', @test.Item3, @test.Item2,@grade, @test.Item4 + 1]]);
             </text>
         }
 
 
 
       // Instantiate and draw the chart.
-      var chart = new google.visualization.Table(document.getElementById('PastTests'));
+            var chart = new google.visualization.Table(document.getElementById('PastTests'));
+
+
+
       chart.draw(data, null);
     }
 
@@ -66,7 +69,8 @@
                 x: {
                     0: {side: 'top'}
                 }
-            }
+            },
+            vAxis: { maxValue: 110 }
         };
 
         var chart = new google.charts.Line(document.getElementById('TestGrades'));
@@ -165,10 +169,10 @@
     }
 
     <table>
-        <tr>
+     <!--   <tr>
             <td><div class="col-md-offset-6" id="myPieChart" /></td>
-        </tr>
-        <tr>
+        </tr>  -->
+        <tr>  
             <td> <div  id="PastTests" /></td>
             <td><div  id="TestGrades1" /></td>
         </tr>
