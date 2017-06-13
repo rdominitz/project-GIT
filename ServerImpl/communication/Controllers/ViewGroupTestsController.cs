@@ -15,8 +15,12 @@ namespace communication.Controllers
         //
         // GET: /ViewGroupTests/
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
+            if (message != null)
+            {
+                ViewBag.message = message;
+            }
             HttpCookie cookie = Request.Cookies["userId"];
             if (cookie == null)
             {
@@ -50,6 +54,11 @@ namespace communication.Controllers
         [HttpPost]
         public ActionResult Submit(string testDetails)
         {
+            if (testDetails == null)
+            {
+                return RedirectToAction("Index", "ViewGroupTests", new { message = "Please select a test" });
+            
+            }
             ViewBag.testDetails = testDetails;
             String[] details = testDetails.Split(',');
             String[] testIdArr = details[0].Split(':');

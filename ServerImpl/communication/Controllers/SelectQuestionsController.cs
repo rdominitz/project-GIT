@@ -63,7 +63,7 @@ namespace communication.Controllers
             string ans = ServerWiring.getInstance().createTest(Convert.ToInt32(cookie.Value), questionsIdsList, testName);
             if (ans.Equals(Replies.SUCCESS))
             {
-                return RedirectToAction("Index", "ManageGroup", new { message = ans });
+                return RedirectToAction("Index", "ManageGroup", new { message = "The test was successfully created" });
             }
             ViewBag.message = ans;
             return View();
