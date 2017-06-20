@@ -26,11 +26,11 @@ namespace Server
             Timeout = TIMEOUT,
         };
 
-        internal static void sendMail(string eMail, string subject, string content)
+        internal static void sendMail(string email, string subject, string content)
         {
             try
             {
-                client.Send(new MailMessage(SYSTEM_EMAIL, eMail, subject, content + SIGNATURE));
+                client.Send(new MailMessage(SYSTEM_EMAIL, email, subject, content + SIGNATURE));
             }
             catch (Exception) { }
         }

@@ -11,11 +11,11 @@ namespace Server
     public interface IServer
     {
         #region users manager
-        Tuple<string, int> register(string eMail, string password, string medicalTraining, string firstName, string lastName);
+        Tuple<string, int> register(string email, string password, string medicalTraining, string firstName, string lastName);
 
-        Tuple<string, int> login(string eMail, string password);
+        Tuple<string, int> login(string email, string password);
 
-        string restorePassword(string eMail);
+        string restorePassword(string email);
 
         string setUserAsAdmin(int userUniqueInt, string usernameToTurnToAdmin);
         #endregion

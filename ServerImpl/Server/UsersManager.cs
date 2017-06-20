@@ -19,20 +19,20 @@ namespace Server
             _syncLockUserUniqueInt = new object();
         }
 
-        public Tuple<string, int> register(string eMail, string password, string medicalTraining, string firstName, string lastName)
+        public Tuple<string, int> register(string email, string password, string medicalTraining, string firstName, string lastName)
         {
             int userUniqueInt = 0; 
             User user = null;
             lock (_syncLockUserUniqueInt)
             {
                 // search DB
-                if (_db.getUser(eMail) != null)
+                if (_db.getUser(email) != null)
                 {
                     return new Tuple<string, int>(Replies.EMAIL_IN_USE, -1);
                 }
-                // if DB contains user with that eMail return error message
+                // if DB contains user with that email return error message
                 userUniqueInt = _userUniqueInt;
-                user = new User { UserId = eMail, userPassword = password, userMedicalTraining = medicalTraining, userFirstName = firstName, userLastName = lastName, uniqueInt = _userUniqueInt };
+                user = new User { UserId = email, userPassword = password, userMedicalTraining = medicalTraining, userFirstName = firstName, userLastName = lastName, uniqueInt = _userUniqueInt };
                 _userUniqueInt++;
             }
             // add to DB
@@ -40,13 +40,13 @@ namespace Server
             return new Tuple<string, int>(Replies.SUCCESS, userUniqueInt);
         }
 
-        public Tuple<string, User> login(string eMail, string password)
+        public Tuple<string, User> login(string email, string password)
         {
             // search DB
-            User user = _db.getUser(eMail);
+            User user = _db.getUser(email);
             if (user == null)
             {
-                return new Tuple<string, User>("Wrong eMail or password.", null);
+                return new Tuple<string, User>("Wrong email or password.", null);
             }
             // if found add to cache and return relevant message as shown above
             if (!user.userPassword.Equals(password))
@@ -56,21 +56,21 @@ namespace Server
             return new Tuple<string, User>(Replies.SUCCESS, user);
         }
 
-        public string restorePassword(string eMail)
+        public string restorePassword(string email)
         {
             // search user in DB
-            User user = _db.getUser(eMail);
+            User user = _db.getUser(email);
             // if doesn't exist return error message
             if (user == null)
             {
-                return "eMail address does not exist in the system.";
+                return "email address does not exist in the system.";
             }
-            // send eMail
+            // send email
             StringBuilder sb = new StringBuilder();
             sb.Append("Hello " + user.userFirstName + " " + user.userLastName + "," + Environment.NewLine);
             sb.Append(Environment.NewLine);
             sb.Append("Your password for our system is: " + user.userPassword + Environment.NewLine);
-            EmailSender.sendMail(eMail, "Medical Training System Password Restoration", sb.ToString());
+            EmailSender.sendMail(email, "Medical Training System Password Restoration", sb.ToString());
             return Replies.SUCCESS;
         }
 

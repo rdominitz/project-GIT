@@ -18,7 +18,7 @@ namespace Server
     {
         private const string WEBSITE = "132.72.23.63/com/login";
         private const string GENERAL_INPUT_ERROR = "There is a null, the string \"null\" or an empty string as an input.";
-        private const string INVALID_EMAIL = "Invalid eMail address.";
+        private const string INVALID_EMAIL = "Invalid email address.";
         private const string ILLEGAL_PASSWORD = "Illegal password. Password must be 5 to 15 characters long and consist of only letters and numbers.";
         private const string INVALID_TEMPORAL_PASSWORD = "Bad cookie. Could not identify user.";
         private const string NOT_LOGGED_IN = "User is not logged in.";
@@ -263,7 +263,7 @@ namespace Server
                 GroupName = "Basic diagnosis",
                 AdminId = "aCohen@post.bgu.ac.il",
                 UserId = "user@gmail.com",
-                invitationAccepted = false
+                invitationAccepted = true
             };
             _db.addGroupMember(gm6);
             #endregion
@@ -291,9 +291,11 @@ namespace Server
             _testID++;
             _db.addTest(t2);
             TestQuestion testq = new TestQuestion { TestId = 2, QuestionId = 1 };
+            TestQuestion testq2 = new TestQuestion { TestId = 2, QuestionId = 2 };
             GroupTest gt2 = new GroupTest{GroupName = "Basic diagnosis", AdminId = "aCohen@post.bgu.ac.il", TestId = 2};
             _db.addGroupTest(gt2);
             _db.addTestQuestion(testq);
+            _db.addTestQuestion(testq2);
             Answer a1 = new Answer
             {
                 AnswerId = 1,
@@ -315,6 +317,79 @@ namespace Server
                 UserId = "defaultadmin@gmail.com"
             };
             _db.addGroupTestAnswer(gta);
+            Answer a2 = new Answer
+            {
+                AnswerId = 2,
+                isCorrectAnswer = true,
+                normal = true,
+                normalityCertainty = 4,
+                QuestionId = 2,
+                questionLevel = 5,
+                timeAdded = DateTime.Now,
+                UserId = "defaultadmin@gmail.com"
+            };
+            _db.addAnswer(a2);
+            GroupTestAnswer gta2 = new GroupTestAnswer
+            {
+                AdminId = "aCohen@post.bgu.ac.il",
+                AnswerId = 2,
+                GroupName = "Basic diagnosis",
+                TestId = 2,
+                UserId = "defaultadmin@gmail.com"
+            };
+            _db.addGroupTestAnswer(gta2);
+            // user@gmail.com
+            Answer a3 = new Answer
+            {
+                AnswerId = 3,
+                isCorrectAnswer = true,
+                normal = true,
+                normalityCertainty = 4,
+                QuestionId = 1,
+                questionLevel = 5,
+                timeAdded = DateTime.Now,
+                UserId = "user@gmail.com"
+            };
+            _db.addAnswer(a3);
+            GroupTestAnswer gta3 = new GroupTestAnswer
+            {
+                AdminId = "aCohen@post.bgu.ac.il",
+                AnswerId = 3,
+                GroupName = "Basic diagnosis",
+                TestId = 2,
+                UserId = "user@gmail.com"
+            };
+            _db.addGroupTestAnswer(gta3);
+            Answer a4 = new Answer
+            {
+                AnswerId = 4,
+                isCorrectAnswer = false,
+                normal = false,
+                normalityCertainty = 4,
+                QuestionId = 2,
+                questionLevel = 5,
+                timeAdded = DateTime.Now,
+                UserId = "user@gmail.com"
+            };
+            _db.addAnswer(a4);
+            DiagnosisCertainty dc = new DiagnosisCertainty
+            {
+                userLevel = 5,
+                AnswerId = 4,
+                SubjectId = chestXRays.SubjectId,
+                TopicId = "Cavitary Lesion",
+                certainty = 5
+            };
+            _db.addDiagnosisCertainty(dc);
+            GroupTestAnswer gta4 = new GroupTestAnswer
+            {
+                AdminId = "aCohen@post.bgu.ac.il",
+                AnswerId = 4,
+                GroupName = "Basic diagnosis",
+                TestId = 2,
+                UserId = "user@gmail.com"
+            };
+            _db.addGroupTestAnswer(gta4);
             #endregion
         }
 
@@ -391,14 +466,14 @@ namespace Server
             }
         }
 
-        public Tuple<string, int> register(string eMail, string password, string medicalTraining, string firstName, string lastName)
+        public Tuple<string, int> register(string email, string password, string medicalTraining, string firstName, string lastName)
         {
             // check for illegal input values
             if (!InputTester.isValidInput(new List<string>() { medicalTraining, firstName, lastName }))
             {
                 return new Tuple<string, int>(GENERAL_INPUT_ERROR, -1);
             }
-            if (!InputTester.isLegalEmail(eMail))
+            if (!InputTester.isLegalEmail(email))
             {
                 return new Tuple<string, int>(INVALID_EMAIL, -1);
             }
@@ -411,13 +486,13 @@ namespace Server
             {
                 return new Tuple<string, int>("Error - incorrect medical training level.", -1);
             }
-            return _um.register(eMail, password, medicalTraining, firstName, lastName);
+            return _um.register(email, password, medicalTraining, firstName, lastName);
         }
 
-        public Tuple<string, int> login(string eMail, string password)
+        public Tuple<string, int> login(string email, string password)
         {
             // check for illegal input
-            if (!InputTester.isLegalEmail(eMail))
+            if (!InputTester.isLegalEmail(email))
             {
                 return new Tuple<string, int>(INVALID_EMAIL, -1);
             }
@@ -425,7 +500,7 @@ namespace Server
             {
                 return new Tuple<string, int>(ILLEGAL_PASSWORD, -1);
             }
-            Tuple<string, User> loginResult = _um.login(eMail, password);
+            Tuple<string, User> loginResult = _um.login(email, password);
             if (!loginResult.Item1.Equals(Replies.SUCCESS))
             {
                 return new Tuple<string, int>(loginResult.Item1, -1);
@@ -435,14 +510,14 @@ namespace Server
             return new Tuple<string, int>(loginResult.Item1, loginResult.Item2.uniqueInt);
         }
 
-        public string restorePassword(string eMail)
+        public string restorePassword(string email)
         {
             // check for illegal input values
-            if (!InputTester.isLegalEmail(eMail))
+            if (!InputTester.isLegalEmail(email))
             {
                 return INVALID_EMAIL;
             }
-            return _um.restorePassword(eMail);
+            return _um.restorePassword(email);
         }
 
         public Tuple<string, int> answerAQuestion(int userUniqueInt, int questionID, bool isNormal, int normalityCertainty, List<string> diagnoses, List<int> diagnosisCertainties, bool isAutoGenerated)
@@ -963,14 +1038,14 @@ namespace Server
 
         private List<string> getEmailsfromString(string emails)
         {
-            string[] eMails = emails.Split(',');
-            for (int i = 0; i < eMails.Length; i++)
+            string[] splittedemails = emails.Split(',');
+            for (int i = 0; i < splittedemails.Length; i++)
             {
-                string s = removeSpacesFromStart(eMails[i]);
+                string s = removeSpacesFromStart(splittedemails[i]);
                 s = removeSpacesFromEnd(s);
-                eMails[i] = s;
+                splittedemails[i] = s;
             }
-            return eMails.ToList();
+            return splittedemails.ToList();
         }
 
         private string removeSpacesFromStart(string email)

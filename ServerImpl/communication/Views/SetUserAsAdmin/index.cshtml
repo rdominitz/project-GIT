@@ -7,7 +7,7 @@
     <form id="addSubjectForm" method="POST" action="~/SetUserAsAdmin/submit">
         <div class="form-group">
             <br />
-            <h2>Add adminstrator</h2>
+            <h2>Assign adminstrator</h2>
             <br />
 
             @if (@ViewBag.message != null)
@@ -17,10 +17,10 @@
                 </script>
             }
 
-            <input type="email" class="form-control" name="userEmail" id="userEmail" value="@ViewBag.userEmail" required>
+            <input type="email" class="form-control" name="userEmail" id="userEmail" placeholder="Type a user email address" value="@ViewBag.userEmail" required>
 
             <br />
-            <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Set user as administrator</button>
+            <button type="submit" id="submit" class="btn btn-primary btn-block" style="width: 280px;">Assign administrator</button>
 
         </div>
     </form>

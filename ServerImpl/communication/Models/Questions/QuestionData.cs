@@ -12,14 +12,16 @@ namespace communication.Models.Questions
       public List<string> pics;
       public List<string> dignosis;
       public int qID;
-      public string resonOfRomove;
+      public string text;
+      public int level;
 
       public QuestionData(Question q)
         {
             dignosis = ServerWiring.getInstance().getQuestionDiagnoses(q.QuestionId);
             pics = ServerWiring.getInstance().getQuestionImages(q.QuestionId);
             qID = q.QuestionId;
-            resonOfRomove = "";
+            text = q.text;
+            level = q.level;
         }
     }
 }

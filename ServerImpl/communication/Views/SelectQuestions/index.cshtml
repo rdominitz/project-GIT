@@ -29,12 +29,19 @@
                 {
                 <img src="@pic" alt="Image not found" style="width:202px;height:164px;" />
                 }
-                <p>The diagnosis for this case is :</p>
+                <p>The diagnoses for this case are :</p>
+                int i = 0;
                 foreach (var d in question.dignosis)
                 {
-                    <p>@d</p><br />
+                    <p>@d</p>
+                    i++;
+                    if (i != question.dignosis.Count)
+                    {
+                        <p>, </p>
+                    }
                 }
-
+                <p>The question difficulty level is @question.level</p>
+                <p>@question.text</p>
             }
         </div>
 

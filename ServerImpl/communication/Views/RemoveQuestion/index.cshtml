@@ -10,7 +10,7 @@
     <div>
         <form id="removeQuestionsform" method="POST" action="~/RemoveQuestion/submit">
 
-            <h2>Select question to remove</h2>
+            <h2>Select question</h2>
             <br />
             @if (@ViewBag.message != null)
             {
@@ -37,7 +37,7 @@
                 }
             </div>
             <br />
-            <p>Reason to remove:</p>
+            <p>Reason of removal:</p>
             <input type="text" class="form-control" name="reason" id="reason" value="@ViewBag.reason">
             <br />
             <script type="text/javascript">
@@ -46,6 +46,6 @@
 
 
 
-            <button id="submit" type="submit" class="btn btn-primary btn-block" style="width: 280px;">Remove selected question</button>
+            <button id="submit" type="submit" class="btn btn-primary btn-block" style="width: 280px;">Remove</button>
         </form>
     </div>
