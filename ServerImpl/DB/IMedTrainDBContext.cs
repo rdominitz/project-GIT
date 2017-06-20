@@ -68,16 +68,16 @@ namespace DB
 
         void addTest(Test t);
         List<Test> getAllTests(string subject);
-        Test getTest(int testId);
+        Test getTest(int TestId);
 
         void addGroupTest(GroupTest gt);
         List<GroupTest> getGroupTests(string groupName, string adminId);
 
         void addTestQuestion(TestQuestion tq);
-        List<TestQuestion> getTestQuestions(int testId);
+        List<TestQuestion> getTestQuestions(int TestId);
 
         void addGroupTestAnswer(GroupTestAnswer gta);
         void removeGroupTestAnswers(string groupName, string adminId);
-        List<GroupTestAnswer> getGroupTestAnswers(string groupName, string adminId, int testId);
+        List<GroupTestAnswer> getGroupTestAnswers(string groupName, string adminId, int TestId);
     }
 }

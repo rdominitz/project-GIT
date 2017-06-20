@@ -15,24 +15,24 @@ namespace communication.Controllers
     {
         //
         // GET: /SeeTestDetails/
-        public ActionResult Index(int testId)
+        public ActionResult Index(int TestId)
         {
             HttpCookie cookie = Request.Cookies["userId"];
             if (cookie == null)
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-            ViewBag.testId = testId;
-            List<QuestionData> questions = getData(Convert.ToInt32(cookie.Value), testId);
+            ViewBag.TestId = TestId;
+            List<QuestionData> questions = getData(Convert.ToInt32(cookie.Value), TestId);
             if (questions != null)
                 return View(questions);
             return View();
         }
 
-        List<QuestionData> getData(int adminId, int testId)
+        List<QuestionData> getData(int adminId, int TestId)
         {
             List<QuestionData> data = new List<QuestionData>();
-            Tuple<string, List<Question>> t = ServerWiring.getInstance().getTestQuestionsByTestId(adminId, testId);
+            Tuple<string, List<Question>> t = ServerWiring.getInstance().getTestQuestionsByTestId(adminId, TestId);
             if (!t.Item1.Equals(Replies.SUCCESS))
             {
                 return data;

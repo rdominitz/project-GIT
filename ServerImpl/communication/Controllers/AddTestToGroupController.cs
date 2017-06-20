@@ -22,7 +22,7 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-            removeCookie("testID");
+            removeCookie("TestId");
             List<GetTestData> tests = getData(Convert.ToInt32(cookie.Value));
             if (tests.Count!= 0)
                 return View(tests);
@@ -60,15 +60,15 @@ namespace communication.Controllers
             }
             ViewBag.testDetails = testDetails;
             String[] details = testDetails.Split(',');
-            String[] testIdArr = details[0].Split(':');
-            String[] testIdArr1 = testIdArr[1].Split(' ');
-            int testId = int.Parse(testIdArr1[1]);
+            String[] TestIdArr = details[0].Split(':');
+            String[] TestIdArr1 = TestIdArr[1].Split(' ');
+            int TestId = int.Parse(TestIdArr1[1]);
             HttpCookie groupCookie = Request.Cookies["groupName"];
 
-            string ans = ServerWiring.getInstance().saveGroupAndTest(Convert.ToInt32(cookie.Value), groupCookie.Value, testId);
+            string ans = ServerWiring.getInstance().saveGroupAndTest(Convert.ToInt32(cookie.Value), groupCookie.Value, TestId);
             if (ans.Equals(Replies.SUCCESS))
             {
-                return RedirectToAction("Index", "SeeTestDetails", new { testId = testId });
+                return RedirectToAction("Index", "SeeTestDetails", new { TestId = TestId });
             }
             return RedirectToAction("Index", "AddTestToGroup", ViewBag.group);
         }

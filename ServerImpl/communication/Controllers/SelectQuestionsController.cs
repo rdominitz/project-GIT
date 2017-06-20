@@ -22,7 +22,7 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-            removeCookie("testID");
+            removeCookie("TestId");
             removeCookie("groupName");
             List<Question> questions = ServerWiring.getInstance().getTestQuestions(Convert.ToInt32(cookie.Value));
             List<QuestionData> questionsData = new List<QuestionData>();

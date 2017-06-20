@@ -31,7 +31,7 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-            removeCookie("testID");
+            removeCookie("TestId");
 
             ViewBag.inviteEmails = inviteEmails;
             ViewBag.emailContent = emailContent;

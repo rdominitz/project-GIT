@@ -54,7 +54,7 @@ namespace AutomationTestsForGUI
             driver.FindElementsByName("submitButton")[1].Click();
             driver.FindElementById("Basic diagnosis (created by aCohen@post.bgu.ac.il)").Click();
             Assert.IsTrue(driver.FindElementById("meta").GetAttribute("name").Equals("Group"));
-            selector = new SelectElement(driver.FindElementById("testID"));
+            selector = new SelectElement(driver.FindElementById("TestId"));
             selector.SelectByIndex(0);
             driver.FindElementById("submit").Click();
             Assert.IsTrue(driver.FindElementById("meta").GetAttribute("name").Equals("Answer Question"));

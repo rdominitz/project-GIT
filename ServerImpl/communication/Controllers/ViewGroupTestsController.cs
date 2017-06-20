@@ -61,10 +61,10 @@ namespace communication.Controllers
             }
             ViewBag.testDetails = testDetails;
             String[] details = testDetails.Split(',');
-            String[] testIdArr = details[0].Split(':');
-            String[] testIdArr1 = testIdArr[1].Split(' ');
-           // int testId = int.Parse(testIdArr1[1]);
-            HttpCookie testCookie = new HttpCookie("testId", testIdArr1[1]);
+            String[] TestIdArr = details[0].Split(':');
+            String[] TestIdArr1 = TestIdArr[1].Split(' ');
+           // int TestId = int.Parse(TestIdArr1[1]);
+            HttpCookie testCookie = new HttpCookie("TestId", TestIdArr1[1]);
             Response.SetCookie(testCookie);
 
             HttpCookie cookie = Request.Cookies["userId"];

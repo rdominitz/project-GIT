@@ -19,8 +19,8 @@
         {
             <form id="chooseTestForm" method="POST" action="~/group/submit">
                 <div class="form-group">
-                    <label for="testID" class="control-label">Select a test to answer</label>
-                    <select id="testID" name="testID" class="form-control">
+                    <label for="TestId" class="control-label">Select a test to answer</label>
+                    <select id="TestId" name="TestId" class="form-control">
                         @foreach (var test in (List<Tuple<string, int>>)ViewBag.unFinishedTests)
                         {
                             <option value="@test.Item2">@test.Item1</option>

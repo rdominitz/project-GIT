@@ -19,7 +19,7 @@ namespace communication.Controllers
                ViewData["message"] = message;
             }
 
-            removeCookie("testID");
+            removeCookie("TestId");
             removeCookie("groupName");
             HttpCookie cookie = Request.Cookies["userId"];
             if (cookie != null)

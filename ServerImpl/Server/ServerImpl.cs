@@ -46,7 +46,7 @@ namespace Server
 
         private readonly object _syncLockGroup;
 
-        private int _testID;
+        private int _TestId;
         private readonly object _syncLockTestId;
 
         private Dictionary<string, List<string>> _subjectsTopics;
@@ -73,7 +73,7 @@ namespace Server
             _qm = new QuestionsManager(db);
             
             _syncLockGroup = new object();
-            _testID = 1;
+            _TestId = 1;
             _syncLockTestId = new object();
             Thread.Sleep(_db.getMillisecondsToSleep());
             _subjectsTopics = new Dictionary<string, List<string>>();
@@ -277,8 +277,8 @@ namespace Server
             };
             _db.addGroupMember(gm7);
             #region add test
-            Test t = new Test { TestId = _testID, AdminId = "aCohen@post.bgu.ac.il", testName = "Basic diagnosis - midterm", subject = chestXRays.SubjectId };
-            _testID++;
+            Test t = new Test { TestId = _TestId, AdminId = "aCohen@post.bgu.ac.il", testName = "Basic diagnosis - midterm", subject = chestXRays.SubjectId };
+            _TestId++;
             _db.addTest(t);
             for (int i = 5; i <= 13; i++)
             {
@@ -287,8 +287,8 @@ namespace Server
             }
             GroupTest gt = new GroupTest{GroupName = "Basic diagnosis", AdminId = "aCohen@post.bgu.ac.il", TestId = 1};
             _db.addGroupTest(gt);
-            Test t2 = new Test { TestId = _testID, AdminId = "aCohen@post.bgu.ac.il", testName = "Basic diagnosis - final", subject = chestXRays.SubjectId };
-            _testID++;
+            Test t2 = new Test { TestId = _TestId, AdminId = "aCohen@post.bgu.ac.il", testName = "Basic diagnosis - final", subject = chestXRays.SubjectId };
+            _TestId++;
             _db.addTest(t2);
             TestQuestion testq = new TestQuestion { TestId = 2, QuestionId = 1 };
             TestQuestion testq2 = new TestQuestion { TestId = 2, QuestionId = 2 };
@@ -1250,12 +1250,12 @@ namespace Server
             _testQuestions.Remove(t.Item2.AdminId);
             lock (_syncLockTestId)
             {
-                _db.addTest(new Test { TestId = _testID, testName = name, AdminId = t.Item2.AdminId, subject = testSubject });
+                _db.addTest(new Test { TestId = _TestId, testName = name, AdminId = t.Item2.AdminId, subject = testSubject });
                 foreach (int i in questionsIds)
                 {
-                    _db.addTestQuestion(new TestQuestion { TestId = _testID, QuestionId = i });
+                    _db.addTestQuestion(new TestQuestion { TestId = _TestId, QuestionId = i });
                 }
-                _testID++;
+                _TestId++;
             }
             return Replies.SUCCESS;
         }
@@ -1276,7 +1276,7 @@ namespace Server
             return new Tuple<string, List<Test>>(Replies.SUCCESS, _db.getAllTests(subject));
         }
 
-        public string addTestToGroup(int userUniqueInt, string groupName, int testId)
+        public string addTestToGroup(int userUniqueInt, string groupName, int TestId)
         {
             // check for illegal input values
             List<string> input = new List<string>() { groupName };
@@ -1296,7 +1296,7 @@ namespace Server
             {
                 return "Error. The administrator " + t.Item2.AdminId + " does not have a group named " + groupNameAndAdmin.Item1;
             }
-            GroupTest gt = new GroupTest { AdminId = t.Item2.AdminId, GroupName = groupNameAndAdmin.Item1, TestId = testId };
+            GroupTest gt = new GroupTest { AdminId = t.Item2.AdminId, GroupName = groupNameAndAdmin.Item1, TestId = TestId };
             _db.addGroupTest(gt);
             // email group members they have a test
             List<GroupMember> gms = _db.getGroupMembers(groupNameAndAdmin.Item1, t.Item2.AdminId);
@@ -1633,7 +1633,7 @@ namespace Server
             return _qm.getAllReleventQuestions(user);
         }
 
-        public string saveGroupAndTest(int userUniqueInt, string groupName, int testId)
+        public string saveGroupAndTest(int userUniqueInt, string groupName, int TestId)
         {
             if (!InputTester.isValidInput(new List<string>() { groupName }))
             {
@@ -1646,7 +1646,7 @@ namespace Server
                 return s;
             }
             User user = _db.getUser(userUniqueInt);
-            _testDisplaying[user] = new Tuple<string, int>(groupName, testId);
+            _testDisplaying[user] = new Tuple<string, int>(groupName, TestId);
             return Replies.SUCCESS;
         }
 
@@ -1668,7 +1668,7 @@ namespace Server
             return new Tuple<string, Tuple<string, int>>(Replies.SUCCESS, t);
         }
 
-        public Tuple<string, List<Question>> getTestQuestionsByTestId(int userUniqueInt, int testId)
+        public Tuple<string, List<Question>> getTestQuestionsByTestId(int userUniqueInt, int TestId)
         {
             // verify user has permissions
             string s = hasPermissions(userUniqueInt).Item1;
@@ -1676,7 +1676,7 @@ namespace Server
             {
                 return new Tuple<string, List<Question>>(s, null);
             }
-            List<TestQuestion> tqs = _db.getTestQuestions(testId);
+            List<TestQuestion> tqs = _db.getTestQuestions(TestId);
             List<Question> ans = new List<Question>();
             foreach (TestQuestion tq in tqs)
             {
@@ -1782,7 +1782,7 @@ namespace Server
             return new Tuple<string, List<Tuple<string, int, int, int, int>>>(Replies.SUCCESS, l);
         }
 
-        public double getTestGrade(int userUniqueInt, string group, int testId)
+        public double getTestGrade(int userUniqueInt, string group, int TestId)
         {
             // verify input
             if (!InputTester.isValidInput(new List<string>() { group }))
@@ -1808,7 +1808,7 @@ namespace Server
             }
             foreach (Tuple<string, int, int, int, int> tuple in usersTests.Item2)
             {
-                if (tuple.Item5 == testId)
+                if (tuple.Item5 == TestId)
                 {
                     return Math.Round((double)tuple.Item3 * (100.0 / tuple.Item2), 2);
                 }
@@ -1918,7 +1918,7 @@ namespace Server
             return new Tuple<string, List<Test>>(Replies.SUCCESS, tests);
         }
 
-        public Tuple<string, List<Tuple<string, int>>> getGrades(int userUniqueInt, int testId, string group)
+        public Tuple<string, List<Tuple<string, int>>> getGrades(int userUniqueInt, int TestId, string group)
         {
             // verify input
             if (!InputTester.isValidInput(new List<string>() { group }))
@@ -1938,7 +1938,7 @@ namespace Server
                 return new Tuple<string, List<Tuple<string, int>>>(NON_EXISTING_GROUP, null);
             }
             // verify test exist
-            if (_db.getTest(testId) == null)
+            if (_db.getTest(TestId) == null)
             {
                 return new Tuple<string, List<Tuple<string, int>>>(NON_EXISTING_TEST, null);
             }
@@ -1953,7 +1953,7 @@ namespace Server
                 Tuple<string, int, int, int, int> relevantGrade = null;
                 foreach (Tuple<string, int, int, int, int> grade in grades.Item2)
                 {
-                    if (grade.Item5 == testId)
+                    if (grade.Item5 == TestId)
                     {
                         relevantGrade = grade;
                         break;

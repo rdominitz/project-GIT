@@ -18,7 +18,7 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you are not logged in. please log in and then try again" });
             }
-            removeCookie("testID");
+            removeCookie("TestId");
             removeCookie("groupName");
             if (message != null)
             {

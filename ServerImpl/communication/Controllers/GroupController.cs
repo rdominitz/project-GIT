@@ -22,7 +22,7 @@ namespace communication.Controllers
             {
                 ViewBag.message = message;
             }
-            removeCookie("testID");
+            removeCookie("TestId");
             removeCookie("groupName");
 
             string name = ServerWiring.getInstance().getUserName(Convert.ToInt32(cookie.Value));
@@ -46,7 +46,7 @@ namespace communication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Submit(string testID)
+        public ActionResult Submit(string TestId)
         {
 
             HttpCookie cookie = Request.Cookies["userId"];
@@ -59,9 +59,9 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "a cookie has been deleted, please try again" });
             }
-            HttpCookie testCookie = new HttpCookie("testID", testID);
+            HttpCookie testCookie = new HttpCookie("TestId", TestId);
             Response.SetCookie(testCookie);
-            /*string ans = ServerWiring.getInstance().getTest(Convert.ToInt32(cookie.Value), Convert.ToInt32(testID), groupCookie.Value);
+            /*string ans = ServerWiring.getInstance().getTest(Convert.ToInt32(cookie.Value), Convert.ToInt32(TestId), groupCookie.Value);
             if (ans == Replies.SUCCESS)
             {
                 return RedirectToAction("Index", "AnswerQuestion");

@@ -8,13 +8,13 @@ namespace communication.Models.Test
     public class TestData
     {
         public string testString;
-        public int testId;
+        public int TestId;
         public string subject;
 
 
-        public TestData(int _testId, string _subject, string _testString)
+        public TestData(int _TestId, string _subject, string _testString)
         {
-            testId = _testId;
+            TestId = _TestId;
             subject = _subject;
             testString = _testString;
         }

@@ -47,7 +47,7 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
-            removeCookie("testID");
+            removeCookie("TestId");
             removeCookie("groupName");
             ViewBag.subjectName = subjectName;
             string ans = ServerWiring.getInstance().addSubject(Convert.ToInt32(cookie.Value), subjectName);

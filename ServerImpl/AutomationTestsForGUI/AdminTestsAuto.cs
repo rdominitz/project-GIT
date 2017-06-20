@@ -109,7 +109,7 @@ namespace AutomationTestsForGUI
             driver.FindElementById("submit").Click();
             driver.FindElementById("newGroup (created by defaultadmin@gmail.com)").Click();
             Assert.IsTrue(driver.FindElementById("meta").GetAttribute("name").Equals("Group"));
-            selector = new SelectElement(driver.FindElementById("testID"));
+            selector = new SelectElement(driver.FindElementById("TestId"));
             selector.SelectByIndex(0);
             driver.FindElementById("submit").Click();
             Assert.IsTrue(driver.FindElementById("meta").GetAttribute("name").Equals("Answer Question"));

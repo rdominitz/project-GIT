@@ -19,9 +19,9 @@ namespace communication.Controllers
             {
                 return RedirectToAction("Index", "Login", new { message = "you are not logged in. please log in and then try again" });
             }
-            if (Request.Cookies["testID"] != null)
+            if (Request.Cookies["TestId"] != null)
             {
-                var c = new HttpCookie("testID");
+                var c = new HttpCookie("TestId");
                 c.Expires = DateTime.Now.AddDays(-1);
                 Response.Cookies.Add(c);
             }

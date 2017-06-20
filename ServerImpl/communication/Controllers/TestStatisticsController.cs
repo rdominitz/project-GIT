@@ -16,7 +16,7 @@ namespace communication.Controllers
         public ActionResult Index()
         {
             HttpCookie cookie = Request.Cookies["userId"];
-            HttpCookie test = Request.Cookies["testId"];
+            HttpCookie test = Request.Cookies["TestId"];
             if (cookie == null)
             {
                 return RedirectToAction("Index", "Login", new { message = "you are not logged in. please log in and then try again" });
@@ -59,10 +59,10 @@ namespace communication.Controllers
         }
 
 
-        TestStatisticsData getData(int adminId, int testId, string groupName)
+        TestStatisticsData getData(int adminId, int TestId, string groupName)
         {
             TestStatisticsData data = new TestStatisticsData();
-            Tuple<string, List<Tuple<string, int>>> usersGrades = ServerWiring.getInstance().getGrades(adminId, testId, groupName);
+            Tuple<string, List<Tuple<string, int>>> usersGrades = ServerWiring.getInstance().getGrades(adminId, TestId, groupName);
             if (!usersGrades.Item1.Equals(Replies.SUCCESS))
             {
                 return data;

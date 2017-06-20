@@ -14,7 +14,7 @@ namespace communication.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            removeCookie("testID");
+            removeCookie("TestId");
             removeCookie("groupName");
             removeCookie("userId");
             return View();

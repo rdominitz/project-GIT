@@ -23,7 +23,7 @@ namespace communication.Controllers
                 return RedirectToAction("Index", "Login", new { message = "you were not logged in. please log in and then try again" });
             }
             Tuple<string, Question> q = null;
-            HttpCookie testCookie = Request.Cookies["testID"];
+            HttpCookie testCookie = Request.Cookies["TestId"];
             HttpCookie groupCookie = Request.Cookies["groupName"];
             if(groupCookie == null || testCookie == null)
             { 
@@ -79,7 +79,7 @@ namespace communication.Controllers
             }
             string ans = "";
             bool hasMoreQuestions = false;
-            HttpCookie testCookie = Request.Cookies["testID"];
+            HttpCookie testCookie = Request.Cookies["TestId"];
             HttpCookie groupCookie = Request.Cookies["groupName"];
             if (groupCookie == null || testCookie == null)
             {

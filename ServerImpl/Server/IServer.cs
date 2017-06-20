@@ -95,7 +95,7 @@ namespace Server
 
         Tuple<string, List<Test>> getAllTests(int userUniqueInt, string subject);
 
-        string addTestToGroup(int userUniqueInt, string groupName, int testId);
+        string addTestToGroup(int userUniqueInt, string groupName, int TestId);
         
 		Tuple<string, List<String>> getUsersGroups(int userUniqueInt);
 
@@ -111,20 +111,20 @@ namespace Server
         
         Tuple<string, List<Tuple<string, int>>> getFinishedTests(int userUniqueInt, string groupName);
 
-        string saveGroupAndTest(int userUniqueInt, string groupName, int testId);
+        string saveGroupAndTest(int userUniqueInt, string groupName, int TestId);
 
         Tuple<string, Tuple<string, int>> getSavedGroupAndTest(int userUniqueInt);
 
-        Tuple<string, List<Question>> getTestQuestionsByTestId(int userUniqueInt, int testId);
+        Tuple<string, List<Question>> getTestQuestionsByTestId(int userUniqueInt, int TestId);
 
         Tuple<string, List<Tuple<string, int, int,int, int>>> getPastGroupGrades(int userUniqueInt, string groupName);
 
         string declineUsersGroupsInvitations(int userUniqueInt, List<String> groups);
 
-        double getTestGrade(int userUniqueInt, string group, int testId);
+        double getTestGrade(int userUniqueInt, string group, int TestId);
 
         Tuple<string, List<Test>> getGroupTests(int adminId, string group);
 
-        Tuple<string, List<Tuple<string, int>>> getGrades(int adminId, int testId, string groupName);
+        Tuple<string, List<Tuple<string, int>>> getGrades(int adminId, int TestId, string groupName);
     }
 }

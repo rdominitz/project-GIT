@@ -360,9 +360,9 @@ namespace DB
             return matches;
         }
 
-        public Test getTest(int testId)
+        public Test getTest(int TestId)
         {
-            List<Test> matches = _tests.Where(t => t.TestId == testId).ToList();
+            List<Test> matches = _tests.Where(t => t.TestId == TestId).ToList();
             return matches.Count == 1 ? matches[0] : null;
         }
         #endregion
@@ -396,9 +396,9 @@ namespace DB
             _testsQuestions.Add(tq);
         }
 
-        public List<TestQuestion> getTestQuestions(int testId)
+        public List<TestQuestion> getTestQuestions(int TestId)
         {
-            return _testsQuestions.Where(tq => tq.TestId == testId).ToList();
+            return _testsQuestions.Where(tq => tq.TestId == TestId).ToList();
         }
         #endregion
         #region group test answer
@@ -426,10 +426,10 @@ namespace DB
             }
         }
 
-        public List<GroupTestAnswer> getGroupTestAnswers(string groupName, string adminId, int testId)
+        public List<GroupTestAnswer> getGroupTestAnswers(string groupName, string adminId, int TestId)
         {
             return _groupsTestsAnswers.Where(gta => gta.GroupName.Equals(groupName) && gta.AdminId.Equals(adminId) &&
-                gta.TestId == testId).ToList();
+                gta.TestId == TestId).ToList();
         }
         #endregion
     }

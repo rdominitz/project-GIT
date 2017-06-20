@@ -554,11 +554,11 @@ namespace DB
             }
         }
 
-        public Test getTest(int testId)
+        public Test getTest(int TestId)
         {
             using (var db = new MedTrainDBContext())
             {
-                return db.Tests.Find(testId);
+                return db.Tests.Find(TestId);
             }
         }
         #endregion
@@ -603,12 +603,12 @@ namespace DB
             }
         }
 
-        public List<TestQuestion> getTestQuestions(int testId)
+        public List<TestQuestion> getTestQuestions(int TestId)
         {
             using (var db = new MedTrainDBContext())
             {
                 var query = from tq in db.TestsQuestions
-                            where tq.TestId == testId
+                            where tq.TestId == TestId
                             select tq;
                 return query.ToList();
             }
@@ -646,13 +646,13 @@ namespace DB
             }
         }
 
-        public List<GroupTestAnswer> getGroupTestAnswers(string groupName, string adminId, int testId)
+        public List<GroupTestAnswer> getGroupTestAnswers(string groupName, string adminId, int TestId)
         {
             using (var db = new MedTrainDBContext())
             {
                 var query = from gta in db.GroupsTestsAnswers
                             where gta.GroupName.Equals(groupName) && gta.AdminId.Equals(adminId) &&
-                                gta.TestId == testId
+                                gta.TestId == TestId
                             select gta;
                 return query.ToList();
             }
